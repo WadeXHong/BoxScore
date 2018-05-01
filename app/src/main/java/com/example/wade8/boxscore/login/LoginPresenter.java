@@ -9,8 +9,8 @@ public class LoginPresenter implements LoginContract.Presenter {
     private static final String TAG = LoginPresenter.class.getSimpleName();
     private final LoginContract.View mLoginView;
 
-    public LoginPresenter(LoginContract.View mLoginView) {
-        this.mLoginView = mLoginView;
+    public LoginPresenter(LoginContract.View loginView) {
+        this.mLoginView = loginView;
     }
 
     @Override
