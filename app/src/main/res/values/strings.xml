@@ -4,6 +4,9 @@
     <string name="teamManage">球隊管理</string>
     <string name="gameHistory">歷史紀錄</string>
     <string name="setting">個人化設定</string>
+    <string name="gamenamesetting">名稱設定</string>
+    <string name="playerlist">球員名單</string>
+    <string name="detailsetting">操作設定</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
