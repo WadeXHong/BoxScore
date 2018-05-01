@@ -6,4 +6,6 @@
     <color name="colorButtonInMain">#D7D8DB</color>
     <color name="colorTextInMainButton">#101010</color>
     <color name="colorOrange">#FF9800</color>
+    <color name="colorDarkGray">#545557</color>
+
 </resources>

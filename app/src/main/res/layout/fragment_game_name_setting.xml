@@ -1,14 +1,44 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_gamenamesetting"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.wade8.boxscore.gamenamesetting.GameNameSettingFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="gamenamesetting" />
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/fragment_gamenamesetting_gametitle_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/gameTitle"
+            android:paddingHorizontal="10dp"
+            android:textSize="16sp"
+            android:textColor="@color/colorTextInMainButton"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/fragment_gamenamesetting_gametitle_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape_edittext_gamename"
+            android:hint="@string/gameTitleHint"
+            android:paddingHorizontal="5dp"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_gamenamesetting_gametitle_textview" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+    <!-- TODO: Update blank fragment layout -->
+
+
+</ScrollView>
