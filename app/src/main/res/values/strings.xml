@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">BoxScore</string>
+    <string name="startGame">開始比賽</string>
+    <string name="teamManage">球隊管理</string>
+    <string name="gameHistory">歷史紀錄</string>
+    <string name="setting">個人化設定</string>
 </resources>
