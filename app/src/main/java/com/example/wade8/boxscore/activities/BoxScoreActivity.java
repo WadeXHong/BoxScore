@@ -1,6 +1,8 @@
 package com.example.wade8.boxscore.activities;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,12 +13,16 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.example.wade8.boxscore.BoxScoreContract;
+import com.example.wade8.boxscore.BoxScorePresenter;
 import com.example.wade8.boxscore.R;
+import com.example.wade8.boxscore.startgame.StartGameActivity;
 
 public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContract.View {
     
     private static final String  TAG = BoxScoreActivity.class.getSimpleName();
+    private Context mContext;
 
+    private BoxScoreContract.Presenter mPresenter;
 
     private ConstraintLayout mMainLayout;
     private ConstraintLayout mStartGameLayout;
@@ -28,6 +34,7 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_box_score);
+        mContext = this;
 
         mMainLayout = findViewById(R.id.activity_boxscore_main_layout);
         mStartGameLayout = findViewById(R.id.activity_boxscore_startgame_layout);
@@ -38,6 +45,7 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
             @Override
             public void onClick(View v) {
                 Log.i(TAG,"StartGame pressed");
+                startActivity(new Intent(mContext, StartGameActivity.class));
             }
         });
         mTeamManageLayout.setOnClickListener(new View.OnClickListener() {
@@ -66,6 +74,8 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
     private void init() {
         Log.i(TAG,"BoxScoreActivity.init");
         setStatusBar(this);
+        mPresenter = new BoxScorePresenter(this);
+        mPresenter.start();
 
     }
 
@@ -80,7 +90,7 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
 
     @Override
     public void setPresenter(BoxScoreContract.Presenter presenter) {
-
+        mPresenter = presenter;
     }
 
     @Override
