@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.wade8.boxscore.R;
 import com.example.wade8.boxscore.gamenamesetting.GameNameSettingContract;
@@ -33,6 +34,22 @@ public class PlayerListAdapter extends RecyclerView.Adapter{
     private ArrayList<Player> mSubstitutePlayerList;
     private ArrayList<Player> mUnregisteredPlayerList;
     private final int[] mTitle = {R.string.startingPlayers,R.string.substitutePlayers,R.string.unregisteredPlayers};
+
+    public PlayerListAdapter(){
+
+        fakeDataInit();
+    }
+
+    private void fakeDataInit() {
+        mStartingPlayerList = new ArrayList<>();
+        mSubstitutePlayerList = new ArrayList<>();
+        mUnregisteredPlayerList = new ArrayList<>();
+        int x = 0;
+        for (int i = 0; i<20;i++){
+            mUnregisteredPlayerList.add(new Player(i+"",x+""));
+            x++;
+        }
+    }
 
 
     public class TitleViewHolder extends RecyclerView.ViewHolder{
@@ -70,6 +87,43 @@ public class PlayerListAdapter extends RecyclerView.Adapter{
             mPlayerNumber = itemView.findViewById(R.id.item_playerlist_playernumber);
             mRemove = itemView.findViewById(R.id.item_playerlist_remove);
             mStarting = itemView.findViewById(R.id.item_playerlist_star);
+            mStarting.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (getLayoutPosition() > getArrayListSize(mStartingPlayerList)+1) {
+                        if (getArrayListSize(mStartingPlayerList) < 5) {
+                            int position = getLayoutPosition() - getArrayListSize(mStartingPlayerList) - 2;
+                            mStartingPlayerList.add(mSubstitutePlayerList.get(position));
+                            mSubstitutePlayerList.remove(position);
+                            notifyDataSetChanged();
+                        }else {
+                            Toast.makeText(v.getContext(),R.string.startingPlayerLimitToast,Toast.LENGTH_SHORT).show();
+                        }
+                    }else{
+                        int position = getLayoutPosition() - 1;
+                        mSubstitutePlayerList.add(0,mStartingPlayerList.get(position));
+                        mStartingPlayerList.remove(position);
+                        notifyDataSetChanged();
+                    }
+                }
+            });
+            mRemove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if (getLayoutPosition() > getArrayListSize(mStartingPlayerList)+1) {
+                        int position = getLayoutPosition() - getArrayListSize(mStartingPlayerList) - 2;
+                        mUnregisteredPlayerList.add(0,mSubstitutePlayerList.get(position));
+                        mSubstitutePlayerList.remove(position);
+                        notifyDataSetChanged();
+                    }else{
+                        int position = getLayoutPosition() - 1;
+                            mUnregisteredPlayerList.add(0,mStartingPlayerList.get(position));
+                            mStartingPlayerList.remove(position);
+                            notifyDataSetChanged();
+                    }
+                }
+            });
 
         }
 
@@ -80,8 +134,9 @@ public class PlayerListAdapter extends RecyclerView.Adapter{
             // 替補球員
             if (position > getArrayListSize(mStartingPlayerList)+1){
                 if (getArrayListSize(mSubstitutePlayerList) != 0) {
-                    mPlayerNumber.setText(mSubstitutePlayerList.get(positionInStartingArray).getmNumber());
-                    mPlayerName.setText(mSubstitutePlayerList.get(positionInStartingArray).getmName());
+                    mPlayerNumber.setText(mSubstitutePlayerList.get(positionInSubstituteArray).getmNumber());
+                    mPlayerName.setText(mSubstitutePlayerList.get(positionInSubstituteArray).getmName());
+                    mStarting.setImageResource(R.drawable.ic_star_gray_24dp);
                 }else {
                     Log.w(TAG,"mSubstitutePlayerList is null or empty !");
                 }
@@ -89,8 +144,9 @@ public class PlayerListAdapter extends RecyclerView.Adapter{
              //先發球員
               else {
                 if (getArrayListSize(mStartingPlayerList) != 0) {
-                    mPlayerName.setText(mStartingPlayerList.get(positionInSubstituteArray).getmName());
-                    mPlayerNumber.setText(mStartingPlayerList.get(positionInSubstituteArray).getmNumber());
+                    mPlayerName.setText(mStartingPlayerList.get(positionInStartingArray).getmName());
+                    mPlayerNumber.setText(mStartingPlayerList.get(positionInStartingArray).getmNumber());
+                    mStarting.setImageResource(R.drawable.ic_star_yellow_24dp);
                 }else {
                     Log.w(TAG,"mStartingPlayerList is null or empty !");
                 }
@@ -110,12 +166,26 @@ public class PlayerListAdapter extends RecyclerView.Adapter{
             mPlayerName = itemView.findViewById(R.id.item_playerlist_playername);
             mPlayerNumber = itemView.findViewById(R.id.item_playerlist_playernumber);
             mAdd = itemView.findViewById(R.id.item_playerlist_add);
+            mAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (getArrayListSize(mSubstitutePlayerList)+getArrayListSize(mStartingPlayerList) < 15) {
+                        int position = getLayoutPosition() - getArrayListSize(mStartingPlayerList) - getArrayListSize(mSubstitutePlayerList) - 3;
+                        mSubstitutePlayerList.add(mUnregisteredPlayerList.get(position));
+                        mUnregisteredPlayerList.remove(position);
+                        notifyDataSetChanged();
+                    }else{
+                        Toast.makeText(v.getContext(),R.string.playerLimitToast,Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            });
         }
 
         private void bindUnregiseteredPlayers(int position){
             int positionInUnregiseteredArray = position -getArrayListSize(mStartingPlayerList)-getArrayListSize(mSubstitutePlayerList) - 3;
 
-            if (getArrayListSize(mSubstitutePlayerList) != 0) {
+            if (getArrayListSize(mUnregisteredPlayerList) != 0) {
                 mPlayerName.setText(mUnregisteredPlayerList.get(positionInUnregiseteredArray).getmName());
                 mPlayerNumber.setText(mUnregisteredPlayerList.get(positionInUnregiseteredArray).getmNumber());
             }else {
@@ -157,7 +227,7 @@ public class PlayerListAdapter extends RecyclerView.Adapter{
 
     @Override
     public int getItemCount() {
-        return 0;
+        return 3+getArrayListSize(mStartingPlayerList)+getArrayListSize(mSubstitutePlayerList)+getArrayListSize(mUnregisteredPlayerList);
     }
 
 

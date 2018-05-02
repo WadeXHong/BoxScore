@@ -6,15 +6,19 @@ package com.example.wade8.boxscore.objects;
 
 public class Player {
 
-    private int mNumber;
+    private String mNumber;
     private String mName;
 
+    public Player(String mNumber, String mName) {
+        this.mNumber = mNumber;
+        this.mName = mName;
+    }
 
-    public int getmNumber() {
+    public String getmNumber() {
         return mNumber;
     }
 
-    public void setmNumber(int mNumber) {
+    public void setmNumber(String mNumber) {
         this.mNumber = mNumber;
     }
 

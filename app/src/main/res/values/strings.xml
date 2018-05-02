@@ -19,4 +19,6 @@
     <string name="startingPlayers">先發球員</string>
     <string name="substitutePlayers">替補球員</string>
     <string name="unregisteredPlayers">未登錄球員</string>
+    <string name="playerLimitToast">單場登入球員最多為15人</string>
+    <string name="startingPlayerLimitToast">先發球員已達上限</string>
 </resources>
