@@ -21,4 +21,8 @@
     <string name="unregisteredPlayers">未登錄球員</string>
     <string name="playerLimitToast">單場登入球員最多為15人</string>
     <string name="startingPlayerLimitToast">先發球員已達上限</string>
+    <string name="minute">分鐘</string>
+    <string name="quarterLength">單節時間</string>
+    <string name="totalQuarter">總節數</string>
+    <string name="quarter">節</string>
 </resources>
