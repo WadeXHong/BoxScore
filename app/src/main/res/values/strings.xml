@@ -12,4 +12,11 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="gameTitle">比賽名稱</string>
     <string name="gameTitleHint">Ex:新生盃、友誼賽</string>
+    <string name="opponentName">對手名稱</string>
+    <string name="opponentNameHint">Ex: 電機A、環工系</string>
+    <string name="gameDate">比賽日期</string>
+    <string name="gameDateHint">2018-08-17 14:00</string>
+    <string name="startingPlayers">先發球員</string>
+    <string name="substitutePlayers">替補球員</string>
+    <string name="UnregisteredPlayers">未登錄球員</string>
 </resources>

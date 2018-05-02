@@ -28,12 +28,80 @@
             android:id="@+id/fragment_gamenamesetting_gametitle_edittext"
             android:layout_width="match_parent"
             android:layout_height="35dp"
-            android:layout_marginTop="10dp"
             android:background="@drawable/shape_edittext_gamename"
             android:hint="@string/gameTitleHint"
             android:paddingHorizontal="5dp"
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@+id/fragment_gamenamesetting_gametitle_textview" />
+
+        <TextView
+            android:id="@+id/fragment_gamenamesetting_opponent_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:paddingHorizontal="10dp"
+            android:text="@string/opponentName"
+            android:textColor="@color/colorTextInMainButton"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_gamenamesetting_gametitle_edittext"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <EditText
+            android:id="@+id/fragment_gamenamesetting_opponent_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape_edittext_gamename"
+            android:hint="@string/opponentNameHint"
+            android:paddingHorizontal="5dp"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_gamenamesetting_opponent_textview" />
+
+        <TextView
+            android:id="@+id/fragment_gamenamesetting_gamedate_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:paddingHorizontal="10dp"
+            android:text="@string/gameDate"
+            android:textColor="@color/colorTextInMainButton"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_gamenamesetting_opponent_edittext"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <EditText
+            android:id="@+id/fragment_gamenamesetting_gamedate_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape_edittext_gamename"
+            android:hint="@string/gameDateHint"
+            android:paddingHorizontal="5dp"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_gamenamesetting_gamedate_textview" />
+
+        <TextView
+            android:id="@+id/fragment_gamenamesetting_yourteam_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:paddingHorizontal="10dp"
+            android:text="@string/gameDate"
+            android:textColor="@color/colorTextInMainButton"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_gamenamesetting_gamedate_edittext"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <Spinner
+            android:id="@+id/fragment_gamenamesetting_yourteam_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape_edittext_gamename"
+            android:hint="@string/gameDateHint"
+            android:paddingHorizontal="5dp"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_gamenamesetting_yourteam_textview" />
 
 
     </android.support.constraint.ConstraintLayout>
