@@ -12,6 +12,8 @@
     <!-- StartGame theme. -->
     <style name="StartGame" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/colorOrange</item>
         <item name="colorPrimaryDark">@color/colorOrange</item>
         <item name="colorAccent">@color/colorPrimary</item>

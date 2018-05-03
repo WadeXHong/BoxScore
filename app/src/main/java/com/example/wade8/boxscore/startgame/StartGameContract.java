@@ -17,10 +17,24 @@ public interface StartGameContract {
         void showTeamInSpinner();
 
         void setViewPagerAdapter(ViewPagerFragmentAdapter viewPagerFragmentAdapter);
+
+        void setGameNameSettingToolBar();
+
+        void setPlayerListToolBar();
+
+        void setDetailSettingToolBar();
     }
 
     interface Presenter extends BasePresenter{
 
         void getTeamFromFireBase();
+
+        void onPageSelected(int position);
+
+        void transToGameNameSettingPage();
+
+        void transToPlayerSettingPage();
+
+        void transToDetailSettingPage();
     }
 }

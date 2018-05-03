@@ -15,7 +15,7 @@
     <string name="opponentName">對手名稱</string>
     <string name="opponentNameHint">Ex: 電機A、環工系</string>
     <string name="gameDate">比賽日期</string>
-    <string name="gameDateHint">2018-08-17 14:00</string>
+    <string name="gameDateHint">點擊選擇日期</string>
     <string name="startingPlayers">先發球員</string>
     <string name="substitutePlayers">替補球員</string>
     <string name="unregisteredPlayers">未登錄球員</string>
@@ -30,4 +30,5 @@
     <string name="timeoutAmount">暫停次數</string>
     <string name="firstHalf">上半場</string>
     <string name="secondhalf">下半場</string>
+    <string name="yourTeam">所屬球隊</string>
 </resources>

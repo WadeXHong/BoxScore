@@ -69,14 +69,15 @@
             app:layout_constraintTop_toBottomOf="@+id/fragment_gamenamesetting_opponent_edittext"
             tools:layout_editor_absoluteX="0dp" />
 
-        <EditText
+        <TextView
             android:id="@+id/fragment_gamenamesetting_gamedate_edittext"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/shape_edittext_gamename"
-            android:hint="@string/gameDateHint"
+            android:text="@string/gameDateHint"
             android:paddingHorizontal="5dp"
+            android:gravity="center|start"
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@+id/fragment_gamenamesetting_gamedate_textview" />
 
@@ -86,7 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:paddingHorizontal="10dp"
-            android:text="@string/gameDate"
+            android:text="@string/yourTeam"
             android:textColor="@color/colorTextInMainButton"
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@+id/fragment_gamenamesetting_gamedate_edittext"

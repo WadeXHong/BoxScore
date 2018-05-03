@@ -45,6 +45,8 @@ public class StartGamePresenter implements StartGameContract.Presenter{
         mGameNameSettingFragment = GameNameSettingFragment.newInstance();
         mPlayerListFragment = PlayerListFragment.newInstance();
         mDetailSettingFragment = DetailSettingFragment.newInstance();
+        mGameNameSettingPresenter = new GameNameSettingPresenter(mGameNameSettingFragment,this);
+        mPlayerListPresenter = new PlayerListPresenter(mPlayerListFragment);
         mDetailSettingPresenter = new DetailSettingPresenter(mDetailSettingFragment);
         mFragmentList = new ArrayList<>();
         mFragmentList.add(mGameNameSettingFragment);
@@ -62,5 +64,32 @@ public class StartGamePresenter implements StartGameContract.Presenter{
     @Override
     public void getTeamFromFireBase() {
 
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        switch (position){
+            case 0:
+                mStartGameView.setGameNameSettingToolBar();
+                break;
+            case 1:
+                mStartGameView.setPlayerListToolBar();
+                break;
+            case 2:
+                mStartGameView.setDetailSettingToolBar();
+                break;
+        }
+    }
+
+    @Override
+    public void transToGameNameSettingPage() {
+    }
+
+    @Override
+    public void transToPlayerSettingPage() {
+    }
+
+    @Override
+    public void transToDetailSettingPage() {
     }
 }
