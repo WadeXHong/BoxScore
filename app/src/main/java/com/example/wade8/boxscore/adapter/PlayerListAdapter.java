@@ -254,4 +254,16 @@ public class PlayerListAdapter extends RecyclerView.Adapter{
         return returnValue;
     }
 
+    public ArrayList<Player> getStartingPlayerList() {
+        return mStartingPlayerList;
+    }
+
+    public ArrayList<Player> getSubstitutePlayerList() {
+        return mSubstitutePlayerList;
+    }
+
+    public ArrayList<Player> getUnregisteredPlayerList() {
+        return mUnregisteredPlayerList;
+    }
+
 }

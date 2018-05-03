@@ -2,6 +2,7 @@ package com.example.wade8.boxscore.detailsetting;
 
 import com.example.wade8.boxscore.BasePresenter;
 import com.example.wade8.boxscore.BaseView;
+import com.example.wade8.boxscore.objects.GameInfo;
 
 /**
  * Created by wade8 on 2018/5/1.
@@ -17,6 +18,8 @@ public interface DetailSettingContract {
         void updateTimeoutsFirstHalfEditText(String s);
         void updateTimeoutsSecondHalfEditText(String s);
         void showToast(String message);
+
+        void getSettingResult(GameInfo gameInfo);
     }
 
     interface Presenter extends BasePresenter{

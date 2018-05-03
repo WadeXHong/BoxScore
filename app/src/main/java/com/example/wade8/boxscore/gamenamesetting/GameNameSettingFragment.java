@@ -17,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.wade8.boxscore.R;
+import com.example.wade8.boxscore.objects.GameInfo;
 import com.example.wade8.boxscore.playerlist.PlayerListFragment;
 
 import java.util.Date;
@@ -78,5 +79,14 @@ public class GameNameSettingFragment extends Fragment implements GameNameSetting
     @Override
     public void setPresenter(GameNameSettingContract.Presenter presenter) {
         mPresenter = presenter;
+    }
+
+    @Override
+    public void getSettingResult(GameInfo gameInfo) {
+        gameInfo.setGameName(mGameTitle.getText().toString());
+        gameInfo.setOpponentName(mOpponent.getText().toString());
+        gameInfo.setGameDate(mGameDate.getText().toString());
+        //TODO spinner data
+//        gameInfo.setYourTeam(mYourTeam.getSelectedItem().toString());
     }
 }

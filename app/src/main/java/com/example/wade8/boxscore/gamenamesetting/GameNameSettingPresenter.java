@@ -1,5 +1,6 @@
 package com.example.wade8.boxscore.gamenamesetting;
 
+import com.example.wade8.boxscore.objects.GameInfo;
 import com.example.wade8.boxscore.startgame.StartGameContract;
 
 /**
@@ -19,5 +20,9 @@ public class GameNameSettingPresenter implements GameNameSettingContract.Present
     @Override
     public void start() {
 
+    }
+
+    public void getDataFromView(GameInfo gameInfo) {
+        mGameNameSettingView.getSettingResult(gameInfo);
     }
 }

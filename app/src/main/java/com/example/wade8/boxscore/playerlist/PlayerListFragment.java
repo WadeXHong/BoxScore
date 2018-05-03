@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.wade8.boxscore.R;
 import com.example.wade8.boxscore.adapter.PlayerListAdapter;
+import com.example.wade8.boxscore.objects.GameInfo;
 
 
 public class PlayerListFragment extends Fragment implements PlayerListContract.View{
@@ -55,5 +56,11 @@ public class PlayerListFragment extends Fragment implements PlayerListContract.V
     @Override
     public void setPresenter(PlayerListContract.Presenter presenter) {
         mPresenter = presenter;
+    }
+
+    @Override
+    public void getSettingResult(GameInfo gameInfo) {
+        gameInfo.setStartingPlayerList(mAdapter.getStartingPlayerList());
+        gameInfo.setSubstitutePlayerList(mAdapter.getSubstitutePlayerList());
     }
 }

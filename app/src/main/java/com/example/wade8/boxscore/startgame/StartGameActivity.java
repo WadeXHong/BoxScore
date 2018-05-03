@@ -1,5 +1,6 @@
 package com.example.wade8.boxscore.startgame;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 
 import com.example.wade8.boxscore.R;
 import com.example.wade8.boxscore.ViewPagerFragmentAdapter;
+import com.example.wade8.boxscore.login.LoginActivity;
+import com.example.wade8.boxscore.objects.GameInfo;
 
 public class StartGameActivity extends AppCompatActivity implements StartGameContract.View{
 
@@ -102,6 +105,10 @@ public class StartGameActivity extends AppCompatActivity implements StartGameCon
             @Override
             public void onClick(View v) {
                 Log.d(TAG,"Game Start");
+                Intent intent = new Intent(StartGameActivity.this, LoginActivity.class);
+                intent.putExtra("GameInfo", mPresenter.getSettingResult(new GameInfo()));
+                startActivity(intent);
+                StartGameActivity.this.finish();
             }
         });
         mStartGame.setVisibility(View.GONE);

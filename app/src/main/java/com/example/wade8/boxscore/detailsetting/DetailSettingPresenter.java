@@ -2,6 +2,8 @@ package com.example.wade8.boxscore.detailsetting;
 
 import android.text.TextUtils;
 
+import com.example.wade8.boxscore.objects.GameInfo;
+
 /**
  * Created by wade8 on 2018/5/1.
  */
@@ -166,5 +168,9 @@ public class DetailSettingPresenter implements DetailSettingContract.Presenter{
 
     private boolean checkIsLegal(String input){
         return TextUtils.isDigitsOnly(input) && !TextUtils.isEmpty(input);
+    }
+
+    public void getDataFromView(GameInfo gameInfo) {
+        mDetailSettingView.getSettingResult(gameInfo);
     }
 }

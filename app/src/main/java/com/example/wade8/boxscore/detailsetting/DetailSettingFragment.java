@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.wade8.boxscore.R;
+import com.example.wade8.boxscore.objects.GameInfo;
 
 
 public class DetailSettingFragment extends Fragment implements DetailSettingContract.View {
@@ -191,5 +192,14 @@ public class DetailSettingFragment extends Fragment implements DetailSettingCont
         if (message != null){
             Toast.makeText(getContext(),message,Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void getSettingResult(GameInfo gameInfo) {
+        gameInfo.setQuarterLength(mQuarterLengthEditText.getText().toString());
+        gameInfo.setTotalQuarter(mTotalQuarterEditText.getText().toString());
+        gameInfo.setMaxFoul(mMaxFoulEditText.getText().toString());
+        gameInfo.setTimeoutFirstHalf(mTimeoutsFirstHalfEditText.getText().toString());
+        gameInfo.setTimeoutSecondHalf(mTimeoutsSecondHalfEditText.getText().toString());
     }
 }

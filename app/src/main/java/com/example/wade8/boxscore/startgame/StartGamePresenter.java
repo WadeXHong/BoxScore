@@ -8,6 +8,7 @@ import com.example.wade8.boxscore.detailsetting.DetailSettingFragment;
 import com.example.wade8.boxscore.detailsetting.DetailSettingPresenter;
 import com.example.wade8.boxscore.gamenamesetting.GameNameSettingFragment;
 import com.example.wade8.boxscore.gamenamesetting.GameNameSettingPresenter;
+import com.example.wade8.boxscore.objects.GameInfo;
 import com.example.wade8.boxscore.playerlist.PlayerListFragment;
 import com.example.wade8.boxscore.playerlist.PlayerListPresenter;
 
@@ -91,5 +92,15 @@ public class StartGamePresenter implements StartGameContract.Presenter{
 
     @Override
     public void transToDetailSettingPage() {
+    }
+
+    @Override
+    public GameInfo getSettingResult(GameInfo gameInfo) {
+
+        mGameNameSettingPresenter.getDataFromView(gameInfo);
+        mPlayerListPresenter.getDataFromView(gameInfo);
+        mDetailSettingPresenter.getDataFromView(gameInfo);
+
+        return gameInfo;
     }
 }
