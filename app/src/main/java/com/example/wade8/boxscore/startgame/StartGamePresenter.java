@@ -5,8 +5,11 @@ import android.support.v4.app.FragmentManager;
 
 import com.example.wade8.boxscore.ViewPagerFragmentAdapter;
 import com.example.wade8.boxscore.detailsetting.DetailSettingFragment;
+import com.example.wade8.boxscore.detailsetting.DetailSettingPresenter;
 import com.example.wade8.boxscore.gamenamesetting.GameNameSettingFragment;
+import com.example.wade8.boxscore.gamenamesetting.GameNameSettingPresenter;
 import com.example.wade8.boxscore.playerlist.PlayerListFragment;
+import com.example.wade8.boxscore.playerlist.PlayerListPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +25,11 @@ public class StartGamePresenter implements StartGameContract.Presenter{
     private FragmentManager mFragmentManager;
     private ViewPagerFragmentAdapter mViewPagerFragmentAdapter;
     private GameNameSettingFragment mGameNameSettingFragment;
+    private GameNameSettingPresenter mGameNameSettingPresenter;
     private PlayerListFragment mPlayerListFragment;
+    private PlayerListPresenter mPlayerListPresenter;
     private DetailSettingFragment mDetailSettingFragment;
+    private DetailSettingPresenter mDetailSettingPresenter;
     private List<Fragment> mFragmentList;
 
 
@@ -39,6 +45,7 @@ public class StartGamePresenter implements StartGameContract.Presenter{
         mGameNameSettingFragment = GameNameSettingFragment.newInstance();
         mPlayerListFragment = PlayerListFragment.newInstance();
         mDetailSettingFragment = DetailSettingFragment.newInstance();
+        mDetailSettingPresenter = new DetailSettingPresenter(mDetailSettingFragment);
         mFragmentList = new ArrayList<>();
         mFragmentList.add(mGameNameSettingFragment);
         mFragmentList.add(mPlayerListFragment);

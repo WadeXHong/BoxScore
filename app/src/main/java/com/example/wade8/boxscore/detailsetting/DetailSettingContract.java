@@ -11,10 +11,30 @@ public interface DetailSettingContract {
 
     interface View extends BaseView<Presenter>{
 
+        void updateMaxFoulInEditText(String s);
+        void updateQuarterLengthEditText(String s);
+        void updateTotalQuarterEditText(String s);
+        void updateTimeoutsFirstHalfEditText(String s);
+        void updateTimeoutsSecondHalfEditText(String s);
+        void showToast(String message);
     }
 
     interface Presenter extends BasePresenter{
 
+        void maxFoulPlus(String input);
+        void maxFoulMinus(String input);
+
+        void quarterLengthPlus(String input);
+        void quarterLengthMinus(String input);
+
+        void totalQuarterPlus(String input);
+        void totalQuarterMinus(String input);
+
+        void timeoutsFirstHalfPlus(String input);
+        void timeoutsFirstHalfMinus(String input);
+
+        void timeoutsSecondHalfPlus(String input);
+        void timeoutsSecondHalfMinus(String input);
     }
 
 }

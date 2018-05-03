@@ -9,11 +9,7 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="50dp"
-        android:paddingBottom="10dp">
+        android:padding="30dp">
 
         <TextView
             android:id="@+id/fragment_detailsetting_quarterlength_title"
@@ -157,6 +153,237 @@
             app:layout_constraintBottom_toBottomOf="@+id/fragment_detailsetting_totalquarter_edittext"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/fragment_detailsetting_totalquarter_edittext" />
+
+
+        <TextView
+            android:id="@+id/fragment_detailsetting_maxfoul_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/maxFoul"
+            android:paddingHorizontal="10dp"
+            android:layout_marginTop="40dp"
+            android:textSize="16sp"
+            android:textColor="@color/colorTextInMainButton"
+            app:layout_constraintTop_toBottomOf="@id/fragment_detailsetting_totalquarter_edittext" />
+
+        <EditText
+            android:id="@+id/fragment_detailsetting_maxfoul_edittext"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/shape_edittext_gamename"
+            android:text="5"
+            android:maxLength="1"
+            android:inputType="number"
+            android:paddingHorizontal="5dp"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_detailsetting_maxfoul_title" />
+
+        <TextView
+            android:id="@+id/fragment_detailsetting_maxfoul_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:paddingHorizontal="10dp"
+            android:text="@string/times"
+            android:textColor="@color/colorTextInMainButton"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_detailsetting_maxfoul_edittext"
+            app:layout_constraintStart_toEndOf="@+id/fragment_detailsetting_maxfoul_edittext"
+            app:layout_constraintTop_toTopOf="@+id/fragment_detailsetting_maxfoul_edittext" />
+
+        <Button
+            android:id="@+id/fragment_detailsetting_maxfoul_minus"
+            android:layout_width="70dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/shape_btn_main"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="－"
+            app:layout_constraintBottom_toBottomOf="@id/fragment_detailsetting_maxfoul_edittext"
+            app:layout_constraintEnd_toStartOf="@+id/fragment_detailsetting_maxfoul_plus"
+            app:layout_constraintTop_toTopOf="@+id/fragment_detailsetting_maxfoul_edittext" />
+
+        <Button
+            android:id="@+id/fragment_detailsetting_maxfoul_plus"
+            android:layout_width="70dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/shape_btn_main"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="＋"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_detailsetting_maxfoul_edittext"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/fragment_detailsetting_maxfoul_edittext" />
+
+        <TextView
+        android:id="@+id/fragment_detailsetting_timeouts_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/timeoutAmount"
+        android:paddingHorizontal="10dp"
+        android:layout_marginTop="40dp"
+        android:textSize="16sp"
+        android:textColor="@color/colorTextInMainButton"
+        app:layout_constraintTop_toBottomOf="@id/fragment_detailsetting_maxfoul_edittext" />
+
+        <TextView
+            android:id="@+id/fragment_detailsetting_firsthalf_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/firstHalf"
+            android:textColor="@color/colorTextInMainButton"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_detailsetting_timeouts_firsthalf_edittext"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/fragment_detailsetting_timeouts_firsthalf_edittext" />
+
+        <EditText
+            android:id="@+id/fragment_detailsetting_timeouts_firsthalf_edittext"
+            android:layout_width="20dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/shape_edittext_gamename"
+            android:inputType="number"
+            android:maxLength="1"
+            android:paddingHorizontal="5dp"
+            android:text="5"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/fragment_detailsetting_firsthalf_title"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_detailsetting_timeouts_title" />
+
+        <TextView
+            android:id="@+id/fragment_detailsetting_timeouts_firsthalf_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="@string/times"
+            android:textColor="@color/colorTextInMainButton"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_detailsetting_timeouts_firsthalf_edittext"
+            app:layout_constraintStart_toEndOf="@+id/fragment_detailsetting_timeouts_firsthalf_edittext"
+            app:layout_constraintTop_toTopOf="@+id/fragment_detailsetting_timeouts_firsthalf_edittext" />
+
+        <Button
+            android:id="@+id/fragment_detailsetting_timeouts_firsthalf_minus"
+            android:layout_width="70dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/shape_btn_main"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="－"
+            app:layout_constraintBottom_toBottomOf="@id/fragment_detailsetting_timeouts_firsthalf_edittext"
+            app:layout_constraintEnd_toStartOf="@+id/fragment_detailsetting_timeouts_firsthalf_plus"
+            app:layout_constraintTop_toTopOf="@+id/fragment_detailsetting_timeouts_firsthalf_edittext" />
+
+        <Button
+            android:id="@+id/fragment_detailsetting_timeouts_firsthalf_plus"
+            android:layout_width="70dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/shape_btn_main"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="＋"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_detailsetting_timeouts_firsthalf_edittext"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/fragment_detailsetting_timeouts_firsthalf_edittext" />
+
+        <TextView
+            android:id="@+id/fragment_detailsetting_secondhalf_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/secondhalf"
+            android:textColor="@color/colorTextInMainButton"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_detailsetting_timeouts_secondhalf_edittext"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/fragment_detailsetting_timeouts_secondhalf_edittext" />
+
+        <EditText
+            android:id="@+id/fragment_detailsetting_timeouts_secondhalf_edittext"
+            android:layout_width="20dp"
+            android:layout_height="35dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/shape_edittext_gamename"
+            android:inputType="number"
+            android:maxLength="1"
+            android:paddingHorizontal="5dp"
+            android:text="5"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/fragment_detailsetting_secondhalf_title"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_detailsetting_timeouts_firsthalf_edittext" />
+
+        <TextView
+            android:id="@+id/fragment_detailsetting_timeouts_secondhalf_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="@string/times"
+            android:textColor="@color/colorTextInMainButton"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_detailsetting_timeouts_secondhalf_edittext"
+            app:layout_constraintStart_toEndOf="@+id/fragment_detailsetting_timeouts_secondhalf_edittext"
+            app:layout_constraintTop_toTopOf="@+id/fragment_detailsetting_timeouts_secondhalf_edittext" />
+
+        <Button
+            android:id="@+id/fragment_detailsetting_timeouts_secondhalf_minus"
+            android:layout_width="70dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/shape_btn_main"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="－"
+            app:layout_constraintBottom_toBottomOf="@id/fragment_detailsetting_timeouts_secondhalf_edittext"
+            app:layout_constraintEnd_toStartOf="@+id/fragment_detailsetting_timeouts_secondhalf_plus"
+            app:layout_constraintTop_toTopOf="@+id/fragment_detailsetting_timeouts_secondhalf_edittext" />
+
+        <Button
+            android:id="@+id/fragment_detailsetting_timeouts_secondhalf_plus"
+            android:layout_width="70dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/shape_btn_main"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="＋"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_detailsetting_timeouts_secondhalf_edittext"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/fragment_detailsetting_timeouts_secondhalf_edittext" />
 
     </android.support.constraint.ConstraintLayout>
 

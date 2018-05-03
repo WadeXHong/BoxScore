@@ -25,4 +25,9 @@
     <string name="quarterLength">單節時間</string>
     <string name="totalQuarter">總節數</string>
     <string name="quarter">節</string>
+    <string name="maxFoul">最大犯規次數</string>
+    <string name="times">次</string>
+    <string name="timeoutAmount">暫停次數</string>
+    <string name="firstHalf">上半場</string>
+    <string name="secondhalf">下半場</string>
 </resources>
