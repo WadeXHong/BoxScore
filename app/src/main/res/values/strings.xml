@@ -31,4 +31,5 @@
     <string name="firstHalf">上半場</string>
     <string name="secondhalf">下半場</string>
     <string name="yourTeam">所屬球隊</string>
+    <string name="changePlayer">更換球員</string>
 </resources>

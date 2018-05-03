@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.wade8.boxscore.R;
 import com.example.wade8.boxscore.ViewPagerFragmentAdapter;
+import com.example.wade8.boxscore.gameboxscore.GameBoxScoreActivity;
 import com.example.wade8.boxscore.login.LoginActivity;
 import com.example.wade8.boxscore.objects.GameInfo;
 
@@ -105,7 +106,7 @@ public class StartGameActivity extends AppCompatActivity implements StartGameCon
             @Override
             public void onClick(View v) {
                 Log.d(TAG,"Game Start");
-                Intent intent = new Intent(StartGameActivity.this, LoginActivity.class);
+                Intent intent = new Intent(StartGameActivity.this, GameBoxScoreActivity.class);
                 intent.putExtra("GameInfo", mPresenter.getSettingResult(new GameInfo()));
                 startActivity(intent);
                 StartGameActivity.this.finish();
