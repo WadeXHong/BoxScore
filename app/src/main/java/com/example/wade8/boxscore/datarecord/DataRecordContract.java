@@ -13,7 +13,16 @@ public interface DataRecordContract {
     }
 
     interface Presenter extends BasePresenter{
-
+        void PressTwoPoint();
+        void PressThreePoint();
+        void PressFreeThrow();
+        void PressAssist();
+        void PressOffensiveRebound();
+        void PressSteal();
+        void PressBlock();
+        void PressFoul();
+        void PressTurnover();
+        void PressDefensiveRebound();
     }
 
 }
