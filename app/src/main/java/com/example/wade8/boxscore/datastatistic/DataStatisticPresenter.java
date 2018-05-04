@@ -13,6 +13,7 @@ public class DataStatisticPresenter implements DataStatisticContract.Presenter{
 
     public DataStatisticPresenter(DataStatisticContract.View dataStatisticView) {
         mDataStatisticView = dataStatisticView;
+        mDataStatisticView.setPresenter(this);
     }
 
     @Override

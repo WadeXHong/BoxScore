@@ -11,6 +11,7 @@ import com.example.wade8.boxscore.datastatistic.DataStatisticPresenter;
 import com.example.wade8.boxscore.playeroncourt.PlayerOnCourtFragment;
 import com.example.wade8.boxscore.playeroncourt.PlayerOnCourtPresenter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,6 +36,9 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     public GameBoxScorePresenter(GameBoxScoreContract.View mGameBoxScoreView, android.support.v4.app.FragmentManager manager) {
         this.mGameBoxScoreView = mGameBoxScoreView;
         mFragmentManager = manager;
+        mGameBoxScoreView.setPresenter(this);
+
+        setViewPager();
     }
 
     private void setViewPager(){
@@ -44,6 +48,12 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
         mPlayerOnCourtPresenter = new PlayerOnCourtPresenter(mPlayerOnCourtFragment);
         mDataRecordPresenter = new DataRecordPresenter(mDataRecordFragment);
         mDataStatisticPresenter = new DataStatisticPresenter(mDataStatisticFragment);
+        mFragmentList = new ArrayList<>();
+        mFragmentList.add(mDataRecordFragment);
+        mFragmentList.add(mPlayerOnCourtFragment);
+        mFragmentList.add(mDataStatisticFragment);
+        mViewPagerFragmentAdapter = new ViewPagerFragmentAdapter(mFragmentManager,mFragmentList);
+        mGameBoxScoreView.setViewPagerAdapter(mViewPagerFragmentAdapter);
     }
 
 

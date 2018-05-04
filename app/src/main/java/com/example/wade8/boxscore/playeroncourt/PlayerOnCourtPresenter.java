@@ -12,6 +12,7 @@ public class PlayerOnCourtPresenter implements PlayerOnCourtContract.Presenter{
 
     public PlayerOnCourtPresenter(PlayerOnCourtContract.View playerOnCourtView) {
         mPlayerOnCourtView = playerOnCourtView;
+        mPlayerOnCourtView.setPresenter(this);
     }
 
     @Override

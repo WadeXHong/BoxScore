@@ -32,4 +32,7 @@
     <string name="secondhalf">下半場</string>
     <string name="yourTeam">所屬球隊</string>
     <string name="changePlayer">更換球員</string>
+    <string name="dataRecord">數據紀錄</string>
+    <string name="playerOnCourt">場上球員</string>
+    <string name="dataStatistic">數據統計</string>
 </resources>

@@ -12,6 +12,7 @@ public class DataRecordPresenter implements DataRecordContract.Presenter{
 
     public DataRecordPresenter(DataRecordContract.View dataRecordView) {
         mDataRecordView = dataRecordView;
+        mDataRecordView.setPresenter(this);
     }
 
     @Override
