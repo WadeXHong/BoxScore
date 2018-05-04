@@ -35,4 +35,17 @@
     <string name="dataRecord">數據紀錄</string>
     <string name="playerOnCourt">場上球員</string>
     <string name="dataStatistic">數據統計</string>
+    <string name="offense">進攻</string>
+    <string name="defense">防守</string>
+    <string name="twoPoint">2分</string>
+    <string name="defensiveRebound">防守籃板</string>
+    <string name="threePoint">3分</string>
+    <string name="freeThrow">罰球</string>
+    <string name="assist">助攻</string>
+    <string name="offensiveRebound">進攻籃板</string>
+    <string name="steal">抄截</string>
+    <string name="block">火鍋</string>
+    <string name="foul">犯規</string>
+    <string name="turnover">失誤</string>
+
 </resources>

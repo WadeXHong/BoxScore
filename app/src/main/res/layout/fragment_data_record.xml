@@ -1,13 +1,191 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorDarkGray"
+    android:padding="10dp"
     tools:context="com.example.wade8.boxscore.datarecord.DataRecordFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <Button
+        android:id="@+id/datarecord_twopoint"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/shape_btn_datarecord"
+        android:text="@string/twoPoint"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/datarecord_threepoint"
+        app:layout_constraintEnd_toStartOf="@+id/datarecord_steal"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
-</FrameLayout>
+    <Button
+        android:id="@+id/datarecord_defensiverebound"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/shape_btn_datarecord"
+        android:text="@string/defensiveRebound"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/datarecord_offensiverebound"
+        app:layout_constraintTop_toBottomOf="@+id/datarecord_turnover" />
+
+    <Button
+        android:id="@+id/datarecord_turnover"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/shape_btn_datarecord"
+        android:text="@string/turnover"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/datarecord_defensiverebound"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/datarecord_assist"
+        app:layout_constraintTop_toBottomOf="@+id/datarecord_foul" />
+
+    <Button
+        android:id="@+id/datarecord_foul"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/shape_btn_datarecord"
+        android:text="@string/foul"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/datarecord_turnover"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/datarecord_freethrow"
+        app:layout_constraintTop_toBottomOf="@+id/datarecord_block" />
+
+    <Button
+        android:id="@+id/datarecord_block"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/shape_btn_datarecord"
+        android:text="@string/block"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/datarecord_foul"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/datarecord_threepoint"
+        app:layout_constraintTop_toBottomOf="@+id/datarecord_steal" />
+
+    <Button
+        android:id="@+id/datarecord_steal"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/shape_btn_datarecord"
+        android:text="@string/steal"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/datarecord_block"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/datarecord_twopoint"
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+    <Button
+        android:id="@+id/datarecord_offensiverebound"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/shape_btn_datarecord"
+        android:text="@string/offensiveRebound"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/datarecord_defensiverebound"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/datarecord_assist" />
+
+    <Button
+        android:id="@+id/datarecord_assist"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/shape_btn_datarecord"
+        android:text="@string/assist"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/datarecord_offensiverebound"
+        app:layout_constraintEnd_toStartOf="@+id/datarecord_turnover"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/datarecord_freethrow" />
+
+    <Button
+        android:id="@+id/datarecord_freethrow"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/shape_btn_datarecord"
+        android:text="@string/freeThrow"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/datarecord_assist"
+        app:layout_constraintEnd_toStartOf="@+id/datarecord_foul"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/datarecord_threepoint" />
+
+    <Button
+        android:id="@+id/datarecord_threepoint"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/shape_btn_datarecord"
+        android:text="@string/threePoint"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/datarecord_freethrow"
+        app:layout_constraintEnd_toStartOf="@+id/datarecord_block"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/datarecord_twopoint" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:gravity="center"
+        android:text="@string/offense"
+        android:textColor="@color/colorButtonInMain"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/textView8"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:gravity="center"
+        android:text="@string/defense"
+        android:textColor="@color/colorButtonInMain"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/textView7"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</android.support.constraint.ConstraintLayout>
