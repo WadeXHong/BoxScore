@@ -10,5 +10,6 @@
     <color name="colorYellow">#FFEB36</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorRed">#CC3B3B</color>
+    <color name="colorDialogBackground">#90000000</color>
 
 </resources>

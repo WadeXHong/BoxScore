@@ -1,10 +1,12 @@
 package com.example.wade8.boxscore.objects;
 
+import java.io.Serializable;
+
 /**
  * Created by wade8 on 2018/5/2.
  */
 
-public class Player {
+public class Player implements Serializable {
 
     private String mNumber;
     private String mName;

@@ -19,4 +19,11 @@
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
+
+    <style
+        name="dialog_animation_fade" >
+        <item name="android:windowEnterAnimation">@anim/fade_in_dialog</item>
+        <item name="android:windowExitAnimation">@anim/fade_out_dialog</item>
+    </style>
+
 </resources>

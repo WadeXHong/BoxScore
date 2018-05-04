@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.wade8.boxscore.R;
+import com.example.wade8.boxscore.dialogfragment.PlayerSelectDialog;
+import com.example.wade8.boxscore.dialogfragment.PlayerSelectPresenter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,6 +62,9 @@ public class DataRecordFragment extends Fragment implements DataRecordContract.V
             @Override
             public void onClick(View v) {
                 mPresenter.PressTwoPoint();
+                PlayerSelectDialog dialog = new PlayerSelectDialog();
+                PlayerSelectPresenter dialogPresenter = new PlayerSelectPresenter(dialog);
+                dialog.show(getFragmentManager(),"TwoPoint");
             }
         });
         mThreePoint.setOnClickListener(new View.OnClickListener() {
