@@ -12,10 +12,13 @@ import com.example.wade8.boxscore.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DataRecordFragment extends Fragment {
+public class DataRecordFragment extends Fragment implements DataRecordContract.View{
 
+    private static final String TAG = DataRecordFragment.class.getSimpleName();
 
-    public DataRecordFragment getInstance(){
+    private DataRecordContract.Presenter mPresenter;
+
+    public static DataRecordFragment newInstance(){
         return new DataRecordFragment();
     }
 
@@ -32,4 +35,8 @@ public class DataRecordFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void setPresenter(DataRecordContract.Presenter presenter) {
+        mPresenter = presenter;
+    }
 }

@@ -16,6 +16,9 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
     private static final String TAG = GameBoxScoreActivity.class.getSimpleName();
 
     private GameBoxScoreContract.Presenter mPresenter;
+    private final int PAGE_DATARECORD = 0;
+    private final int PAGE_PLYERONCOURT = 1;
+    private final int PAGE_DATASTATISTIC = 2;
 
 
     @Override
@@ -29,7 +32,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
     private void init() {
         Log.i(TAG,"BoxScoreActivity.init");
         setStatusBar(this);
-        mPresenter = new GameBoxScorePresenter(this);
+        mPresenter = new GameBoxScorePresenter(this, getSupportFragmentManager());
         mPresenter.start();
 
     }

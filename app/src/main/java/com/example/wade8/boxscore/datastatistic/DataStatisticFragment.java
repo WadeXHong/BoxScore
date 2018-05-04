@@ -12,10 +12,14 @@ import com.example.wade8.boxscore.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DataStatisticFragment extends Fragment {
+public class DataStatisticFragment extends Fragment implements DataStatisticContract.View{
+
+    private static final String TAG = DataStatisticFragment.class.getSimpleName();
+
+    private DataStatisticContract.Presenter mPresenter;
 
 
-    public DataStatisticFragment getInstance(){
+    public static DataStatisticFragment newInstance(){
         return new DataStatisticFragment();
     }
 
@@ -31,4 +35,8 @@ public class DataStatisticFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_data_statistic, container, false);
     }
 
+    @Override
+    public void setPresenter(DataStatisticContract.Presenter presenter) {
+        mPresenter = presenter;
+    }
 }

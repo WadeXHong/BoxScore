@@ -12,9 +12,13 @@ import com.example.wade8.boxscore.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PlayerOnCourtFragment extends Fragment {
+public class PlayerOnCourtFragment extends Fragment implements PlayerOnCourtContract.View{
 
-    public PlayerOnCourtFragment getInstance(){
+    private static final String TAG = PlayerOnCourtFragment.class.getSimpleName();
+
+    private PlayerOnCourtContract.Presenter mPresenter;
+
+    public static PlayerOnCourtFragment newInstance(){
         return new PlayerOnCourtFragment();
     }
 
@@ -30,4 +34,8 @@ public class PlayerOnCourtFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_player_on_court, container, false);
     }
 
+    @Override
+    public void setPresenter(PlayerOnCourtContract.Presenter presenter) {
+        mPresenter = presenter;
+    }
 }
