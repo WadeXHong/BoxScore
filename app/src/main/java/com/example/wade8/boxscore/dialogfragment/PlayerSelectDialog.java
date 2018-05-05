@@ -6,12 +6,16 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.wade8.boxscore.R;
 import com.example.wade8.boxscore.adapter.DialogPlayerAdapter;
@@ -31,6 +35,9 @@ public class PlayerSelectDialog extends android.support.v4.app.DialogFragment im
 
     private PlayerSelecterContract.Presenter mPresenter;
 
+    private ConstraintLayout mParentLayout;
+    private LinearLayout mInnerLayout;
+    private TextView mCancel;
     private RecyclerView mPlayerRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private int mType;
@@ -42,6 +49,8 @@ public class PlayerSelectDialog extends android.support.v4.app.DialogFragment im
         dialog.setArguments(bdl);
         return dialog;
     }
+
+
 
 
     @Override
@@ -57,6 +66,10 @@ public class PlayerSelectDialog extends android.support.v4.app.DialogFragment im
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.dialogfragment_select_player,container,false);
+
+        mParentLayout = view.findViewById(R.id.dialogfragment_playerselect_parentlayout);
+        mInnerLayout = view.findViewById(R.id.dialogfragment_playerselect_innerlayout);
+        mCancel = view.findViewById(R.id.dialogfragment_playerselect_cancel);
         mPlayerRecyclerView = view.findViewById(R.id.dialogfragment_playerselect_recyclerview);
         //FAKEFAKE
         ArrayList<Player> mList = new ArrayList<>();
@@ -70,6 +83,28 @@ public class PlayerSelectDialog extends android.support.v4.app.DialogFragment im
         mPlayerRecyclerView.setAdapter(mAdapter);
         mPlayerRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        mCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG,"Cancel pressed");
+                dismiss();
+            }
+        });
+        mParentLayout.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG,"Outside pressed");
+                dismiss();
+            }
+        });
+        mInnerLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG,"InnerLayout pressed");
+
+            }
+        });
+
         return view;
     }
 
@@ -81,6 +116,12 @@ public class PlayerSelectDialog extends android.support.v4.app.DialogFragment im
         }
 
         getDialog().getWindow().setWindowAnimations(R.style.dialog_animation_fade);
+    }
+
+    @Override
+    public void dismiss() {
+        super.dismiss();
+        Log.d(TAG,"dismiss");
     }
 
     @Override

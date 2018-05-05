@@ -11,6 +11,7 @@ import com.example.wade8.boxscore.objects.Player;
 public interface PlayerSelecterContract {
     interface View extends BaseView<Presenter>{
 
+        void dismiss();
     }
 
     interface Presenter extends BasePresenter{

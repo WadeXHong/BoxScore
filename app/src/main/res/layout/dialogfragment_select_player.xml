@@ -9,6 +9,7 @@
     android:background="@color/colorDialogBackground">
 
     <LinearLayout
+        android:id="@+id/dialogfragment_playerselect_innerlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"

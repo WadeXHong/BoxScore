@@ -28,8 +28,11 @@ public class PlayerSelectPresenter implements PlayerSelecterContract.Presenter {
     @Override
     public void EditDataInDB(Player player, int type) {
         //TODO write data into DB
+        //TODO add to UNDOList
         String name = player.getmName();
         String number = player.getmNumber();
         Log.d(TAG,"number " + number +" " + name + " " + type +" + 1");
+
+        mPlayerSelectView.dismiss();
     }
 }
