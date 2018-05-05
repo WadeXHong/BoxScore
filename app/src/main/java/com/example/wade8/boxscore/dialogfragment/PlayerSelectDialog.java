@@ -37,6 +37,7 @@ public class PlayerSelectDialog extends android.support.v4.app.DialogFragment im
 
     private ConstraintLayout mParentLayout;
     private LinearLayout mInnerLayout;
+    private TextView mTitle;
     private TextView mCancel;
     private RecyclerView mPlayerRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -69,8 +70,10 @@ public class PlayerSelectDialog extends android.support.v4.app.DialogFragment im
 
         mParentLayout = view.findViewById(R.id.dialogfragment_playerselect_parentlayout);
         mInnerLayout = view.findViewById(R.id.dialogfragment_playerselect_innerlayout);
+        mTitle = view.findViewById(R.id.dialogfragment_playerselect_title);
         mCancel = view.findViewById(R.id.dialogfragment_playerselect_cancel);
         mPlayerRecyclerView = view.findViewById(R.id.dialogfragment_playerselect_recyclerview);
+        mTitle.setText(getTag());
         //FAKEFAKE
         ArrayList<Player> mList = new ArrayList<>();
         mList.add(new Player("87","洪偉軒"));

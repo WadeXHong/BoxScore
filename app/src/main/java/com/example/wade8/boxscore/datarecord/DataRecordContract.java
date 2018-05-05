@@ -2,6 +2,7 @@ package com.example.wade8.boxscore.datarecord;
 
 import com.example.wade8.boxscore.BasePresenter;
 import com.example.wade8.boxscore.BaseView;
+import com.example.wade8.boxscore.dialogfragment.PlayerSelectDialog;
 
 /**
  * Created by wade8 on 2018/5/3.
@@ -10,6 +11,9 @@ import com.example.wade8.boxscore.BaseView;
 public interface DataRecordContract {
     interface View extends BaseView<Presenter>{
 
+        void popPlayerSelectDialog(PlayerSelectDialog dialog, int type);
+
+        void popIsShotMadeDialog(int type);
     }
 
     interface Presenter extends BasePresenter{
@@ -23,6 +27,10 @@ public interface DataRecordContract {
         void PressFoul();
         void PressTurnover();
         void PressDefensiveRebound();
+
+        void PressShotMade(int type);
+
+        void PressShotMissed(int type);
     }
 
 }

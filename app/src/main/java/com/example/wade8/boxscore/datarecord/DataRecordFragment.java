@@ -1,13 +1,17 @@
 package com.example.wade8.boxscore.datarecord;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.wade8.boxscore.Constants;
 import com.example.wade8.boxscore.R;
 import com.example.wade8.boxscore.dialogfragment.PlayerSelectDialog;
 import com.example.wade8.boxscore.dialogfragment.PlayerSelectPresenter;
@@ -31,6 +35,7 @@ public class DataRecordFragment extends Fragment implements DataRecordContract.V
     private Button mFoul;
     private Button mTurnover;
     private Button mDefensiveRebound;
+
 
 
     public static DataRecordFragment newInstance(){
@@ -62,9 +67,6 @@ public class DataRecordFragment extends Fragment implements DataRecordContract.V
             @Override
             public void onClick(View v) {
                 mPresenter.PressTwoPoint();
-                PlayerSelectDialog dialog = PlayerSelectDialog.newInstance(0x00);
-                PlayerSelectPresenter dialogPresenter = new PlayerSelectPresenter(dialog);
-                dialog.show(getFragmentManager(),"TwoPoint");
             }
         });
         mThreePoint.setOnClickListener(new View.OnClickListener() {
@@ -128,5 +130,33 @@ public class DataRecordFragment extends Fragment implements DataRecordContract.V
     @Override
     public void setPresenter(DataRecordContract.Presenter presenter) {
         mPresenter = presenter;
+    }
+
+    @Override
+    public void popPlayerSelectDialog(PlayerSelectDialog dialog, int type) {
+        dialog.show(getFragmentManager(),getResources().getString(R.string.twoPoint));
+    }
+
+    @Override
+    public void popIsShotMadeDialog(final int type) {
+        new AlertDialog.Builder(getActivity())
+                  .setTitle(R.string.isShotMade)
+                  .setItems(new String[]{getString(R.string.yes), getString(R.string.no)}, new DialogInterface.OnClickListener() {
+                      @Override
+                      public void onClick(DialogInterface dialog, int which) {
+                          switch (which){
+                              case 0:
+                                  Log.d(TAG,"命中");
+                                  mPresenter.PressShotMade(type+1);
+                                  break;
+                              case 1:
+                                  Log.d(TAG,"失手");
+                                  mPresenter.PressShotMissed(type+1);
+                                  break;
+
+                          }
+                      }
+                  })
+                  .create().show();
     }
 }
