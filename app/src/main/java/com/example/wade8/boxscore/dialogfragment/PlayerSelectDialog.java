@@ -1,8 +1,11 @@
 package com.example.wade8.boxscore.dialogfragment;
 
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,6 +23,7 @@ import android.widget.TextView;
 import com.example.wade8.boxscore.R;
 import com.example.wade8.boxscore.adapter.DialogPlayerAdapter;
 import com.example.wade8.boxscore.adapter.PlayerListAdapter;
+import com.example.wade8.boxscore.datarecord.DataRecordContract;
 import com.example.wade8.boxscore.datarecord.DataRecordFragment;
 import com.example.wade8.boxscore.objects.Player;
 
@@ -50,8 +54,6 @@ public class PlayerSelectDialog extends android.support.v4.app.DialogFragment im
         dialog.setArguments(bdl);
         return dialog;
     }
-
-
 
 
     @Override
@@ -125,6 +127,7 @@ public class PlayerSelectDialog extends android.support.v4.app.DialogFragment im
     public void dismiss() {
         super.dismiss();
         Log.d(TAG,"dismiss");
+        getTargetFragment().onActivityResult(DataRecordFragment.REQUEST_PLAYERSELECTDIALOG, Activity.RESULT_OK,new Intent());
     }
 
     @Override

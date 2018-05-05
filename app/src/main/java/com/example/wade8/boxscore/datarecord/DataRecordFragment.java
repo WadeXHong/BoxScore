@@ -3,6 +3,7 @@ package com.example.wade8.boxscore.datarecord;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -20,6 +21,7 @@ import com.example.wade8.boxscore.dialogfragment.PlayerSelectDialog;
 public class DataRecordFragment extends Fragment implements DataRecordContract.View{
 
     private static final String TAG = DataRecordFragment.class.getSimpleName();
+    public static final int REQUEST_PLAYERSELECTDIALOG = 0;
 
     private DataRecordContract.Presenter mPresenter;
 
@@ -44,6 +46,16 @@ public class DataRecordFragment extends Fragment implements DataRecordContract.V
         // Required empty public constructor
     }
 
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_PLAYERSELECTDIALOG){
+            enableAllButtons(true);
+        }
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -132,8 +144,8 @@ public class DataRecordFragment extends Fragment implements DataRecordContract.V
 
     @Override
     public void popPlayerSelectDialog(PlayerSelectDialog dialog, int stringId) {
+        dialog.setTargetFragment(this,REQUEST_PLAYERSELECTDIALOG);
         dialog.show(getFragmentManager(),getResources().getString(stringId));
-        enableAllButtons(true);
     }
 
     @Override
@@ -152,12 +164,15 @@ public class DataRecordFragment extends Fragment implements DataRecordContract.V
                                   Log.d(TAG,"失手");
                                   mPresenter.PressShotMissed(type+2);
                                   break;
-                              default:
-                                  Log.d(TAG,"取消");
-                                  enableAllButtons(true);
                           }
                       }
-                  })
+                  }).setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                Log.d(TAG,"取消");
+                enableAllButtons(true);
+            }
+        })
                   .create().show();
     }
 
