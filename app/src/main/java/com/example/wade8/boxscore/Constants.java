@@ -1,10 +1,39 @@
 package com.example.wade8.boxscore;
 
+import android.util.SparseArray;
+
+import java.util.Collections;
+import java.util.HashMap;
+
 /**
  * Created by wade8 on 2018/5/5.
  */
 
 public class Constants {
+
+    public static final SparseArray<Integer> mSpareArray = new SparseArray<Integer>(){
+        {
+            append(RecordDataType.TWO_POINT_SHOT,R.string.twoPointShot);
+            append(RecordDataType.TWO_POINT_SHOT_MADE,R.string.twoPointShotMade);
+            append(RecordDataType.TWO_POINT_SHOT_MISSED,R.string.twoPointShotMiss);
+            append(RecordDataType.THREE_POINT_SHOT,R.string.threePointShot);
+            append(RecordDataType.THREE_POINT_SHOT_MADE,R.string.threePointShotMade);
+            append(RecordDataType.THREE_POINT_SHOT_MISSED,R.string.threePointShotMiss);
+            append(RecordDataType.FREE_THROW_SHOT,R.string.freeThrowShot);
+            append(RecordDataType.FREE_THROW_SHOT_MADE,R.string.freeThrowShotMade);
+            append(RecordDataType.FREE_THROW_SHOT_MISSED,R.string.freeThrowShotMiss);
+            append(RecordDataType.ASSIST,R.string.assist);
+            append(RecordDataType.OFFENSIVE_REBOUND,R.string.offensiveRebound);
+            append(RecordDataType.DEFENSIVE_REBOUND,R.string.defensiveRebound);
+            append(RecordDataType.STEAL,R.string.steal);
+            append(RecordDataType.BLOCK,R.string.block);
+            append(RecordDataType.FOUL,R.string.foul);
+            append(RecordDataType.TURNOVER,R.string.turnover);
+
+        }
+    };
+
+
     public class RecordDataType{
         public static final int TWO_POINT_SHOT = 0x01;
         public static final int TWO_POINT_SHOT_MADE = 0x02;

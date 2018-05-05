@@ -36,7 +36,7 @@ public class DataRecordPresenter implements DataRecordContract.Presenter{
         }else {
             PlayerSelectDialog dialog = PlayerSelectDialog.newInstance(type);
             PlayerSelectPresenter dialogPresenter = new PlayerSelectPresenter(dialog);
-            mDataRecordView.popPlayerSelectDialog(dialog,type);
+            mDataRecordView.popPlayerSelectDialog(dialog,Constants.mSpareArray.get(type));
         }
 
     }
@@ -49,46 +49,55 @@ public class DataRecordPresenter implements DataRecordContract.Presenter{
     @Override
     public void PressThreePoint() {
         Log.d(TAG,"PressThreePoint executed");
+        createPlayerSelectDialog(Constants.RecordDataType.THREE_POINT_SHOT);
     }
 
     @Override
     public void PressFreeThrow() {
         Log.d(TAG,"PressFreeThrow executed");
+        createPlayerSelectDialog(Constants.RecordDataType.FREE_THROW_SHOT);
     }
 
     @Override
     public void PressAssist() {
         Log.d(TAG,"PressAssist executed");
+        createPlayerSelectDialog(Constants.RecordDataType.ASSIST);
     }
 
     @Override
     public void PressOffensiveRebound() {
         Log.d(TAG,"PressOffensiveRebound executed");
+        createPlayerSelectDialog(Constants.RecordDataType.OFFENSIVE_REBOUND);
     }
 
     @Override
     public void PressSteal() {
         Log.d(TAG,"PressSteal executed");
+        createPlayerSelectDialog(Constants.RecordDataType.STEAL);
     }
 
     @Override
     public void PressBlock() {
         Log.d(TAG,"PressBlock executed");
+        createPlayerSelectDialog(Constants.RecordDataType.BLOCK);
     }
 
     @Override
     public void PressFoul() {
         Log.d(TAG,"PressFoul executed");
+        createPlayerSelectDialog(Constants.RecordDataType.FOUL);
     }
 
     @Override
     public void PressTurnover() {
         Log.d(TAG,"PressTurnover executed");
+        createPlayerSelectDialog(Constants.RecordDataType.TURNOVER);
     }
 
     @Override
     public void PressDefensiveRebound() {
         Log.d(TAG,"PressDefensiveRebound executed");
+        createPlayerSelectDialog(Constants.RecordDataType.DEFENSIVE_REBOUND);
     }
 
     @Override
@@ -96,7 +105,7 @@ public class DataRecordPresenter implements DataRecordContract.Presenter{
         Log.d(TAG,"PressShotMade executed");
         PlayerSelectDialog dialog = PlayerSelectDialog.newInstance(type);
         PlayerSelectPresenter dialogPresenter = new PlayerSelectPresenter(dialog);
-        mDataRecordView.popPlayerSelectDialog(dialog,type);
+        mDataRecordView.popPlayerSelectDialog(dialog,Constants.mSpareArray.get(type));
     }
 
     @Override
@@ -104,6 +113,6 @@ public class DataRecordPresenter implements DataRecordContract.Presenter{
         Log.d(TAG,"PressShotMade executed");
         PlayerSelectDialog dialog = PlayerSelectDialog.newInstance(type);
         PlayerSelectPresenter dialogPresenter = new PlayerSelectPresenter(dialog);
-        mDataRecordView.popPlayerSelectDialog(dialog,type);
+        mDataRecordView.popPlayerSelectDialog(dialog,Constants.mSpareArray.get(type));
     }
 }

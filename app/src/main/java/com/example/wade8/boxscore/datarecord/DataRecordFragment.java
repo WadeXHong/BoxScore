@@ -11,10 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.example.wade8.boxscore.Constants;
 import com.example.wade8.boxscore.R;
 import com.example.wade8.boxscore.dialogfragment.PlayerSelectDialog;
-import com.example.wade8.boxscore.dialogfragment.PlayerSelectPresenter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -133,8 +131,8 @@ public class DataRecordFragment extends Fragment implements DataRecordContract.V
     }
 
     @Override
-    public void popPlayerSelectDialog(PlayerSelectDialog dialog, int type) {
-        dialog.show(getFragmentManager(),getResources().getString(R.string.twoPoint));
+    public void popPlayerSelectDialog(PlayerSelectDialog dialog, int stringId) {
+        dialog.show(getFragmentManager(),getResources().getString(stringId));
     }
 
     @Override
@@ -151,7 +149,7 @@ public class DataRecordFragment extends Fragment implements DataRecordContract.V
                                   break;
                               case 1:
                                   Log.d(TAG,"失手");
-                                  mPresenter.PressShotMissed(type+1);
+                                  mPresenter.PressShotMissed(type+2);
                                   break;
 
                           }
