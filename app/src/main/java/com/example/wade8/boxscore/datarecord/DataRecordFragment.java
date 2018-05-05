@@ -133,6 +133,7 @@ public class DataRecordFragment extends Fragment implements DataRecordContract.V
     @Override
     public void popPlayerSelectDialog(PlayerSelectDialog dialog, int stringId) {
         dialog.show(getFragmentManager(),getResources().getString(stringId));
+        enableAllButtons(true);
     }
 
     @Override
@@ -151,10 +152,29 @@ public class DataRecordFragment extends Fragment implements DataRecordContract.V
                                   Log.d(TAG,"失手");
                                   mPresenter.PressShotMissed(type+2);
                                   break;
-
+                              default:
+                                  Log.d(TAG,"取消");
+                                  enableAllButtons(true);
                           }
                       }
                   })
                   .create().show();
     }
+
+    @Override
+    public void enableAllButtons(boolean setEnableOrNot) {
+        mTwoPoint.setEnabled(setEnableOrNot);
+        mThreePoint.setEnabled(setEnableOrNot);
+        mFreeThrow.setEnabled(setEnableOrNot);
+        mAssist.setEnabled(setEnableOrNot);
+        mOffensiveRebound.setEnabled(setEnableOrNot);
+        mSteal.setEnabled(setEnableOrNot);
+        mBlock.setEnabled(setEnableOrNot);
+        mFoul.setEnabled(setEnableOrNot);
+        mTurnover.setEnabled(setEnableOrNot);
+        mDefensiveRebound.setEnabled(setEnableOrNot);
+        Log.d(TAG,"All record buttons enable or not : " + setEnableOrNot);
+    }
+
+
 }

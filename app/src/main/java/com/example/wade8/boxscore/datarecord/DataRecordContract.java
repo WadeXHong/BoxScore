@@ -12,8 +12,9 @@ public interface DataRecordContract {
     interface View extends BaseView<Presenter>{
 
         void popPlayerSelectDialog(PlayerSelectDialog dialog, int type);
-
         void popIsShotMadeDialog(int type);
+        void enableAllButtons(boolean setEnableOrNot);
+
     }
 
     interface Presenter extends BasePresenter{
