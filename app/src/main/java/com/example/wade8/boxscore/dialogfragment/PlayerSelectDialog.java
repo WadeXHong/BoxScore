@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import com.example.wade8.boxscore.R;
 import com.example.wade8.boxscore.adapter.DialogPlayerAdapter;
 import com.example.wade8.boxscore.adapter.PlayerListAdapter;
+import com.example.wade8.boxscore.datarecord.DataRecordFragment;
 import com.example.wade8.boxscore.objects.Player;
 
 import java.util.ArrayList;
@@ -32,12 +33,23 @@ public class PlayerSelectDialog extends android.support.v4.app.DialogFragment im
 
     private RecyclerView mPlayerRecyclerView;
     private RecyclerView.Adapter mAdapter;
+    private int mType;
+
+    public static PlayerSelectDialog newInstance(int type){
+        PlayerSelectDialog dialog = new PlayerSelectDialog();
+        Bundle bdl = new Bundle(1);
+        bdl.putInt("TYPE", type);
+        dialog.setArguments(bdl);
+        return dialog;
+    }
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mType = getArguments().getInt("TYPE",-1);
         setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Translucent_NoTitleBar);
+
     }
 
     @Nullable
@@ -49,8 +61,12 @@ public class PlayerSelectDialog extends android.support.v4.app.DialogFragment im
         //FAKEFAKE
         ArrayList<Player> mList = new ArrayList<>();
         mList.add(new Player("87","洪偉軒"));
+        mList.add(new Player("89","洪偉軒"));
+        mList.add(new Player("90","洪偉軒"));
+        mList.add(new Player("91","洪偉軒"));
+        mList.add(new Player("92","洪偉軒"));
         //FAKEFAKE
-        mAdapter = new DialogPlayerAdapter(mPresenter,mList);
+        mAdapter = new DialogPlayerAdapter(mPresenter,mList,mType);
         mPlayerRecyclerView.setAdapter(mAdapter);
         mPlayerRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 

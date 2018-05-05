@@ -62,7 +62,7 @@ public class DataRecordFragment extends Fragment implements DataRecordContract.V
             @Override
             public void onClick(View v) {
                 mPresenter.PressTwoPoint();
-                PlayerSelectDialog dialog = new PlayerSelectDialog();
+                PlayerSelectDialog dialog = PlayerSelectDialog.newInstance(0x00);
                 PlayerSelectPresenter dialogPresenter = new PlayerSelectPresenter(dialog);
                 dialog.show(getFragmentManager(),"TwoPoint");
             }

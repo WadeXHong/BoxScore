@@ -28,11 +28,13 @@ public class DialogPlayerAdapter extends RecyclerView.Adapter {
 
     private PlayerSelecterContract.Presenter mPresenter;
     private ArrayList<Player> mPlayerArrayList;
+    private int mType;
 
 
-    public DialogPlayerAdapter(PlayerSelecterContract.Presenter presenter,ArrayList<Player> originalList) {
+    public DialogPlayerAdapter(PlayerSelecterContract.Presenter presenter,ArrayList<Player> originalList,int type) {
         mPresenter = presenter;
         mPlayerArrayList = deepClonePlayerList(originalList);
+        mType = type;
     }
 
     public class DialogPlayerViewHolder extends RecyclerView.ViewHolder{
@@ -49,8 +51,13 @@ public class DialogPlayerAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onClick(View v) {
                     getLayoutPosition();
+                    mPresenter.EditDataInDB(mPlayerArrayList.get(getLayoutPosition()),mType);
                 }
             });
+        }
+        private void bind(int position){
+            mPlayerName.setText(mPlayerArrayList.get(position).getmName());
+            mPlayerNumber.setText(mPlayerArrayList.get(position).getmNumber());
         }
     }
 
@@ -66,7 +73,7 @@ public class DialogPlayerAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
+        ((DialogPlayerViewHolder)holder).bind(position);
     }
 
     @Override

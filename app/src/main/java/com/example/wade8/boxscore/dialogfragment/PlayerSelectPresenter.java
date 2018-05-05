@@ -1,5 +1,9 @@
 package com.example.wade8.boxscore.dialogfragment;
 
+import android.util.Log;
+
+import com.example.wade8.boxscore.objects.Player;
+
 /**
  * Created by wade8 on 2018/5/4.
  */
@@ -19,5 +23,13 @@ public class PlayerSelectPresenter implements PlayerSelecterContract.Presenter {
     @Override
     public void start() {
 
+    }
+
+    @Override
+    public void EditDataInDB(Player player, int type) {
+        //TODO write data into DB
+        String name = player.getmName();
+        String number = player.getmNumber();
+        Log.d(TAG,"number " + number +" " + name + " " + type +" + 1");
     }
 }
