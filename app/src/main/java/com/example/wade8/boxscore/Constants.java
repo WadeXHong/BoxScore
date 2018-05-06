@@ -1,5 +1,6 @@
 package com.example.wade8.boxscore;
 
+import android.provider.BaseColumns;
 import android.util.SparseArray;
 
 import java.util.Collections;
@@ -68,7 +69,27 @@ public class Constants {
 
     }
 
-
+    public class GameDataDBContract implements BaseColumns{
+        public static final String _ID = "_id";
+        public static final String TABLE_NAME = "game_data";
+        public static final String COLUMN_NAME_GAME_ID = "game_id";
+        public static final String COLUMN_NAME_QUARTER = "quarter";
+        public static final String COLUMN_NAME_PLAYER_NUMBER = "player_number";
+        public static final String COLUMN_NAME_PLAYER_NAME = "player_name";
+        public static final String COLUMN_NAME_FIELD_GOALS_MADE = "FGM";
+        public static final String COLUMN_NAME_FIELD_GOALS_ATTEMTED = "FGA";
+        public static final String COLUMN_NAME_THREE_POINT_MADE = "3PM";
+        public static final String COLUMN_NAME_THREE_POINT_ATTEMTED = "3GA";
+        public static final String COLUMN_NAME_FREE_THROW_MADE = "FTM";
+        public static final String COLUMN_NAME_FREE_THROW_ATTEMTED = "FTA";
+        public static final String COLUMN_NAME_ASSIST = "AST";
+        public static final String COLUMN_NAME_STEAL = "STL";
+        public static final String COLUMN_NAME_BLOCK = "BLK";
+        public static final String COLUMN_NAME_TURNOVER = "TO";
+        public static final String COLUMN_NAME_PERSONAL_FOUL= "PF";
+        public static final String COLUMN_NAME_OFFENSIVE_REBOUND = "OREB";
+        public static final String COLUMN_NAME_DEFENSIVE_REBOUND = "DREB";
+    }
 
 
 
