@@ -3,6 +3,7 @@ package com.example.wade8.boxscore.dbhelper;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.example.wade8.boxscore.Constants;
 
@@ -11,6 +12,8 @@ import com.example.wade8.boxscore.Constants;
  */
 
 public class GameDataDbHelper extends SQLiteOpenHelper{
+
+    private static final String TAG = GameDataDbHelper.class.getSimpleName();
 
     public Context mContext;
     public static final String DATABASE_NAME = "gameData.db";
@@ -35,13 +38,15 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
                         Constants.GameDataDBContract.COLUMN_NAME_OFFENSIVE_REBOUND + " INTEGER DEFAULT 0, " +
                         Constants.GameDataDBContract.COLUMN_NAME_DEFENSIVE_REBOUND + " INTEGER DEFAULT 0" + ");";
 
-    public GameDataDbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    public GameDataDbHelper(Context context){
+        super(context,DATABASE_NAME,null,DATABASE_VERSION);
     }
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE);
+        Log.d(TAG, "onCreate");
     }
 
     @Override

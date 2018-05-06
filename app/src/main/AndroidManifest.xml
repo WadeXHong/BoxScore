@@ -3,6 +3,7 @@
     package="com.example.wade8.boxscore">
 
     <application
+        android:name=".BoxScore"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
