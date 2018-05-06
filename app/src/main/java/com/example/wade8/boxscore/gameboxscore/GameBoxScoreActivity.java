@@ -43,6 +43,9 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
         logTestingGameInfo();
 
         init();
+
+        mPresenter.writeInitDataIntoDataBase(mGameInfo);
+
     }
 
     private void logTestingGameInfo() {

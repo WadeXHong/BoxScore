@@ -78,14 +78,14 @@ public class Constants {
         public static final String COLUMN_NAME_PLAYER_NAME = "player_name";
         public static final String COLUMN_NAME_FIELD_GOALS_MADE = "FGM";
         public static final String COLUMN_NAME_FIELD_GOALS_ATTEMTED = "FGA";
-        public static final String COLUMN_NAME_THREE_POINT_MADE = "3PM";
-        public static final String COLUMN_NAME_THREE_POINT_ATTEMTED = "3GA";
+        public static final String COLUMN_NAME_THREE_POINT_MADE = "TPM";
+        public static final String COLUMN_NAME_THREE_POINT_ATTEMTED = "TGA";
         public static final String COLUMN_NAME_FREE_THROW_MADE = "FTM";
         public static final String COLUMN_NAME_FREE_THROW_ATTEMTED = "FTA";
         public static final String COLUMN_NAME_ASSIST = "AST";
         public static final String COLUMN_NAME_STEAL = "STL";
         public static final String COLUMN_NAME_BLOCK = "BLK";
-        public static final String COLUMN_NAME_TURNOVER = "TO";
+        public static final String COLUMN_NAME_TURNOVER = "TOV";
         public static final String COLUMN_NAME_PERSONAL_FOUL= "PF";
         public static final String COLUMN_NAME_OFFENSIVE_REBOUND = "OREB";
         public static final String COLUMN_NAME_DEFENSIVE_REBOUND = "DREB";

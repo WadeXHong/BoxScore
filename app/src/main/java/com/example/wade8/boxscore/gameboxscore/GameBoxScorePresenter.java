@@ -3,11 +3,14 @@ package com.example.wade8.boxscore.gameboxscore;
 import android.app.FragmentManager;
 import android.support.v4.app.Fragment;
 
+import com.example.wade8.boxscore.BoxScore;
 import com.example.wade8.boxscore.ViewPagerFragmentAdapter;
 import com.example.wade8.boxscore.datarecord.DataRecordFragment;
 import com.example.wade8.boxscore.datarecord.DataRecordPresenter;
 import com.example.wade8.boxscore.datastatistic.DataStatisticFragment;
 import com.example.wade8.boxscore.datastatistic.DataStatisticPresenter;
+import com.example.wade8.boxscore.dbhelper.GameDataDbHelper;
+import com.example.wade8.boxscore.objects.GameInfo;
 import com.example.wade8.boxscore.playeroncourt.PlayerOnCourtFragment;
 import com.example.wade8.boxscore.playeroncourt.PlayerOnCourtPresenter;
 
@@ -60,5 +63,11 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     @Override
     public void start() {
 
+    }
+
+    @Override
+    public void writeInitDataIntoDataBase(GameInfo gameInfo) {
+        GameDataDbHelper mGameDataDbHelper = BoxScore.getGameDataDbHelper();
+        mGameDataDbHelper.writeInitDataIntoDataBase(gameInfo);
     }
 }

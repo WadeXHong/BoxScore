@@ -1,11 +1,14 @@
 package com.example.wade8.boxscore.dbhelper;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.example.wade8.boxscore.Constants;
+import com.example.wade8.boxscore.objects.GameInfo;
+import com.example.wade8.boxscore.objects.Player;
 
 /**
  * Created by wade8 on 2018/5/6.
@@ -22,7 +25,7 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
               "CREATE TABLE " + Constants.GameDataDBContract.TABLE_NAME +"("+
                         Constants.GameDataDBContract.COLUMN_NAME_GAME_ID + " INTEGER, " +
                         Constants.GameDataDBContract.COLUMN_NAME_QUARTER + " INTEGER NOT NULL, " +
-                        Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER + " INTEGER, " +
+                        Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER + " TEXT, " +
                         Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NAME +" TEXT, " +
                         Constants.GameDataDBContract.COLUMN_NAME_FIELD_GOALS_MADE + " INTEGER DEFAULT 0, " +
                         Constants.GameDataDBContract.COLUMN_NAME_FIELD_GOALS_ATTEMTED + " INTEGER DEFAULT 0, " +
@@ -52,5 +55,30 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+    }
+
+    public void writeInitDataIntoDataBase(GameInfo gameInfo){
+        int totalQuarter = Integer.parseInt(gameInfo.getTotalQuarter());
+        SQLiteDatabase db = getWritableDatabase();
+        for (Player mPlayer:gameInfo.getStartingPlayerList()){
+            for (int i = 0; i<totalQuarter; i++){
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_GAME_ID,"temp"); //TODO real game ID
+                contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_QUARTER,i+1);
+                contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER,mPlayer.getmNumber());
+                contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NAME,mPlayer.getmName());
+                db.insert(Constants.GameDataDBContract.TABLE_NAME,null,contentValues);
+            }
+        }
+        for (Player mPlayer:gameInfo.getSubstitutePlayerList()){
+            for (int i = 0; i<totalQuarter; i++){
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_GAME_ID,"temp"); //TODO real game ID
+                contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_QUARTER,i+1);
+                contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER,mPlayer.getmNumber());
+                contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NAME,mPlayer.getmName());
+                db.insert(Constants.GameDataDBContract.TABLE_NAME,null,contentValues);
+            }
+        }
     }
 }
