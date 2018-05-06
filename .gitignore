@@ -83,6 +83,7 @@ obj/
 .idea/sqlDataSources.xml
 .idea/dynamic.xml
 .idea/uiDesigner.xml
+.idea/dbnavigator.xml
 
 # OS-specific files
 .DS_Store
@@ -151,3 +152,4 @@ $RECYCLE.BIN/
 
 
 # End of https://www.gitignore.io/api/windows,androidstudio
+

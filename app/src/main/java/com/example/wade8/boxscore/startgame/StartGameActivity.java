@@ -26,6 +26,8 @@ public class StartGameActivity extends AppCompatActivity implements StartGameCon
     private final int PAGE_PLAYER = 1;
     private final int PAGE_DETAIL = 2;
 
+    private GameInfo mGameInfo;
+
     private Toolbar mToolbar;
     private TextView mStartGame;
     private ImageView mNextPage;
@@ -63,6 +65,8 @@ public class StartGameActivity extends AppCompatActivity implements StartGameCon
 
         setOnClickParameters();
         setToolbar();
+
+        mGameInfo = new GameInfo();
 
 //        mPresenter.set();
 
@@ -107,8 +111,9 @@ public class StartGameActivity extends AppCompatActivity implements StartGameCon
             public void onClick(View v) {
                 Log.d(TAG,"Game Start");
                 Intent intent = new Intent(StartGameActivity.this, GameBoxScoreActivity.class);
-                intent.putExtra("GameInfo", mPresenter.getSettingResult(new GameInfo()));
+                intent.putExtra("GameInfo", mPresenter.getSettingResult(new GameInfo()));//TODO GameInfo form real input
                 startActivity(intent);
+//                writeIntoDB();
                 StartGameActivity.this.finish();
             }
         });

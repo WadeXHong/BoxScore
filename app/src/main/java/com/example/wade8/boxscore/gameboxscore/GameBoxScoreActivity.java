@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import com.example.wade8.boxscore.BoxScorePresenter;
 import com.example.wade8.boxscore.R;
 import com.example.wade8.boxscore.ViewPagerFragmentAdapter;
+import com.example.wade8.boxscore.objects.GameInfo;
 
 public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxScoreContract.View{
 
@@ -24,6 +25,9 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
     private final int PAGE_DATASTATISTIC = 2;
     private final int[] mTab = {R.string.dataRecord,R.string.playerOnCourt,R.string.dataStatistic};
 
+
+    private GameInfo mGameInfo;
+
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
 
@@ -32,11 +36,24 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_box_score);
-
         mViewPager = findViewById(R.id.activity_gameboxscore_viewpager);
         mTabLayout = findViewById(R.id.activity_gameboxscore_tablelayout);
 
+        mGameInfo = (GameInfo) getIntent().getSerializableExtra("GameInfo");
+        logTestingGameInfo();
+
         init();
+    }
+
+    private void logTestingGameInfo() {
+        Log.d(TAG,"GameInfo mGameName : " + mGameInfo.getGameName());
+        Log.d(TAG,"GameInfo mOpponentName : " + mGameInfo.getOpponentName());
+        Log.d(TAG,"GameInfo mMaxFoul : " + mGameInfo.getMaxFoul());
+        Log.d(TAG,"GameInfo mTimeoutSecondHalf : " + mGameInfo.getTimeoutSecondHalf());
+        Log.d(TAG,"GameInfo mStartingPlayList : " + mGameInfo.getStartingPlayerList().get(0).getmName());
+        Log.d(TAG,"GameInfo mStartingPlayList : " + mGameInfo.getStartingPlayerList().get(0).getmNumber());
+        Log.d(TAG,"GameInfo mSubstitutePlayerList : " + mGameInfo.getSubstitutePlayerList().get(0).getmName());
+        Log.d(TAG,"GameInfo mSubstitutePlayerList : " + mGameInfo.getSubstitutePlayerList().get(0).getmNumber());
     }
 
     private void init() {
