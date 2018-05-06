@@ -2,6 +2,8 @@ package com.example.wade8.boxscore.dialogfragment;
 
 import android.util.Log;
 
+import com.example.wade8.boxscore.BoxScore;
+import com.example.wade8.boxscore.dbhelper.GameDataDbHelper;
 import com.example.wade8.boxscore.objects.Player;
 
 /**
@@ -28,6 +30,8 @@ public class PlayerSelectPresenter implements PlayerSelecterContract.Presenter {
     @Override
     public void EditDataInDB(Player player, int type) {
         //TODO write data into DB
+        GameDataDbHelper mGameDataDbHelper = BoxScore.getGameDataDbHelper();
+        mGameDataDbHelper.writeGameData(player,type);
         //TODO add to UNDOList
         String name = player.getmName();
         String number = player.getmNumber();

@@ -35,7 +35,7 @@ public class DataRecordPresenter implements DataRecordContract.Presenter{
         }else {
             PlayerSelectDialog dialog = PlayerSelectDialog.newInstance(type);
             PlayerSelectPresenter dialogPresenter = new PlayerSelectPresenter(dialog);
-            mDataRecordView.popPlayerSelectDialog(dialog,Constants.mSpareArray.get(type));
+            mDataRecordView.popPlayerSelectDialog(dialog,Constants.TITLE_SPARSE_ARRAY.get(type));
         }
 
     }
@@ -104,7 +104,7 @@ public class DataRecordPresenter implements DataRecordContract.Presenter{
         Log.d(TAG,"PressShotMade executed");
         PlayerSelectDialog dialog = PlayerSelectDialog.newInstance(type);
         PlayerSelectPresenter dialogPresenter = new PlayerSelectPresenter(dialog);
-        mDataRecordView.popPlayerSelectDialog(dialog,Constants.mSpareArray.get(type));
+        mDataRecordView.popPlayerSelectDialog(dialog,Constants.TITLE_SPARSE_ARRAY.get(type));
     }
 
     @Override
@@ -112,6 +112,6 @@ public class DataRecordPresenter implements DataRecordContract.Presenter{
         Log.d(TAG,"PressShotMade executed");
         PlayerSelectDialog dialog = PlayerSelectDialog.newInstance(type);
         PlayerSelectPresenter dialogPresenter = new PlayerSelectPresenter(dialog);
-        mDataRecordView.popPlayerSelectDialog(dialog,Constants.mSpareArray.get(type));
+        mDataRecordView.popPlayerSelectDialog(dialog,Constants.TITLE_SPARSE_ARRAY.get(type));
     }
 }

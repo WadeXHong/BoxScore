@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 public class Constants {
 
-    public static final SparseArray<Integer> mSpareArray = new SparseArray<Integer>(){
+    public static final SparseArray<Integer> TITLE_SPARSE_ARRAY = new SparseArray<Integer>(){
         {
             append(RecordDataType.TWO_POINT_SHOT,R.string.twoPointShot);
             append(RecordDataType.TWO_POINT_SHOT_MADE,R.string.twoPointShotMade);
@@ -31,6 +31,24 @@ public class Constants {
             append(RecordDataType.FOUL,R.string.foul);
             append(RecordDataType.TURNOVER,R.string.turnover);
 
+        }
+    };
+
+    public static final SparseArray<String> COLUMN_NAME_SPARSE_ARRAY = new SparseArray<String>(){
+        {
+            append(RecordDataType.TWO_POINT_SHOT_MADE,GameDataDBContract.COLUMN_NAME_FIELD_GOALS_MADE);
+            append(RecordDataType.TWO_POINT_SHOT_MISSED,GameDataDBContract.COLUMN_NAME_FIELD_GOALS_ATTEMTED);
+            append(RecordDataType.THREE_POINT_SHOT_MADE,GameDataDBContract.COLUMN_NAME_THREE_POINT_MADE);
+            append(RecordDataType.THREE_POINT_SHOT_MISSED,GameDataDBContract.COLUMN_NAME_THREE_POINT_ATTEMTED);
+            append(RecordDataType.FREE_THROW_SHOT_MADE,GameDataDBContract.COLUMN_NAME_FREE_THROW_MADE);
+            append(RecordDataType.FREE_THROW_SHOT_MISSED,GameDataDBContract.COLUMN_NAME_FREE_THROW_ATTEMTED);
+            append(RecordDataType.ASSIST,GameDataDBContract.COLUMN_NAME_ASSIST);
+            append(RecordDataType.OFFENSIVE_REBOUND,GameDataDBContract.COLUMN_NAME_OFFENSIVE_REBOUND);
+            append(RecordDataType.DEFENSIVE_REBOUND,GameDataDBContract.COLUMN_NAME_DEFENSIVE_REBOUND);
+            append(RecordDataType.STEAL,GameDataDBContract.COLUMN_NAME_STEAL);
+            append(RecordDataType.BLOCK,GameDataDBContract.COLUMN_NAME_BLOCK);
+            append(RecordDataType.FOUL,GameDataDBContract.COLUMN_NAME_PERSONAL_FOUL);
+            append(RecordDataType.TURNOVER,GameDataDBContract.COLUMN_NAME_TURNOVER);
         }
     };
 

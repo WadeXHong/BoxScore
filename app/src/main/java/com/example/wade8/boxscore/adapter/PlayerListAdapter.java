@@ -40,7 +40,7 @@ public class PlayerListAdapter extends RecyclerView.Adapter{
         fakeDataInit();
     }
 
-    private void fakeDataInit() {
+    private void fakeDataInit() { //TODO
         mStartingPlayerList = new ArrayList<>();
         mSubstitutePlayerList = new ArrayList<>();
         mUnregisteredPlayerList = new ArrayList<>();
@@ -49,6 +49,7 @@ public class PlayerListAdapter extends RecyclerView.Adapter{
             mUnregisteredPlayerList.add(new Player(i+"",x+""));
             x++;
         }
+        mUnregisteredPlayerList.add(new Player("87","洪偉軒"));
     }
 
 
