@@ -79,12 +79,16 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     public void start() {
         mGameBoxScoreView.setInitDataOnScreen(mTeamData);
         mGameInfo = mGameBoxScoreView.getGameInfo();
+        writeInitDataIntoModel();
     }
 
     @Override
-    public void writeInitDataIntoDataBase() {
+    public void writeInitDataIntoModel() {
         GameDataDbHelper mGameDataDbHelper = BoxScore.getGameDataDbHelper();
-        mGameDataDbHelper.writeInitDataIntoDataBase(mGameInfo);
+        mGameDataDbHelper.setGameInfo(mGameInfo);
+        mGameDataDbHelper.writeInitDataIntoGameInfo();
+        mGameDataDbHelper.writeInitDataIntoDataBase();
+
     }
 
     @Override

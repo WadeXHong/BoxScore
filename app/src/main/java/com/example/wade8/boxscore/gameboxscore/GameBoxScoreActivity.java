@@ -62,7 +62,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
         init();
         setOnClick();
 
-        mPresenter.writeInitDataIntoDataBase();
+//        mPresenter.writeInitDataIntoModel();
 
     }
 

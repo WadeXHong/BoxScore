@@ -1,5 +1,8 @@
 package com.example.wade8.boxscore.objects;
 
+import android.util.SparseArray;
+import android.util.SparseIntArray;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -19,6 +22,7 @@ public class GameInfo implements Serializable{
     private String mTimeoutSecondHalf;
     private ArrayList<Player> mStartingPlayerList;
     private ArrayList<Player> mSubstitutePlayerList;
+    private ArrayList<SparseArray<SparseIntArray>> mDetailData;
 
     public String getGameName() {
         return mGameName;

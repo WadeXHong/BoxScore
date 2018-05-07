@@ -25,7 +25,7 @@ public interface GameBoxScoreContract {
 
     interface Presenter extends BasePresenter{
 
-        void writeInitDataIntoDataBase();
+        void writeInitDataIntoModel();
 
         void pressYourTeamFoul(String foul);
 
