@@ -35,5 +35,7 @@ public interface GameBoxScoreContract {
 
         void pressOpponentTeamScore(String score);
 
+        GameInfo getGameInfo();
+
     }
 }

@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -57,6 +59,7 @@ public class DataRecordFragment extends Fragment implements DataRecordContract.V
 
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -76,65 +79,71 @@ public class DataRecordFragment extends Fragment implements DataRecordContract.V
         mTwoPoint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.PressTwoPoint();
+                mPresenter.pressTwoPoint();
             }
         });
         mThreePoint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.PressThreePoint();
+                mPresenter.pressThreePoint();
             }
         });
         mFreeThrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.PressFreeThrow();
+                mPresenter.pressFreeThrow();
             }
         });
         mAssist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.PressAssist();
+                mPresenter.pressAssist();
             }
         });
         mOffensiveRebound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.PressOffensiveRebound();
+                mPresenter.pressOffensiveRebound();
             }
         });
         mSteal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.PressSteal();
+                mPresenter.pressSteal();
             }
         });
         mBlock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.PressBlock();
+                mPresenter.pressBlock();
             }
         });
         mFoul.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.PressFoul();
+                mPresenter.pressFoul();
             }
         });
         mTurnover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.PressTurnover();
+                mPresenter.pressTurnover();
             }
         });
         mDefensiveRebound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.PressDefensiveRebound();
+                mPresenter.pressDefensiveRebound();
             }
         });
 
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mPresenter.start();
     }
 
     @Override
@@ -158,11 +167,11 @@ public class DataRecordFragment extends Fragment implements DataRecordContract.V
                           switch (which){
                               case 0:
                                   Log.d(TAG,"命中");
-                                  mPresenter.PressShotMade(type+1);
+                                  mPresenter.pressShotMade(type+1);
                                   break;
                               case 1:
                                   Log.d(TAG,"失手");
-                                  mPresenter.PressShotMissed(type+2);
+                                  mPresenter.pressShotMissed(type+2);
                                   break;
                           }
                       }

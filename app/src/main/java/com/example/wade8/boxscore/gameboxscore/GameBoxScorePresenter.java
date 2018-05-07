@@ -64,7 +64,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
         mDataRecordFragment = DataRecordFragment.newInstance();
         mDataStatisticFragment = DataStatisticFragment.newInstance();
         mPlayerOnCourtPresenter = new PlayerOnCourtPresenter(mPlayerOnCourtFragment);
-        mDataRecordPresenter = new DataRecordPresenter(mDataRecordFragment);
+        mDataRecordPresenter = new DataRecordPresenter(mDataRecordFragment,this);
         mDataStatisticPresenter = new DataStatisticPresenter(mDataStatisticFragment);
         mFragmentList = new ArrayList<>();
         mFragmentList.add(mDataRecordFragment);
@@ -92,6 +92,11 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
         Log.d(TAG,"Opponent Score +1");
         mTeamData.put(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE,Integer.parseInt(score)+1);
         mGameBoxScoreView.updateUiTeamData();
+    }
+
+    @Override
+    public GameInfo getGameInfo() {
+        return mGameInfo;
     }
 
 

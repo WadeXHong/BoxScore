@@ -61,8 +61,8 @@ public class PlayerSelectDialog extends android.support.v4.app.DialogFragment im
         super.onCreate(savedInstanceState);
         mType = getArguments().getInt("TYPE",-1);
         setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Translucent_NoTitleBar);
-
     }
+
 
     @Nullable
     @Override
@@ -112,6 +112,13 @@ public class PlayerSelectDialog extends android.support.v4.app.DialogFragment im
 
         return view;
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mPresenter.start();
+    }
+
 
     @Override
     public void onStart() {

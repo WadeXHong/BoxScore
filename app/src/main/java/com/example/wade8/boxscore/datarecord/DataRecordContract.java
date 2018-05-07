@@ -3,6 +3,7 @@ package com.example.wade8.boxscore.datarecord;
 import com.example.wade8.boxscore.BasePresenter;
 import com.example.wade8.boxscore.BaseView;
 import com.example.wade8.boxscore.dialogfragment.PlayerSelectDialog;
+import com.example.wade8.boxscore.objects.GameInfo;
 
 /**
  * Created by wade8 on 2018/5/3.
@@ -18,20 +19,19 @@ public interface DataRecordContract {
     }
 
     interface Presenter extends BasePresenter{
-        void PressTwoPoint();
-        void PressThreePoint();
-        void PressFreeThrow();
-        void PressAssist();
-        void PressOffensiveRebound();
-        void PressSteal();
-        void PressBlock();
-        void PressFoul();
-        void PressTurnover();
-        void PressDefensiveRebound();
-
-        void PressShotMade(int type);
-
-        void PressShotMissed(int type);
+        void pressTwoPoint();
+        void pressThreePoint();
+        void pressFreeThrow();
+        void pressAssist();
+        void pressOffensiveRebound();
+        void pressSteal();
+        void pressBlock();
+        void pressFoul();
+        void pressTurnover();
+        void pressDefensiveRebound();
+        void pressShotMade(int type);
+        void pressShotMissed(int type);
+        GameInfo getGameInfo();
     }
 
 }

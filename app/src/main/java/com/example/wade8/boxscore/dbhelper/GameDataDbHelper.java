@@ -82,7 +82,7 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
         }
     }
 
-    public void writeGameData(Player player ,int type){
+    public void writeGameData(GameInfo gameInfo, Player player, int type){
         ContentValues cv = new ContentValues();
         cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(type),2);//TODO value
         int result = getWritableDatabase().update(Constants.GameDataDBContract.TABLE_NAME,cv,
@@ -91,7 +91,6 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
                             Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER + " = ?",
                   new String[] {"temp","2","87"});
         Log.d(TAG,"result = "+result);
-
 
     }
 }
