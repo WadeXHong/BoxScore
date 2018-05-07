@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseArray;
+import android.util.SparseIntArray;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -30,7 +31,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
 
 
     private GameInfo mGameInfo;
-    private SparseArray<Integer> mTeamData;
+    private SparseIntArray mTeamData;
 
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
@@ -72,7 +73,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
             @Override
             public void onClick(View v) {
                 Log.d(TAG,"mOpponentTeamScore onClick");
-                mPresenter.pressOpponentTeamScore(mOpponentTeamScore.getText().toString());
+                mPresenter.pressOpponentTeamScore();
             }
         });
 
@@ -80,21 +81,21 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
             @Override
             public void onClick(View v) {
                 Log.d(TAG,"mYourTeamFoul onClick");
-                mPresenter.pressYourTeamFoul(mYourTeamFoul.getText().toString());
+                mPresenter.pressYourTeamFoul();
             }
         });
         mOpponentTeamfoul.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG,"mOpponentTeamFoul onClick");
-                mPresenter.pressOpponentTeamFoul(mOpponentTeamfoul.getText().toString());
+                mPresenter.pressOpponentTeamFoul();
             }
         });
         mQuarter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG,"mQuarter onClick");
-                mPresenter.pressQuarter(mQuarter.getText().toString());
+                mPresenter.pressQuarter();
             }
         });
         mUndo.setOnClickListener(new View.OnClickListener() {
@@ -149,7 +150,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
     }
 
     @Override
-    public void setInitDataOnScreen(SparseArray<Integer> teamData) {
+    public void setInitDataOnScreen(SparseIntArray teamData) {
         mTeamData = teamData;
         updateUiTeamData();
     }

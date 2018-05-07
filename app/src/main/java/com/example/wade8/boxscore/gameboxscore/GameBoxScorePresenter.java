@@ -3,6 +3,7 @@ package com.example.wade8.boxscore.gameboxscore;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.util.SparseArray;
+import android.util.SparseIntArray;
 
 import com.example.wade8.boxscore.BoxScore;
 import com.example.wade8.boxscore.Constants;
@@ -38,7 +39,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     private DataStatisticFragment mDataStatisticFragment;
     private DataStatisticPresenter mDataStatisticPresenter;
     private List<Fragment> mFragmentList;
-    private SparseArray<Integer> mTeamData;
+    private SparseIntArray mTeamData;
     private GameInfo mGameInfo;
 
 
@@ -51,12 +52,13 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     }
 
     private void initTeamData() {
-        mTeamData = new SparseArray<>();
+        mTeamData = new SparseIntArray();
         mTeamData.append(Constants.RecordDataType.YOUR_TEAM_TOTAL_SCORE,0);
         mTeamData.append(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE,0);
         mTeamData.append(Constants.RecordDataType.YOUR_TEAM_FOUL,0);
         mTeamData.append(Constants.RecordDataType.OPPONENT_TEAM_FOUL,0);
         mTeamData.append(Constants.RecordDataType.QUARTER,1);
+
     }
 
     private void setViewPager(){
@@ -79,6 +81,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     public void start() {
         mGameBoxScoreView.setInitDataOnScreen(mTeamData);
         mGameInfo = mGameBoxScoreView.getGameInfo();
+        mGameInfo.setTeamData(mTeamData);
         writeInitDataIntoModel();
     }
 
@@ -92,9 +95,9 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     }
 
     @Override
-    public void pressOpponentTeamScore(String score) {
+    public void pressOpponentTeamScore() {
         Log.d(TAG,"Opponent Score +1");
-        mTeamData.put(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE,Integer.parseInt(score)+1);
+        mTeamData.put(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE,mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE)+1);
         mGameBoxScoreView.updateUiTeamData();
     }
 
@@ -105,31 +108,31 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
 
 
     @Override
-    public void pressYourTeamFoul(String foul) {
-        if (foul.equals(mGameInfo.getMaxFoul())){
+    public void pressYourTeamFoul() {
+        if (mTeamData.get(Constants.RecordDataType.YOUR_TEAM_FOUL) == Integer.parseInt(mGameInfo.getMaxFoul())){
             Log.d(TAG,"TeamFoul is GG");
         }else{
-            mTeamData.put(Constants.RecordDataType.YOUR_TEAM_FOUL,Integer.parseInt(foul)+1);
+            mTeamData.put(Constants.RecordDataType.YOUR_TEAM_FOUL,mTeamData.get(Constants.RecordDataType.YOUR_TEAM_FOUL)+1);
             mGameBoxScoreView.updateUiTeamData();
         }
     }
 
     @Override
-    public void pressOpponentTeamFoul(String foul) {
-        if (foul.equals(mGameInfo.getMaxFoul())){
+    public void pressOpponentTeamFoul() {
+        if (mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_FOUL) == Integer.parseInt(mGameInfo.getMaxFoul())){
             Log.d(TAG,"TeamFoul is GG");
         }else{
-            mTeamData.put(Constants.RecordDataType.OPPONENT_TEAM_FOUL,Integer.parseInt(foul)+1);
+            mTeamData.put(Constants.RecordDataType.OPPONENT_TEAM_FOUL,mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_FOUL)+1);
             mGameBoxScoreView.updateUiTeamData();
         }
     }
 
     @Override
-    public void pressQuarter(String quarter) {
-        if (quarter.equals(mGameInfo.getTotalQuarter())){
+    public void pressQuarter() {
+        if (mTeamData.get(Constants.RecordDataType.QUARTER) == Integer.parseInt(mGameInfo.getTotalQuarter())){
             Log.d(TAG,"Quarter is already GG");
         }else{
-            mTeamData.put(Constants.RecordDataType.QUARTER,Integer.parseInt(quarter)+1);
+            mTeamData.put(Constants.RecordDataType.QUARTER,mTeamData.get(Constants.RecordDataType.QUARTER)+1);
             mGameBoxScoreView.updateUiTeamData();
         }
     }

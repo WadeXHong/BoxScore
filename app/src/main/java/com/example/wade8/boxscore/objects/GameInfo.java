@@ -23,6 +23,7 @@ public class GameInfo implements Serializable{
     private ArrayList<Player> mStartingPlayerList;
     private ArrayList<Player> mSubstitutePlayerList;
     private SparseArray<SparseArray<SparseIntArray>> mDetailData;
+    private SparseIntArray mTeamData;
 
     public String getGameName() {
         return mGameName;
@@ -133,5 +134,13 @@ public class GameInfo implements Serializable{
 
     public void setDetailData(SparseArray<SparseArray<SparseIntArray>> mDetailData) {
         this.mDetailData = mDetailData;
+    }
+
+    public SparseIntArray getTeamData() {
+        return mTeamData;
+    }
+
+    public void setTeamData(SparseIntArray mTeamData) {
+        this.mTeamData = mTeamData;
     }
 }

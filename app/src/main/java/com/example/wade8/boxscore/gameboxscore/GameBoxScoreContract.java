@@ -1,6 +1,7 @@
 package com.example.wade8.boxscore.gameboxscore;
 
 import android.util.SparseArray;
+import android.util.SparseIntArray;
 
 import com.example.wade8.boxscore.BasePresenter;
 import com.example.wade8.boxscore.BaseView;
@@ -16,7 +17,7 @@ public interface GameBoxScoreContract {
 
         void setViewPagerAdapter(ViewPagerFragmentAdapter mViewPagerFragmentAdapter);
 
-        void setInitDataOnScreen(SparseArray<Integer> mTeamData);
+        void setInitDataOnScreen(SparseIntArray mTeamData);
 
         void updateUiTeamData();
 
@@ -27,13 +28,13 @@ public interface GameBoxScoreContract {
 
         void writeInitDataIntoModel();
 
-        void pressYourTeamFoul(String foul);
+        void pressYourTeamFoul();
 
-        void pressOpponentTeamFoul(String foul);
+        void pressOpponentTeamFoul();
 
-        void pressQuarter(String quarter);
+        void pressQuarter();
 
-        void pressOpponentTeamScore(String score);
+        void pressOpponentTeamScore();
 
         GameInfo getGameInfo();
 

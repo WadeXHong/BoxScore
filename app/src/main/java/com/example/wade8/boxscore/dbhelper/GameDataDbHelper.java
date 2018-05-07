@@ -89,13 +89,22 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
     }
 
     public void writeGameData(GameInfo gameInfo, int position, int type){
+
+        int value = mGameInfo.getDetailData()
+                  .get(mGameInfo.getTeamData().get(Constants.RecordDataType.QUARTER))
+                  .get(Integer.parseInt(mGameInfo.getStartingPlayerList().get(position).getmNumber())).get(type);
+
+        mGameInfo.getDetailData()
+                  .get(mGameInfo.getTeamData().get(Constants.RecordDataType.QUARTER))
+                  .get(Integer.parseInt(mGameInfo.getStartingPlayerList().get(position).getmNumber())).put(type,value+1);
+
         ContentValues cv = new ContentValues();
-        cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(type),2);//TODO value
+        cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(type),value+1);//TODO value
         int result = getWritableDatabase().update(Constants.GameDataDBContract.TABLE_NAME,cv,
                   Constants.GameDataDBContract.COLUMN_NAME_GAME_ID+" = ? AND " +
                             Constants.GameDataDBContract.COLUMN_NAME_QUARTER + " = ? AND " +
                             Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER + " = ?",
-                  new String[] {"temp","2",gameInfo.getStartingPlayerList().get(position).getmNumber()});
+                  new String[] {"temp",String.valueOf(gameInfo.getTeamData().get(Constants.RecordDataType.QUARTER)),gameInfo.getStartingPlayerList().get(position).getmNumber()});
         Log.d(TAG,"result = "+result);
 
     }
