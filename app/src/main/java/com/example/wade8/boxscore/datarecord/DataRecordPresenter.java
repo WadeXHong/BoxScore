@@ -35,7 +35,7 @@ public class DataRecordPresenter implements DataRecordContract.Presenter{
     private void createPlayerSelectDialog(int type){
 
         mDataRecordView.enableAllButtons(false);
-        if (type == Constants.RecordDataType.TWO_POINT_SHOT || type == Constants.RecordDataType.THREE_POINT_SHOT){
+        if (type == Constants.RecordDataType.TWO_POINT_SHOT || type == Constants.RecordDataType.THREE_POINT_SHOT || type == Constants.RecordDataType.FREE_THROW_SHOT){
             mDataRecordView.popIsShotMadeDialog(type);
 
         }else {

@@ -3,9 +3,6 @@ package com.example.wade8.boxscore;
 import android.provider.BaseColumns;
 import android.util.SparseArray;
 
-import java.util.Collections;
-import java.util.HashMap;
-
 /**
  * Created by wade8 on 2018/5/5.
  */
@@ -37,11 +34,11 @@ public class Constants {
     public static final SparseArray<String> COLUMN_NAME_SPARSE_ARRAY = new SparseArray<String>(){
         {
             append(RecordDataType.TWO_POINT_SHOT_MADE,GameDataDBContract.COLUMN_NAME_FIELD_GOALS_MADE);
-            append(RecordDataType.TWO_POINT_SHOT_MISSED,GameDataDBContract.COLUMN_NAME_FIELD_GOALS_ATTEMTED);
+            append(RecordDataType.TWO_POINT_SHOT_MISSED,GameDataDBContract.COLUMN_NAME_FIELD_GOALS_ATTEMPTED);
             append(RecordDataType.THREE_POINT_SHOT_MADE,GameDataDBContract.COLUMN_NAME_THREE_POINT_MADE);
-            append(RecordDataType.THREE_POINT_SHOT_MISSED,GameDataDBContract.COLUMN_NAME_THREE_POINT_ATTEMTED);
+            append(RecordDataType.THREE_POINT_SHOT_MISSED,GameDataDBContract.COLUMN_NAME_THREE_POINT_ATTEMPTED);
             append(RecordDataType.FREE_THROW_SHOT_MADE,GameDataDBContract.COLUMN_NAME_FREE_THROW_MADE);
-            append(RecordDataType.FREE_THROW_SHOT_MISSED,GameDataDBContract.COLUMN_NAME_FREE_THROW_ATTEMTED);
+            append(RecordDataType.FREE_THROW_SHOT_MISSED,GameDataDBContract.COLUMN_NAME_FREE_THROW_ATTEMPTED);
             append(RecordDataType.ASSIST,GameDataDBContract.COLUMN_NAME_ASSIST);
             append(RecordDataType.OFFENSIVE_REBOUND,GameDataDBContract.COLUMN_NAME_OFFENSIVE_REBOUND);
             append(RecordDataType.DEFENSIVE_REBOUND,GameDataDBContract.COLUMN_NAME_DEFENSIVE_REBOUND);
@@ -107,11 +104,11 @@ public class Constants {
         public static final String COLUMN_NAME_PLAYER_NUMBER = "player_number";
         public static final String COLUMN_NAME_PLAYER_NAME = "player_name";
         public static final String COLUMN_NAME_FIELD_GOALS_MADE = "FGM";
-        public static final String COLUMN_NAME_FIELD_GOALS_ATTEMTED = "FGA";
+        public static final String COLUMN_NAME_FIELD_GOALS_ATTEMPTED = "FGA";
         public static final String COLUMN_NAME_THREE_POINT_MADE = "TPM";
-        public static final String COLUMN_NAME_THREE_POINT_ATTEMTED = "TGA";
+        public static final String COLUMN_NAME_THREE_POINT_ATTEMPTED = "TPA";
         public static final String COLUMN_NAME_FREE_THROW_MADE = "FTM";
-        public static final String COLUMN_NAME_FREE_THROW_ATTEMTED = "FTA";
+        public static final String COLUMN_NAME_FREE_THROW_ATTEMPTED = "FTA";
         public static final String COLUMN_NAME_ASSIST = "AST";
         public static final String COLUMN_NAME_STEAL = "STL";
         public static final String COLUMN_NAME_BLOCK = "BLK";

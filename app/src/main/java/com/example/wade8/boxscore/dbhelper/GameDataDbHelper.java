@@ -12,8 +12,6 @@ import com.example.wade8.boxscore.Constants;
 import com.example.wade8.boxscore.objects.GameInfo;
 import com.example.wade8.boxscore.objects.Player;
 
-import java.util.ArrayList;
-
 /**
  * Created by wade8 on 2018/5/6.
  */
@@ -32,11 +30,11 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
                         Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER + " TEXT, " +
                         Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NAME +" TEXT, " +
                         Constants.GameDataDBContract.COLUMN_NAME_FIELD_GOALS_MADE + " INTEGER DEFAULT 0, " +
-                        Constants.GameDataDBContract.COLUMN_NAME_FIELD_GOALS_ATTEMTED + " INTEGER DEFAULT 0, " +
+                        Constants.GameDataDBContract.COLUMN_NAME_FIELD_GOALS_ATTEMPTED + " INTEGER DEFAULT 0, " +
                         Constants.GameDataDBContract.COLUMN_NAME_THREE_POINT_MADE + " INTEGER DEFAULT 0, " +
-                        Constants.GameDataDBContract.COLUMN_NAME_THREE_POINT_ATTEMTED + " INTEGER DEFAULT 0, " +
+                        Constants.GameDataDBContract.COLUMN_NAME_THREE_POINT_ATTEMPTED + " INTEGER DEFAULT 0, " +
                         Constants.GameDataDBContract.COLUMN_NAME_FREE_THROW_MADE + " INTEGER DEFAULT 0, " +
-                        Constants.GameDataDBContract.COLUMN_NAME_FREE_THROW_ATTEMTED + " INTEGER DEFAULT 0, " +
+                        Constants.GameDataDBContract.COLUMN_NAME_FREE_THROW_ATTEMPTED + " INTEGER DEFAULT 0, " +
                         Constants.GameDataDBContract.COLUMN_NAME_ASSIST + " INTEGER DEFAULT 0, " +
                         Constants.GameDataDBContract.COLUMN_NAME_STEAL + " INTEGER DEFAULT 0, " +
                         Constants.GameDataDBContract.COLUMN_NAME_BLOCK + " INTEGER DEFAULT 0, " +
@@ -90,21 +88,53 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
 
     public void writeGameData(GameInfo gameInfo, int position, int type){
 
+        int quarter = mGameInfo.getTeamData().get(Constants.RecordDataType.QUARTER);
+        int playerNumber = Integer.parseInt(mGameInfo.getStartingPlayerList().get(position).getmNumber());
+        ContentValues cv = new ContentValues();
+
+        switch (type){
+            case Constants.RecordDataType.FREE_THROW_SHOT_MADE:
+                int FTAttend = mGameInfo.getDetailData()
+                          .get(quarter)
+                          .get(playerNumber)
+                          .get(Constants.RecordDataType.FREE_THROW_SHOT_MISSED);
+                mGameInfo.getDetailData().get(quarter).get(playerNumber).put(type+1,FTAttend+1);
+                cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(type+1),FTAttend+1);
+                break;
+
+            case Constants.RecordDataType.TWO_POINT_SHOT_MADE:
+                int FGAttend = mGameInfo.getDetailData()
+                          .get(quarter)
+                          .get(playerNumber)
+                          .get(Constants.RecordDataType.TWO_POINT_SHOT_MISSED);
+                mGameInfo.getDetailData().get(quarter).get(playerNumber).put(type+1,FGAttend+1);
+                cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(type+1),FGAttend+1);
+                break;
+
+            case Constants.RecordDataType.THREE_POINT_SHOT_MADE:
+                int TPAttend = mGameInfo.getDetailData()
+                          .get(quarter)
+                          .get(playerNumber)
+                          .get(Constants.RecordDataType.THREE_POINT_SHOT_MISSED);
+                mGameInfo.getDetailData().get(quarter).get(playerNumber).put(type+1,TPAttend+1);
+                cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(type+1),TPAttend+1);
+                break;
+
+        }
         int value = mGameInfo.getDetailData()
-                  .get(mGameInfo.getTeamData().get(Constants.RecordDataType.QUARTER))
-                  .get(Integer.parseInt(mGameInfo.getStartingPlayerList().get(position).getmNumber())).get(type);
+                  .get(quarter)
+                  .get(playerNumber).get(type);
 
         mGameInfo.getDetailData()
-                  .get(mGameInfo.getTeamData().get(Constants.RecordDataType.QUARTER))
-                  .get(Integer.parseInt(mGameInfo.getStartingPlayerList().get(position).getmNumber())).put(type,value+1);
+                  .get(quarter)
+                  .get(playerNumber).put(type,value+1);
 
-        ContentValues cv = new ContentValues();
         cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(type),value+1);//TODO value
         int result = getWritableDatabase().update(Constants.GameDataDBContract.TABLE_NAME,cv,
                   Constants.GameDataDBContract.COLUMN_NAME_GAME_ID+" = ? AND " +
                             Constants.GameDataDBContract.COLUMN_NAME_QUARTER + " = ? AND " +
                             Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER + " = ?",
-                  new String[] {"temp",String.valueOf(gameInfo.getTeamData().get(Constants.RecordDataType.QUARTER)),gameInfo.getStartingPlayerList().get(position).getmNumber()});
+                  new String[] {"temp",String.valueOf(quarter),String.valueOf(playerNumber)});
         Log.d(TAG,"result = "+result);
 
     }
