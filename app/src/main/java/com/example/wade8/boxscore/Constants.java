@@ -54,6 +54,18 @@ public class Constants {
 
 
     public class RecordDataType{
+        public static final int YOUR_TEAM_TOTAL_SCORE = 0xa1;
+        public static final int OPPONENT_TEAM_TOTAL_SCORE = 0xb1;
+        public static final int YOUR_TEAM_FOUL = 0xc1;
+        public static final int OPPONENT_TEAM_FOUL = 0xd1;
+        public static final int QUARTER = 0xe1;
+        public static final int MINUS_YOUR_TEAM_TOTAL_SCORE = 0xa2;
+        public static final int MINUS_OPPONENT_TEAM_TOTAL_SCORE = 0xb2;
+        public static final int MINUS_YOUR_TEAM_TEAM_FOUL = 0xc2;
+        public static final int MINUS_OPPONENT_TEAM_TOTAL_FOUL = 0xd2;
+        public static final int MINUS_QUARTER = 0xe2;
+
+
         public static final int TWO_POINT_SHOT = 0x01;
         public static final int TWO_POINT_SHOT_MADE = 0x02;
         public static final int TWO_POINT_SHOT_MISSED = 0x03;
