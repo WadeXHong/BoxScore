@@ -5,10 +5,14 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.util.SparseArray;
+import android.util.SparseIntArray;
 
 import com.example.wade8.boxscore.Constants;
 import com.example.wade8.boxscore.objects.GameInfo;
 import com.example.wade8.boxscore.objects.Player;
+
+import java.util.ArrayList;
 
 /**
  * Created by wade8 on 2018/5/6.
@@ -101,6 +105,65 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
     }
 
     public void writeInitDataIntoGameInfo() {
+
+        int totalQuarter = Integer.parseInt(mGameInfo.getTotalQuarter());
+
+        SparseArray<SparseArray<SparseIntArray>> mQuarterSparseArray = new SparseArray();
+
+        for (int i=0; i<totalQuarter;i++){
+
+            SparseArray<SparseIntArray> mPlayerSparseArray = new SparseArray<SparseIntArray>();
+
+            for (Player mPlayer:mGameInfo.getStartingPlayerList()){
+
+                SparseIntArray mDataSparseIntArray = new SparseIntArray();
+
+                mDataSparseIntArray.append(Constants.RecordDataType.TWO_POINT_SHOT_MADE, 0);
+                mDataSparseIntArray.append(Constants.RecordDataType.TWO_POINT_SHOT_MISSED, 0);
+                mDataSparseIntArray.append(Constants.RecordDataType.THREE_POINT_SHOT_MADE, 0);
+                mDataSparseIntArray.append(Constants.RecordDataType.THREE_POINT_SHOT_MISSED, 0);
+                mDataSparseIntArray.append(Constants.RecordDataType.FREE_THROW_SHOT_MADE, 0);
+                mDataSparseIntArray.append(Constants.RecordDataType.FREE_THROW_SHOT_MISSED, 0);
+                mDataSparseIntArray.append(Constants.RecordDataType.ASSIST, 0);
+                mDataSparseIntArray.append(Constants.RecordDataType.OFFENSIVE_REBOUND, 0);
+                mDataSparseIntArray.append(Constants.RecordDataType.DEFENSIVE_REBOUND, 0);
+                mDataSparseIntArray.append(Constants.RecordDataType.STEAL, 0);
+                mDataSparseIntArray.append(Constants.RecordDataType.BLOCK, 0);
+                mDataSparseIntArray.append(Constants.RecordDataType.FOUL, 0);
+                mDataSparseIntArray.append(Constants.RecordDataType.TURNOVER, 0);
+
+                int key =Integer.parseInt(mPlayer.getmNumber());
+
+                mPlayerSparseArray.put(key,mDataSparseIntArray);
+            }
+
+            for (Player mPlayer:mGameInfo.getSubstitutePlayerList()){
+
+                SparseIntArray mDataSparseIntArray = new SparseIntArray();
+
+                mDataSparseIntArray.append(Constants.RecordDataType.TWO_POINT_SHOT_MADE, 0);
+                mDataSparseIntArray.append(Constants.RecordDataType.TWO_POINT_SHOT_MISSED, 0);
+                mDataSparseIntArray.append(Constants.RecordDataType.THREE_POINT_SHOT_MADE, 0);
+                mDataSparseIntArray.append(Constants.RecordDataType.THREE_POINT_SHOT_MISSED, 0);
+                mDataSparseIntArray.append(Constants.RecordDataType.FREE_THROW_SHOT_MADE, 0);
+                mDataSparseIntArray.append(Constants.RecordDataType.FREE_THROW_SHOT_MISSED, 0);
+                mDataSparseIntArray.append(Constants.RecordDataType.ASSIST, 0);
+                mDataSparseIntArray.append(Constants.RecordDataType.OFFENSIVE_REBOUND, 0);
+                mDataSparseIntArray.append(Constants.RecordDataType.DEFENSIVE_REBOUND, 0);
+                mDataSparseIntArray.append(Constants.RecordDataType.STEAL, 0);
+                mDataSparseIntArray.append(Constants.RecordDataType.BLOCK, 0);
+                mDataSparseIntArray.append(Constants.RecordDataType.FOUL, 0);
+                mDataSparseIntArray.append(Constants.RecordDataType.TURNOVER, 0);
+
+                int key =Integer.parseInt(mPlayer.getmNumber());
+
+                mPlayerSparseArray.put(key,mDataSparseIntArray);
+            }
+
+            mQuarterSparseArray.append(i+1, mPlayerSparseArray);
+        }
+
+        mGameInfo.setDetailData(mQuarterSparseArray);
 
     }
 }

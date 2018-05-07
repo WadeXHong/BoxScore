@@ -22,7 +22,7 @@ public class GameInfo implements Serializable{
     private String mTimeoutSecondHalf;
     private ArrayList<Player> mStartingPlayerList;
     private ArrayList<Player> mSubstitutePlayerList;
-    private ArrayList<SparseArray<SparseIntArray>> mDetailData;
+    private SparseArray<SparseArray<SparseIntArray>> mDetailData;
 
     public String getGameName() {
         return mGameName;
@@ -127,5 +127,11 @@ public class GameInfo implements Serializable{
     }
 
 
+    public SparseArray<SparseArray<SparseIntArray>> getDetailData() {
+        return mDetailData;
+    }
 
+    public void setDetailData(SparseArray<SparseArray<SparseIntArray>> mDetailData) {
+        this.mDetailData = mDetailData;
+    }
 }
