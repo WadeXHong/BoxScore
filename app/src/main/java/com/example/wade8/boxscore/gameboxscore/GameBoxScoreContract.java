@@ -19,18 +19,21 @@ public interface GameBoxScoreContract {
         void setInitDataOnScreen(SparseArray<Integer> mTeamData);
 
         void updateUiTeamData();
+
+        GameInfo getGameInfo();
     }
 
     interface Presenter extends BasePresenter{
 
-        void writeInitDataIntoDataBase(GameInfo gameInfo);
+        void writeInitDataIntoDataBase();
 
-        void pressYourTeamFoul(String foul, GameInfo gameInfo);
+        void pressYourTeamFoul(String foul);
 
-        void pressOpponentTeamFoul(String foul, GameInfo gameInfo);
+        void pressOpponentTeamFoul(String foul);
 
-        void pressQuarter(String quarter, GameInfo gameInfo);
+        void pressQuarter(String quarter);
 
         void pressOpponentTeamScore(String score);
+
     }
 }

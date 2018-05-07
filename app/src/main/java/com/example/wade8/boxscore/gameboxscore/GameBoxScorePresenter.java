@@ -39,6 +39,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     private DataStatisticPresenter mDataStatisticPresenter;
     private List<Fragment> mFragmentList;
     private SparseArray<Integer> mTeamData;
+    private GameInfo mGameInfo;
 
 
     public GameBoxScorePresenter(GameBoxScoreContract.View mGameBoxScoreView, android.support.v4.app.FragmentManager manager) {
@@ -77,12 +78,13 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     @Override
     public void start() {
         mGameBoxScoreView.setInitDataOnScreen(mTeamData);
+        mGameInfo = mGameBoxScoreView.getGameInfo();
     }
 
     @Override
-    public void writeInitDataIntoDataBase(GameInfo gameInfo) {
+    public void writeInitDataIntoDataBase() {
         GameDataDbHelper mGameDataDbHelper = BoxScore.getGameDataDbHelper();
-        mGameDataDbHelper.writeInitDataIntoDataBase(gameInfo);
+        mGameDataDbHelper.writeInitDataIntoDataBase(mGameInfo);
     }
 
     @Override
@@ -92,9 +94,10 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
         mGameBoxScoreView.updateUiTeamData();
     }
 
+
     @Override
-    public void pressYourTeamFoul(String foul, GameInfo gameInfo) {
-        if (foul.equals(gameInfo.getMaxFoul())){
+    public void pressYourTeamFoul(String foul) {
+        if (foul.equals(mGameInfo.getMaxFoul())){
             Log.d(TAG,"TeamFoul is GG");
         }else{
             mTeamData.put(Constants.RecordDataType.YOUR_TEAM_FOUL,Integer.parseInt(foul)+1);
@@ -103,8 +106,8 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     }
 
     @Override
-    public void pressOpponentTeamFoul(String foul, GameInfo gameInfo) {
-        if (foul.equals(gameInfo.getMaxFoul())){
+    public void pressOpponentTeamFoul(String foul) {
+        if (foul.equals(mGameInfo.getMaxFoul())){
             Log.d(TAG,"TeamFoul is GG");
         }else{
             mTeamData.put(Constants.RecordDataType.OPPONENT_TEAM_FOUL,Integer.parseInt(foul)+1);
@@ -113,8 +116,8 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     }
 
     @Override
-    public void pressQuarter(String quarter, GameInfo gameInfo) {
-        if (quarter.equals(gameInfo.getTotalQuarter())){
+    public void pressQuarter(String quarter) {
+        if (quarter.equals(mGameInfo.getTotalQuarter())){
             Log.d(TAG,"Quarter is already GG");
         }else{
             mTeamData.put(Constants.RecordDataType.QUARTER,Integer.parseInt(quarter)+1);

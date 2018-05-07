@@ -62,7 +62,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
         init();
         setOnClick();
 
-        mPresenter.writeInitDataIntoDataBase(mGameInfo);
+        mPresenter.writeInitDataIntoDataBase();
 
     }
 
@@ -80,21 +80,21 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
             @Override
             public void onClick(View v) {
                 Log.d(TAG,"mYourTeamFoul onClick");
-                mPresenter.pressYourTeamFoul(mYourTeamFoul.getText().toString(),mGameInfo);
+                mPresenter.pressYourTeamFoul(mYourTeamFoul.getText().toString());
             }
         });
         mOpponentTeamfoul.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG,"mOpponentTeamFoul onClick");
-                mPresenter.pressOpponentTeamFoul(mOpponentTeamfoul.getText().toString(),mGameInfo);
+                mPresenter.pressOpponentTeamFoul(mOpponentTeamfoul.getText().toString());
             }
         });
         mQuarter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG,"mQuarter onClick");
-                mPresenter.pressQuarter(mQuarter.getText().toString(),mGameInfo);
+                mPresenter.pressQuarter(mQuarter.getText().toString());
             }
         });
         mUndo.setOnClickListener(new View.OnClickListener() {
@@ -161,6 +161,11 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
         mYourTeamFoul.setText(String.valueOf(mTeamData.get(Constants.RecordDataType.YOUR_TEAM_FOUL)));
         mOpponentTeamfoul.setText(String.valueOf(mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_FOUL)));
         mQuarter.setText(String.valueOf(mTeamData.get(Constants.RecordDataType.QUARTER)));
+    }
+
+    @Override
+    public GameInfo getGameInfo() {
+        return mGameInfo;
     }
 
     private void setTabInTabLayout() {
