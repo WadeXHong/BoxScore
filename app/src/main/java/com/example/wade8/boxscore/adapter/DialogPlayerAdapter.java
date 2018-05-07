@@ -2,15 +2,13 @@ package com.example.wade8.boxscore.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.wade8.boxscore.R;
-import com.example.wade8.boxscore.datarecord.DataRecordContract;
-import com.example.wade8.boxscore.dialogfragment.PlayerSelecterContract;
+import com.example.wade8.boxscore.dialogfragment.PlayerSelectorContract;
 import com.example.wade8.boxscore.objects.Player;
 
 import java.io.ByteArrayInputStream;
@@ -26,14 +24,14 @@ import java.util.ArrayList;
 
 public class DialogPlayerAdapter extends RecyclerView.Adapter {
 
-    private PlayerSelecterContract.Presenter mPresenter;
+    private PlayerSelectorContract.Presenter mPresenter;
     private ArrayList<Player> mPlayerArrayList;
     private int mType;
 
 
-    public DialogPlayerAdapter(PlayerSelecterContract.Presenter presenter,ArrayList<Player> originalList,int type) {
+    public DialogPlayerAdapter(PlayerSelectorContract.Presenter presenter, int type) {
         mPresenter = presenter;
-        mPlayerArrayList = deepClonePlayerList(originalList);
+        mPlayerArrayList = deepClonePlayerList(mPresenter.getPlayerOnCourt());
         mType = type;
     }
 
@@ -50,8 +48,7 @@ public class DialogPlayerAdapter extends RecyclerView.Adapter {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    getLayoutPosition();
-                    mPresenter.EditDataInDB(mPlayerArrayList.get(getLayoutPosition()),mType);
+                    mPresenter.editDataInDB(getLayoutPosition(),mType);
                 }
             });
         }

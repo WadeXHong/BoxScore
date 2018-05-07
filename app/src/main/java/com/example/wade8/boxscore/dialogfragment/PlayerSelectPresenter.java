@@ -8,20 +8,22 @@ import com.example.wade8.boxscore.dbhelper.GameDataDbHelper;
 import com.example.wade8.boxscore.objects.GameInfo;
 import com.example.wade8.boxscore.objects.Player;
 
+import java.util.ArrayList;
+
 /**
  * Created by wade8 on 2018/5/4.
  */
 
-public class PlayerSelectPresenter implements PlayerSelecterContract.Presenter {
+public class PlayerSelectPresenter implements PlayerSelectorContract.Presenter {
 
     private static final String TAG = PlayerSelectPresenter.class.getSimpleName();
 
-    private final PlayerSelecterContract.View mPlayerSelectView;
+    private final PlayerSelectorContract.View mPlayerSelectView;
     private final DataRecordContract.Presenter mDataRecordContract;
 
     private GameInfo mGameInfo;
 
-    public PlayerSelectPresenter(PlayerSelecterContract.View mPlayerSelectView , DataRecordContract.Presenter mDataRecordContract) {
+    public PlayerSelectPresenter(PlayerSelectorContract.View mPlayerSelectView , DataRecordContract.Presenter mDataRecordContract) {
         this.mPlayerSelectView = mPlayerSelectView;
         mPlayerSelectView.setPresenter(this);
         this.mDataRecordContract = mDataRecordContract;
@@ -34,15 +36,20 @@ public class PlayerSelectPresenter implements PlayerSelecterContract.Presenter {
     }
 
     @Override
-    public void EditDataInDB(Player player, int type) {
+    public void editDataInDB(int position, int type) {
         //TODO write data into DB
         GameDataDbHelper mGameDataDbHelper = BoxScore.getGameDataDbHelper();
-        mGameDataDbHelper.writeGameData(mGameInfo,player,type);
+        mGameDataDbHelper.writeGameData(mGameInfo,position,type);
         //TODO add to UNDOList
-        String name = player.getmName();
-        String number = player.getmNumber();
+        String name = mGameInfo.getStartingPlayerList().get(position).getmName();
+        String number =mGameInfo.getStartingPlayerList().get(position).getmNumber();
         Log.d(TAG,"number " + number +" " + name + " " + type +" + 1");
 
         mPlayerSelectView.dismiss();
+    }
+
+    @Override
+    public ArrayList<Player> getPlayerOnCourt() {
+        return mGameInfo.getStartingPlayerList();
     }
 }

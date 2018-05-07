@@ -82,14 +82,14 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
         }
     }
 
-    public void writeGameData(GameInfo gameInfo, Player player, int type){
+    public void writeGameData(GameInfo gameInfo, int position, int type){
         ContentValues cv = new ContentValues();
         cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(type),2);//TODO value
         int result = getWritableDatabase().update(Constants.GameDataDBContract.TABLE_NAME,cv,
                   Constants.GameDataDBContract.COLUMN_NAME_GAME_ID+" = ? AND " +
                             Constants.GameDataDBContract.COLUMN_NAME_QUARTER + " = ? AND " +
                             Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER + " = ?",
-                  new String[] {"temp","2","87"});
+                  new String[] {"temp","2",gameInfo.getStartingPlayerList().get(position).getmNumber()});
         Log.d(TAG,"result = "+result);
 
     }

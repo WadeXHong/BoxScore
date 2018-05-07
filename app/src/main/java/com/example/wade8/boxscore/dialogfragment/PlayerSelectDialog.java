@@ -2,9 +2,6 @@ package com.example.wade8.boxscore.dialogfragment;
 
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,8 +19,6 @@ import android.widget.TextView;
 
 import com.example.wade8.boxscore.R;
 import com.example.wade8.boxscore.adapter.DialogPlayerAdapter;
-import com.example.wade8.boxscore.adapter.PlayerListAdapter;
-import com.example.wade8.boxscore.datarecord.DataRecordContract;
 import com.example.wade8.boxscore.datarecord.DataRecordFragment;
 import com.example.wade8.boxscore.objects.Player;
 
@@ -33,11 +28,11 @@ import java.util.ArrayList;
  * Created by wade8 on 2018/5/4.
  */
 
-public class PlayerSelectDialog extends android.support.v4.app.DialogFragment implements PlayerSelecterContract.View {
+public class PlayerSelectDialog extends android.support.v4.app.DialogFragment implements PlayerSelectorContract.View {
 
     private static final String TAG = PlayerSelectDialog.class.getSimpleName();
 
-    private PlayerSelecterContract.Presenter mPresenter;
+    private PlayerSelectorContract.Presenter mPresenter;
 
     private ConstraintLayout mParentLayout;
     private LinearLayout mInnerLayout;
@@ -61,6 +56,7 @@ public class PlayerSelectDialog extends android.support.v4.app.DialogFragment im
         super.onCreate(savedInstanceState);
         mType = getArguments().getInt("TYPE",-1);
         setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Translucent_NoTitleBar);
+        mPresenter.start();
     }
 
 
@@ -77,14 +73,14 @@ public class PlayerSelectDialog extends android.support.v4.app.DialogFragment im
         mPlayerRecyclerView = view.findViewById(R.id.dialogfragment_playerselect_recyclerview);
         mTitle.setText(getTag());
         //FAKEFAKE
-        ArrayList<Player> mList = new ArrayList<>();
-        mList.add(new Player("87","洪偉軒"));
-        mList.add(new Player("89","洪偉軒"));
-        mList.add(new Player("90","洪偉軒"));
-        mList.add(new Player("91","洪偉軒"));
-        mList.add(new Player("92","洪偉軒"));
+//        ArrayList<Player> mList = new ArrayList<>();
+//        mList.add(new Player("87","洪偉軒"));
+//        mList.add(new Player("89","洪偉軒"));
+//        mList.add(new Player("90","洪偉軒"));
+//        mList.add(new Player("91","洪偉軒"));
+//        mList.add(new Player("92","洪偉軒"));
         //FAKEFAKE
-        mAdapter = new DialogPlayerAdapter(mPresenter,mList,mType);
+        mAdapter = new DialogPlayerAdapter(mPresenter,mType);
         mPlayerRecyclerView.setAdapter(mAdapter);
         mPlayerRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -116,7 +112,6 @@ public class PlayerSelectDialog extends android.support.v4.app.DialogFragment im
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mPresenter.start();
     }
 
 
@@ -138,7 +133,7 @@ public class PlayerSelectDialog extends android.support.v4.app.DialogFragment im
     }
 
     @Override
-    public void setPresenter(PlayerSelecterContract.Presenter presenter) {
+    public void setPresenter(PlayerSelectorContract.Presenter presenter) {
         mPresenter = presenter;
     }
 }
