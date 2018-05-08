@@ -37,13 +37,14 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
                         Constants.GameDataDBContract.COLUMN_NAME_THREE_POINT_ATTEMPTED + " INTEGER DEFAULT 0, " +
                         Constants.GameDataDBContract.COLUMN_NAME_FREE_THROW_MADE + " INTEGER DEFAULT 0, " +
                         Constants.GameDataDBContract.COLUMN_NAME_FREE_THROW_ATTEMPTED + " INTEGER DEFAULT 0, " +
+                        Constants.GameDataDBContract.COLUMN_NAME_OFFENSIVE_REBOUND + " INTEGER DEFAULT 0, " +
+                        Constants.GameDataDBContract.COLUMN_NAME_DEFENSIVE_REBOUND + " INTEGER DEFAULT 0, " +
                         Constants.GameDataDBContract.COLUMN_NAME_ASSIST + " INTEGER DEFAULT 0, " +
                         Constants.GameDataDBContract.COLUMN_NAME_STEAL + " INTEGER DEFAULT 0, " +
                         Constants.GameDataDBContract.COLUMN_NAME_BLOCK + " INTEGER DEFAULT 0, " +
-                        Constants.GameDataDBContract.COLUMN_NAME_TURNOVER + " INTEGER DEFAULT 0, " +
                         Constants.GameDataDBContract.COLUMN_NAME_PERSONAL_FOUL + " INTEGER DEFAULT 0, " +
-                        Constants.GameDataDBContract.COLUMN_NAME_OFFENSIVE_REBOUND + " INTEGER DEFAULT 0, " +
-                        Constants.GameDataDBContract.COLUMN_NAME_DEFENSIVE_REBOUND + " INTEGER DEFAULT 0" + ");";
+                        Constants.GameDataDBContract.COLUMN_NAME_TURNOVER + " INTEGER DEFAULT 0" +");";
+
 
     private GameInfo mGameInfo;
 
@@ -245,14 +246,13 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
                             "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_THREE_POINT_ATTEMPTED + ")",
                             "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_FREE_THROW_MADE + ")",
                             "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_FREE_THROW_ATTEMPTED + ")",
+                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_OFFENSIVE_REBOUND + ")",
+                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_DEFENSIVE_REBOUND + ")",
                             "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_ASSIST + ")",
                             "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_STEAL + ")",
                             "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_BLOCK + ")",
-                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_TURNOVER + ")",
                             "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_PERSONAL_FOUL + ")",
-                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_OFFENSIVE_REBOUND + ")",
-                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_DEFENSIVE_REBOUND + ")",
-                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_PERSONAL_FOUL + ")"
+                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_TURNOVER + ")"
                   },
                   Constants.GameDataDBContract.COLUMN_NAME_GAME_ID+" = ?",
                   new String[]{"temp"}, //TODO dynamic gameid  shoulb be mGameInfo.getId

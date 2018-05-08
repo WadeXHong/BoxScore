@@ -21,9 +21,9 @@ public class Constants {
             append(RecordDataType.FREE_THROW_SHOT,R.string.freeThrowShot);
             append(RecordDataType.FREE_THROW_SHOT_MADE,R.string.freeThrowShotMade);
             append(RecordDataType.FREE_THROW_SHOT_MISSED,R.string.freeThrowShotMiss);
-            append(RecordDataType.ASSIST,R.string.assist);
             append(RecordDataType.OFFENSIVE_REBOUND,R.string.offensiveRebound);
             append(RecordDataType.DEFENSIVE_REBOUND,R.string.defensiveRebound);
+            append(RecordDataType.ASSIST,R.string.assist);
             append(RecordDataType.STEAL,R.string.steal);
             append(RecordDataType.BLOCK,R.string.block);
             append(RecordDataType.FOUL,R.string.foul);
@@ -41,9 +41,9 @@ public class Constants {
             append(RecordDataType.THREE_POINT_SHOT_MISSED,GameDataDBContract.COLUMN_NAME_THREE_POINT_ATTEMPTED);
             append(RecordDataType.FREE_THROW_SHOT_MADE,GameDataDBContract.COLUMN_NAME_FREE_THROW_MADE);
             append(RecordDataType.FREE_THROW_SHOT_MISSED,GameDataDBContract.COLUMN_NAME_FREE_THROW_ATTEMPTED);
-            append(RecordDataType.ASSIST,GameDataDBContract.COLUMN_NAME_ASSIST);
             append(RecordDataType.OFFENSIVE_REBOUND,GameDataDBContract.COLUMN_NAME_OFFENSIVE_REBOUND);
             append(RecordDataType.DEFENSIVE_REBOUND,GameDataDBContract.COLUMN_NAME_DEFENSIVE_REBOUND);
+            append(RecordDataType.ASSIST,GameDataDBContract.COLUMN_NAME_ASSIST);
             append(RecordDataType.STEAL,GameDataDBContract.COLUMN_NAME_STEAL);
             append(RecordDataType.BLOCK,GameDataDBContract.COLUMN_NAME_BLOCK);
             append(RecordDataType.FOUL,GameDataDBContract.COLUMN_NAME_PERSONAL_FOUL);
@@ -76,9 +76,9 @@ public class Constants {
         public static final int FREE_THROW_SHOT = 0x21;
         public static final int FREE_THROW_SHOT_MADE = 0x22;
         public static final int FREE_THROW_SHOT_MISSED = 0x23;
-        public static final int ASSIST = 0x31;
-        public static final int OFFENSIVE_REBOUND = 0x41;
-        public static final int DEFENSIVE_REBOUND = 0x51;
+        public static final int OFFENSIVE_REBOUND = 0x31;
+        public static final int DEFENSIVE_REBOUND = 0x41;
+        public static final int ASSIST = 0x51;
         public static final int STEAL = 0x61;
         public static final int BLOCK = 0x71;
         public static final int FOUL= 0x81;
@@ -90,9 +90,9 @@ public class Constants {
         public static final int MINUS_THREE_POINT_GOAL= 0x15;
         public static final int MINUS_FREE_THROW_MISSED = 0x24;
         public static final int MINUS_FREE_THROW_= 0x25;
-        public static final int MINUS_ASSIST = 0x32;
-        public static final int MINUS_OFFENSIVE_REBOUND = 0x42;
-        public static final int MINUS_DEFENSIVE_REBOUND = 0x52;
+        public static final int MINUS_OFFENSIVE_REBOUND = 0x32;
+        public static final int MINUS_DEFENSIVE_REBOUND = 0x42;
+        public static final int MINUS_ASSIST = 0x52;
         public static final int MINUS_STEAL = 0x62;
         public static final int MINUS_BLOCK = 0x72;
         public static final int MINUS_FOUL= 0x82;
@@ -114,13 +114,13 @@ public class Constants {
         public static final String COLUMN_NAME_THREE_POINT_ATTEMPTED = "TPA";
         public static final String COLUMN_NAME_FREE_THROW_MADE = "FTM";
         public static final String COLUMN_NAME_FREE_THROW_ATTEMPTED = "FTA";
+        public static final String COLUMN_NAME_OFFENSIVE_REBOUND = "OREB";
+        public static final String COLUMN_NAME_DEFENSIVE_REBOUND = "DREB";
         public static final String COLUMN_NAME_ASSIST = "AST";
         public static final String COLUMN_NAME_STEAL = "STL";
         public static final String COLUMN_NAME_BLOCK = "BLK";
-        public static final String COLUMN_NAME_TURNOVER = "TOV";
         public static final String COLUMN_NAME_PERSONAL_FOUL= "PF";
-        public static final String COLUMN_NAME_OFFENSIVE_REBOUND = "OREB";
-        public static final String COLUMN_NAME_DEFENSIVE_REBOUND = "DREB";
+        public static final String COLUMN_NAME_TURNOVER = "TOV";
     }
 
 
