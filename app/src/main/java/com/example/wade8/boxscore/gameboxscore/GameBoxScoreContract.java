@@ -6,6 +6,7 @@ import android.util.SparseIntArray;
 import com.example.wade8.boxscore.BasePresenter;
 import com.example.wade8.boxscore.BaseView;
 import com.example.wade8.boxscore.ViewPagerFragmentAdapter;
+import com.example.wade8.boxscore.dialogfragment.datastatistic.DataStatisticDialog;
 import com.example.wade8.boxscore.objects.GameInfo;
 
 /**
@@ -22,6 +23,8 @@ public interface GameBoxScoreContract {
         void updateUiTeamData();
 
         GameInfo getGameInfo();
+
+        void popDataStatisticDialog(DataStatisticDialog dialog);
     }
 
     interface Presenter extends BasePresenter{
@@ -38,5 +41,6 @@ public interface GameBoxScoreContract {
 
         GameInfo getGameInfo();
 
+        void pressDataStatistic();
     }
 }

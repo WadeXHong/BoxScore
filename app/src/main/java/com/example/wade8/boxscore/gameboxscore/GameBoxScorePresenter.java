@@ -8,11 +8,14 @@ import android.util.SparseIntArray;
 import com.example.wade8.boxscore.BoxScore;
 import com.example.wade8.boxscore.Constants;
 import com.example.wade8.boxscore.ViewPagerFragmentAdapter;
+import com.example.wade8.boxscore.datarecord.DataRecordContract;
 import com.example.wade8.boxscore.datarecord.DataRecordFragment;
 import com.example.wade8.boxscore.datarecord.DataRecordPresenter;
 import com.example.wade8.boxscore.datastatistic.DataStatisticFragment;
 import com.example.wade8.boxscore.datastatistic.DataStatisticPresenter;
 import com.example.wade8.boxscore.dbhelper.GameDataDbHelper;
+import com.example.wade8.boxscore.dialogfragment.datastatistic.DataStatisticDialog;
+import com.example.wade8.boxscore.dialogfragment.datastatistic.DataStatisticDialogPresenter;
 import com.example.wade8.boxscore.objects.GameInfo;
 import com.example.wade8.boxscore.playeroncourt.PlayerOnCourtFragment;
 import com.example.wade8.boxscore.playeroncourt.PlayerOnCourtPresenter;
@@ -104,6 +107,13 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     @Override
     public GameInfo getGameInfo() {
         return mGameInfo;
+    }
+
+    @Override
+    public void pressDataStatistic() {
+        DataStatisticDialog dialog = DataStatisticDialog.newInstance();
+        DataStatisticDialogPresenter dialogPresenter = new DataStatisticDialogPresenter(dialog);
+        mGameBoxScoreView.popDataStatisticDialog(dialog);
     }
 
 
