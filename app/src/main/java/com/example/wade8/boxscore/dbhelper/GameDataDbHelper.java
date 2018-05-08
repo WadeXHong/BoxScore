@@ -95,9 +95,12 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
         int playerNumber = Integer.parseInt(mGameInfo.getStartingPlayerList().get(position).getmNumber());
         ContentValues cv = new ContentValues();
         int points = 0;
+        int FTAttend = 0;
+        int FGAttend = 0;
+        int TPAttend = 0;
         switch (type){
             case Constants.RecordDataType.FREE_THROW_SHOT_MADE:
-                int FTAttend = mGameInfo.getDetailData()
+                FTAttend = mGameInfo.getDetailData()
                           .get(quarter)
                           .get(playerNumber)
                           .get(Constants.RecordDataType.FREE_THROW_SHOT_MISSED);
@@ -112,7 +115,7 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
                 break;
 
             case Constants.RecordDataType.TWO_POINT_SHOT_MADE:
-                int FGAttend = mGameInfo.getDetailData()
+                FGAttend = mGameInfo.getDetailData()
                           .get(quarter)
                           .get(playerNumber)
                           .get(Constants.RecordDataType.TWO_POINT_SHOT_MISSED);
@@ -120,24 +123,47 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
                           .get(quarter)
                           .get(playerNumber)
                           .get(Constants.RecordDataType.POINTS);
-                mGameInfo.getDetailData().get(quarter).get(playerNumber).put(type+1,FGAttend+1);
+                mGameInfo.getDetailData().get(quarter).get(playerNumber).put(Constants.RecordDataType.TWO_POINT_SHOT_MISSED,FGAttend+1);
                 mGameInfo.getDetailData().get(quarter).get(playerNumber).put(0,points+2); //point key = 0;
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(type+1),FGAttend+1);
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(0),points+2);
-
                 break;
 
+            case Constants.RecordDataType.THREE_POINT_SHOT_MISSED:
+                FGAttend = mGameInfo.getDetailData()
+                          .get(quarter)
+                          .get(playerNumber)
+                          .get(Constants.RecordDataType.TWO_POINT_SHOT_MISSED);
+                mGameInfo.getDetailData().get(quarter).get(playerNumber).put(Constants.RecordDataType.TWO_POINT_SHOT_MISSED,FGAttend+1);
+                cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(Constants.RecordDataType.TWO_POINT_SHOT_MISSED),FGAttend+1);
+                break;
+
+
             case Constants.RecordDataType.THREE_POINT_SHOT_MADE:
-                int TPAttend = mGameInfo.getDetailData()
+                int FGMade = mGameInfo.getDetailData()
+                          .get(quarter)
+                          .get(playerNumber)
+                          .get(Constants.RecordDataType.TWO_POINT_SHOT_MADE);
+                TPAttend = mGameInfo.getDetailData()
                           .get(quarter)
                           .get(playerNumber)
                           .get(Constants.RecordDataType.THREE_POINT_SHOT_MISSED);
+                FGAttend = mGameInfo.getDetailData()
+                          .get(quarter)
+                          .get(playerNumber)
+                          .get(Constants.RecordDataType.TWO_POINT_SHOT_MISSED);
                 points = mGameInfo.getDetailData()
                           .get(quarter)
                           .get(playerNumber)
                           .get(Constants.RecordDataType.POINTS);
+
+                mGameInfo.getDetailData().get(quarter).get(playerNumber).put(Constants.RecordDataType.TWO_POINT_SHOT_MADE,FGMade+1);
+                mGameInfo.getDetailData().get(quarter).get(playerNumber).put(Constants.RecordDataType.TWO_POINT_SHOT_MISSED,FGAttend+1);
                 mGameInfo.getDetailData().get(quarter).get(playerNumber).put(type+1,TPAttend+1);
                 mGameInfo.getDetailData().get(quarter).get(playerNumber).put(0,points+3); //point key = 0;
+
+                cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(Constants.RecordDataType.TWO_POINT_SHOT_MADE),FGMade+1);
+                cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(Constants.RecordDataType.TWO_POINT_SHOT_MISSED),FGAttend+1);
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(type+1),TPAttend+1);
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(0),points+3);
                 break;
