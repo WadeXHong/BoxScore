@@ -2,6 +2,7 @@ package com.example.wade8.boxscore.dbhelper;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -203,6 +204,37 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
         }
 
         mGameInfo.setDetailData(mQuarterSparseArray);
+
+    }
+
+    public void getGameStatic(){
+
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.query(Constants.GameDataDBContract.TABLE_NAME,
+                  new String[]{
+                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_GAME_ID + ")",
+                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_QUARTER + ")",
+                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER + ")",
+                            Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NAME,
+                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_FIELD_GOALS_MADE + ")",
+                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_FIELD_GOALS_ATTEMPTED + ")",
+                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_THREE_POINT_MADE + ")",
+                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_THREE_POINT_ATTEMPTED + ")",
+                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_FREE_THROW_MADE + ")",
+                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_FREE_THROW_ATTEMPTED + ")",
+                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_ASSIST + ")",
+                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_STEAL + ")",
+                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_BLOCK + ")",
+                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_TURNOVER + ")",
+                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_PERSONAL_FOUL + ")",
+                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_OFFENSIVE_REBOUND + ")",
+                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_DEFENSIVE_REBOUND + ")",
+                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_PERSONAL_FOUL + ")"
+                  },
+                  Constants.GameDataDBContract.COLUMN_NAME_GAME_ID+" = ?",
+                  new String[]{"temp"}, //TODO dynamic gameid  shoulb be mGameInfo.getId
+                  Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER,null, Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER);
+
 
     }
 }

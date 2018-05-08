@@ -2,12 +2,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.wade8.boxscore.datastatistic.DataStatisticFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.cleveroad.adaptivetablelayout.AdaptiveTableLayout
+        android:id="@+id/fragment_data_statistic_tablelayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:text="@string/hello_blank_fragment"
+        app:cellMargin="1dp"
+        app:fixedHeaders="true"
+        app:solidRowHeaders="true"
+        app:dragAndDropEnabled="false"/>
 
 </FrameLayout>
