@@ -89,27 +89,27 @@ public class DataStatisticAdapter extends LinkedAdaptiveTableAdapter<ViewHolderI
 
     @Override
     public void onBindLeftTopHeaderViewHolder(@NonNull ViewHolderImpl viewHolder) {
-
+        ((ViewHolder)viewHolder).mTextView.setText(R.string.name);
     }
 
     @Override
     public int getColumnWidth(int column) {
-        return 300;
+        return 125;
     }
 
     @Override
     public int getHeaderColumnHeight() {
-        return 300;
+        return 75;
     }
 
     @Override
     public int getRowHeight(int row) {
-        return 300;
+        return 100;
     }
 
     @Override
     public int getHeaderRowWidth() {
-        return 300;
+        return 200;
     }
 
 

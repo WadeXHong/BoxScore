@@ -11,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.cleveroad.adaptivetablelayout.AdaptiveTableLayout;
 import com.example.wade8.boxscore.R;
+import com.example.wade8.boxscore.adapter.DataStatisticAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +25,8 @@ public class DataStatisticDialog extends DialogFragment implements DataStatistic
     private DataStatisticDialogContract.Presenter mPresenter;
 
     private FrameLayout mInnerFrameLayout;
+    private DataStatisticAdapter mLinkedAdaptiveTableAdapter;
+    private AdaptiveTableLayout mAdaptiveTableLayout;
 
 
     public static DataStatisticDialog newInstance(){
@@ -54,6 +58,7 @@ public class DataStatisticDialog extends DialogFragment implements DataStatistic
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialogfragment_game_statistic, container, false);
         mInnerFrameLayout = view.findViewById(R.id.dialogfragment_game_statistic_innerlayout);
+        mAdaptiveTableLayout = view.findViewById(R.id.dialogfragment_game_statistic_tablelayout);
         mInnerFrameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,6 +66,9 @@ public class DataStatisticDialog extends DialogFragment implements DataStatistic
                 dismiss();
             }
         });
+
+        mLinkedAdaptiveTableAdapter = new DataStatisticAdapter();
+        mAdaptiveTableLayout.setAdapter(mLinkedAdaptiveTableAdapter);
         return view;
     }
 
