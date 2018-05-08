@@ -6,17 +6,18 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.SparseArray;
 import android.util.SparseIntArray;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.wade8.boxscore.Constants;
 import com.example.wade8.boxscore.R;
 import com.example.wade8.boxscore.ViewPagerFragmentAdapter;
+import com.example.wade8.boxscore.dialogfragment.datastatistic.DataStatisticDialog;
 import com.example.wade8.boxscore.objects.GameInfo;
 
 public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxScoreContract.View{
@@ -42,6 +43,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
     private TextView mOpponentTeamfoul;
     private TextView mQuarter;
     private ImageView mUndo;
+    private Button mDataStatistic;
 
 
     @Override
@@ -56,6 +58,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
         mOpponentTeamfoul = findViewById(R.id.activity_gameboxscore_opponentteamfoul);
         mQuarter = findViewById(R.id.activity_gameboxscore_quarter);
         mUndo = findViewById(R.id.activity_gameboxscore_undo);
+        mDataStatistic = findViewById(R.id.activity_gameboxscore_changeplayer);
 
         mGameInfo = (GameInfo) getIntent().getSerializableExtra("GameInfo");
         logTestingGameInfo();
@@ -105,7 +108,13 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
 //                mPresenter.pressUndo();
             }
         });
-
+        mDataStatistic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG,"mDataStatistic onClick");
+                mPresenter.pressDataStatistic();
+            }
+        });
     }
 
     private void logTestingGameInfo() {
@@ -167,6 +176,11 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
     @Override
     public GameInfo getGameInfo() {
         return mGameInfo;
+    }
+
+    @Override
+    public void popDataStatisticDialog(DataStatisticDialog dialog) {
+        dialog.show(getSupportFragmentManager(),"DataStatistic");
     }
 
     private void setTabInTabLayout() {

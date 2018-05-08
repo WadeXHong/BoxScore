@@ -1,0 +1,37 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dialogfragment_game_statistic_parentlayout"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorDialogBackground"
+    tools:context="com.example.wade8.boxscore.dialogfragment.datastatistic.DataStatisticDialog">
+    <FrameLayout
+        android:id="@+id/dialogfragment_game_statistic_innerlayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="1">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/goBack"
+            android:textSize="60dp"
+            android:textColor="@color/colorButtonInMain"
+            android:layout_gravity="center"/>
+
+    </FrameLayout>
+
+    <!-- TODO: Update blank fragment layout -->
+    <FrameLayout
+        android:id="@+id/dialogfragment_game_statistic_tablelayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:background="@color/colorOrange"
+        android:layout_weight="2">
+
+    </FrameLayout>
+
+</LinearLayout>
