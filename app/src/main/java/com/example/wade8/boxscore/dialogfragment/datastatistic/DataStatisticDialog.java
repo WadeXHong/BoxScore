@@ -46,7 +46,7 @@ public class DataStatisticDialog extends DialogFragment implements DataStatistic
         if (getDialog() == null){
             return;
         }
-        getDialog().getWindow().setWindowAnimations(R.style.dialog_animation_fade);
+        getDialog().getWindow().setWindowAnimations(R.style.dialog_animation_slide);
     }
 
     @Override
