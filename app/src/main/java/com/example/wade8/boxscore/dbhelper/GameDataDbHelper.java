@@ -30,6 +30,7 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
                         Constants.GameDataDBContract.COLUMN_NAME_QUARTER + " INTEGER NOT NULL, " +
                         Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER + " TEXT, " +
                         Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NAME +" TEXT, " +
+                        Constants.GameDataDBContract.COLUMN_NAME_POINTS + " INTEGER DEFAULT 0, " +
                         Constants.GameDataDBContract.COLUMN_NAME_FIELD_GOALS_MADE + " INTEGER DEFAULT 0, " +
                         Constants.GameDataDBContract.COLUMN_NAME_FIELD_GOALS_ATTEMPTED + " INTEGER DEFAULT 0, " +
                         Constants.GameDataDBContract.COLUMN_NAME_THREE_POINT_MADE + " INTEGER DEFAULT 0, " +
@@ -92,15 +93,21 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
         int quarter = mGameInfo.getTeamData().get(Constants.RecordDataType.QUARTER);
         int playerNumber = Integer.parseInt(mGameInfo.getStartingPlayerList().get(position).getmNumber());
         ContentValues cv = new ContentValues();
-
+        int points = 0;
         switch (type){
             case Constants.RecordDataType.FREE_THROW_SHOT_MADE:
                 int FTAttend = mGameInfo.getDetailData()
                           .get(quarter)
                           .get(playerNumber)
                           .get(Constants.RecordDataType.FREE_THROW_SHOT_MISSED);
+                points = mGameInfo.getDetailData()
+                          .get(quarter)
+                          .get(playerNumber)
+                          .get(Constants.RecordDataType.POINTS);
                 mGameInfo.getDetailData().get(quarter).get(playerNumber).put(type+1,FTAttend+1);
+                mGameInfo.getDetailData().get(quarter).get(playerNumber).put(0,points+1); //point key = 0;
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(type+1),FTAttend+1);
+                cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(0),points+1);
                 break;
 
             case Constants.RecordDataType.TWO_POINT_SHOT_MADE:
@@ -108,8 +115,15 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
                           .get(quarter)
                           .get(playerNumber)
                           .get(Constants.RecordDataType.TWO_POINT_SHOT_MISSED);
+                points = mGameInfo.getDetailData()
+                          .get(quarter)
+                          .get(playerNumber)
+                          .get(Constants.RecordDataType.POINTS);
                 mGameInfo.getDetailData().get(quarter).get(playerNumber).put(type+1,FGAttend+1);
+                mGameInfo.getDetailData().get(quarter).get(playerNumber).put(0,points+2); //point key = 0;
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(type+1),FGAttend+1);
+                cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(0),points+2);
+
                 break;
 
             case Constants.RecordDataType.THREE_POINT_SHOT_MADE:
@@ -117,8 +131,14 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
                           .get(quarter)
                           .get(playerNumber)
                           .get(Constants.RecordDataType.THREE_POINT_SHOT_MISSED);
+                points = mGameInfo.getDetailData()
+                          .get(quarter)
+                          .get(playerNumber)
+                          .get(Constants.RecordDataType.POINTS);
                 mGameInfo.getDetailData().get(quarter).get(playerNumber).put(type+1,TPAttend+1);
+                mGameInfo.getDetailData().get(quarter).get(playerNumber).put(0,points+3); //point key = 0;
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(type+1),TPAttend+1);
+                cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(0),points+3);
                 break;
 
         }
@@ -158,6 +178,7 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
 
                 SparseIntArray mDataSparseIntArray = new SparseIntArray();
 
+                mDataSparseIntArray.append(Constants.RecordDataType.POINTS, 0);
                 mDataSparseIntArray.append(Constants.RecordDataType.TWO_POINT_SHOT_MADE, 0);
                 mDataSparseIntArray.append(Constants.RecordDataType.TWO_POINT_SHOT_MISSED, 0);
                 mDataSparseIntArray.append(Constants.RecordDataType.THREE_POINT_SHOT_MADE, 0);
@@ -181,6 +202,7 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
 
                 SparseIntArray mDataSparseIntArray = new SparseIntArray();
 
+                mDataSparseIntArray.append(Constants.RecordDataType.POINTS, 0);
                 mDataSparseIntArray.append(Constants.RecordDataType.TWO_POINT_SHOT_MADE, 0);
                 mDataSparseIntArray.append(Constants.RecordDataType.TWO_POINT_SHOT_MISSED, 0);
                 mDataSparseIntArray.append(Constants.RecordDataType.THREE_POINT_SHOT_MADE, 0);
@@ -207,15 +229,16 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
 
     }
 
-    public void getGameStatic(){
+    public Cursor getGameStatisic(){
 
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.query(Constants.GameDataDBContract.TABLE_NAME,
                   new String[]{
-                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_GAME_ID + ")",
-                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_QUARTER + ")",
-                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER + ")",
+                            Constants.GameDataDBContract.COLUMN_NAME_GAME_ID,
+                            Constants.GameDataDBContract.COLUMN_NAME_QUARTER,
+                            Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER,
                             Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NAME,
+                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_POINTS + ")",
                             "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_FIELD_GOALS_MADE + ")",
                             "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_FIELD_GOALS_ATTEMPTED + ")",
                             "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_THREE_POINT_MADE + ")",
@@ -235,6 +258,6 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
                   new String[]{"temp"}, //TODO dynamic gameid  shoulb be mGameInfo.getId
                   Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER,null, Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER);
 
-
+        return cursor;
     }
 }

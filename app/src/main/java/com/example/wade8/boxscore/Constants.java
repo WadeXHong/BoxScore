@@ -11,6 +11,7 @@ public class Constants {
 
     public static final SparseArray<Integer> TITLE_SPARSE_ARRAY = new SparseArray<Integer>(){
         {
+            append(RecordDataType.POINTS,R.string.points);
             append(RecordDataType.TWO_POINT_SHOT,R.string.twoPointShot);
             append(RecordDataType.TWO_POINT_SHOT_MADE,R.string.twoPointShotMade);
             append(RecordDataType.TWO_POINT_SHOT_MISSED,R.string.twoPointShotMiss);
@@ -33,6 +34,7 @@ public class Constants {
 
     public static final SparseArray<String> COLUMN_NAME_SPARSE_ARRAY = new SparseArray<String>(){
         {
+            append(RecordDataType.POINTS, GameDataDBContract.COLUMN_NAME_POINTS);
             append(RecordDataType.TWO_POINT_SHOT_MADE,GameDataDBContract.COLUMN_NAME_FIELD_GOALS_MADE);
             append(RecordDataType.TWO_POINT_SHOT_MISSED,GameDataDBContract.COLUMN_NAME_FIELD_GOALS_ATTEMPTED);
             append(RecordDataType.THREE_POINT_SHOT_MADE,GameDataDBContract.COLUMN_NAME_THREE_POINT_MADE);
@@ -62,6 +64,8 @@ public class Constants {
         public static final int MINUS_OPPONENT_TEAM_TOTAL_FOUL = 0xd2;
         public static final int MINUS_QUARTER = 0xe2;
 
+
+        public static final int POINTS = 0x00;
 
         public static final int TWO_POINT_SHOT = 0x01;
         public static final int TWO_POINT_SHOT_MADE = 0x02;
@@ -103,6 +107,7 @@ public class Constants {
         public static final String COLUMN_NAME_QUARTER = "quarter";
         public static final String COLUMN_NAME_PLAYER_NUMBER = "player_number";
         public static final String COLUMN_NAME_PLAYER_NAME = "player_name";
+        public static final String COLUMN_NAME_POINTS = "PTS";
         public static final String COLUMN_NAME_FIELD_GOALS_MADE = "FGM";
         public static final String COLUMN_NAME_FIELD_GOALS_ATTEMPTED = "FGA";
         public static final String COLUMN_NAME_THREE_POINT_MADE = "TPM";

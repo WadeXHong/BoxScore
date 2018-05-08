@@ -7,7 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.cleveroad.adaptivetablelayout.AdaptiveTableLayout;
+import com.cleveroad.adaptivetablelayout.LinkedAdaptiveTableAdapter;
 import com.example.wade8.boxscore.R;
+import com.example.wade8.boxscore.adapter.DataStatisticAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,6 +20,9 @@ public class DataStatisticFragment extends Fragment implements DataStatisticCont
     private static final String TAG = DataStatisticFragment.class.getSimpleName();
 
     private DataStatisticContract.Presenter mPresenter;
+
+    private AdaptiveTableLayout mAdaptiveTableLayout;
+    private LinkedAdaptiveTableAdapter mLinkedAdaptiveTableAdapter;
 
 
     public static DataStatisticFragment newInstance(){
@@ -31,8 +37,19 @@ public class DataStatisticFragment extends Fragment implements DataStatisticCont
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_data_statistic, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_data_statistic, container, false);
+
+        mAdaptiveTableLayout = view.findViewById(R.id.fragment_data_statistic_tablelayout);
+        mLinkedAdaptiveTableAdapter = new DataStatisticAdapter();
+        mAdaptiveTableLayout.setHeaderFixed(false);
+        mAdaptiveTableLayout.setSolidRowHeader(false);
+
+        mAdaptiveTableLayout.setAdapter(mLinkedAdaptiveTableAdapter);
+
+
+
+        return view;
     }
 
     @Override
