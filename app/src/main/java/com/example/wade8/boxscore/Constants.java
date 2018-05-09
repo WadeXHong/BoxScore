@@ -53,50 +53,52 @@ public class Constants {
 
 
     public class RecordDataType{
-        public static final int YOUR_TEAM_TOTAL_SCORE = 0xa1;
-        public static final int OPPONENT_TEAM_TOTAL_SCORE = 0xb1;
-        public static final int YOUR_TEAM_FOUL = 0xc1;
-        public static final int OPPONENT_TEAM_FOUL = 0xd1;
-        public static final int QUARTER = 0xe1;
-        public static final int MINUS_YOUR_TEAM_TOTAL_SCORE = 0xa2;
-        public static final int MINUS_OPPONENT_TEAM_TOTAL_SCORE = 0xb2;
-        public static final int MINUS_YOUR_TEAM_TEAM_FOUL = 0xc2;
-        public static final int MINUS_OPPONENT_TEAM_TOTAL_FOUL = 0xd2;
-        public static final int MINUS_QUARTER = 0xe2;
+        public static final int YOUR_TEAM_TOTAL_SCORE = 0x00a1;
+        public static final int OPPONENT_TEAM_TOTAL_SCORE = 0x00b1;
+        public static final int YOUR_TEAM_FOUL = 0x00c1;
+        public static final int OPPONENT_TEAM_FOUL = 0x00d1;
+        public static final int QUARTER = 0x00e1;
+        public static final int MINUS_YOUR_TEAM_TOTAL_SCORE = 0x10a1;
+        public static final int MINUS_OPPONENT_TEAM_TOTAL_SCORE = 0x10b1;
+        public static final int MINUS_YOUR_TEAM_TEAM_FOUL = 0x10c1;
+        public static final int MINUS_OPPONENT_TEAM_TOTAL_FOUL = 0x10d1;
+        public static final int MINUS_QUARTER = 0x10e1;
 
 
-        public static final int POINTS = 0x00;
+        public static final int POINTS = 0x0000;
 
-        public static final int TWO_POINT_SHOT = 0x01;
-        public static final int TWO_POINT_SHOT_MADE = 0x02;
-        public static final int TWO_POINT_SHOT_MISSED = 0x03;
-        public static final int THREE_POINT_SHOT = 0x11;
-        public static final int THREE_POINT_SHOT_MADE = 0x12;
-        public static final int THREE_POINT_SHOT_MISSED= 0x13;
-        public static final int FREE_THROW_SHOT = 0x21;
-        public static final int FREE_THROW_SHOT_MADE = 0x22;
-        public static final int FREE_THROW_SHOT_MISSED = 0x23;
-        public static final int OFFENSIVE_REBOUND = 0x31;
-        public static final int DEFENSIVE_REBOUND = 0x41;
-        public static final int ASSIST = 0x51;
-        public static final int STEAL = 0x61;
-        public static final int BLOCK = 0x71;
-        public static final int FOUL= 0x81;
-        public static final int TURNOVER = 0x91;
+        public static final int TWO_POINT_SHOT = 0x0001;
+        public static final int TWO_POINT_SHOT_MADE = 0x0002;
+        public static final int TWO_POINT_SHOT_MISSED = 0x0003;
+        public static final int THREE_POINT_SHOT = 0x0011;
+        public static final int THREE_POINT_SHOT_MADE = 0x0012;
+        public static final int THREE_POINT_SHOT_MISSED= 0x0013;
+        public static final int FREE_THROW_SHOT = 0x0021;
+        public static final int FREE_THROW_SHOT_MADE = 0x0022;
+        public static final int FREE_THROW_SHOT_MISSED = 0x0023;
+        public static final int OFFENSIVE_REBOUND = 0x0031;
+        public static final int DEFENSIVE_REBOUND = 0x0041;
+        public static final int ASSIST = 0x0051;
+        public static final int STEAL = 0x0061;
+        public static final int BLOCK = 0x0071;
+        public static final int FOUL= 0x0081;
+        public static final int TURNOVER = 0x0091;
 
-        public static final int MINUS_TWO_POINT_MISSED = 0x04;
-        public static final int MINUS_TWO_POINT_GOAL = 0x05;
-        public static final int MINUS_THREE_POINT_MISSED = 0x14;
-        public static final int MINUS_THREE_POINT_GOAL= 0x15;
-        public static final int MINUS_FREE_THROW_MISSED = 0x24;
-        public static final int MINUS_FREE_THROW_= 0x25;
-        public static final int MINUS_OFFENSIVE_REBOUND = 0x32;
-        public static final int MINUS_DEFENSIVE_REBOUND = 0x42;
-        public static final int MINUS_ASSIST = 0x52;
-        public static final int MINUS_STEAL = 0x62;
-        public static final int MINUS_BLOCK = 0x72;
-        public static final int MINUS_FOUL= 0x82;
-        public static final int MINUS_TURNOVER = 0x92;
+        public static final int JUDGEMENT_NUMBER = 0x1000; //if type > 0x1000 -> recovery type
+
+        public static final int MINUS_TWO_POINT_MADE = 0x1002;
+        public static final int MINUS_TWO_POINT_MISSED = 0x1003;
+        public static final int MINUS_THREE_POINT_MADE= 0x1012;
+        public static final int MINUS_THREE_POINT_MISSED = 0x1013;
+        public static final int MINUS_FREE_THROW_MADE= 0x1022;
+        public static final int MINUS_FREE_THROW_MISSED = 0x1023;
+        public static final int MINUS_OFFENSIVE_REBOUND = 0x1031;
+        public static final int MINUS_DEFENSIVE_REBOUND = 0x1041;
+        public static final int MINUS_ASSIST = 0x1051;
+        public static final int MINUS_STEAL = 0x1061;
+        public static final int MINUS_BLOCK = 0x1071;
+        public static final int MINUS_FOUL= 0x1081;
+        public static final int MINUS_TURNOVER = 0x1091;
 
     }
 

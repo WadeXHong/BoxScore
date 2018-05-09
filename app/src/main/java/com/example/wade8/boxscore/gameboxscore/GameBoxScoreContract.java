@@ -42,5 +42,9 @@ public interface GameBoxScoreContract {
         GameInfo getGameInfo();
 
         void pressDataStatistic();
+
+        void updateUi();
+
+        void editDataInDb(int position, int type);
     }
 }

@@ -17,19 +17,19 @@ public class DataRecordPresenter implements DataRecordContract.Presenter{
     private static final String TAG = DataRecordPresenter.class.getSimpleName();
 
     private final DataRecordContract.View mDataRecordView;
-    private final GameBoxScoreContract.Presenter mPresenter;
+    private final GameBoxScoreContract.Presenter mGamBoxScorePresenter;
 
     private GameInfo mGameInfo;
 
     public DataRecordPresenter(DataRecordContract.View dataRecordView, GameBoxScoreContract.Presenter gameBoxScorePresenter) {
         mDataRecordView = dataRecordView;
         mDataRecordView.setPresenter(this);
-        mPresenter = gameBoxScorePresenter;
+        mGamBoxScorePresenter = gameBoxScorePresenter;
     }
 
     @Override
     public void start() {
-        mGameInfo = mPresenter.getGameInfo();
+        mGameInfo = mGamBoxScorePresenter.getGameInfo();
     }
 
     private void createPlayerSelectDialog(int type){
@@ -124,5 +124,15 @@ public class DataRecordPresenter implements DataRecordContract.Presenter{
     @Override
     public GameInfo getGameInfo() {
         return mGameInfo;
+    }
+
+    @Override
+    public void updateUiGameBoxActivity() {
+        mGamBoxScorePresenter.updateUi();
+    }
+
+    @Override
+    public void callActivityPresenterEditDataInDb(int position, int type) {
+        mGamBoxScorePresenter.editDataInDb(position, type);
     }
 }

@@ -32,6 +32,9 @@ public interface DataRecordContract {
         void pressShotMade(int type);
         void pressShotMissed(int type);
         GameInfo getGameInfo();
+        void updateUiGameBoxActivity();
+
+        void callActivityPresenterEditDataInDb(int position, int type);
     }
 
 }

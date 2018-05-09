@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.example.wade8.boxscore.BoxScore;
 import com.example.wade8.boxscore.datarecord.DataRecordContract;
-import com.example.wade8.boxscore.dbhelper.GameDataDbHelper;
 import com.example.wade8.boxscore.objects.GameInfo;
 import com.example.wade8.boxscore.objects.Player;
 
@@ -19,32 +18,25 @@ public class PlayerSelectPresenter implements PlayerSelectorContract.Presenter {
     private static final String TAG = PlayerSelectPresenter.class.getSimpleName();
 
     private final PlayerSelectorContract.View mPlayerSelectView;
-    private final DataRecordContract.Presenter mDataRecordContract;
+    private final DataRecordContract.Presenter mDataRecordPresenter;
 
     private GameInfo mGameInfo;
 
-    public PlayerSelectPresenter(PlayerSelectorContract.View mPlayerSelectView , DataRecordContract.Presenter mDataRecordContract) {
+    public PlayerSelectPresenter(PlayerSelectorContract.View mPlayerSelectView , DataRecordContract.Presenter mDataRecordPresenter) {
         this.mPlayerSelectView = mPlayerSelectView;
         mPlayerSelectView.setPresenter(this);
-        this.mDataRecordContract = mDataRecordContract;
+        this.mDataRecordPresenter = mDataRecordPresenter;
     }
 
 
     @Override
     public void start() {
-        mGameInfo = mDataRecordContract.getGameInfo();
+        mGameInfo = mDataRecordPresenter.getGameInfo();
     }
 
     @Override
     public void editDataInDB(int position, int type) {
-        //TODO write data into DB
-        GameDataDbHelper mGameDataDbHelper = BoxScore.getGameDataDbHelper();
-        mGameDataDbHelper.writeGameData(mGameInfo,position,type);
-        //TODO add to UNDOList
-        String name = mGameInfo.getStartingPlayerList().get(position).getmName();
-        String number =mGameInfo.getStartingPlayerList().get(position).getmNumber();
-        Log.d(TAG,"number " + number +" " + name + " " + type +" + 1");
-
+        mDataRecordPresenter.callActivityPresenterEditDataInDb(position, type);
         mPlayerSelectView.dismiss();
     }
 

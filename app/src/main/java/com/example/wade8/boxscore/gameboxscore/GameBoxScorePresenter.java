@@ -116,6 +116,24 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
         mGameBoxScoreView.popDataStatisticDialog(dialog);
     }
 
+    @Override
+    public void updateUi() {
+        //裡面到時候可以放各部分updateUi
+        mGameBoxScoreView.updateUiTeamData();
+    }
+
+    @Override
+    public void editDataInDb(int position, int type) {
+        //TODO write data into DB
+        GameDataDbHelper mGameDataDbHelper = BoxScore.getGameDataDbHelper();
+        mGameDataDbHelper.writeGameData(mGameInfo,position,type);
+        //TODO add to UNDOList
+        String name = mGameInfo.getStartingPlayerList().get(position).getmName();
+        String number =mGameInfo.getStartingPlayerList().get(position).getmNumber();
+        Log.d(TAG,"number " + number +" " + name + " " + type +" + 1");
+        updateUi();
+    }
+
 
     @Override
     public void pressYourTeamFoul() {
