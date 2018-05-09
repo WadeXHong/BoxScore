@@ -53,8 +53,8 @@ public class DialogPlayerAdapter extends RecyclerView.Adapter {
             });
         }
         private void bind(int position){
-            mPlayerName.setText(mPlayerArrayList.get(position).getmName());
-            mPlayerNumber.setText(mPlayerArrayList.get(position).getmNumber());
+            mPlayerName.setText(mPlayerArrayList.get(position).getName());
+            mPlayerNumber.setText(mPlayerArrayList.get(position).getNumber());
         }
     }
 

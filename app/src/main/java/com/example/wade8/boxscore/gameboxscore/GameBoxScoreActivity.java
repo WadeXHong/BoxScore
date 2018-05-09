@@ -105,7 +105,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
             @Override
             public void onClick(View v) {
                 Log.d(TAG,"mUndo onClick");
-//                mPresenter.pressUndo();
+                mPresenter.pressUndo();
             }
         });
         mDataStatistic.setOnClickListener(new View.OnClickListener() {
@@ -122,10 +122,10 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
         Log.d(TAG,"GameInfo mOpponentName : " + mGameInfo.getOpponentName());
         Log.d(TAG,"GameInfo mMaxFoul : " + mGameInfo.getMaxFoul());
         Log.d(TAG,"GameInfo mTimeoutSecondHalf : " + mGameInfo.getTimeoutSecondHalf());
-        Log.d(TAG,"GameInfo mStartingPlayList : " + mGameInfo.getStartingPlayerList().get(0).getmName());
-        Log.d(TAG,"GameInfo mStartingPlayList : " + mGameInfo.getStartingPlayerList().get(0).getmNumber());
-        Log.d(TAG,"GameInfo mSubstitutePlayerList : " + mGameInfo.getSubstitutePlayerList().get(0).getmName());
-        Log.d(TAG,"GameInfo mSubstitutePlayerList : " + mGameInfo.getSubstitutePlayerList().get(0).getmNumber());
+        Log.d(TAG,"GameInfo mStartingPlayList : " + mGameInfo.getStartingPlayerList().get(0).getName());
+        Log.d(TAG,"GameInfo mStartingPlayList : " + mGameInfo.getStartingPlayerList().get(0).getNumber());
+        Log.d(TAG,"GameInfo mSubstitutePlayerList : " + mGameInfo.getSubstitutePlayerList().get(0).getName());
+        Log.d(TAG,"GameInfo mSubstitutePlayerList : " + mGameInfo.getSubstitutePlayerList().get(0).getNumber());
     }
 
     private void init() {

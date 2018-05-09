@@ -3,7 +3,6 @@ package com.example.wade8.boxscore.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.wade8.boxscore.R;
-import com.example.wade8.boxscore.gamenamesetting.GameNameSettingContract;
 import com.example.wade8.boxscore.objects.Player;
 
 import java.util.ArrayList;
@@ -135,8 +133,8 @@ public class PlayerListAdapter extends RecyclerView.Adapter{
             // 替補球員
             if (position > getArrayListSize(mStartingPlayerList)+1){
                 if (getArrayListSize(mSubstitutePlayerList) != 0) {
-                    mPlayerNumber.setText(mSubstitutePlayerList.get(positionInSubstituteArray).getmNumber());
-                    mPlayerName.setText(mSubstitutePlayerList.get(positionInSubstituteArray).getmName());
+                    mPlayerNumber.setText(mSubstitutePlayerList.get(positionInSubstituteArray).getNumber());
+                    mPlayerName.setText(mSubstitutePlayerList.get(positionInSubstituteArray).getName());
                     mStarting.setImageResource(R.drawable.ic_star_gray_24dp);
                 }else {
                     Log.w(TAG,"mSubstitutePlayerList is null or empty !");
@@ -145,8 +143,8 @@ public class PlayerListAdapter extends RecyclerView.Adapter{
              //先發球員
               else {
                 if (getArrayListSize(mStartingPlayerList) != 0) {
-                    mPlayerName.setText(mStartingPlayerList.get(positionInStartingArray).getmName());
-                    mPlayerNumber.setText(mStartingPlayerList.get(positionInStartingArray).getmNumber());
+                    mPlayerName.setText(mStartingPlayerList.get(positionInStartingArray).getName());
+                    mPlayerNumber.setText(mStartingPlayerList.get(positionInStartingArray).getNumber());
                     mStarting.setImageResource(R.drawable.ic_star_yellow_24dp);
                 }else {
                     Log.w(TAG,"mStartingPlayerList is null or empty !");
@@ -187,8 +185,8 @@ public class PlayerListAdapter extends RecyclerView.Adapter{
             int positionInUnregiseteredArray = position -getArrayListSize(mStartingPlayerList)-getArrayListSize(mSubstitutePlayerList) - 3;
 
             if (getArrayListSize(mUnregisteredPlayerList) != 0) {
-                mPlayerName.setText(mUnregisteredPlayerList.get(positionInUnregiseteredArray).getmName());
-                mPlayerNumber.setText(mUnregisteredPlayerList.get(positionInUnregiseteredArray).getmNumber());
+                mPlayerName.setText(mUnregisteredPlayerList.get(positionInUnregiseteredArray).getName());
+                mPlayerNumber.setText(mUnregisteredPlayerList.get(positionInUnregiseteredArray).getNumber());
             }else {
                 Log.w(TAG,"mSubstitutePlayerList is null or empty !");
             }

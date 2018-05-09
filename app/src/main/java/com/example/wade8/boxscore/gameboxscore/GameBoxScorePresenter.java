@@ -2,13 +2,11 @@ package com.example.wade8.boxscore.gameboxscore;
 
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.util.SparseArray;
 import android.util.SparseIntArray;
 
 import com.example.wade8.boxscore.BoxScore;
 import com.example.wade8.boxscore.Constants;
 import com.example.wade8.boxscore.ViewPagerFragmentAdapter;
-import com.example.wade8.boxscore.datarecord.DataRecordContract;
 import com.example.wade8.boxscore.datarecord.DataRecordFragment;
 import com.example.wade8.boxscore.datarecord.DataRecordPresenter;
 import com.example.wade8.boxscore.datastatistic.DataStatisticFragment;
@@ -17,10 +15,12 @@ import com.example.wade8.boxscore.dbhelper.GameDataDbHelper;
 import com.example.wade8.boxscore.dialogfragment.datastatistic.DataStatisticDialog;
 import com.example.wade8.boxscore.dialogfragment.datastatistic.DataStatisticDialogPresenter;
 import com.example.wade8.boxscore.objects.GameInfo;
+import com.example.wade8.boxscore.objects.Undo;
 import com.example.wade8.boxscore.playeroncourt.PlayerOnCourtFragment;
 import com.example.wade8.boxscore.playeroncourt.PlayerOnCourtPresenter;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -44,6 +44,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     private List<Fragment> mFragmentList;
     private SparseIntArray mTeamData;
     private GameInfo mGameInfo;
+    private LinkedList<Undo> mUndoList;
 
 
     public GameBoxScorePresenter(GameBoxScoreContract.View mGameBoxScoreView, android.support.v4.app.FragmentManager manager) {
@@ -85,6 +86,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
         mGameBoxScoreView.setInitDataOnScreen(mTeamData);
         mGameInfo = mGameBoxScoreView.getGameInfo();
         mGameInfo.setTeamData(mTeamData);
+        mUndoList = new LinkedList<Undo>();
         writeInitDataIntoModel();
     }
 
@@ -92,9 +94,15 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     public void writeInitDataIntoModel() {
         GameDataDbHelper mGameDataDbHelper = BoxScore.getGameDataDbHelper();
         mGameDataDbHelper.setGameInfo(mGameInfo);
+        mGameDataDbHelper.setUndoList(mUndoList);
         mGameDataDbHelper.writeInitDataIntoGameInfo();
         mGameDataDbHelper.writeInitDataIntoDataBase();
 
+    }
+
+    @Override
+    public GameInfo getGameInfo() {
+        return mGameInfo;
     }
 
     @Override
@@ -105,35 +113,11 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     }
 
     @Override
-    public GameInfo getGameInfo() {
-        return mGameInfo;
-    }
-
-    @Override
     public void pressDataStatistic() {
         DataStatisticDialog dialog = DataStatisticDialog.newInstance();
         DataStatisticDialogPresenter dialogPresenter = new DataStatisticDialogPresenter(dialog);
         mGameBoxScoreView.popDataStatisticDialog(dialog);
     }
-
-    @Override
-    public void updateUi() {
-        //裡面到時候可以放各部分updateUi
-        mGameBoxScoreView.updateUiTeamData();
-    }
-
-    @Override
-    public void editDataInDb(int position, int type) {
-        //TODO write data into DB
-        GameDataDbHelper mGameDataDbHelper = BoxScore.getGameDataDbHelper();
-        mGameDataDbHelper.writeGameData(mGameInfo,position,type);
-        //TODO add to UNDOList
-        String name = mGameInfo.getStartingPlayerList().get(position).getmName();
-        String number =mGameInfo.getStartingPlayerList().get(position).getmNumber();
-        Log.d(TAG,"number " + number +" " + name + " " + type +" + 1");
-        updateUi();
-    }
-
 
     @Override
     public void pressYourTeamFoul() {
@@ -164,4 +148,37 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
             mGameBoxScoreView.updateUiTeamData();
         }
     }
+
+    @Override
+    public void pressUndo() {
+        Log.d(TAG,"pressUndo executed");
+        undoDataInDb(0);
+    }
+
+    @Override
+    public void updateUi() {
+        //裡面到時候可以放各部分updateUi
+        mGameBoxScoreView.updateUiTeamData();
+    }
+
+    @Override
+    public void editDataInDb(int position, int type) {
+        //TODO write data into DB
+        GameDataDbHelper mGameDataDbHelper = BoxScore.getGameDataDbHelper();
+        mGameDataDbHelper.writeGameData(position,type);
+        //TODO add to UNDOList
+        mUndoList.addFirst(new Undo(type, mGameInfo.getTeamData().get(Constants.RecordDataType.QUARTER),mGameInfo.getStartingPlayerList().get(position)));
+        String name = mGameInfo.getStartingPlayerList().get(position).getName();
+        String number =mGameInfo.getStartingPlayerList().get(position).getNumber();
+        Log.d(TAG,"number " + number +" " + name + " " + type +" + 1");
+        updateUi();
+    }
+
+    @Override
+    public void undoDataInDb(int position) {
+        GameDataDbHelper mGameDataDbHelper = BoxScore.getGameDataDbHelper();
+        mGameDataDbHelper.undoGameData(position);
+        updateUi();
+    }
+
 }

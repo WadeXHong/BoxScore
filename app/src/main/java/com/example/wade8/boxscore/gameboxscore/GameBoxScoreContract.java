@@ -39,6 +39,10 @@ public interface GameBoxScoreContract {
 
         void pressOpponentTeamScore();
 
+        void pressUndo();
+
+        void undoDataInDb(int position);
+
         GameInfo getGameInfo();
 
         void pressDataStatistic();

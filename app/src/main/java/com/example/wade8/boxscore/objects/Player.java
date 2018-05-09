@@ -16,19 +16,19 @@ public class Player implements Serializable {
         this.mName = mName;
     }
 
-    public String getmNumber() {
+    public String getNumber() {
         return mNumber;
     }
 
-    public void setmNumber(String mNumber) {
+    public void setNumber(String mNumber) {
         this.mNumber = mNumber;
     }
 
-    public String getmName() {
+    public String getName() {
         return mName;
     }
 
-    public void setmName(String mName) {
+    public void setName(String mName) {
         this.mName = mName;
     }
 
