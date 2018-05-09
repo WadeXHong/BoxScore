@@ -69,7 +69,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
         mPlayerOnCourtFragment = PlayerOnCourtFragment.newInstance();
         mDataRecordFragment = DataRecordFragment.newInstance();
         mDataStatisticFragment = DataStatisticFragment.newInstance();
-        mPlayerOnCourtPresenter = new PlayerOnCourtPresenter(mPlayerOnCourtFragment);
+        mPlayerOnCourtPresenter = new PlayerOnCourtPresenter(mPlayerOnCourtFragment, this);
         mDataRecordPresenter = new DataRecordPresenter(mDataRecordFragment,this);
         mDataStatisticPresenter = new DataStatisticPresenter(mDataStatisticFragment);
         mFragmentList = new ArrayList<>();
