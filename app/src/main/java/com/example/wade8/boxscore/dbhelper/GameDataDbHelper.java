@@ -150,6 +150,7 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
                           .get(playerNumber)
                           .get(Constants.RecordDataType.POINTS);
                 teamScore = mGameInfo.getTeamData().get(Constants.RecordDataType.YOUR_TEAM_TOTAL_SCORE);
+                if (FTAttend == 0 || points == 0 || teamScore ==0 )return;
                 mGameInfo.getTeamData().put(Constants.RecordDataType.YOUR_TEAM_TOTAL_SCORE,teamScore-1);
                 mGameInfo.getDetailData().get(quarter).get(playerNumber).put(Constants.RecordDataType.FREE_THROW_SHOT_MISSED,FTAttend-1);
                 mGameInfo.getDetailData().get(quarter).get(playerNumber).put(0,points-1); //point key = 0;
@@ -167,6 +168,7 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
                           .get(playerNumber)
                           .get(Constants.RecordDataType.POINTS);
                 teamScore = mGameInfo.getTeamData().get(Constants.RecordDataType.YOUR_TEAM_TOTAL_SCORE);
+                if (FGAttend == 0 || points == 0 || teamScore ==0 )return;
                 mGameInfo.getTeamData().put(Constants.RecordDataType.YOUR_TEAM_TOTAL_SCORE,teamScore-2);
                 mGameInfo.getDetailData().get(quarter).get(playerNumber).put(Constants.RecordDataType.TWO_POINT_SHOT_MISSED,FGAttend-1);
                 mGameInfo.getDetailData().get(quarter).get(playerNumber).put(0,points-2); //point key = 0;
@@ -179,6 +181,7 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
                           .get(quarter)
                           .get(playerNumber)
                           .get(Constants.RecordDataType.TWO_POINT_SHOT_MISSED);
+                if (FGAttend == 0)return;
                 mGameInfo.getDetailData().get(quarter).get(playerNumber).put(Constants.RecordDataType.TWO_POINT_SHOT_MISSED,FGAttend-1);
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(Constants.RecordDataType.TWO_POINT_SHOT_MISSED),FGAttend-1);
                 break;
@@ -202,6 +205,7 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
                           .get(playerNumber)
                           .get(Constants.RecordDataType.POINTS);
                 teamScore = mGameInfo.getTeamData().get(Constants.RecordDataType.YOUR_TEAM_TOTAL_SCORE);
+                if (FGMade == 0 || TPAttend == 0 || FGAttend == 0 || points == 0 || teamScore == 0 )return;
                 mGameInfo.getTeamData().put(Constants.RecordDataType.YOUR_TEAM_TOTAL_SCORE,teamScore-3);
                 mGameInfo.getDetailData().get(quarter).get(playerNumber).put(Constants.RecordDataType.TWO_POINT_SHOT_MADE,FGMade-1);
                 mGameInfo.getDetailData().get(quarter).get(playerNumber).put(Constants.RecordDataType.TWO_POINT_SHOT_MISSED,FGAttend-1);
@@ -218,7 +222,7 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
         int value = mGameInfo.getDetailData()
                   .get(quarter)
                   .get(playerNumber).get(type);
-
+        if (value == 0)return;
         mGameInfo.getDetailData()
                   .get(quarter)
                   .get(playerNumber).put(type,value-1);
