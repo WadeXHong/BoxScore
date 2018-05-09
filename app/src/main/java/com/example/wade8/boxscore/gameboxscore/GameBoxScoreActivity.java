@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.wade8.boxscore.Constants;
 import com.example.wade8.boxscore.R;
@@ -187,5 +188,10 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
         for(int i=0; i<mTab.length;i++){
             mTabLayout.getTabAt(i).setText(mTab[i]);
         }
+    }
+
+    @Override
+    public void showToast(String message) {
+        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
     }
 }

@@ -25,6 +25,8 @@ public interface GameBoxScoreContract {
         GameInfo getGameInfo();
 
         void popDataStatisticDialog(DataStatisticDialog dialog);
+
+        void showToast(String message);
     }
 
     interface Presenter extends BasePresenter{

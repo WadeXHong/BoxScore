@@ -152,7 +152,11 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     @Override
     public void pressUndo() {
         Log.d(TAG,"pressUndo executed");
-        undoDataInDb(0);
+        if (mUndoList.size() != 0) {
+            undoDataInDb(0);
+        }else {
+            mGameBoxScoreView.showToast("undo history is empty !");
+        }
     }
 
     @Override
@@ -178,6 +182,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     public void undoDataInDb(int position) {
         GameDataDbHelper mGameDataDbHelper = BoxScore.getGameDataDbHelper();
         mGameDataDbHelper.undoGameData(position);
+        mUndoList.remove(position);
         updateUi();
     }
 
