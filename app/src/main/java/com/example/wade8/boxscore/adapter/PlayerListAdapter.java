@@ -94,7 +94,10 @@ public class PlayerListAdapter extends RecyclerView.Adapter{
                             int position = getLayoutPosition() - getArrayListSize(mStartingPlayerList) - 2;
                             mStartingPlayerList.add(mSubstitutePlayerList.get(position));
                             mSubstitutePlayerList.remove(position);
-                            notifyDataSetChanged();
+//                            notifyItemInserted(getArrayListSize(mStartingPlayerList)+1);
+                            notifyItemRangeChanged(getArrayListSize(mStartingPlayerList)+1, getArrayListSize(mSubstitutePlayerList)+getArrayListSize(mUnregisteredPlayerList)+2);
+
+//                            notifyDataSetChanged();
                         }else {
                             Toast.makeText(v.getContext(),R.string.startingPlayerLimitToast,Toast.LENGTH_SHORT).show();
                         }
@@ -102,24 +105,27 @@ public class PlayerListAdapter extends RecyclerView.Adapter{
                         int position = getLayoutPosition() - 1;
                         mSubstitutePlayerList.add(0,mStartingPlayerList.get(position));
                         mStartingPlayerList.remove(position);
-                        notifyDataSetChanged();
+//                        notifyItemRemoved(getLayoutPosition());
+                        notifyItemRangeChanged(getLayoutPosition(),getArrayListSize(mStartingPlayerList)+getArrayListSize(mSubstitutePlayerList)+getArrayListSize(mUnregisteredPlayerList)+2);
                     }
                 }
             });
             mRemove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    int oldposition = getOldPosition();
                     if (getLayoutPosition() > getArrayListSize(mStartingPlayerList)+1) {
                         int position = getLayoutPosition() - getArrayListSize(mStartingPlayerList) - 2;
-                        mUnregisteredPlayerList.add(0,mSubstitutePlayerList.get(position));
+                        mUnregisteredPlayerList.add(0, mSubstitutePlayerList.get(position));
                         mSubstitutePlayerList.remove(position);
-                        notifyDataSetChanged();
-                    }else{
+//                        notifyItemRemoved(getLayoutPosition());
+                        notifyItemRangeChanged(getLayoutPosition(), getArrayListSize(mSubstitutePlayerList)+getArrayListSize(mUnregisteredPlayerList)+1);
+                    }else {
                         int position = getLayoutPosition() - 1;
-                            mUnregisteredPlayerList.add(0,mStartingPlayerList.get(position));
-                            mStartingPlayerList.remove(position);
-                            notifyDataSetChanged();
+                        mUnregisteredPlayerList.add(0,mStartingPlayerList.get(position));
+                        mStartingPlayerList.remove(position);
+//                        notifyItemRemoved(getLayoutPosition());
+                        notifyItemRangeChanged(getLayoutPosition(), getArrayListSize(mStartingPlayerList)+getArrayListSize(mSubstitutePlayerList)+getArrayListSize(mUnregisteredPlayerList)+2);
                     }
                 }
             });
@@ -172,7 +178,7 @@ public class PlayerListAdapter extends RecyclerView.Adapter{
                         int position = getLayoutPosition() - getArrayListSize(mStartingPlayerList) - getArrayListSize(mSubstitutePlayerList) - 3;
                         mSubstitutePlayerList.add(mUnregisteredPlayerList.get(position));
                         mUnregisteredPlayerList.remove(position);
-                        notifyDataSetChanged();
+                        notifyItemRangeChanged(getArrayListSize(mStartingPlayerList)+2+getArrayListSize(mSubstitutePlayerList),getArrayListSize(mUnregisteredPlayerList)+1);
                     }else{
                         Toast.makeText(v.getContext(),R.string.playerLimitToast,Toast.LENGTH_SHORT).show();
                     }
