@@ -29,7 +29,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
     private final int PAGE_DATARECORD = 0;
     private final int PAGE_PLYERONCOURT = 1;
     private final int PAGE_DATASTATISTIC = 2;
-    private final int[] mTab = {R.string.dataRecord,R.string.changePlayer,R.string.dataStatistic};
+    private final int[] mTab = {R.string.changePlayer,R.string.dataRecord,R.string.undoHistory};
 
 
     private GameInfo mGameInfo;

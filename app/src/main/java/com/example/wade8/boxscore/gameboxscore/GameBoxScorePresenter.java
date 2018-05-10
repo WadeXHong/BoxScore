@@ -80,8 +80,8 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
 //        mDataStatisticPresenter = new DataStatisticPresenter(mDataStatisticFragment);
         mUndoHistoryPresenter = new UndoHistoryPresenter(mUndoHistoryFragment,this);
         mFragmentList = new ArrayList<>();
-        mFragmentList.add(mDataRecordFragment);
         mFragmentList.add(mChangePlayerFragment);
+        mFragmentList.add(mDataRecordFragment);
 //        mFragmentList.add(mDataStatisticFragment);
         mFragmentList.add(mUndoHistoryFragment);
         mViewPagerFragmentAdapter = new ViewPagerFragmentAdapter(mFragmentManager,mFragmentList);

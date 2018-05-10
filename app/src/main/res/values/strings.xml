@@ -61,5 +61,6 @@
     <string name="goBack">返回</string>
     <string name="name">姓名</string>
     <string name="benchPlayer">板凳球員</string>
+    <string name="undoHistory">操作紀錄</string>
 
 </resources>
