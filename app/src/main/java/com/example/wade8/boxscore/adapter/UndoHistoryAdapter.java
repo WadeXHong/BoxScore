@@ -1,6 +1,7 @@
 package com.example.wade8.boxscore.adapter;
 
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +32,7 @@ public class UndoHistoryAdapter extends RecyclerView.Adapter{
 
     private class ViewHolder extends RecyclerView.ViewHolder{
 
+        private ConstraintLayout mConstraintLayout;
         private TextView mQuarter;
         private TextView mNumber;
         private TextView mName;
@@ -38,6 +40,7 @@ public class UndoHistoryAdapter extends RecyclerView.Adapter{
 
         public ViewHolder(View itemView) {
             super(itemView);
+            mConstraintLayout = itemView.findViewById(R.id.item_undohistory_layout);
             mQuarter = itemView.findViewById(R.id.item_undohistory_quarter);
             mNumber = itemView.findViewById(R.id.item_undohistory_number);
             mName = itemView.findViewById(R.id.item_undohistory_name);
@@ -50,6 +53,12 @@ public class UndoHistoryAdapter extends RecyclerView.Adapter{
             mNumber.setText(undo.getPlayer().getNumber());
             mName.setText(undo.getPlayer().getName());
             mType.setText(Constants.TITLE_SPARSE_ARRAY.get(undo.getType()));
+            mConstraintLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mUndoHistoryPresenter.undoAtPosition(getLayoutPosition());
+                }
+            });
 
         }
     }
