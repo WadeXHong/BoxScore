@@ -179,11 +179,17 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     }
 
     @Override
+    public LinkedList<Undo> getUndoList() {
+        return mUndoList;
+    }
+
+    @Override
     public void undoDataInDb(int position) {
         GameDataDbHelper mGameDataDbHelper = BoxScore.getGameDataDbHelper();
         mGameDataDbHelper.undoGameData(position);
         mUndoList.remove(position);
         updateUi();
+
     }
 
 }

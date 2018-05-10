@@ -74,4 +74,9 @@ public class UndoHistoryFragment extends Fragment implements UndoHistoryContract
     public void setAdapter(UndoHistoryAdapter mAdapter) {
         mRecyclerView.setAdapter(mAdapter);
     }
+
+    @Override
+    public void updateUi() {
+
+    }
 }

@@ -12,10 +12,16 @@ public interface UndoHistoryContract {
     interface View extends BaseView<Presenter>{
 
         void setAdapter(UndoHistoryAdapter mAdapter);
+
+        void updateUi();
     }
 
     interface Presenter extends BasePresenter{
 
         void createAdapter();
+
+        void undoAtPosition(int position);
+
+        void updateUi();
     }
 }

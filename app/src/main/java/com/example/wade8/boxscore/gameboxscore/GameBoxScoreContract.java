@@ -8,6 +8,9 @@ import com.example.wade8.boxscore.BaseView;
 import com.example.wade8.boxscore.ViewPagerFragmentAdapter;
 import com.example.wade8.boxscore.dialogfragment.datastatistic.DataStatisticDialog;
 import com.example.wade8.boxscore.objects.GameInfo;
+import com.example.wade8.boxscore.objects.Undo;
+
+import java.util.LinkedList;
 
 /**
  * Created by wade8 on 2018/5/3.
@@ -52,5 +55,7 @@ public interface GameBoxScoreContract {
         void updateUi();
 
         void editDataInDb(int position, int type);
+
+        LinkedList<Undo> getUndoList();
     }
 }
