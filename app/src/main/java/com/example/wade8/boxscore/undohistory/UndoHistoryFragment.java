@@ -28,13 +28,17 @@ public class UndoHistoryFragment extends Fragment implements UndoHistoryContract
 
 
 
-    public static UndoHistoryFragment newInstance(String param1, String param2) {
-        UndoHistoryFragment fragment = new UndoHistoryFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+//    public static UndoHistoryFragment newInstance(String param1, String param2) {
+//        UndoHistoryFragment fragment = new UndoHistoryFragment();
+//        Bundle args = new Bundle();
+//        args.putString(ARG_PARAM1, param1);
+//        args.putString(ARG_PARAM2, param2);
+//        fragment.setArguments(args);
+//        return fragment;
+//    }
+
+    public static UndoHistoryFragment newInstance() {
+        return new UndoHistoryFragment();
     }
 
     public UndoHistoryFragment() {

@@ -2,6 +2,7 @@ package com.example.wade8.boxscore.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -56,7 +57,10 @@ public class UndoHistoryAdapter extends RecyclerView.Adapter{
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(parent);
+
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_undohistory,parent,false);
+
+        return new ViewHolder(view);
     }
 
     @Override

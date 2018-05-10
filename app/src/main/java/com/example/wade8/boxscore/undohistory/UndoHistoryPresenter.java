@@ -20,9 +20,9 @@ public class UndoHistoryPresenter implements UndoHistoryContract.Presenter{
     private UndoHistoryAdapter mAdapter;
     private int mUndoPosition;
 
-    public UndoHistoryPresenter(UndoHistoryContract.View mUndoHistoryView, GameBoxScoreContract.Presenter mGameBoxScorePresenter) {
+    public UndoHistoryPresenter(UndoHistoryContract.View mUndoHistoryView, GameBoxScoreContract.Presenter gameBoxScorePresenter) {
         this.mUndoHistoryView = mUndoHistoryView;
-        this.mGameBoxScorePresenter = mGameBoxScorePresenter;
+        this.mGameBoxScorePresenter = gameBoxScorePresenter;
         mUndoHistoryView.setPresenter(this);
     }
 
@@ -45,9 +45,22 @@ public class UndoHistoryPresenter implements UndoHistoryContract.Presenter{
         mGameBoxScorePresenter.undoDataInDb(position);
     }
 
+
+
     @Override
     public void updateUi() {
         mUndoHistoryView.updateUi();
-        mAdapter.notifyItemRemoved(mUndoPosition);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void notifyInsert() {
+        mAdapter.notifyItemInserted(0);
+    }
+
+    @Override
+    public void notifyRemove(int position) {
+        mAdapter.notifyItemRemoved(position);
+
     }
 }

@@ -23,5 +23,9 @@ public interface UndoHistoryContract {
         void undoAtPosition(int position);
 
         void updateUi();
+
+        void notifyInsert();
+
+        void notifyRemove(int position);
     }
 }

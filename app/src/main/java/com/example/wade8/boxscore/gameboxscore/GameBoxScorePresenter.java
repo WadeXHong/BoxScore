@@ -1,5 +1,6 @@
 package com.example.wade8.boxscore.gameboxscore;
 
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.util.SparseIntArray;
@@ -18,6 +19,8 @@ import com.example.wade8.boxscore.objects.GameInfo;
 import com.example.wade8.boxscore.objects.Undo;
 import com.example.wade8.boxscore.playeroncourt.ChangePlayerFragment;
 import com.example.wade8.boxscore.playeroncourt.ChangePlayerPresenter;
+import com.example.wade8.boxscore.undohistory.UndoHistoryFragment;
+import com.example.wade8.boxscore.undohistory.UndoHistoryPresenter;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -39,8 +42,10 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     private DataRecordPresenter mDataRecordPresenter;
     private ChangePlayerFragment mChangePlayerFragment;
     private ChangePlayerPresenter mChangePlayerPresenter;
-    private DataStatisticFragment mDataStatisticFragment;
-    private DataStatisticPresenter mDataStatisticPresenter;
+//    private DataStatisticFragment mDataStatisticFragment;
+//    private DataStatisticPresenter mDataStatisticPresenter;
+    private UndoHistoryFragment mUndoHistoryFragment;
+    private UndoHistoryPresenter mUndoHistoryPresenter;
     private List<Fragment> mFragmentList;
     private SparseIntArray mTeamData;
     private GameInfo mGameInfo;
@@ -68,14 +73,17 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     private void setViewPager(){
         mChangePlayerFragment = ChangePlayerFragment.newInstance();
         mDataRecordFragment = DataRecordFragment.newInstance();
-        mDataStatisticFragment = DataStatisticFragment.newInstance();
+//        mDataStatisticFragment = DataStatisticFragment.newInstance();
+        mUndoHistoryFragment = UndoHistoryFragment.newInstance();
         mChangePlayerPresenter = new ChangePlayerPresenter(mChangePlayerFragment, this);
         mDataRecordPresenter = new DataRecordPresenter(mDataRecordFragment,this);
-        mDataStatisticPresenter = new DataStatisticPresenter(mDataStatisticFragment);
+//        mDataStatisticPresenter = new DataStatisticPresenter(mDataStatisticFragment);
+        mUndoHistoryPresenter = new UndoHistoryPresenter(mUndoHistoryFragment,this);
         mFragmentList = new ArrayList<>();
         mFragmentList.add(mDataRecordFragment);
         mFragmentList.add(mChangePlayerFragment);
-        mFragmentList.add(mDataStatisticFragment);
+//        mFragmentList.add(mDataStatisticFragment);
+        mFragmentList.add(mUndoHistoryFragment);
         mViewPagerFragmentAdapter = new ViewPagerFragmentAdapter(mFragmentManager,mFragmentList);
         mGameBoxScoreView.setViewPagerAdapter(mViewPagerFragmentAdapter);
     }
@@ -176,6 +184,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
         String number =mGameInfo.getStartingPlayerList().get(position).getNumber();
         Log.d(TAG,"number " + number +" " + name + " " + type +" + 1");
         updateUi();
+        mUndoHistoryPresenter.notifyInsert();
     }
 
     @Override
@@ -189,7 +198,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
         mGameDataDbHelper.undoGameData(position);
         mUndoList.remove(position);
         updateUi();
-
+        mUndoHistoryPresenter.notifyRemove(position);
     }
 
 }
