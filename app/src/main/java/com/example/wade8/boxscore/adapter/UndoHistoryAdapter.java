@@ -1,7 +1,10 @@
 package com.example.wade8.boxscore.adapter;
 
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AlertDialogLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,10 +56,27 @@ public class UndoHistoryAdapter extends RecyclerView.Adapter{
             mNumber.setText(undo.getPlayer().getNumber());
             mName.setText(undo.getPlayer().getName());
             mType.setText(Constants.TITLE_SPARSE_ARRAY.get(undo.getType()));
+
+            final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which){
+                        case DialogInterface.BUTTON_POSITIVE:
+                            mUndoHistoryPresenter.undoAtPosition(getLayoutPosition());
+                            break;
+                    }
+                }
+            };
+
             mConstraintLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mUndoHistoryPresenter.undoAtPosition(getLayoutPosition());
+
+                    new AlertDialog.Builder(itemView.getContext(),R.style.Theme_AppCompat_Light_Dialog)
+                              .setTitle("復原確認")
+                              .setMessage("是否要對\n"+ mName.getText().toString()+" "+mType.getText().toString()+"\n進行復原?\n警告:復原後將清除該項紀錄且不會另行顯示更動內容")
+                              .setPositiveButton(R.string.yes, dialogClickListener)
+                              .setNegativeButton(R.string.no, dialogClickListener).show();
                 }
             });
 
