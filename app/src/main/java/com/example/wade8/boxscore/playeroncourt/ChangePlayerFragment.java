@@ -11,24 +11,25 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.wade8.boxscore.R;
-import com.example.wade8.boxscore.adapter.PlayerOnCourtAdapter;
+import com.example.wade8.boxscore.adapter.ChangePlayerAdapter;
+import com.example.wade8.boxscore.playeroncourt.changedialog.ChangePlayerDialog;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PlayerOnCourtFragment extends Fragment implements PlayerOnCourtContract.View{
+public class ChangePlayerFragment extends Fragment implements ChangePlayerContract.View{
 
-    private static final String TAG = PlayerOnCourtFragment.class.getSimpleName();
+    private static final String TAG = ChangePlayerFragment.class.getSimpleName();
 
-    private PlayerOnCourtContract.Presenter mPresenter;
+    private ChangePlayerContract.Presenter mPresenter;
 
     private RecyclerView mRecyclerView;
 
-    public static PlayerOnCourtFragment newInstance(){
-        return new PlayerOnCourtFragment();
+    public static ChangePlayerFragment newInstance(){
+        return new ChangePlayerFragment();
     }
 
-    public PlayerOnCourtFragment() {
+    public ChangePlayerFragment() {
         // Required empty public constructor
     }
 
@@ -51,12 +52,27 @@ public class PlayerOnCourtFragment extends Fragment implements PlayerOnCourtCont
     }
 
     @Override
-    public void setAdapter(PlayerOnCourtAdapter mAdapter) {
+    public void setAdapter(ChangePlayerAdapter mAdapter) {
         mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override
-    public void setPresenter(PlayerOnCourtContract.Presenter presenter) {
+    public void popInGamePlayerDialog(ChangePlayerDialog dialog) {
+        dialog.show(getFragmentManager(),"請選擇下場球員");
+    }
+
+    @Override
+    public void popOffGamePlayerDialog(ChangePlayerDialog dialog) {
+        dialog.show(getFragmentManager(),"請選擇上場球員");
+    }
+
+    @Override
+    public void updateUi() {
+
+    }
+
+    @Override
+    public void setPresenter(ChangePlayerContract.Presenter presenter) {
         mPresenter = presenter;
     }
 

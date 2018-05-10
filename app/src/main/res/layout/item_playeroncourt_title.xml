@@ -3,12 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="55dp"
     android:gravity="center"
-    android:background="@color/colorButtonInMain">
+    android:background="#d2635e">
     <TextView
         android:id="@+id/item_playeroncourt_title_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorTextInMainButton"
+        android:textColor="@color/colorButtonInMain"
 
         />
 

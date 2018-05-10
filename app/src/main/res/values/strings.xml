@@ -60,5 +60,6 @@
     <string name="points">得分</string>
     <string name="goBack">返回</string>
     <string name="name">姓名</string>
+    <string name="benchPlayer">板凳球員</string>
 
 </resources>

@@ -29,7 +29,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
     private final int PAGE_DATARECORD = 0;
     private final int PAGE_PLYERONCOURT = 1;
     private final int PAGE_DATASTATISTIC = 2;
-    private final int[] mTab = {R.string.dataRecord,R.string.playerOnCourt,R.string.dataStatistic};
+    private final int[] mTab = {R.string.dataRecord,R.string.changePlayer,R.string.dataStatistic};
 
 
     private GameInfo mGameInfo;
@@ -44,7 +44,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
     private TextView mOpponentTeamfoul;
     private TextView mQuarter;
     private ImageView mUndo;
-    private Button mDataStatistic;
+    private ImageView mDataStatistic;
 
 
     @Override
@@ -59,7 +59,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
         mOpponentTeamfoul = findViewById(R.id.activity_gameboxscore_opponentteamfoul);
         mQuarter = findViewById(R.id.activity_gameboxscore_quarter);
         mUndo = findViewById(R.id.activity_gameboxscore_undo);
-        mDataStatistic = findViewById(R.id.activity_gameboxscore_changeplayer);
+        mDataStatistic = findViewById(R.id.activity_gameboxscore_datastatistic);
 
         mGameInfo = (GameInfo) getIntent().getSerializableExtra("GameInfo");
         logTestingGameInfo();

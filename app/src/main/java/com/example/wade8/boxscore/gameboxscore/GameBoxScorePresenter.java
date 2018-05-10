@@ -16,8 +16,8 @@ import com.example.wade8.boxscore.dialogfragment.datastatistic.DataStatisticDial
 import com.example.wade8.boxscore.dialogfragment.datastatistic.DataStatisticDialogPresenter;
 import com.example.wade8.boxscore.objects.GameInfo;
 import com.example.wade8.boxscore.objects.Undo;
-import com.example.wade8.boxscore.playeroncourt.PlayerOnCourtFragment;
-import com.example.wade8.boxscore.playeroncourt.PlayerOnCourtPresenter;
+import com.example.wade8.boxscore.playeroncourt.ChangePlayerFragment;
+import com.example.wade8.boxscore.playeroncourt.ChangePlayerPresenter;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -37,8 +37,8 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     private ViewPagerFragmentAdapter mViewPagerFragmentAdapter;
     private DataRecordFragment mDataRecordFragment;
     private DataRecordPresenter mDataRecordPresenter;
-    private PlayerOnCourtFragment mPlayerOnCourtFragment;
-    private PlayerOnCourtPresenter mPlayerOnCourtPresenter;
+    private ChangePlayerFragment mChangePlayerFragment;
+    private ChangePlayerPresenter mChangePlayerPresenter;
     private DataStatisticFragment mDataStatisticFragment;
     private DataStatisticPresenter mDataStatisticPresenter;
     private List<Fragment> mFragmentList;
@@ -66,15 +66,15 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     }
 
     private void setViewPager(){
-        mPlayerOnCourtFragment = PlayerOnCourtFragment.newInstance();
+        mChangePlayerFragment = ChangePlayerFragment.newInstance();
         mDataRecordFragment = DataRecordFragment.newInstance();
         mDataStatisticFragment = DataStatisticFragment.newInstance();
-        mPlayerOnCourtPresenter = new PlayerOnCourtPresenter(mPlayerOnCourtFragment, this);
+        mChangePlayerPresenter = new ChangePlayerPresenter(mChangePlayerFragment, this);
         mDataRecordPresenter = new DataRecordPresenter(mDataRecordFragment,this);
         mDataStatisticPresenter = new DataStatisticPresenter(mDataStatisticFragment);
         mFragmentList = new ArrayList<>();
         mFragmentList.add(mDataRecordFragment);
-        mFragmentList.add(mPlayerOnCourtFragment);
+        mFragmentList.add(mChangePlayerFragment);
         mFragmentList.add(mDataStatisticFragment);
         mViewPagerFragmentAdapter = new ViewPagerFragmentAdapter(mFragmentManager,mFragmentList);
         mGameBoxScoreView.setViewPagerAdapter(mViewPagerFragmentAdapter);

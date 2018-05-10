@@ -2,17 +2,17 @@ package com.example.wade8.boxscore.adapter;
 
 
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.wade8.boxscore.R;
 import com.example.wade8.boxscore.objects.Player;
+import com.example.wade8.boxscore.playeroncourt.ChangePlayerContract;
 
 import java.util.ArrayList;
 
@@ -20,24 +20,23 @@ import java.util.ArrayList;
  * Created by wade8 on 2018/5/2.
  */
 
-public class PlayerOnCourtAdapter extends RecyclerView.Adapter{
+public class ChangePlayerAdapter extends RecyclerView.Adapter{
 
-    private final static String TAG = PlayerOnCourtAdapter.class.getSimpleName();
+    private final static String TAG = ChangePlayerAdapter.class.getSimpleName();
+    private final ChangePlayerContract.Presenter mPresenter;
 
     private final static int TITLE_VIEW = 0;
     private final static int PLAYER_VIEW = 1;
 
-    private ArrayList<Player> mStartingPlayerList;
-    private ArrayList<Player> mSubstitutePlayerList;
-    private final int[] mTitle = {R.string.startingPlayers,R.string.substitutePlayers};
+    private ArrayList<Player> mPlayerOnCourtList;
+    private ArrayList<Player> mBenchPlayerList;
+    private final int[] mTitle = {R.string.playerOnCourt,R.string.benchPlayer};
 
-    public PlayerOnCourtAdapter(){
 
-    }
-
-    public PlayerOnCourtAdapter(ArrayList<Player> mStartingPlayerList, ArrayList<Player> mSubstitutePlayerList) {
-        this.mStartingPlayerList = mStartingPlayerList;
-        this.mSubstitutePlayerList = mSubstitutePlayerList;
+    public ChangePlayerAdapter(ChangePlayerContract.Presenter mPresenter, ArrayList<Player> mPlayerOnCourtList, ArrayList<Player> mBenchPlayerList) {
+        this.mPresenter = mPresenter;
+        this.mPlayerOnCourtList = mPlayerOnCourtList;
+        this.mBenchPlayerList = mBenchPlayerList;
     }
 
     public class TitleViewHolder extends RecyclerView.ViewHolder{
@@ -61,12 +60,14 @@ public class PlayerOnCourtAdapter extends RecyclerView.Adapter{
 
     public class PlayersViewHolder extends  RecyclerView.ViewHolder{
 
+        private ConstraintLayout mConstraintLayout;
         private TextView mPlayerNumber;
         private TextView mPlayerName;
 
         public PlayersViewHolder(View itemView) {
             super(itemView);
 
+            mConstraintLayout = itemView.findViewById(R.id.item_playeroncourt_layout);
             mPlayerName = itemView.findViewById(R.id.item_playeroncourt_playername);
             mPlayerNumber = itemView.findViewById(R.id.item_playeroncourt_playernumber);
 
@@ -74,42 +75,41 @@ public class PlayerOnCourtAdapter extends RecyclerView.Adapter{
         }
 
         private void bindPlayers(int position){
-            int positionInStartingArray = position - 1;
-            int positionInSubstituteArray = position - mSubstitutePlayerList.size() -2;
+            final int positionInOnCourtArray = position - 1;
+            final int positionInBenchArray = position - mPlayerOnCourtList.size() -2;
 
-            // 替補球員
-            if (position > getArrayListSize(mStartingPlayerList)+1){
-                if (getArrayListSize(mSubstitutePlayerList) != 0) {
-                    mPlayerNumber.setText(mSubstitutePlayerList.get(positionInSubstituteArray).getNumber());
-                    mPlayerName.setText(mSubstitutePlayerList.get(positionInSubstituteArray).getName());
+            // 場下球員
+            if (position > getArrayListSize(mPlayerOnCourtList)+1){
+                if (getArrayListSize(mBenchPlayerList) != 0) {
+                    mPlayerNumber.setText(mBenchPlayerList.get(positionInBenchArray).getNumber());
+                    mPlayerName.setText(mBenchPlayerList.get(positionInBenchArray).getName());
+                    mConstraintLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //從場下球員選擇要上場的球員
+                            mPresenter.offGamePlayerSelected(positionInBenchArray);
+                        }
+                    });
                 }else {
-                    Log.w(TAG,"mSubstitutePlayerList is null or empty !");
+                    Log.w(TAG,"mBenchPlayerList is null or empty !");
                 }
             }
-             //先發球員
+             //場上球員
               else {
-                if (getArrayListSize(mStartingPlayerList) != 0) {
-                    mPlayerName.setText(mStartingPlayerList.get(positionInStartingArray).getName());
-                    mPlayerNumber.setText(mStartingPlayerList.get(positionInStartingArray).getNumber());
+                if (getArrayListSize(mPlayerOnCourtList) != 0) {
+                    mPlayerName.setText(mPlayerOnCourtList.get(positionInOnCourtArray).getName());
+                    mPlayerNumber.setText(mPlayerOnCourtList.get(positionInOnCourtArray).getNumber());
+                    mConstraintLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //從場上球員選擇要下場的球員
+                            mPresenter.inGamePlayerSelected(positionInOnCourtArray);
+                        }
+                    });
                 }else {
-                    Log.w(TAG,"mStartingPlayerList is null or empty !");
+                    Log.w(TAG,"mPlayerOnCourtList is null or empty !");
                 }
             }
-        }
-    }
-
-    public class UnregisteredPlayersViewHolder extends RecyclerView.ViewHolder{
-
-        private TextView mPlayerNumber;
-        private TextView mPlayerName;
-        private ImageView mAdd;
-
-        public UnregisteredPlayersViewHolder(View itemView) {
-            super(itemView);
-
-            mPlayerName = itemView.findViewById(R.id.item_playeroncourt_playername);
-            mPlayerNumber = itemView.findViewById(R.id.item_playeroncourt_playernumber);
-
         }
     }
 
@@ -141,14 +141,14 @@ public class PlayerOnCourtAdapter extends RecyclerView.Adapter{
 
     @Override
     public int getItemCount() {
-        return 2+getArrayListSize(mStartingPlayerList)+getArrayListSize(mSubstitutePlayerList);
+        return 2+getArrayListSize(mPlayerOnCourtList)+getArrayListSize(mBenchPlayerList);
     }
 
 
     @Override
     public int getItemViewType(int position) {
-        int sizeStartingPlayers = getArrayListSize(mStartingPlayerList);
-        int sizeSubstitutePlayers = getArrayListSize(mSubstitutePlayerList);
+        int sizeStartingPlayers = getArrayListSize(mPlayerOnCourtList);
+        int sizeSubstitutePlayers = getArrayListSize(mBenchPlayerList);
         int returnValue = 1;
         if (position == 0 | position == sizeStartingPlayers+1 | position == sizeStartingPlayers+sizeSubstitutePlayers+2){
             returnValue = 0;
@@ -168,12 +168,12 @@ public class PlayerOnCourtAdapter extends RecyclerView.Adapter{
         return returnValue;
     }
 
-    public ArrayList<Player> getStartingPlayerList() {
-        return mStartingPlayerList;
+    public ArrayList<Player> getPlayerOnCourtList() {
+        return mPlayerOnCourtList;
     }
 
-    public ArrayList<Player> getSubstitutePlayerList() {
-        return mSubstitutePlayerList;
+    public ArrayList<Player> getBenchPlayerList() {
+        return mBenchPlayerList;
     }
 
 
