@@ -31,7 +31,8 @@ public class GameInfoDbHelper extends SQLiteOpenHelper{
                         Constants.GameInfoDBContract.MAX_FOUL + " INTEGER DEFAULT 5, " +
                         Constants.GameInfoDBContract.TIMEOUT_FIRST_HALF + " INTEGER DEFAULT 2, " +
                         Constants.GameInfoDBContract.TIMEOUT_SECOND_HALF + " INTEGER DEFAULT 3, " +
-                        Constants.GameInfoDBContract.GAME_DATE + " TEXT DEFAULT ''"+");";
+                        Constants.GameInfoDBContract.GAME_DATE + " TEXT DEFAULT '', " +
+                        Constants.GameInfoDBContract.IS_GAMEOVER + " BOOLEAN NOT NULL DEFAULT 0" + ");";
 
     private GameInfo mGameInfo;
 

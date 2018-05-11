@@ -138,6 +138,7 @@ public class Constants {
         public static final String TIMEOUT_FIRST_HALF = "timeout_first_half";
         public static final String TIMEOUT_SECOND_HALF = "timeout_second_half";
         public static final String GAME_DATE = "game_date";
+        public static final String IS_GAMEOVER = "is_gameover";
 
     }
 
