@@ -43,11 +43,29 @@ public class PlayerListAdapter extends RecyclerView.Adapter{
         mSubstitutePlayerList = new ArrayList<>();
         mUnregisteredPlayerList = new ArrayList<>();
         int x = 0;
-        for (int i = 0; i<20;i++){
-            mUnregisteredPlayerList.add(new Player(i+"",x+""));
-            x++;
-        }
-        mUnregisteredPlayerList.add(new Player("87","洪偉軒"));
+//        for (int i = 0; i<20;i++){
+//            mUnregisteredPlayerList.add(new Player(i+"",x+""));
+//            x++;
+//        }
+
+        mUnregisteredPlayerList.add(new Player("99","Steven"));
+        mUnregisteredPlayerList.add(new Player("23","Kevin"));
+        mUnregisteredPlayerList.add(new Player("94","Luke"));
+        mUnregisteredPlayerList.add(new Player("88","Aaron"));
+        mUnregisteredPlayerList.add(new Player("00","BigRoot"));
+        mUnregisteredPlayerList.add(new Player("03","張憲騰"));
+        mUnregisteredPlayerList.add(new Player("64","天安門"));
+        mUnregisteredPlayerList.add(new Player("77","四十九"));
+        mUnregisteredPlayerList.add(new Player("30","Curry"));
+        mUnregisteredPlayerList.add(new Player("24","Kobe"));
+        mUnregisteredPlayerList.add(new Player("66","Frank"));
+        mUnregisteredPlayerList.add(new Player("35","Easy"));
+        mUnregisteredPlayerList.add(new Player("87","Wade"));
+        mUnregisteredPlayerList.add(new Player("01","穿新衣"));
+        mUnregisteredPlayerList.add(new Player("02","肚子餓"));
+        mUnregisteredPlayerList.add(new Player("04","看電視"));
+        mUnregisteredPlayerList.add(new Player("05","去跳舞"));
+
     }
 
 
