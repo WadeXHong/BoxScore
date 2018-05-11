@@ -1,11 +1,13 @@
 package com.example.wade8.boxscore.dbhelper;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.example.wade8.boxscore.Constants;
+import com.example.wade8.boxscore.objects.GameInfo;
 
 /**
  * Created by wade8 on 2018/5/11.
@@ -31,6 +33,8 @@ public class GameInfoDbHelper extends SQLiteOpenHelper{
                         Constants.GameInfoDBContract.TIMEOUT_SECOND_HALF + " INTEGER DEFAULT 3, " +
                         Constants.GameInfoDBContract.GAME_DATE + " TEXT DEFAULT ''"+");";
 
+    private GameInfo mGameInfo;
+
     public GameInfoDbHelper(Context context){
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
     }
@@ -44,5 +48,26 @@ public class GameInfoDbHelper extends SQLiteOpenHelper{
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+    }
+
+    public void setGameInfo(GameInfo mGameInfo) {
+        this.mGameInfo = mGameInfo;
+    }
+
+    public void writeGameInfoIntoDataBase() {
+        ContentValues cv = new ContentValues();
+        cv.put(Constants.GameInfoDBContract.GAME_ID,mGameInfo.getGameId());
+        cv.put(Constants.GameInfoDBContract.GAME_NAME,mGameInfo.getGameName());
+        cv.put(Constants.GameInfoDBContract.YOUR_TEAM,mGameInfo.getYourTeam());
+        cv.put(Constants.GameInfoDBContract.OPPONENT_NAME,mGameInfo.getOpponentName());
+        cv.put(Constants.GameInfoDBContract.QUARTER_LENGTH,mGameInfo.getQuarterLength());
+        cv.put(Constants.GameInfoDBContract.TOTAL_QUARTER,mGameInfo.getTotalQuarter());
+        cv.put(Constants.GameInfoDBContract.MAX_FOUL,mGameInfo.getMaxFoul());
+        cv.put(Constants.GameInfoDBContract.TIMEOUT_FIRST_HALF,mGameInfo.getTimeoutFirstHalf());
+        cv.put(Constants.GameInfoDBContract.TIMEOUT_SECOND_HALF,mGameInfo.getTimeoutSecondHalf());
+        cv.put(Constants.GameInfoDBContract.GAME_DATE,mGameInfo.getGameDate());
+
+        getWritableDatabase().insert(Constants.GameInfoDBContract.TABLE_NAME,null,cv);
+        getWritableDatabase().close();
     }
 }

@@ -5,12 +5,14 @@ import android.util.SparseIntArray;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * Created by wade8 on 2018/5/3.
  */
 
 public class GameInfo implements Serializable{
+    private String mGameId;
     private String mGameName;
     private String mOpponentName;
     private String mGameDate;
@@ -24,6 +26,14 @@ public class GameInfo implements Serializable{
     private ArrayList<Player> mSubstitutePlayerList;
     private SparseArray<SparseArray<SparseIntArray>> mDetailData;
     private SparseIntArray mTeamData;
+
+    public String getGameId() {
+        return mGameId;
+    }
+
+    public void setGameId(String mGameId) {
+        this.mGameId = mGameId;
+    }
 
     public String getGameName() {
         return mGameName;
@@ -115,6 +125,7 @@ public class GameInfo implements Serializable{
 
     public GameInfo() {
 
+        mGameId = UUID.randomUUID().toString();
         mGameName = "" ;
         mOpponentName = "" ;
         mGameDate = "" ;

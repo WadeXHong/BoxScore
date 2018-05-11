@@ -13,6 +13,7 @@ import com.example.wade8.boxscore.datarecord.DataRecordPresenter;
 import com.example.wade8.boxscore.datastatistic.DataStatisticFragment;
 import com.example.wade8.boxscore.datastatistic.DataStatisticPresenter;
 import com.example.wade8.boxscore.dbhelper.GameDataDbHelper;
+import com.example.wade8.boxscore.dbhelper.GameInfoDbHelper;
 import com.example.wade8.boxscore.dialogfragment.datastatistic.DataStatisticDialog;
 import com.example.wade8.boxscore.dialogfragment.datastatistic.DataStatisticDialogPresenter;
 import com.example.wade8.boxscore.objects.GameInfo;
@@ -106,6 +107,9 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
         mGameDataDbHelper.writeInitDataIntoGameInfo();
         mGameDataDbHelper.writeInitDataIntoDataBase();
 
+        GameInfoDbHelper mGameInfoDbHelper = BoxScore.getGameInfoDbHelper();
+        mGameInfoDbHelper.setGameInfo(mGameInfo);
+        mGameInfoDbHelper.writeGameInfoIntoDataBase();
     }
 
     @Override
