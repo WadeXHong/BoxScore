@@ -74,7 +74,7 @@ public class UndoHistoryAdapter extends RecyclerView.Adapter{
 
                     new AlertDialog.Builder(itemView.getContext(),R.style.Theme_AppCompat_Light_Dialog)
                               .setTitle("復原確認")
-                              .setMessage("是否要對\n"+ mName.getText().toString()+" "+mType.getText().toString()+"\n進行復原?\n警告:復原後將清除該項紀錄且不會另行顯示更動內容")
+                              .setMessage("\n是否要對\n\n「 "+ mName.getText().toString()+" "+mType.getText().toString()+" 」\n\n進行復原 ?\n\n警告:\n　　 復原後將清除該項紀錄且不會另行顯示更動內容 !\n")
                               .setPositiveButton(R.string.yes, dialogClickListener)
                               .setNegativeButton(R.string.no, dialogClickListener).show();
                 }
