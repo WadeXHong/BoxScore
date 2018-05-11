@@ -29,7 +29,7 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
     public static final int DATABASE_VERSION = 1;
     public static final String SQL_CREATE =
               "CREATE TABLE " + Constants.GameDataDBContract.TABLE_NAME +"("+
-                        Constants.GameDataDBContract.COLUMN_NAME_GAME_ID + " INTEGER, " +
+                        Constants.GameDataDBContract.COLUMN_NAME_GAME_ID + " TEXT, " +
                         Constants.GameDataDBContract.COLUMN_NAME_QUARTER + " INTEGER NOT NULL, " +
                         Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER + " TEXT, " +
                         Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NAME +" TEXT, " +
@@ -75,7 +75,7 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
         for (Player mPlayer:mGameInfo.getStartingPlayerList()){
             for (int i = 0; i<totalQuarter; i++){
                 ContentValues contentValues = new ContentValues();
-                contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_GAME_ID,"temp"); //TODO real game ID
+                contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_GAME_ID,mGameInfo.getGameId()); //TODO real game ID
                 contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_QUARTER,i+1);
                 contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER,mPlayer.getNumber());
                 contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NAME,mPlayer.getName());
@@ -85,7 +85,7 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
         for (Player mPlayer:mGameInfo.getSubstitutePlayerList()){
             for (int i = 0; i<totalQuarter; i++){
                 ContentValues contentValues = new ContentValues();
-                contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_GAME_ID,"temp"); //TODO real game ID
+                contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_GAME_ID,mGameInfo.getGameId()); //TODO real game ID
                 contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_QUARTER,i+1);
                 contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER,mPlayer.getNumber());
                 contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NAME,mPlayer.getName());
@@ -232,7 +232,7 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
                   Constants.GameDataDBContract.COLUMN_NAME_GAME_ID+" = ? AND " +
                             Constants.GameDataDBContract.COLUMN_NAME_QUARTER + " = ? AND " +
                             Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER + " = ?",
-                  new String[] {"temp",String.valueOf(quarter),String.valueOf(playerNumber)});
+                  new String[] {mGameInfo.getGameId(),String.valueOf(quarter),String.valueOf(playerNumber)});
         Log.d(TAG,"result = "+result);
     }
 
@@ -346,7 +346,7 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
                   Constants.GameDataDBContract.COLUMN_NAME_GAME_ID+" = ? AND " +
                             Constants.GameDataDBContract.COLUMN_NAME_QUARTER + " = ? AND " +
                             Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER + " = ?",
-                  new String[] {"temp",String.valueOf(quarter),String.valueOf(playerNumber)});
+                  new String[] {mGameInfo.getGameId(),String.valueOf(quarter),String.valueOf(playerNumber)});
         Log.d(TAG,"result = "+result);
     }
 
@@ -444,7 +444,7 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
                             "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_TURNOVER + ")"
                   },
                   Constants.GameDataDBContract.COLUMN_NAME_GAME_ID+" = ?",
-                  new String[]{"temp"}, //TODO dynamic gameid  shoulb be mGameInfo.getId
+                  new String[]{mGameInfo.getGameId()}, //TODO dynamic gameid  shoulb be mGameInfo.getId
                   Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER,null, Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER);
 
         return cursor;
