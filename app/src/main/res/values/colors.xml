@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#ff9800</color>
+    <color name="colorPrimaryLight">#ffc947</color>
+    <color name="colorPrimaryDark">#c66900</color>
     <color name="colorButtonInMain">#D7D8DB</color>
     <color name="colorTextInMainButton">#484848</color>
     <color name="colorOrange">#FF9800</color>
+    <color name="colerLightOrange">#ffc947</color>
     <color name="colorDarkGray">#545557</color>
+    <color name="colorDarkBackground">#ff444444</color>
     <color name="colorYellow">#FFEB36</color>
     <color name="colorWhite">#FFFFFF</color>
-    <color name="colorRed">#CC3B3B</color>
+    <color name="colorRed">#FF0000</color>
     <color name="colorDialogBackground">#90000000</color>
+    <color name="colorBlack">#ff000000</color>
+    <color name="secondaryColor">#c62828</color>
+    <color name="secondaryLightColor">#ff5f52</color>
+    <color name="secondaryDarkColor">#8e0000</color>
+    <color name="colorAccent">#c62828</color>
 
 </resources>
