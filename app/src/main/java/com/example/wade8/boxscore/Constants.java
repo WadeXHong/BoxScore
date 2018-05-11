@@ -125,6 +125,20 @@ public class Constants {
         public static final String COLUMN_NAME_TURNOVER = "TOV";
     }
 
+    public class GameInfoDBContract implements BaseColumns{
+        public static final String _ID = "_id";
+        public static final String TABLE_NAME = "game_info";
+        public static final String GAME_ID = "game_id";
+        public static final String GAME_NAME = "game_name";
+        public static final String YOUR_TEAM = "team";
+        public static final String OPPONENT_NAME = "opponent";
+        public static final String QUARTER_LENGTH = "quarter_length";
+        public static final String TOTAL_QUARTER = "total_quarter";
+        public static final String MAX_FOUL = "max_foul";
+        public static final String TIMEOUT_FIRST_HALF = "timeout_first_half";
+        public static final String TIMEOUT_SECOND_HALF = "timeout_second_half";
+        public static final String GAME_DATE = "game_date";
 
+    }
 
 }
