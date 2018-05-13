@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.wade8.boxscore.Constants;
 import com.example.wade8.boxscore.R;
 import com.example.wade8.boxscore.ViewPagerFragmentAdapter;
+import com.example.wade8.boxscore.customlayout.BSViewPager;
 import com.example.wade8.boxscore.dialogfragment.datastatistic.DataStatisticDialog;
 import com.example.wade8.boxscore.objects.GameInfo;
 
@@ -36,7 +37,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
     private SparseIntArray mTeamData;
 
     private TabLayout mTabLayout;
-    private ViewPager mViewPager;
+    private BSViewPager mViewPager;
 
     private TextView mYourTeamScore;
     private TextView mOpponentTeamScore;
