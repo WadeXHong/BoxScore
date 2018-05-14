@@ -1,6 +1,8 @@
 package com.example.wade8.boxscore.gameboxscore;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,6 +24,7 @@ import com.example.wade8.boxscore.customlayout.BSViewPager;
 import com.example.wade8.boxscore.dialogfragment.datastatistic.DataStatisticDialog;
 import com.example.wade8.boxscore.gesturelistener.OnScrollGestureListener;
 import com.example.wade8.boxscore.objects.GameInfo;
+import com.example.wade8.boxscore.startgame.StartGameActivity;
 
 public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxScoreContract.View{
 
@@ -222,5 +225,30 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
     @Override
     public void showToast(String message) {
         Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this,R.style.Theme_AppCompat_Light_Dialog)
+                  .setTitle(R.string.confirmExitDataRecord).setMessage(R.string.exitDataRecordMessage)
+                  .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                      @Override
+                      public void onClick(DialogInterface dialog, int which) {
+                          dialog.cancel();
+                      }})
+                  .setNeutralButton("放棄比賽", new DialogInterface.OnClickListener() {
+                      @Override
+                      public void onClick(DialogInterface dialog, int which) {
+                          dialog.dismiss(); //TODO 清除sharepreference 及 DataBase
+                          GameBoxScoreActivity.super.onBackPressed();
+                      }
+                  })
+                  .setPositiveButton("儲存", new DialogInterface.OnClickListener() {
+                      @Override
+                      public void onClick(DialogInterface dialog, int which) {
+                          dialog.dismiss();
+                          GameBoxScoreActivity.super.onBackPressed();
+                      }
+                  }).show();
     }
 }

@@ -1,5 +1,7 @@
 package com.example.wade8.boxscore.startgame;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -189,5 +191,21 @@ public class StartGameActivity extends AppCompatActivity implements StartGameCon
         }
     }
 
-
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this,R.style.Theme_AppCompat_Light_Dialog)
+                  .setTitle(R.string.confirmGoBack).setMessage(R.string.goBackConfirmMessage)
+                  .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                      @Override
+                      public void onClick(DialogInterface dialog, int which) {
+                          dialog.cancel();
+                      }})
+                  .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                      @Override
+                      public void onClick(DialogInterface dialog, int which) {
+                          dialog.dismiss();
+                          StartGameActivity.super.onBackPressed();
+                      }
+                  }).show();
+    }
 }
