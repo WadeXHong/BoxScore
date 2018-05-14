@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.ViewConfiguration;
 
 /**
  * Created by wade8 on 2018/5/13.
@@ -14,13 +15,17 @@ import android.view.MotionEvent;
 
 public class BSViewPager extends ViewPager {
     private static final String TAG = BSViewPager.class.getSimpleName();
+    private final float mScaledPagingTouchSlop;
 
     public BSViewPager(@NonNull Context context) {
         super(context);
+        mScaledPagingTouchSlop = ViewConfiguration.get(context).getScaledPagingTouchSlop();
     }
 
     public BSViewPager(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        ViewConfiguration configuration = ViewConfiguration.get(context);
+        mScaledPagingTouchSlop = ViewConfiguration.get(context).getScaledPagingTouchSlop();
     }
 
     @Override
