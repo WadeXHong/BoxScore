@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
  */
 
 public class BSLinearLayout extends LinearLayout{
+    
+
     private static final String TAG = BSLinearLayout.class.getSimpleName();
 
     public BSLinearLayout(Context context) {
@@ -65,23 +67,27 @@ public class BSLinearLayout extends LinearLayout{
         Log.e(TAG,"onInterceptTouchEvent executed");
 
         int action = ev.getActionMasked();
+
+//        if (action == MotionEvent.ACTION_POINTER_DOWN){
+//            return true;
+//        }
         switch (action){
             case MotionEvent.ACTION_DOWN:
                 Log.e(TAG,"ACTION_DOWN executed");
                 break;
-//            case MotionEvent.ACTION_MOVE:
-//                Log.e(TAG,"ACTION_MOVE executed");
-//                break;
+            case MotionEvent.ACTION_MOVE:
+                Log.e(TAG,"ACTION_MOVE executed");
+                break;
             case MotionEvent.ACTION_UP:
                 Log.e(TAG,"ACTION_UP executed");
-                break;
-            case MotionEvent.ACTION_POINTER_DOWN:
-                Log.e(TAG,"ACTION_POINTER_DOWN executed");
-//                return true;
                 break;
             case MotionEvent.ACTION_POINTER_UP:
                 Log.e(TAG,"ACTION_POINTER_UP executed");
                 break;
+
+            case MotionEvent.ACTION_POINTER_DOWN:
+                Log.e(TAG,"ACTION_POINTER_DOWN executed");
+                return true;
         }
 
 
@@ -94,15 +100,16 @@ public class BSLinearLayout extends LinearLayout{
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         Log.w(TAG,"onTouchEvent executed");
-
+        int pointCount = event.getPointerCount();
+        Log.w(TAG,"pointCount : "+pointCount);
         int action = event.getActionMasked();
         switch (action){
             case MotionEvent.ACTION_DOWN:
                 Log.w(TAG,"ACTION_DOWN executed");
                 break;
-//                case MotionEvent.ACTION_MOVE:
-//                    Log.w(TAG,"ACTION_MOVE executed");
-//                    break;
+                case MotionEvent.ACTION_MOVE: //TODO  方向 and 距離
+                    Log.w(TAG,"ACTION_MOVE executed");
+                    break;
             case MotionEvent.ACTION_UP:
                 Log.w(TAG,"ACTION_UP executed");
                 break;
@@ -117,7 +124,7 @@ public class BSLinearLayout extends LinearLayout{
         boolean returnValue = super.onTouchEvent(event);
         Log.d(TAG,"onTouchEvent return : " + returnValue);
 
-        return false;
+        return true;
     }
 
 }
