@@ -196,6 +196,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
         return mUndoList;
     }
 
+
     @Override
     public void undoDataInDb(int position) {
         GameDataDbHelper mGameDataDbHelper = BoxScore.getGameDataDbHelper();
@@ -205,4 +206,31 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
         mUndoHistoryPresenter.notifyRemove(position);
     }
 
+    @Override
+    public void scrollUp(int mPointerCount) {
+        switch (mPointerCount){
+            case 1:
+                break;
+            case 2:
+                mDataRecordPresenter.pressTwoPointMade();
+                break;
+            case 3:
+                mDataRecordPresenter.pressThreePointMade();
+                break;
+        }
+    }
+
+    @Override
+    public void scrollDown(int mPointerCount) {
+        switch (mPointerCount){
+            case 1:
+                break;
+            case 2:
+                mDataRecordPresenter.pressTwoPointMissed();
+                break;
+            case 3:
+                mDataRecordPresenter.pressThreePointMissed();
+                break;
+        }
+    }
 }

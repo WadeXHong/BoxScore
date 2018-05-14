@@ -7,6 +7,8 @@ import android.view.MotionEvent;
 import android.view.ViewConfiguration;
 import android.widget.LinearLayout;
 
+import com.example.wade8.boxscore.gesturelistener.OnScrollGestureListener;
+
 /**
  * Created by wade8 on 2018/5/12.
  */
@@ -14,12 +16,15 @@ import android.widget.LinearLayout;
 public class BSLinearLayout extends LinearLayout{
     private static final String TAG = BSLinearLayout.class.getSimpleName();
 
-    private final int mTypeLeft = 1;
-    private final int mTypeRight = 2;
-    private final int mTypeUp = 3;
-    private final int mTypeDown = 4;
+    private OnScrollGestureListener mOnScrollGestureListener;
+
+    private static final int TYPE_LEFT = 1;
+    private static final int TYPE_RIGHT = 2;
+    private static final int TYPE_UP = 3;
+    private static final int TYPE_DOWN = 4;
     private final float mScaledPagingTouchSlop;
     private int mType;
+    private int mMaxPointerCount;
     private float mInitPositionX;
     private float mInitPositionY;
     private float mLastPositionX;
@@ -44,6 +49,10 @@ public class BSLinearLayout extends LinearLayout{
     public BSLinearLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mScaledPagingTouchSlop = ViewConfiguration.get(context).getScaledPagingTouchSlop();
+    }
+
+    public void setOnScrollGestureListener(OnScrollGestureListener onScrollGestureListener){
+        mOnScrollGestureListener = onScrollGestureListener;
     }
 
     @Override
@@ -125,8 +134,10 @@ public class BSLinearLayout extends LinearLayout{
     public boolean onTouchEvent(MotionEvent event) {
         Log.w(TAG,"onTouchEvent executed");
         int pointerCount = event.getPointerCount();
-        Log.w(TAG,"pointCount : "+pointerCount);
         int action = event.getActionMasked();
+        Log.w(TAG,"pointCount : "+pointerCount);
+
+        mMaxPointerCount = pointerCount > mMaxPointerCount ? pointerCount:mMaxPointerCount;
         switch (action){
 
             case MotionEvent.ACTION_DOWN:
@@ -154,15 +165,15 @@ public class BSLinearLayout extends LinearLayout{
                         if (mDistanceX + mDistanceY > 2.0f*mScaledPagingTouchSlop && Math.abs(x-mInitPositionX) + Math.abs(y-mInitPositionY) > mScaledPagingTouchSlop) {
                             if (mDistanceX > 2.0f * mDistanceY) { //左右滑動
                                 if (x - mInitPositionX > 0) { //向右
-                                    mType = mTypeRight;
+                                    mType = TYPE_RIGHT;
                                 } else if (x - mInitPositionX < 0) {//向左
-                                    mType = mTypeLeft;
+                                    mType = TYPE_LEFT;
                                 }
                             } else if (mDistanceX < 0.5f * mDistanceY) { //上下滑動
                                 if (y - mInitPositionY < 0) {//向上
-                                    mType = mTypeUp;
+                                    mType = TYPE_UP;
                                 } else if (y - mInitPositionY > 0) {//向下
-                                    mType = mTypeDown;
+                                    mType = TYPE_DOWN;
                                 }
                             }
                         }
@@ -173,6 +184,24 @@ public class BSLinearLayout extends LinearLayout{
 
             case MotionEvent.ACTION_UP:
                 Log.w(TAG,"ACTION_UP executed");
+
+                if (mOnScrollGestureListener != null) {
+                    switch (mType) {
+                        case TYPE_UP:
+                            mOnScrollGestureListener.ScrollUp(mMaxPointerCount);
+                            break;
+                        case TYPE_DOWN:
+                            mOnScrollGestureListener.ScrollDown(mMaxPointerCount);
+                            break;
+                        case TYPE_LEFT:
+                            mOnScrollGestureListener.ScrollLeft(mMaxPointerCount);
+                            break;
+                        case TYPE_RIGHT:
+                            mOnScrollGestureListener.ScrollRight(mMaxPointerCount);
+                            break;
+                    }
+                }
+                mType = mMaxPointerCount = 0;
                 break;
 
             case MotionEvent.ACTION_POINTER_DOWN:

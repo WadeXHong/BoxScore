@@ -52,15 +52,51 @@ public class DataRecordPresenter implements DataRecordContract.Presenter{
     }
 
     @Override
+    public void pressTwoPointMade() {
+        Log.d(TAG,"pressTwoPointMade executed");
+        createPlayerSelectDialog(Constants.RecordDataType.TWO_POINT_SHOT_MADE);
+    }
+
+    @Override
+    public void pressTwoPointMissed() {
+        Log.d(TAG,"pressTwoPointMissed executed");
+        createPlayerSelectDialog(Constants.RecordDataType.TWO_POINT_SHOT_MISSED);
+    }
+
+    @Override
     public void pressThreePoint() {
         Log.d(TAG,"pressThreePoint executed");
         createPlayerSelectDialog(Constants.RecordDataType.THREE_POINT_SHOT);
     }
 
     @Override
+    public void pressThreePointMade() {
+        Log.d(TAG,"pressThreePointMade executed");
+        createPlayerSelectDialog(Constants.RecordDataType.THREE_POINT_SHOT_MADE);
+    }
+
+    @Override
+    public void pressThreePointMissed() {
+        Log.d(TAG,"pressThreePointMissed executed");
+        createPlayerSelectDialog(Constants.RecordDataType.THREE_POINT_SHOT_MISSED);
+    }
+
+    @Override
     public void pressFreeThrow() {
         Log.d(TAG,"pressFreeThrow executed");
         createPlayerSelectDialog(Constants.RecordDataType.FREE_THROW_SHOT);
+    }
+
+    @Override
+    public void pressFreeThrowMade() {
+        Log.d(TAG,"pressFreeThrowMade executed");
+        createPlayerSelectDialog(Constants.RecordDataType.FREE_THROW_SHOT_MADE);
+    }
+
+    @Override
+    public void pressFreeThrowMissed() {
+        Log.d(TAG,"pressFreeThrowMissed executed");
+        createPlayerSelectDialog(Constants.RecordDataType.FREE_THROW_SHOT_MISSED);
     }
 
     @Override

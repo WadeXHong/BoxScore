@@ -57,5 +57,9 @@ public interface GameBoxScoreContract {
         void editDataInDb(int position, int type);
 
         LinkedList<Undo> getUndoList();
+
+        void scrollUp(int mPointerCount);
+
+        void scrollDown(int mPointerCount);
     }
 }

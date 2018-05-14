@@ -2,15 +2,14 @@ package com.example.wade8.boxscore.gameboxscore;
 
 import android.app.Activity;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseIntArray;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,8 +17,10 @@ import android.widget.Toast;
 import com.example.wade8.boxscore.Constants;
 import com.example.wade8.boxscore.R;
 import com.example.wade8.boxscore.ViewPagerFragmentAdapter;
+import com.example.wade8.boxscore.customlayout.BSLinearLayout;
 import com.example.wade8.boxscore.customlayout.BSViewPager;
 import com.example.wade8.boxscore.dialogfragment.datastatistic.DataStatisticDialog;
+import com.example.wade8.boxscore.gesturelistener.OnScrollGestureListener;
 import com.example.wade8.boxscore.objects.GameInfo;
 
 public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxScoreContract.View{
@@ -38,6 +39,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
 
     private TabLayout mTabLayout;
     private BSViewPager mViewPager;
+    private BSLinearLayout mOutestLinearLayout;
 
     private TextView mYourTeamScore;
     private TextView mOpponentTeamScore;
@@ -52,6 +54,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_box_score);
+        mOutestLinearLayout = findViewById(R.id.activity_gameboxscore_outestlayout);
         mViewPager = findViewById(R.id.activity_gameboxscore_viewpager);
         mTabLayout = findViewById(R.id.activity_gameboxscore_tablelayout);
         mYourTeamScore = findViewById(R.id.activity_gameboxscore_yourteamscore);
@@ -67,9 +70,34 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
 
         init();
         setOnClick();
+        setGesture();
 
 //        mPresenter.writeInitDataIntoModel();
 
+    }
+
+    private void setGesture() {
+        mOutestLinearLayout.setOnScrollGestureListener(new OnScrollGestureListener() {
+            @Override
+            public void ScrollUp(int pointerCount) {
+                mPresenter.scrollUp(pointerCount);
+            }
+
+            @Override
+            public void ScrollDown(int pointerCount) {
+                mPresenter.scrollDown(pointerCount);
+            }
+
+            @Override
+            public void ScrollLeft(int pointerCount) {
+
+            }
+
+            @Override
+            public void ScrollRight(int pointerCount) {
+
+            }
+        });
     }
 
     private void setOnClick() {
