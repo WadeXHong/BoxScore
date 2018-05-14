@@ -21,6 +21,7 @@ public class BoxScore extends Application {
         super.onCreate();
         mContext = this;
         mGameDataDbHelper = null;
+        SharedPreferenceHelper.init(this);
     }
 
     public static Context getAppContext(){return mContext;}
