@@ -61,5 +61,9 @@ public interface GameBoxScoreContract {
         void scrollUp(int mPointerCount);
 
         void scrollDown(int mPointerCount);
+
+        void scrollLeft(int mPointerCount);
+
+        void scrollRight(int mPointerCount);
     }
 }

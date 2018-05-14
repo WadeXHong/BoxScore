@@ -90,12 +90,12 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
 
             @Override
             public void ScrollLeft(int pointerCount) {
-
+                mPresenter.scrollLeft(pointerCount);
             }
 
             @Override
             public void ScrollRight(int pointerCount) {
-
+                mPresenter.scrollRight(pointerCount);
             }
         });
     }

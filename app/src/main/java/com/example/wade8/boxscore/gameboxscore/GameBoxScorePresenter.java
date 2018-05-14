@@ -210,12 +210,15 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     public void scrollUp(int mPointerCount) {
         switch (mPointerCount){
             case 1:
+                Log.d(TAG,"single finger scrolled UP.");
                 break;
             case 2:
                 mDataRecordPresenter.pressTwoPointMade();
+                Log.d(TAG,"double fingers scrolled UP.");
                 break;
             case 3:
                 mDataRecordPresenter.pressThreePointMade();
+                Log.d(TAG,"triple fingers scrolled UP.");
                 break;
         }
     }
@@ -224,12 +227,45 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     public void scrollDown(int mPointerCount) {
         switch (mPointerCount){
             case 1:
+                Log.d(TAG,"single finger scrolled DOWN.");
                 break;
             case 2:
                 mDataRecordPresenter.pressTwoPointMissed();
+                Log.d(TAG,"double fingers scrolled DOWN.");
                 break;
             case 3:
                 mDataRecordPresenter.pressThreePointMissed();
+                Log.d(TAG,"triple fingers scrolled DOWN.");
+                break;
+        }
+    }
+
+    @Override
+    public void scrollLeft(int mPointerCount) {
+        switch (mPointerCount){
+            case 1:
+                Log.d(TAG,"single finger scrolled LEFT.");
+                break;
+            case 2:
+                Log.d(TAG,"double fingers scrolled LEFT.");
+                break;
+            case 3:
+                Log.d(TAG,"triple fingers scrolled LEFT.");
+                break;
+        }
+    }
+
+    @Override
+    public void scrollRight(int mPointerCount) {
+        switch (mPointerCount){
+            case 1:
+                Log.d(TAG,"single finger scrolled RIGHT.");
+                break;
+            case 2:
+                Log.d(TAG,"double fingers scrolled RIGHT.");
+                break;
+            case 3:
+                Log.d(TAG,"triple fingers scrolled RIGHT.");
                 break;
         }
     }
