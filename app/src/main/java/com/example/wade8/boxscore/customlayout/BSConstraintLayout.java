@@ -24,6 +24,6 @@ public class BSConstraintLayout extends ConstraintLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        return false;
+        return true;
     }
 }

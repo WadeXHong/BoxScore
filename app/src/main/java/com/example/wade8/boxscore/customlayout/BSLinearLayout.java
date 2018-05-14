@@ -60,21 +60,21 @@ public class BSLinearLayout extends LinearLayout{
         Log.d(TAG,"dispatchTouchEvent executed");
         int action = ev.getActionMasked();
         switch (action){
-            case MotionEvent.ACTION_DOWN:
-                Log.d(TAG,"ACTION_DOWN executed");
-                break;
-//            case MotionEvent.ACTION_MOVE:
-//                Log.d(TAG,"ACTION_MOVE executed");
+//            case MotionEvent.ACTION_DOWN:
+//                Log.d(TAG,"ACTION_DOWN executed");
 //                break;
-            case MotionEvent.ACTION_UP:
-                Log.d(TAG,"ACTION_UP executed");
-                break;
-            case MotionEvent.ACTION_POINTER_DOWN:
-                Log.d(TAG,"ACTION_POINTER_DOWN executed");
-                break;
-            case MotionEvent.ACTION_POINTER_UP:
-                Log.d(TAG,"ACTION_POINTER_UP executed");
-                break;
+////            case MotionEvent.ACTION_MOVE:
+////                Log.d(TAG,"ACTION_MOVE executed");
+////                break;
+//            case MotionEvent.ACTION_UP:
+//                Log.d(TAG,"ACTION_UP executed");
+//                break;
+//            case MotionEvent.ACTION_POINTER_DOWN:
+//                Log.d(TAG,"ACTION_POINTER_DOWN executed");
+//                break;
+//            case MotionEvent.ACTION_POINTER_UP:
+//                Log.d(TAG,"ACTION_POINTER_UP executed");
+//                break;
         }
 
         boolean returnValue = super.dispatchTouchEvent(ev);
@@ -110,6 +110,19 @@ public class BSLinearLayout extends LinearLayout{
                 break;
             case MotionEvent.ACTION_MOVE:
                 Log.e(TAG,"ACTION_MOVE executed");
+                if (ev.getPointerCount() == 1){
+                    float x = ev.getX(0);
+                    float y = ev.getY(0);
+                    float dx = x - mLastPositionX;
+                    float dy = y - mLastPositionY;
+                    mLastPositionX = x;
+                    mLastPositionY = y;
+                    mDistanceX += Math.abs(dx);
+                    mDistanceY += Math.abs(dy);
+                    if(mDistanceY> 2f* mDistanceX && mDistanceY> 3.0f*mScaledPagingTouchSlop){
+                        return true;
+                    }
+                }
                 break;
             case MotionEvent.ACTION_UP:
                 Log.e(TAG,"ACTION_UP executed");
@@ -162,7 +175,7 @@ public class BSLinearLayout extends LinearLayout{
                         mDistanceX += Math.abs(dx);
                         mDistanceY += Math.abs(dy);
                         Log.e(TAG,"pointerIndex " + event.getPointerId(0));
-                        if (mDistanceX + mDistanceY > 2.0f*mScaledPagingTouchSlop && Math.abs(x-mInitPositionX) + Math.abs(y-mInitPositionY) > mScaledPagingTouchSlop) {
+                        if (mDistanceX + mDistanceY > 3.0f*mScaledPagingTouchSlop && Math.abs(x-mInitPositionX) + Math.abs(y-mInitPositionY) > mScaledPagingTouchSlop) {
                             if (mDistanceX > 2.0f * mDistanceY) { //左右滑動
                                 if (x - mInitPositionX > 0) { //向右
                                     mType = TYPE_RIGHT;

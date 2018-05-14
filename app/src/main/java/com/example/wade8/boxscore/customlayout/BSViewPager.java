@@ -34,21 +34,21 @@ public class BSViewPager extends ViewPager {
         Log.d(TAG,"dispatchTouchEvent executed");
         int action = ev.getActionMasked();
         switch (action){
-            case MotionEvent.ACTION_DOWN:
-                Log.d(TAG,"ACTION_DOWN executed");
-                break;
-//            case MotionEvent.ACTION_MOVE:
-//                Log.d(TAG,"ACTION_MOVE executed");
+//            case MotionEvent.ACTION_DOWN:
+//                Log.d(TAG,"ACTION_DOWN executed");
 //                break;
-            case MotionEvent.ACTION_UP:
-                Log.d(TAG,"ACTION_UP executed");
-                break;
-            case MotionEvent.ACTION_POINTER_DOWN:
-                Log.d(TAG,"ACTION_POINTER_DOWN executed");
-                break;
-            case MotionEvent.ACTION_POINTER_UP:
-                Log.d(TAG,"ACTION_POINTER_UP executed");
-                break;
+////            case MotionEvent.ACTION_MOVE:
+////                Log.d(TAG,"ACTION_MOVE executed");
+////                break;
+//            case MotionEvent.ACTION_UP:
+//                Log.d(TAG,"ACTION_UP executed");
+//                break;
+//            case MotionEvent.ACTION_POINTER_DOWN:
+//                Log.d(TAG,"ACTION_POINTER_DOWN executed");
+//                break;
+//            case MotionEvent.ACTION_POINTER_UP:
+//                Log.d(TAG,"ACTION_POINTER_UP executed");
+//                break;
         }
 
         boolean returnValue = super.dispatchTouchEvent(ev);
@@ -68,9 +68,9 @@ public class BSViewPager extends ViewPager {
             case MotionEvent.ACTION_DOWN:
                 Log.e(TAG,"ACTION_DOWN executed");
                 break;
-//            case MotionEvent.ACTION_MOVE:
-//                Log.e(TAG,"ACTION_MOVE executed");
-//                break;
+            case MotionEvent.ACTION_MOVE:
+                Log.e(TAG,"ACTION_MOVE executed");
+                break;
             case MotionEvent.ACTION_UP:
                 Log.e(TAG,"ACTION_UP executed");
                 break;
@@ -98,9 +98,9 @@ public class BSViewPager extends ViewPager {
             case MotionEvent.ACTION_DOWN:
                 Log.w(TAG,"ACTION_DOWN executed");
                 break;
-//                case MotionEvent.ACTION_MOVE:
-//                    Log.w(TAG,"ACTION_MOVE executed");
-//                    break;
+                case MotionEvent.ACTION_MOVE:
+                    Log.w(TAG,"ACTION_MOVE executed");
+                    break;
             case MotionEvent.ACTION_UP:
                 Log.w(TAG,"ACTION_UP executed");
                 break;

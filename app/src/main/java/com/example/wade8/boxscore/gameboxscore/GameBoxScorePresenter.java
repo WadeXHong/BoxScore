@@ -210,6 +210,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     public void scrollUp(int mPointerCount) {
         switch (mPointerCount){
             case 1:
+                mDataRecordPresenter.pressFreeThrowMade();
                 Log.d(TAG,"single finger scrolled UP.");
                 break;
             case 2:
@@ -227,6 +228,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     public void scrollDown(int mPointerCount) {
         switch (mPointerCount){
             case 1:
+                mDataRecordPresenter.pressFreeThrowMissed();
                 Log.d(TAG,"single finger scrolled DOWN.");
                 break;
             case 2:
@@ -243,13 +245,13 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     @Override
     public void scrollLeft(int mPointerCount) {
         switch (mPointerCount){
-            case 1:
-                Log.d(TAG,"single finger scrolled LEFT.");
-                break;
+
             case 2:
+                mDataRecordPresenter.pressDefensiveRebound();
                 Log.d(TAG,"double fingers scrolled LEFT.");
                 break;
             case 3:
+                mDataRecordPresenter.pressBlock();
                 Log.d(TAG,"triple fingers scrolled LEFT.");
                 break;
         }
@@ -258,13 +260,13 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     @Override
     public void scrollRight(int mPointerCount) {
         switch (mPointerCount){
-            case 1:
-                Log.d(TAG,"single finger scrolled RIGHT.");
-                break;
+
             case 2:
+                mDataRecordPresenter.pressOffensiveRebound();
                 Log.d(TAG,"double fingers scrolled RIGHT.");
                 break;
             case 3:
+                mDataRecordPresenter.pressSteal();
                 Log.d(TAG,"triple fingers scrolled RIGHT.");
                 break;
         }
