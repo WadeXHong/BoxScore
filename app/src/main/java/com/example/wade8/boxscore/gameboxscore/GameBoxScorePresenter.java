@@ -7,6 +7,7 @@ import android.util.SparseIntArray;
 
 import com.example.wade8.boxscore.BoxScore;
 import com.example.wade8.boxscore.Constants;
+import com.example.wade8.boxscore.SharedPreferenceHelper;
 import com.example.wade8.boxscore.ViewPagerFragmentAdapter;
 import com.example.wade8.boxscore.datarecord.DataRecordFragment;
 import com.example.wade8.boxscore.datarecord.DataRecordPresenter;
@@ -97,6 +98,11 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
         mGameInfo.setTeamData(mTeamData);
         mUndoList = new LinkedList<Undo>();
         writeInitDataIntoModel();
+        writeGameIdInPresenter();
+    }
+
+    private void writeGameIdInPresenter() {
+        SharedPreferenceHelper.write(SharedPreferenceHelper.PLAYING_GAME,mGameInfo.getGameId());
     }
 
     @Override

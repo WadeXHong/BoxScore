@@ -43,4 +43,14 @@ public class SharedPreferenceHelper {
         editor.clear();
         editor.apply();
     }
+
+    public static void remove(String key){
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.remove(key);
+        editor.apply();
+    }
+
+    public static boolean contains(String key){
+        return mSharedPreferences.contains(key);
+    }
 }

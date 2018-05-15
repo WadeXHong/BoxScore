@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.wade8.boxscore.Constants;
 import com.example.wade8.boxscore.R;
+import com.example.wade8.boxscore.SharedPreferenceHelper;
 import com.example.wade8.boxscore.ViewPagerFragmentAdapter;
 import com.example.wade8.boxscore.customlayout.BSLinearLayout;
 import com.example.wade8.boxscore.customlayout.BSViewPager;
@@ -239,7 +240,8 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
                   .setNeutralButton("放棄比賽", new DialogInterface.OnClickListener() {
                       @Override
                       public void onClick(DialogInterface dialog, int which) {
-                          dialog.dismiss(); //TODO 清除sharepreference 及 DataBase
+                          SharedPreferenceHelper.remove(SharedPreferenceHelper.PLAYING_GAME);
+                          dialog.dismiss(); //TODO 清除DataBase
                           GameBoxScoreActivity.super.onBackPressed();
                       }
                   })

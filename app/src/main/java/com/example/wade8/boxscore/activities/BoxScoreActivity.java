@@ -1,7 +1,9 @@
 package com.example.wade8.boxscore.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +17,7 @@ import android.widget.ImageView;
 import com.example.wade8.boxscore.BoxScoreContract;
 import com.example.wade8.boxscore.BoxScorePresenter;
 import com.example.wade8.boxscore.R;
+import com.example.wade8.boxscore.SharedPreferenceHelper;
 import com.example.wade8.boxscore.startgame.StartGameActivity;
 
 public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContract.View {
@@ -45,7 +48,7 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
             @Override
             public void onClick(View v) {
                 Log.i(TAG,"StartGame pressed");
-                startActivity(new Intent(mContext, StartGameActivity.class));
+                mPresenter.pressStartGame();
             }
         });
         mTeamManageLayout.setOnClickListener(new View.OnClickListener() {
@@ -96,6 +99,43 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
     @Override
     public void showMainUi() {
 
+    }
+
+    @Override
+    public void askResumeGame(String opponentName) {
+        new AlertDialog.Builder(this,R.style.Theme_AppCompat_Light_Dialog).setTitle("恢復比賽")
+                  .setMessage("上次與\n"+opponentName+" 的比賽記錄尚未結束\n是否恢復比賽？\n\n警告：選擇\n「放棄並開新比賽」\n將刪除紀錄")
+                  .setPositiveButton("恢復比賽", new DialogInterface.OnClickListener() {
+                      @Override
+                      public void onClick(DialogInterface dialog, int which) {
+//                          transToGameBoxScore();//TODO ??????????? How to do ?
+                          Log.d(TAG,"pressed Resume");
+                          dialog.dismiss();
+                      }})
+                  .setNegativeButton("結束並開新比賽", new DialogInterface.OnClickListener() {
+                      @Override
+                      public void onClick(DialogInterface dialog, int which) {
+                          Log.d(TAG,"pressed End and start new");
+                          SharedPreferenceHelper.remove(SharedPreferenceHelper.PLAYING_GAME);
+                          transToStartGame();
+                          dialog.dismiss();
+                      }})
+                  .setNeutralButton("放棄並開新比賽", new DialogInterface.OnClickListener() {
+                      @Override
+                      public void onClick(DialogInterface dialog, int which) {
+                          Log.d(TAG,"pressed Discard and start new");
+                          //ToDo callPresenter to delete previous gameData in DB
+                          mPresenter.clearPreviousGameData();
+                          SharedPreferenceHelper.remove(SharedPreferenceHelper.PLAYING_GAME);
+                          transToStartGame();
+                          dialog.dismiss();
+                      }}).show();
+
+    }
+
+    @Override
+    public void transToStartGame() {
+        startActivity(new Intent(mContext, StartGameActivity.class));
     }
 
 }

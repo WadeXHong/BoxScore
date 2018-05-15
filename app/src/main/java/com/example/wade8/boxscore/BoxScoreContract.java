@@ -12,11 +12,14 @@ public interface BoxScoreContract {
         void showMainUi();
 
 
+        void askResumeGame(String opponentName);
+
+        void transToStartGame();
     }
 
     interface Presenter extends BasePresenter{
 
-        void transToGame();
+        void transToStartGame();
 
         void transToTeamManage();
 
@@ -24,6 +27,9 @@ public interface BoxScoreContract {
 
         void transToSetting();
 
+        void pressStartGame();
+
+        void clearPreviousGameData();
     }
 
 }
