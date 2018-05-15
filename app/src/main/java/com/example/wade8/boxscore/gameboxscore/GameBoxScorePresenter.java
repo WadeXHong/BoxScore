@@ -108,7 +108,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
         if (mIsResume){
             initResumeTeamData();
             mGameBoxScoreView.setGameInfoFromResume();
-            mGameInfo.setGameId(SharedPreferenceHelper.PLAYING_GAME);
+            mGameInfo.setGameId(SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME,""));
             initGameInfoFromDatabase();
             //TODO call model
             //1. PlayerList
@@ -133,7 +133,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
         mGameDataDbHelper.setGameInfo(mGameInfo);
         mGameDataDbHelper.setUndoList(mUndoList);
         mGameDataDbHelper.setPlayerListFromDb();
-        mGameDataDbHelper.writeInitDataIntoDataBase();
+        mGameDataDbHelper.setDetailDataFromDb();
 
 //        GameInfoDbHelper mGameInfoDbHelper = BoxScore.getGameInfoDbHelper();
 //        mGameInfoDbHelper.setGameInfo(mGameInfo);

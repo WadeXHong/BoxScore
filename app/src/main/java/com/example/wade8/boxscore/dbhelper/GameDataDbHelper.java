@@ -379,12 +379,88 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
             playerList.add(new Player(cursor.getString(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER)),cursor.getString(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NAME))));
         }
         cursor.close();
-
-        mGameInfo.setStartingPlayerList((ArrayList<Player>) playerList.subList(0,4));
-        mGameInfo.setSubstitutePlayerList((ArrayList<Player>)playerList.subList(5,size-1));
+        mGameInfo.setStartingPlayerList(new ArrayList<Player>(playerList.subList(0,5)));
+        mGameInfo.setSubstitutePlayerList(new ArrayList<Player>(playerList.subList(5,size)));
         return playerList;
     }
 
+    public void setDetailDataFromDb() {
+        int totalQuarter = Integer.parseInt(mGameInfo.getTotalQuarter());
+
+        SparseArray<SparseArray<SparseIntArray>> mQuarterSparseArray = new SparseArray();
+
+        for (int i=0; i<totalQuarter;i++){
+
+            SparseArray<SparseIntArray> mPlayerSparseArray = new SparseArray<SparseIntArray>();
+
+
+            for (Player mPlayer:mGameInfo.getStartingPlayerList()){
+
+                SparseIntArray mDataSparseIntArray = new SparseIntArray();
+
+                Cursor cursor = getReadableDatabase()
+                          .query(Constants.GameDataDBContract.TABLE_NAME,null,
+                                    Constants.GameDataDBContract.COLUMN_NAME_GAME_ID+" = ? AND "+Constants.GameDataDBContract.COLUMN_NAME_QUARTER+" = ? AND "+Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER+"= ?",
+                                    new String[]{mGameInfo.getGameId(),String.valueOf(i+1),mPlayer.getNumber()},
+                                    null,null,null);
+                cursor.moveToFirst();
+                mDataSparseIntArray.append(Constants.RecordDataType.POINTS,cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_POINTS)));
+                mDataSparseIntArray.append(Constants.RecordDataType.TWO_POINT_SHOT_MADE, cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_FIELD_GOALS_MADE)));
+                mDataSparseIntArray.append(Constants.RecordDataType.TWO_POINT_SHOT_MISSED, cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_FIELD_GOALS_ATTEMPTED)));
+                mDataSparseIntArray.append(Constants.RecordDataType.THREE_POINT_SHOT_MADE, cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_THREE_POINT_MADE)));
+                mDataSparseIntArray.append(Constants.RecordDataType.THREE_POINT_SHOT_MISSED, cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_THREE_POINT_ATTEMPTED)));
+                mDataSparseIntArray.append(Constants.RecordDataType.FREE_THROW_SHOT_MADE, cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_FREE_THROW_MADE)));
+                mDataSparseIntArray.append(Constants.RecordDataType.FREE_THROW_SHOT_MISSED, cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_FREE_THROW_ATTEMPTED)));
+                mDataSparseIntArray.append(Constants.RecordDataType.OFFENSIVE_REBOUND, cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_OFFENSIVE_REBOUND)));
+                mDataSparseIntArray.append(Constants.RecordDataType.DEFENSIVE_REBOUND, cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_DEFENSIVE_REBOUND)));
+                mDataSparseIntArray.append(Constants.RecordDataType.ASSIST, cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_ASSIST)));
+                mDataSparseIntArray.append(Constants.RecordDataType.STEAL, cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_STEAL)));
+                mDataSparseIntArray.append(Constants.RecordDataType.BLOCK, cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_BLOCK)));
+                mDataSparseIntArray.append(Constants.RecordDataType.FOUL, cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_PERSONAL_FOUL)));
+                mDataSparseIntArray.append(Constants.RecordDataType.TURNOVER, cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_TURNOVER)));
+                cursor.close();
+
+                int key =Integer.parseInt(mPlayer.getNumber());
+
+                mPlayerSparseArray.put(key,mDataSparseIntArray);
+            }
+
+            for (Player mPlayer:mGameInfo.getSubstitutePlayerList()){
+
+                SparseIntArray mDataSparseIntArray = new SparseIntArray();
+
+                Cursor cursor = getReadableDatabase()
+                          .query(Constants.GameDataDBContract.TABLE_NAME,null,
+                                    Constants.GameDataDBContract.COLUMN_NAME_GAME_ID+" = ? AND "+Constants.GameDataDBContract.COLUMN_NAME_QUARTER+" = ? AND "+Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER+"= ?",
+                                    new String[]{mGameInfo.getGameId(),String.valueOf(i+1),mPlayer.getNumber()},
+                                    null,null,null);
+                cursor.moveToFirst();
+                mDataSparseIntArray.append(Constants.RecordDataType.POINTS,cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_POINTS)));
+                mDataSparseIntArray.append(Constants.RecordDataType.TWO_POINT_SHOT_MADE, cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_FIELD_GOALS_MADE)));
+                mDataSparseIntArray.append(Constants.RecordDataType.TWO_POINT_SHOT_MISSED, cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_FIELD_GOALS_ATTEMPTED)));
+                mDataSparseIntArray.append(Constants.RecordDataType.THREE_POINT_SHOT_MADE, cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_THREE_POINT_MADE)));
+                mDataSparseIntArray.append(Constants.RecordDataType.THREE_POINT_SHOT_MISSED, cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_THREE_POINT_ATTEMPTED)));
+                mDataSparseIntArray.append(Constants.RecordDataType.FREE_THROW_SHOT_MADE, cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_FREE_THROW_MADE)));
+                mDataSparseIntArray.append(Constants.RecordDataType.FREE_THROW_SHOT_MISSED, cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_FREE_THROW_ATTEMPTED)));
+                mDataSparseIntArray.append(Constants.RecordDataType.OFFENSIVE_REBOUND, cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_OFFENSIVE_REBOUND)));
+                mDataSparseIntArray.append(Constants.RecordDataType.DEFENSIVE_REBOUND, cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_DEFENSIVE_REBOUND)));
+                mDataSparseIntArray.append(Constants.RecordDataType.ASSIST, cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_ASSIST)));
+                mDataSparseIntArray.append(Constants.RecordDataType.STEAL, cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_STEAL)));
+                mDataSparseIntArray.append(Constants.RecordDataType.BLOCK, cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_BLOCK)));
+                mDataSparseIntArray.append(Constants.RecordDataType.FOUL, cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_PERSONAL_FOUL)));
+                mDataSparseIntArray.append(Constants.RecordDataType.TURNOVER, cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_TURNOVER)));
+                cursor.close();
+
+                int key =Integer.parseInt(mPlayer.getNumber());
+
+                mPlayerSparseArray.put(key,mDataSparseIntArray);
+            }
+
+            mQuarterSparseArray.append(i+1, mPlayerSparseArray);
+        }
+
+        mGameInfo.setDetailData(mQuarterSparseArray);
+    }
 
     public void writeInitDataIntoGameInfo() {
 
@@ -407,9 +483,9 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
                 mDataSparseIntArray.append(Constants.RecordDataType.THREE_POINT_SHOT_MISSED, 0);
                 mDataSparseIntArray.append(Constants.RecordDataType.FREE_THROW_SHOT_MADE, 0);
                 mDataSparseIntArray.append(Constants.RecordDataType.FREE_THROW_SHOT_MISSED, 0);
-                mDataSparseIntArray.append(Constants.RecordDataType.ASSIST, 0);
                 mDataSparseIntArray.append(Constants.RecordDataType.OFFENSIVE_REBOUND, 0);
                 mDataSparseIntArray.append(Constants.RecordDataType.DEFENSIVE_REBOUND, 0);
+                mDataSparseIntArray.append(Constants.RecordDataType.ASSIST, 0);
                 mDataSparseIntArray.append(Constants.RecordDataType.STEAL, 0);
                 mDataSparseIntArray.append(Constants.RecordDataType.BLOCK, 0);
                 mDataSparseIntArray.append(Constants.RecordDataType.FOUL, 0);
@@ -431,9 +507,9 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
                 mDataSparseIntArray.append(Constants.RecordDataType.THREE_POINT_SHOT_MISSED, 0);
                 mDataSparseIntArray.append(Constants.RecordDataType.FREE_THROW_SHOT_MADE, 0);
                 mDataSparseIntArray.append(Constants.RecordDataType.FREE_THROW_SHOT_MISSED, 0);
-                mDataSparseIntArray.append(Constants.RecordDataType.ASSIST, 0);
                 mDataSparseIntArray.append(Constants.RecordDataType.OFFENSIVE_REBOUND, 0);
                 mDataSparseIntArray.append(Constants.RecordDataType.DEFENSIVE_REBOUND, 0);
+                mDataSparseIntArray.append(Constants.RecordDataType.ASSIST, 0);
                 mDataSparseIntArray.append(Constants.RecordDataType.STEAL, 0);
                 mDataSparseIntArray.append(Constants.RecordDataType.BLOCK, 0);
                 mDataSparseIntArray.append(Constants.RecordDataType.FOUL, 0);
