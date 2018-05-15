@@ -109,8 +109,11 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
             initResumeTeamData();
             mGameBoxScoreView.setGameInfoFromResume();
             mGameInfo.setGameId(SharedPreferenceHelper.PLAYING_GAME);
-            //TODO call model
             initGameInfoFromDatabase();
+            //TODO call model
+            //1. PlayerList
+            setPlayerListFromDataBase();
+            //2. Detail 3-D SparseArray
 
 
 
@@ -123,6 +126,19 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
             writeInitDataIntoModel();
         }
         mGameInfo.setTeamData(mTeamData);
+    }
+
+    private void setPlayerListFromDataBase() {
+        GameDataDbHelper mGameDataDbHelper = BoxScore.getGameDataDbHelper();
+        mGameDataDbHelper.setGameInfo(mGameInfo);
+        mGameDataDbHelper.setUndoList(mUndoList);
+        mGameDataDbHelper.setPlayerListFromDb();
+        mGameDataDbHelper.writeInitDataIntoDataBase();
+
+//        GameInfoDbHelper mGameInfoDbHelper = BoxScore.getGameInfoDbHelper();
+//        mGameInfoDbHelper.setGameInfo(mGameInfo);
+//        mGameInfoDbHelper.writeGameInfoIntoDataBase();
+
     }
 
     private void initGameInfoFromDatabase() {

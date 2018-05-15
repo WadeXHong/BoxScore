@@ -16,6 +16,7 @@ import com.example.wade8.boxscore.objects.GameInfo;
 import com.example.wade8.boxscore.objects.Player;
 import com.example.wade8.boxscore.objects.Undo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -364,6 +365,27 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
         this.mGameInfo = mGameInfo;
     }
 
+    public ArrayList<Player> setPlayerListFromDb(){
+        Cursor cursor = getReadableDatabase()
+                  .query(Constants.GameDataDBContract.TABLE_NAME,
+                            new String[]{Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER, Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NAME},
+                            Constants.GameDataDBContract.COLUMN_NAME_GAME_ID+" =?",
+                            new String[]{mGameInfo.getGameId()},
+                            Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER,null,null);
+        ArrayList<Player> playerList = new ArrayList<>();
+        int size = cursor.getCount();
+        for (int i=0; i<size; i++){
+            cursor.moveToPosition(i);
+            playerList.add(new Player(cursor.getString(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER)),cursor.getString(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NAME))));
+        }
+        cursor.close();
+
+        mGameInfo.setStartingPlayerList((ArrayList<Player>) playerList.subList(0,4));
+        mGameInfo.setSubstitutePlayerList((ArrayList<Player>)playerList.subList(5,size-1));
+        return playerList;
+    }
+
+
     public void writeInitDataIntoGameInfo() {
 
         int totalQuarter = Integer.parseInt(mGameInfo.getTotalQuarter());
@@ -459,6 +481,5 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
 
         return cursor;
     }
-
 
 }
