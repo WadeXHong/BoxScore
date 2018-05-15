@@ -99,7 +99,6 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
 
     @Override
     public void start() {
-        writeGameIdInPresenter();
         mGameBoxScoreView.setInitDataOnScreen(mTeamData);
     }
 
@@ -109,19 +108,40 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
         if (mIsResume){
             initResumeTeamData();
             mGameBoxScoreView.setGameInfoFromResume();
+            mGameInfo.setGameId(SharedPreferenceHelper.PLAYING_GAME);
+            //TODO call model
+            initGameInfoFromDatabase();
+
+
 
         }else {
             initNewTeamData();
             mGameBoxScoreView.setGameInfoFromInput();
             mGameInfo = mGameBoxScoreView.getGameInfo();
             mGameInfo.setGameId(UUID.randomUUID().toString());
+            SharedPreferenceHelper.write(SharedPreferenceHelper.PLAYING_GAME,mGameInfo.getGameId());
             writeInitDataIntoModel();
         }
         mGameInfo.setTeamData(mTeamData);
     }
 
+    private void initGameInfoFromDatabase() {
+        Cursor cursor = BoxScore.getGameInfoDbHelper().getGameInfo();
+        cursor.moveToFirst();
+        mGameInfo.setTimeoutFirstHalf(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.TIMEOUT_FIRST_HALF)));
+        mGameInfo.setTimeoutSecondHalf(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.TIMEOUT_SECOND_HALF)));
+        mGameInfo.setMaxFoul(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.MAX_FOUL)));
+        mGameInfo.setTotalQuarter(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.TOTAL_QUARTER)));
+        mGameInfo.setQuarterLength(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.QUARTER_LENGTH)));
+        mGameInfo.setYourTeam(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.YOUR_TEAM)));
+        mGameInfo.setOpponentName(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.OPPONENT_NAME)));
+        mGameInfo.setGameName(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.GAME_NAME)));
+        mGameInfo.setGameDate(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.GAME_DATE)));
+        cursor.close();
+    }
+
+
     private void initResumeTeamData() {
-        Cursor cursor = BoxScore.getGameDataDbHelper().getGameStatisic();
         mTeamData = new SparseIntArray();
         mTeamData.append(Constants.RecordDataType.YOUR_TEAM_TOTAL_SCORE, SharedPreferenceHelper.read(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE, 0));
         mTeamData.append(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE,SharedPreferenceHelper.read(SharedPreferenceHelper.OPPONENT_TEAM_TOTAL_SCORE, 0));
@@ -133,15 +153,13 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
 
     @Override
     public GameInfo resumeGameInfo(GameInfo gameInfo) {
-        //TODO call modle
-        gameInfo.setGameId(SharedPreferenceHelper.PLAYING_GAME);
         mGameInfo = gameInfo;
         return mGameInfo;
     }
 
-    private void writeGameIdInPresenter() {
-        SharedPreferenceHelper.write(SharedPreferenceHelper.PLAYING_GAME,mGameInfo.getGameId());
-    }
+
+
+
 
     @Override
     public void writeInitDataIntoModel() {

@@ -2,11 +2,13 @@ package com.example.wade8.boxscore.dbhelper;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.example.wade8.boxscore.Constants;
+import com.example.wade8.boxscore.SharedPreferenceHelper;
 import com.example.wade8.boxscore.objects.GameInfo;
 
 /**
@@ -70,5 +72,14 @@ public class GameInfoDbHelper extends SQLiteOpenHelper{
 
         getWritableDatabase().insert(Constants.GameInfoDBContract.TABLE_NAME,null,cv);
         getWritableDatabase().close();
+    }
+
+    public Cursor getGameInfo(){
+        return getReadableDatabase()
+                  .query(Constants.GameInfoDBContract.TABLE_NAME
+                            ,null
+                            , Constants.GameInfoDBContract.GAME_ID+" =?"
+                            ,new String[]{SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME,null)}
+                            ,null,null, null);
     }
 }
