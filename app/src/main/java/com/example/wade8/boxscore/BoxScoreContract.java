@@ -15,6 +15,8 @@ public interface BoxScoreContract {
         void askResumeGame(String opponentName);
 
         void transToStartGame();
+
+        void transToGameBoxScore();
     }
 
     interface Presenter extends BasePresenter{

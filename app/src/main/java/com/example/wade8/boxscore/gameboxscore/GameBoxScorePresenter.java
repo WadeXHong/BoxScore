@@ -1,6 +1,5 @@
 package com.example.wade8.boxscore.gameboxscore;
 
-import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.util.SparseIntArray;
@@ -11,8 +10,6 @@ import com.example.wade8.boxscore.SharedPreferenceHelper;
 import com.example.wade8.boxscore.ViewPagerFragmentAdapter;
 import com.example.wade8.boxscore.datarecord.DataRecordFragment;
 import com.example.wade8.boxscore.datarecord.DataRecordPresenter;
-import com.example.wade8.boxscore.datastatistic.DataStatisticFragment;
-import com.example.wade8.boxscore.datastatistic.DataStatisticPresenter;
 import com.example.wade8.boxscore.dbhelper.GameDataDbHelper;
 import com.example.wade8.boxscore.dbhelper.GameInfoDbHelper;
 import com.example.wade8.boxscore.dialogfragment.datastatistic.DataStatisticDialog;
@@ -58,11 +55,11 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
         this.mGameBoxScoreView = mGameBoxScoreView;
         mFragmentManager = manager;
         mGameBoxScoreView.setPresenter(this);
-        initTeamData();
         setViewPager();
+        mUndoList = new LinkedList<Undo>();
     }
 
-    private void initTeamData() {
+    private void initNewTeamData() {
         mTeamData = new SparseIntArray();
         mTeamData.append(Constants.RecordDataType.YOUR_TEAM_TOTAL_SCORE,0);
         mTeamData.append(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE,0);
@@ -93,12 +90,35 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
 
     @Override
     public void start() {
-        mGameBoxScoreView.setInitDataOnScreen(mTeamData);
-        mGameInfo = mGameBoxScoreView.getGameInfo();
-        mGameInfo.setTeamData(mTeamData);
-        mUndoList = new LinkedList<Undo>();
-        writeInitDataIntoModel();
         writeGameIdInPresenter();
+        mGameBoxScoreView.setInitDataOnScreen(mTeamData);
+    }
+
+
+    @Override
+    public void checkIsResume(boolean mIsResume) {
+        if (mIsResume){
+            initResumeTeamData();
+            mGameBoxScoreView.setGameInfoFromResume();
+
+        }else {
+            initNewTeamData();
+            mGameBoxScoreView.setGameInfoFromInput();
+            mGameInfo = mGameBoxScoreView.getGameInfo();
+            writeInitDataIntoModel();
+        }
+        mGameInfo.setTeamData(mTeamData);
+    }
+
+    private void initResumeTeamData() {
+    }
+
+    @Override
+    public GameInfo resumeGameInfo(GameInfo gameInfo) {
+        //TODO call modle
+
+        mGameInfo = gameInfo;
+        return mGameInfo;
     }
 
     private void writeGameIdInPresenter() {
@@ -277,4 +297,5 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
                 break;
         }
     }
+
 }

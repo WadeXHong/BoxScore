@@ -18,6 +18,8 @@ import com.example.wade8.boxscore.BoxScoreContract;
 import com.example.wade8.boxscore.BoxScorePresenter;
 import com.example.wade8.boxscore.R;
 import com.example.wade8.boxscore.SharedPreferenceHelper;
+import com.example.wade8.boxscore.gameboxscore.GameBoxScoreActivity;
+import com.example.wade8.boxscore.objects.GameInfo;
 import com.example.wade8.boxscore.startgame.StartGameActivity;
 
 public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContract.View {
@@ -108,7 +110,7 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
                   .setPositiveButton("恢復比賽", new DialogInterface.OnClickListener() {
                       @Override
                       public void onClick(DialogInterface dialog, int which) {
-//                          transToGameBoxScore();//TODO ??????????? How to do ?
+                          transToGameBoxScore();//TODO ??????????? How to do ?
                           Log.d(TAG,"pressed Resume");
                           dialog.dismiss();
                       }})
@@ -136,6 +138,12 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
     @Override
     public void transToStartGame() {
         startActivity(new Intent(mContext, StartGameActivity.class));
+    }
+
+    @Override
+    public void transToGameBoxScore() {
+        startActivity(new Intent(this, GameBoxScoreActivity.class).putExtra("GameInfo",new GameInfo()).putExtra("isResume",true));
+
     }
 
 }

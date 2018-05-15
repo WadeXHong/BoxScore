@@ -30,6 +30,10 @@ public interface GameBoxScoreContract {
         void popDataStatisticDialog(DataStatisticDialog dialog);
 
         void showToast(String message);
+
+        void setGameInfoFromResume();
+
+        void setGameInfoFromInput();
     }
 
     interface Presenter extends BasePresenter{
@@ -65,5 +69,9 @@ public interface GameBoxScoreContract {
         void scrollLeft(int mPointerCount);
 
         void scrollRight(int mPointerCount);
+
+        void checkIsResume(boolean mIsResume);
+
+        GameInfo resumeGameInfo(GameInfo mGameInfo);
     }
 }

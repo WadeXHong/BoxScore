@@ -69,10 +69,9 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
         mUndo = findViewById(R.id.activity_gameboxscore_undo);
         mDataStatistic = findViewById(R.id.activity_gameboxscore_datastatistic);
 
-        mGameInfo = (GameInfo) getIntent().getSerializableExtra("GameInfo");
-        logTestingGameInfo();
-
         init();
+
+        logTestingGameInfo();
         setOnClick();
         setGesture();
 
@@ -166,6 +165,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
         Log.i(TAG,"BoxScoreActivity.init");
         setStatusBar(this);
         mPresenter = new GameBoxScorePresenter(this, getSupportFragmentManager());
+        mPresenter.checkIsResume(getIntent().getBooleanExtra("isResume",false));
         mPresenter.start();
 
     }
@@ -226,6 +226,16 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
     @Override
     public void showToast(String message) {
         Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void setGameInfoFromResume() {
+        mGameInfo = mPresenter.resumeGameInfo((GameInfo) getIntent().getSerializableExtra("GameInfo"));
+    }
+
+    @Override
+    public void setGameInfoFromInput() {
+        mGameInfo = (GameInfo) getIntent().getSerializableExtra("GameInfo");
     }
 
     @Override
