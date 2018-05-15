@@ -46,6 +46,7 @@ public class BoxScorePresenter implements BoxScoreContract.Presenter {
     @Override
     public void pressStartGame() {
         if (SharedPreferenceHelper.contains(SharedPreferenceHelper.PLAYING_GAME)){
+            String string = SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME,"87");
             Cursor cursor = BoxScore.getGameInfoDbHelper()
                       .getReadableDatabase()
                       .query(Constants.GameInfoDBContract.TABLE_NAME

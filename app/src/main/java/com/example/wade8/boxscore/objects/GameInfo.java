@@ -125,7 +125,7 @@ public class GameInfo implements Serializable{
 
     public GameInfo() {
 
-        mGameId = UUID.randomUUID().toString();
+        mGameId = "";
         mGameName = "" ;
         mOpponentName = "" ;
         mGameDate = "" ;

@@ -1,5 +1,6 @@
 package com.example.wade8.boxscore.gameboxscore;
 
+import android.database.Cursor;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.util.SparseIntArray;
@@ -24,6 +25,7 @@ import com.example.wade8.boxscore.undohistory.UndoHistoryPresenter;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by wade8 on 2018/5/3.
@@ -67,6 +69,13 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
         mTeamData.append(Constants.RecordDataType.OPPONENT_TEAM_FOUL,0);
         mTeamData.append(Constants.RecordDataType.QUARTER,1);
 
+        //TODO 或許可以捨去整個TeamData SparseArray 全部改用SharedPreferences
+        SharedPreferenceHelper.write(SharedPreferenceHelper.YOUR_TEAM_FOUL,0);
+        SharedPreferenceHelper.write(SharedPreferenceHelper.OPPONENT_TEAM_FOUL,0);
+        SharedPreferenceHelper.write(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE,0);
+        SharedPreferenceHelper.write(SharedPreferenceHelper.OPPONENT_TEAM_TOTAL_SCORE,0);
+        SharedPreferenceHelper.write(SharedPreferenceHelper.QUARTER,1);
+
     }
 
     private void setViewPager(){
@@ -105,18 +114,27 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
             initNewTeamData();
             mGameBoxScoreView.setGameInfoFromInput();
             mGameInfo = mGameBoxScoreView.getGameInfo();
+            mGameInfo.setGameId(UUID.randomUUID().toString());
             writeInitDataIntoModel();
         }
         mGameInfo.setTeamData(mTeamData);
     }
 
     private void initResumeTeamData() {
+        Cursor cursor = BoxScore.getGameDataDbHelper().getGameStatisic();
+        mTeamData = new SparseIntArray();
+        mTeamData.append(Constants.RecordDataType.YOUR_TEAM_TOTAL_SCORE, SharedPreferenceHelper.read(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE, 0));
+        mTeamData.append(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE,SharedPreferenceHelper.read(SharedPreferenceHelper.OPPONENT_TEAM_TOTAL_SCORE, 0));
+        mTeamData.append(Constants.RecordDataType.YOUR_TEAM_FOUL,SharedPreferenceHelper.read(SharedPreferenceHelper.YOUR_TEAM_FOUL, 0));
+        mTeamData.append(Constants.RecordDataType.OPPONENT_TEAM_FOUL,SharedPreferenceHelper.read(SharedPreferenceHelper.OPPONENT_TEAM_FOUL, 0));
+        mTeamData.append(Constants.RecordDataType.QUARTER,SharedPreferenceHelper.read(SharedPreferenceHelper.QUARTER, 1));
+
     }
 
     @Override
     public GameInfo resumeGameInfo(GameInfo gameInfo) {
         //TODO call modle
-
+        gameInfo.setGameId(SharedPreferenceHelper.PLAYING_GAME);
         mGameInfo = gameInfo;
         return mGameInfo;
     }

@@ -9,7 +9,9 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.util.SparseIntArray;
 
+import com.example.wade8.boxscore.BoxScore;
 import com.example.wade8.boxscore.Constants;
+import com.example.wade8.boxscore.SharedPreferenceHelper;
 import com.example.wade8.boxscore.objects.GameInfo;
 import com.example.wade8.boxscore.objects.Player;
 import com.example.wade8.boxscore.objects.Undo;
@@ -156,6 +158,7 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
                 mGameInfo.getDetailData().get(quarter).get(playerNumber).put(0,points-1); //point key = 0;
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(Constants.RecordDataType.FREE_THROW_SHOT_MISSED),FTAttend-1);
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(0),points-1);
+                SharedPreferenceHelper.write(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE,SharedPreferenceHelper.read(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE,0)-1);
                 break;
 
             case Constants.RecordDataType.TWO_POINT_SHOT_MADE:
@@ -174,6 +177,8 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
                 mGameInfo.getDetailData().get(quarter).get(playerNumber).put(0,points-2); //point key = 0;
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(Constants.RecordDataType.TWO_POINT_SHOT_MISSED),FGAttend-1);
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(0),points-2);
+                SharedPreferenceHelper.write(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE,SharedPreferenceHelper.read(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE,0)-2);
+
                 break;
 
             case Constants.RecordDataType.THREE_POINT_SHOT_MISSED:
@@ -216,9 +221,11 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(Constants.RecordDataType.TWO_POINT_SHOT_MISSED),FGAttend-1);
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(Constants.RecordDataType.THREE_POINT_SHOT_MISSED),TPAttend-1);
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(0),points-3);
+                SharedPreferenceHelper.write(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE,SharedPreferenceHelper.read(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE,0)-3);
+
                 break;
 
-        }
+        }//TODO Foul
         int value = mGameInfo.getDetailData()
                   .get(quarter)
                   .get(playerNumber).get(type);
@@ -273,6 +280,7 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
                 mGameInfo.getDetailData().get(quarter).get(playerNumber).put(0,points+1); //point key = 0;
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(Constants.RecordDataType.FREE_THROW_SHOT_MISSED),FTAttend+1);
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(0),points+1);
+                SharedPreferenceHelper.write(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE,SharedPreferenceHelper.read(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE,0)+1);
                 break;
 
             case Constants.RecordDataType.TWO_POINT_SHOT_MADE:
@@ -290,6 +298,7 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
                 mGameInfo.getDetailData().get(quarter).get(playerNumber).put(0,points+2); //point key = 0;
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(Constants.RecordDataType.TWO_POINT_SHOT_MISSED),FGAttend+1);
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(0),points+2);
+                SharedPreferenceHelper.write(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE,SharedPreferenceHelper.read(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE,0)+2);
                 break;
 
             case Constants.RecordDataType.THREE_POINT_SHOT_MISSED:
@@ -330,9 +339,10 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(Constants.RecordDataType.TWO_POINT_SHOT_MISSED),FGAttend+1);
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(Constants.RecordDataType.THREE_POINT_SHOT_MISSED),TPAttend+1);
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(0),points+3);
+                SharedPreferenceHelper.write(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE,SharedPreferenceHelper.read(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE,0)+3);
                 break;
 
-        }
+        }//TODO Foul
         int value = mGameInfo.getDetailData()
                   .get(quarter)
                   .get(playerNumber).get(type);

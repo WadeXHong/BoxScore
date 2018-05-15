@@ -21,6 +21,16 @@ public class SharedPreferenceHelper {
     }
 
     public static final String PLAYING_GAME = "PLAYING_GAME";
+    public static final String YOUR_TEAM_TOTAL_SCORE = "YOUR_TEAM_TOTAL_SCORE";
+    public static final String OPPONENT_TEAM_TOTAL_SCORE = "OPPONENT_TEAM_TOTAL_SCORE";
+    public static final String YOUR_TEAM_FOUL = "YOUR_TEAM_FOUL";
+    public static final String OPPONENT_TEAM_FOUL = "OPPONENT_TEAM_FOUL";
+    public static final String QUARTER = "QUARTER";
+
+
+
+
+
 
     public static void init(Context context){
         if (mSharedPreferences == null){
@@ -32,9 +42,19 @@ public class SharedPreferenceHelper {
         return mSharedPreferences.getString(key,defValue);
     }
 
+    public static int read(String key, int defValue){
+        return mSharedPreferences.getInt(key,defValue);
+    }
+
     public static void write(String key, String value){
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString(key,value);
+        editor.apply();
+    }
+
+    public static void write(String key, int value){
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putInt(key,value);
         editor.apply();
     }
 
