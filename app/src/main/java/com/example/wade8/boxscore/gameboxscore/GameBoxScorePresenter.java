@@ -190,6 +190,8 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     }
 
 
+
+
     @Override
     public void writeInitDataIntoModel() {
         GameDataDbHelper mGameDataDbHelper = BoxScore.getGameDataDbHelper();
@@ -214,6 +216,16 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
         mTeamData.put(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE,mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE)+1);
         SharedPreferenceHelper.write(SharedPreferenceHelper.OPPONENT_TEAM_TOTAL_SCORE,mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE));
         mGameBoxScoreView.updateUiTeamData();
+    }
+
+    @Override
+    public void longPressOpponentTeamScore() {
+        if (mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE) > 0) {
+            Log.d(TAG, "Opponent Score -1");
+            mTeamData.put(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE, mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE) - 1);
+            SharedPreferenceHelper.write(SharedPreferenceHelper.OPPONENT_TEAM_TOTAL_SCORE, mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE));
+            mGameBoxScoreView.updateUiTeamData();
+        }
     }
 
     @Override
@@ -246,11 +258,29 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     }
 
     @Override
+    public void longPressOpponentTeamFoul() {
+        if (mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_FOUL) > 0){
+            mTeamData.put(Constants.RecordDataType.OPPONENT_TEAM_FOUL,mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_FOUL)-1);
+            SharedPreferenceHelper.write(SharedPreferenceHelper.OPPONENT_TEAM_FOUL,mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_FOUL));
+            mGameBoxScoreView.updateUiTeamData();
+        }
+    }
+
+    @Override
     public void pressQuarter() {
         if (mTeamData.get(Constants.RecordDataType.QUARTER) == Integer.parseInt(mGameInfo.getTotalQuarter())){
             Log.d(TAG,"Quarter is already GG");
         }else{
             mTeamData.put(Constants.RecordDataType.QUARTER,mTeamData.get(Constants.RecordDataType.QUARTER)+1);
+            SharedPreferenceHelper.write(SharedPreferenceHelper.QUARTER,mTeamData.get(Constants.RecordDataType.QUARTER));
+            mGameBoxScoreView.updateUiTeamData();
+        }
+    }
+
+    @Override
+    public void longPressQuarter() {
+        if (mTeamData.get(Constants.RecordDataType.QUARTER) > 0){
+            mTeamData.put(Constants.RecordDataType.QUARTER,mTeamData.get(Constants.RecordDataType.QUARTER)-1);
             SharedPreferenceHelper.write(SharedPreferenceHelper.QUARTER,mTeamData.get(Constants.RecordDataType.QUARTER));
             mGameBoxScoreView.updateUiTeamData();
         }

@@ -72,6 +72,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
 
         logTestingGameInfo();
         setOnClick();
+        setOnLongClick();
         setGesture();
 
 //        mPresenter.writeInitDataIntoModel();
@@ -167,6 +168,33 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
                                   dialog.dismiss();
                               }
                           }).show();
+            }
+        });
+    }
+
+    private void setOnLongClick() {
+
+        mOpponentTeamScore.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                mPresenter.longPressOpponentTeamScore();
+                return true;
+            }
+        });
+
+        mOpponentTeamfoul.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                mPresenter.longPressOpponentTeamFoul();
+                return true;
+            }
+        });
+
+        mQuarter.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                mPresenter.longPressQuarter();
+                return true;
             }
         });
     }

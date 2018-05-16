@@ -77,5 +77,11 @@ public interface GameBoxScoreContract {
         void removeGameDataSharedPreferences();
 
         void removeGameDataInDataBase();
+
+        void longPressOpponentTeamScore();
+
+        void longPressOpponentTeamFoul();
+
+        void longPressQuarter();
     }
 }
