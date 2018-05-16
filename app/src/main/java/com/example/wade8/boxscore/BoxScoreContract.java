@@ -31,7 +31,9 @@ public interface BoxScoreContract {
 
         void pressStartGame();
 
-        void clearPreviousGameData();
+        void removeGameDataSharedPreferences();
+
+        void removeGameDataInDataBase();
     }
 
 }

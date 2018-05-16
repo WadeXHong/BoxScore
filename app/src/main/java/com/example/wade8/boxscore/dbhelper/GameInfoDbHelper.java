@@ -82,4 +82,10 @@ public class GameInfoDbHelper extends SQLiteOpenHelper{
                             ,new String[]{SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME,null)}
                             ,null,null, null);
     }
+
+    public void removeGameInfo(String gameId) {
+        if (!gameId.equals("")){
+            getWritableDatabase().delete(Constants.GameInfoDBContract.TABLE_NAME, Constants.GameInfoDBContract.GAME_ID + " = ?", new String[]{gameId});
+        }
+    }
 }

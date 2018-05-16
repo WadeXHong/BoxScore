@@ -62,7 +62,18 @@ public class BoxScorePresenter implements BoxScoreContract.Presenter {
     }
 
     @Override
-    public void clearPreviousGameData() {
+    public void removeGameDataSharedPreferences() {
+        SharedPreferenceHelper.remove(SharedPreferenceHelper.PLAYING_GAME);
+        SharedPreferenceHelper.remove(SharedPreferenceHelper.YOUR_TEAM_FOUL);
+        SharedPreferenceHelper.remove(SharedPreferenceHelper.OPPONENT_TEAM_FOUL);
+        SharedPreferenceHelper.remove(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE);
+        SharedPreferenceHelper.remove(SharedPreferenceHelper.OPPONENT_TEAM_TOTAL_SCORE);
+        SharedPreferenceHelper.remove(SharedPreferenceHelper.QUARTER);
+    }
 
+    @Override
+    public void removeGameDataInDataBase() {
+        BoxScore.getGameDataDbHelper().removeGameData(SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME,""));
+        BoxScore.getGameInfoDbHelper().removeGameInfo(SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME,""));
     }
 }

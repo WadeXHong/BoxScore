@@ -73,5 +73,9 @@ public interface GameBoxScoreContract {
         void checkIsResume(boolean mIsResume);
 
         GameInfo resumeGameInfo(GameInfo mGameInfo);
+
+        void removeGameDataSharedPreferences();
+
+        void removeGameDataInDataBase();
     }
 }

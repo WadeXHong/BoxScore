@@ -78,7 +78,7 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
         for (Player mPlayer:mGameInfo.getStartingPlayerList()){
             for (int i = 0; i<totalQuarter; i++){
                 ContentValues contentValues = new ContentValues();
-                contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_GAME_ID,mGameInfo.getGameId()); //TODO real game ID
+                contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_GAME_ID,mGameInfo.getGameId());
                 contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_QUARTER,i+1);
                 contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER,mPlayer.getNumber());
                 contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NAME,mPlayer.getName());
@@ -88,7 +88,7 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
         for (Player mPlayer:mGameInfo.getSubstitutePlayerList()){
             for (int i = 0; i<totalQuarter; i++){
                 ContentValues contentValues = new ContentValues();
-                contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_GAME_ID,mGameInfo.getGameId()); //TODO real game ID
+                contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_GAME_ID,mGameInfo.getGameId());
                 contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_QUARTER,i+1);
                 contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER,mPlayer.getNumber());
                 contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NAME,mPlayer.getName());
@@ -558,4 +558,9 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
         return cursor;
     }
 
+    public void removeGameData(String gameId) {
+        if (!gameId.equals("")) {
+            getWritableDatabase().delete(Constants.GameDataDBContract.TABLE_NAME,Constants.GameDataDBContract.COLUMN_NAME_GAME_ID + " = ?",new String[]{gameId});
+        }
+    }
 }

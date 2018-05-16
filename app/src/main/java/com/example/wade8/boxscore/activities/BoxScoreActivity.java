@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
 
 import com.example.wade8.boxscore.BoxScoreContract;
 import com.example.wade8.boxscore.BoxScorePresenter;
@@ -118,7 +117,7 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
                       @Override
                       public void onClick(DialogInterface dialog, int which) {
                           Log.d(TAG,"pressed End and start new");
-                          SharedPreferenceHelper.remove(SharedPreferenceHelper.PLAYING_GAME);
+                          mPresenter.removeGameDataSharedPreferences();
                           transToStartGame();
                           dialog.dismiss();
                       }})
@@ -127,8 +126,8 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
                       public void onClick(DialogInterface dialog, int which) {
                           Log.d(TAG,"pressed Discard and start new");
                           //ToDo callPresenter to delete previous gameData in DB
-                          mPresenter.clearPreviousGameData();
-                          SharedPreferenceHelper.remove(SharedPreferenceHelper.PLAYING_GAME);
+                          mPresenter.removeGameDataInDataBase();
+                          mPresenter.removeGameDataSharedPreferences();
                           transToStartGame();
                           dialog.dismiss();
                       }}).show();

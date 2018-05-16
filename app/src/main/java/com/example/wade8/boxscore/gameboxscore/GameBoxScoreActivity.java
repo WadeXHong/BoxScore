@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseIntArray;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -18,14 +17,12 @@ import android.widget.Toast;
 
 import com.example.wade8.boxscore.Constants;
 import com.example.wade8.boxscore.R;
-import com.example.wade8.boxscore.SharedPreferenceHelper;
 import com.example.wade8.boxscore.ViewPagerFragmentAdapter;
 import com.example.wade8.boxscore.customlayout.BSLinearLayout;
 import com.example.wade8.boxscore.customlayout.BSViewPager;
 import com.example.wade8.boxscore.dialogfragment.datastatistic.DataStatisticDialog;
 import com.example.wade8.boxscore.gesturelistener.OnScrollGestureListener;
 import com.example.wade8.boxscore.objects.GameInfo;
-import com.example.wade8.boxscore.startgame.StartGameActivity;
 
 public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxScoreContract.View{
 
@@ -52,6 +49,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
     private TextView mQuarter;
     private ImageView mUndo;
     private ImageView mDataStatistic;
+    private ImageView mSave;
 
 
     @Override
@@ -68,6 +66,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
         mQuarter = findViewById(R.id.activity_gameboxscore_quarter);
         mUndo = findViewById(R.id.activity_gameboxscore_undo);
         mDataStatistic = findViewById(R.id.activity_gameboxscore_datastatistic);
+        mSave = findViewById(R.id.activity_gameboxscore_save);
 
         init();
 
@@ -146,6 +145,28 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
             public void onClick(View v) {
                 Log.d(TAG,"mDataStatistic onClick");
                 mPresenter.pressDataStatistic();
+            }
+        });
+        mSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG,"mDataStatistic onClick");
+                new AlertDialog.Builder(GameBoxScoreActivity.this, R.style.Theme_AppCompat_Light_Dialog).setTitle("結束比賽")
+                          .setMessage("比賽是否結束並儲存結果？")
+                          .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    mPresenter.removeGameDataSharedPreferences();
+                                    dialog.dismiss();
+                                    finish();
+                                }
+                            })
+                          .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                              @Override
+                              public void onClick(DialogInterface dialog, int which) {
+                                  dialog.dismiss();
+                              }
+                          }).show();
             }
         });
     }
@@ -250,7 +271,8 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
                   .setNeutralButton("放棄比賽", new DialogInterface.OnClickListener() {
                       @Override
                       public void onClick(DialogInterface dialog, int which) {
-                          SharedPreferenceHelper.remove(SharedPreferenceHelper.PLAYING_GAME);
+                          mPresenter.removeGameDataInDataBase();
+                          mPresenter.removeGameDataSharedPreferences();
                           dialog.dismiss(); //TODO 清除DataBase
                           GameBoxScoreActivity.super.onBackPressed();
                       }

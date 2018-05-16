@@ -173,8 +173,21 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
         return mGameInfo;
     }
 
+    @Override
+    public void removeGameDataSharedPreferences() {
+        SharedPreferenceHelper.remove(SharedPreferenceHelper.PLAYING_GAME);
+        SharedPreferenceHelper.remove(SharedPreferenceHelper.YOUR_TEAM_FOUL);
+        SharedPreferenceHelper.remove(SharedPreferenceHelper.OPPONENT_TEAM_FOUL);
+        SharedPreferenceHelper.remove(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE);
+        SharedPreferenceHelper.remove(SharedPreferenceHelper.OPPONENT_TEAM_TOTAL_SCORE);
+        SharedPreferenceHelper.remove(SharedPreferenceHelper.QUARTER);
+    }
 
-
+    @Override
+    public void removeGameDataInDataBase() {
+        BoxScore.getGameDataDbHelper().removeGameData(SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME,""));
+        BoxScore.getGameInfoDbHelper().removeGameInfo(SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME,""));
+    }
 
 
     @Override
@@ -199,6 +212,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     public void pressOpponentTeamScore() {
         Log.d(TAG,"Opponent Score +1");
         mTeamData.put(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE,mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE)+1);
+        SharedPreferenceHelper.write(SharedPreferenceHelper.OPPONENT_TEAM_TOTAL_SCORE,mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE));
         mGameBoxScoreView.updateUiTeamData();
     }
 
@@ -215,6 +229,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
             Log.d(TAG,"TeamFoul is GG");
         }else{
             mTeamData.put(Constants.RecordDataType.YOUR_TEAM_FOUL,mTeamData.get(Constants.RecordDataType.YOUR_TEAM_FOUL)+1);
+            SharedPreferenceHelper.write(SharedPreferenceHelper.YOUR_TEAM_FOUL,mTeamData.get(Constants.RecordDataType.YOUR_TEAM_FOUL));
             mGameBoxScoreView.updateUiTeamData();
         }
     }
@@ -225,6 +240,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
             Log.d(TAG,"TeamFoul is GG");
         }else{
             mTeamData.put(Constants.RecordDataType.OPPONENT_TEAM_FOUL,mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_FOUL)+1);
+            SharedPreferenceHelper.write(SharedPreferenceHelper.OPPONENT_TEAM_FOUL,mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_FOUL));
             mGameBoxScoreView.updateUiTeamData();
         }
     }
@@ -235,6 +251,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
             Log.d(TAG,"Quarter is already GG");
         }else{
             mTeamData.put(Constants.RecordDataType.QUARTER,mTeamData.get(Constants.RecordDataType.QUARTER)+1);
+            SharedPreferenceHelper.write(SharedPreferenceHelper.QUARTER,mTeamData.get(Constants.RecordDataType.QUARTER));
             mGameBoxScoreView.updateUiTeamData();
         }
     }
