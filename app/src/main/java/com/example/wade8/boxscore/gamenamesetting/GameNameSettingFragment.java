@@ -20,6 +20,7 @@ import com.example.wade8.boxscore.R;
 import com.example.wade8.boxscore.objects.GameInfo;
 import com.example.wade8.boxscore.playerlist.PlayerListFragment;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
@@ -57,7 +58,8 @@ public class GameNameSettingFragment extends Fragment implements GameNameSetting
         mGameDate = view.findViewById(R.id.fragment_gamenamesetting_gamedate_edittext);
         mOpponent = view.findViewById(R.id.fragment_gamenamesetting_opponent_edittext);
         mYourTeam = view.findViewById(R.id.fragment_gamenamesetting_yourteam_spinner);
-
+        String today = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR) +"年"+ (java.util.Calendar.getInstance().get(java.util.Calendar.MONTH)+1) + "月" + java.util.Calendar.getInstance().get(java.util.Calendar.DAY_OF_MONTH) + "日";
+        mGameDate.setText(today);
         mGameDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
