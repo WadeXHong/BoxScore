@@ -1,6 +1,7 @@
 package com.example.wade8.boxscore.adapter;
 
 
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -81,9 +82,11 @@ public class PlayerListAdapter extends RecyclerView.Adapter{
 
         private void bindTitle(int position){
             if (position == 0){
-                mTitleTextView.setText(mTitle[0]);
+                String title = itemView.getContext().getResources().getString(mTitle[0]) + "　需求: 5人；目前: "+ mStartingPlayerList.size()+"人";
+                mTitleTextView.setText(title);
             }else if (position>0 && position<getArrayListSize(mStartingPlayerList)+getArrayListSize(mSubstitutePlayerList)+2){
-                mTitleTextView.setText(mTitle[1]);
+                String title = itemView.getContext().getResources().getString(mTitle[1]) + "　最少: 1人；目前: "+ mSubstitutePlayerList.size()+"人";
+                mTitleTextView.setText(title);
             }else {
                 mTitleTextView.setText(mTitle[2]);
             }
@@ -113,7 +116,7 @@ public class PlayerListAdapter extends RecyclerView.Adapter{
                             mStartingPlayerList.add(mSubstitutePlayerList.get(position));
                             mSubstitutePlayerList.remove(position);
 //                            notifyItemInserted(getArrayListSize(mStartingPlayerList)+1);
-                            notifyItemRangeChanged(getArrayListSize(mStartingPlayerList)+1, getArrayListSize(mSubstitutePlayerList)+getArrayListSize(mUnregisteredPlayerList)+2);
+                            notifyItemRangeChanged(0, getArrayListSize(mStartingPlayerList)+getArrayListSize(mSubstitutePlayerList)+getArrayListSize(mUnregisteredPlayerList)+3);
 
 //                            notifyDataSetChanged();
                         }else {
@@ -124,7 +127,7 @@ public class PlayerListAdapter extends RecyclerView.Adapter{
                         mSubstitutePlayerList.add(0,mStartingPlayerList.get(position));
                         mStartingPlayerList.remove(position);
 //                        notifyItemRemoved(getLayoutPosition());
-                        notifyItemRangeChanged(getLayoutPosition(),getArrayListSize(mStartingPlayerList)+getArrayListSize(mSubstitutePlayerList)+getArrayListSize(mUnregisteredPlayerList)+2);
+                        notifyItemRangeChanged(0, getArrayListSize(mStartingPlayerList)+getArrayListSize(mSubstitutePlayerList)+getArrayListSize(mUnregisteredPlayerList)+3);
                     }
                 }
             });
@@ -137,13 +140,13 @@ public class PlayerListAdapter extends RecyclerView.Adapter{
                         mUnregisteredPlayerList.add(0, mSubstitutePlayerList.get(position));
                         mSubstitutePlayerList.remove(position);
 //                        notifyItemRemoved(getLayoutPosition());
-                        notifyItemRangeChanged(getLayoutPosition(), getArrayListSize(mSubstitutePlayerList)+getArrayListSize(mUnregisteredPlayerList)+1);
+                        notifyItemRangeChanged(0, getArrayListSize(mStartingPlayerList)+getArrayListSize(mSubstitutePlayerList)+getArrayListSize(mUnregisteredPlayerList)+3);
                     }else {
                         int position = getLayoutPosition() - 1;
                         mUnregisteredPlayerList.add(0,mStartingPlayerList.get(position));
                         mStartingPlayerList.remove(position);
 //                        notifyItemRemoved(getLayoutPosition());
-                        notifyItemRangeChanged(getLayoutPosition(), getArrayListSize(mStartingPlayerList)+getArrayListSize(mSubstitutePlayerList)+getArrayListSize(mUnregisteredPlayerList)+2);
+                        notifyItemRangeChanged(0, getArrayListSize(mStartingPlayerList)+getArrayListSize(mSubstitutePlayerList)+getArrayListSize(mUnregisteredPlayerList)+3);
                     }
                 }
             });
@@ -196,7 +199,7 @@ public class PlayerListAdapter extends RecyclerView.Adapter{
                         int position = getLayoutPosition() - getArrayListSize(mStartingPlayerList) - getArrayListSize(mSubstitutePlayerList) - 3;
                         mSubstitutePlayerList.add(mUnregisteredPlayerList.get(position));
                         mUnregisteredPlayerList.remove(position);
-                        notifyItemRangeChanged(getArrayListSize(mStartingPlayerList)+2+getArrayListSize(mSubstitutePlayerList),getArrayListSize(mUnregisteredPlayerList)+1);
+                        notifyItemRangeChanged(0, getArrayListSize(mStartingPlayerList)+getArrayListSize(mSubstitutePlayerList)+getArrayListSize(mUnregisteredPlayerList)+3);
                     }else{
                         Toast.makeText(v.getContext(),R.string.playerLimitToast,Toast.LENGTH_SHORT).show();
                     }
