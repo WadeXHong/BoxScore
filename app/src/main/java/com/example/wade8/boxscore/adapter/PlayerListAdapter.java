@@ -1,7 +1,8 @@
 package com.example.wade8.boxscore.adapter;
 
 
-import android.content.res.Resources;
+import android.content.Context;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.wade8.boxscore.R;
 import com.example.wade8.boxscore.objects.Player;
+import com.example.wade8.boxscore.objects.TransparentAlertDialog;
 
 import java.util.ArrayList;
 
@@ -28,6 +30,12 @@ public class PlayerListAdapter extends RecyclerView.Adapter{
     private final static int TITLE_VIEW = 0;
     private final static int PLAYER_VIEW = 1;
     private final static int UNREGISTERED_PLAYER_VIEW = 2;
+    private final static int MAX_STARTING_PLAYERS = 5;
+    private final static int MAX_PLAYERS = 15;
+    private final static int MIN_SUBSTITUTEPLAYERS = 1;
+
+
+    private Handler mHandler;
 
     private ArrayList<Player> mStartingPlayerList;
     private ArrayList<Player> mSubstitutePlayerList;
@@ -35,7 +43,7 @@ public class PlayerListAdapter extends RecyclerView.Adapter{
     private final int[] mTitle = {R.string.startingPlayers,R.string.substitutePlayers,R.string.unregisteredPlayers};
 
     public PlayerListAdapter(){
-
+        mHandler = new Handler();
         fakeDataInit();
     }
 
@@ -84,11 +92,22 @@ public class PlayerListAdapter extends RecyclerView.Adapter{
             if (position == 0){
                 String title = itemView.getContext().getResources().getString(mTitle[0]) + "　需求: 5人；目前: "+ mStartingPlayerList.size()+"人";
                 mTitleTextView.setText(title);
+                if (mStartingPlayerList.size() == 5){
+                    mTitleTextView.setTextColor(itemView.getContext().getResources().getColor(R.color.colorGreen));
+                }else {
+                    mTitleTextView.setTextColor(itemView.getContext().getResources().getColor(R.color.colorAccent));
+                }
             }else if (position>0 && position<getArrayListSize(mStartingPlayerList)+getArrayListSize(mSubstitutePlayerList)+2){
                 String title = itemView.getContext().getResources().getString(mTitle[1]) + "　最少: 1人；目前: "+ mSubstitutePlayerList.size()+"人";
                 mTitleTextView.setText(title);
+                if (mSubstitutePlayerList.size()>0){
+                    mTitleTextView.setTextColor(itemView.getContext().getResources().getColor(R.color.colorGreen));
+                }else {
+                    mTitleTextView.setTextColor(itemView.getContext().getResources().getColor(R.color.colorAccent));
+                }
             }else {
                 mTitleTextView.setText(mTitle[2]);
+                mTitleTextView.setTextColor(itemView.getContext().getResources().getColor(R.color.colorTextInMainButton));
             }
         }
     }
@@ -111,11 +130,12 @@ public class PlayerListAdapter extends RecyclerView.Adapter{
                 @Override
                 public void onClick(View v) {
                     if (getLayoutPosition() > getArrayListSize(mStartingPlayerList)+1) {
-                        if (getArrayListSize(mStartingPlayerList) < 5) {
+                        if (getArrayListSize(mStartingPlayerList) < MAX_STARTING_PLAYERS) {
                             int position = getLayoutPosition() - getArrayListSize(mStartingPlayerList) - 2;
                             mStartingPlayerList.add(mSubstitutePlayerList.get(position));
                             mSubstitutePlayerList.remove(position);
 //                            notifyItemInserted(getArrayListSize(mStartingPlayerList)+1);
+                            clickBlockingThread(PlayersViewHolder.this.itemView.getContext());
                             notifyItemRangeChanged(0, getArrayListSize(mStartingPlayerList)+getArrayListSize(mSubstitutePlayerList)+getArrayListSize(mUnregisteredPlayerList)+3);
 
 //                            notifyDataSetChanged();
@@ -127,6 +147,7 @@ public class PlayerListAdapter extends RecyclerView.Adapter{
                         mSubstitutePlayerList.add(0,mStartingPlayerList.get(position));
                         mStartingPlayerList.remove(position);
 //                        notifyItemRemoved(getLayoutPosition());
+                        clickBlockingThread(PlayersViewHolder.this.itemView.getContext());
                         notifyItemRangeChanged(0, getArrayListSize(mStartingPlayerList)+getArrayListSize(mSubstitutePlayerList)+getArrayListSize(mUnregisteredPlayerList)+3);
                     }
                 }
@@ -140,17 +161,23 @@ public class PlayerListAdapter extends RecyclerView.Adapter{
                         mUnregisteredPlayerList.add(0, mSubstitutePlayerList.get(position));
                         mSubstitutePlayerList.remove(position);
 //                        notifyItemRemoved(getLayoutPosition());
+                        clickBlockingThread(PlayersViewHolder.this.itemView.getContext());
                         notifyItemRangeChanged(0, getArrayListSize(mStartingPlayerList)+getArrayListSize(mSubstitutePlayerList)+getArrayListSize(mUnregisteredPlayerList)+3);
                     }else {
                         int position = getLayoutPosition() - 1;
                         mUnregisteredPlayerList.add(0,mStartingPlayerList.get(position));
                         mStartingPlayerList.remove(position);
 //                        notifyItemRemoved(getLayoutPosition());
+                        clickBlockingThread(PlayersViewHolder.this.itemView.getContext());
                         notifyItemRangeChanged(0, getArrayListSize(mStartingPlayerList)+getArrayListSize(mSubstitutePlayerList)+getArrayListSize(mUnregisteredPlayerList)+3);
                     }
                 }
             });
 
+        }
+        private void enableClick(boolean isEnable){
+            mRemove.setEnabled(isEnable);
+            mStarting.setEnabled(isEnable);
         }
 
         private void bindPlayers(int position){
@@ -180,6 +207,26 @@ public class PlayerListAdapter extends RecyclerView.Adapter{
         }
     }
 
+    private void clickBlockingThread(Context context) {
+        TransparentAlertDialog.getInstance().show(context);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(250);
+                } catch (InterruptedException mE) {
+                    mE.printStackTrace();
+                }
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        TransparentAlertDialog.getInstance().dismiss();
+                    }
+                });
+            }
+        }).start();
+    }
+
     public class UnregisteredPlayersViewHolder extends RecyclerView.ViewHolder{
 
         private TextView mPlayerNumber;
@@ -195,10 +242,11 @@ public class PlayerListAdapter extends RecyclerView.Adapter{
             mAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (getArrayListSize(mSubstitutePlayerList)+getArrayListSize(mStartingPlayerList) < 15) {
+                    if (getArrayListSize(mSubstitutePlayerList)+getArrayListSize(mStartingPlayerList) < MAX_PLAYERS) {
                         int position = getLayoutPosition() - getArrayListSize(mStartingPlayerList) - getArrayListSize(mSubstitutePlayerList) - 3;
                         mSubstitutePlayerList.add(mUnregisteredPlayerList.get(position));
                         mUnregisteredPlayerList.remove(position);
+                        clickBlockingThread(UnregisteredPlayersViewHolder.this.itemView.getContext());
                         notifyItemRangeChanged(0, getArrayListSize(mStartingPlayerList)+getArrayListSize(mSubstitutePlayerList)+getArrayListSize(mUnregisteredPlayerList)+3);
                     }else{
                         Toast.makeText(v.getContext(),R.string.playerLimitToast,Toast.LENGTH_SHORT).show();
@@ -207,7 +255,9 @@ public class PlayerListAdapter extends RecyclerView.Adapter{
                 }
             });
         }
-
+        private void enableClick(boolean isEnable){
+            mAdd.setEnabled(isEnable);
+        }
         private void bindUnregiseteredPlayers(int position){
             int positionInUnregiseteredArray = position -getArrayListSize(mStartingPlayerList)-getArrayListSize(mSubstitutePlayerList) - 3;
 

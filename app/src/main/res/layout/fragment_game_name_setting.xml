@@ -20,16 +20,17 @@
             android:layout_height="wrap_content"
             android:text="@string/gameTitle"
             android:paddingHorizontal="10dp"
+            android:layout_marginTop="30dp"
             android:textSize="16sp"
             android:textColor="@color/colorTextInMainButton"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_gamenamesetting_opponent_edittext"  />
 
         <EditText
             android:id="@+id/fragment_gamenamesetting_gametitle_edittext"
             android:layout_width="match_parent"
             android:layout_height="35dp"
-            android:layout_marginTop="10dp"
             android:background="@drawable/shape_edittext_gamename"
+            android:layout_marginTop="10dp"
             android:hint="@string/gameTitleHint"
             android:paddingHorizontal="5dp"
             android:textSize="16sp"
@@ -39,12 +40,12 @@
             android:id="@+id/fragment_gamenamesetting_opponent_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+
             android:paddingHorizontal="10dp"
             android:text="@string/opponentName"
             android:textColor="@color/colorTextInMainButton"
             android:textSize="16sp"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_gamenamesetting_gametitle_edittext"
+            app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="0dp" />
 
         <EditText
@@ -52,7 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/shape_edittext_gamename"
+            android:background="@drawable/shape_edittext_gamename_illegal"
             android:hint="@string/opponentNameHint"
             android:paddingHorizontal="5dp"
             android:textSize="16sp"
@@ -67,7 +68,7 @@
             android:text="@string/gameDate"
             android:textColor="@color/colorTextInMainButton"
             android:textSize="16sp"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_gamenamesetting_opponent_edittext"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_gamenamesetting_gametitle_edittext"
             tools:layout_editor_absoluteX="0dp" />
 
         <TextView

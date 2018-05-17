@@ -18,5 +18,6 @@
     <color name="secondaryLightColor">#ff5f52</color>
     <color name="secondaryDarkColor">#8e0000</color>
     <color name="colorAccent">#c62828</color>
+    <color name="colorGreen">#2ec929</color>
 
 </resources>
