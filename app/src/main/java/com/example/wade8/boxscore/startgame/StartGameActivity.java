@@ -40,6 +40,7 @@ public class StartGameActivity extends AppCompatActivity implements StartGameCon
 
     private float mInitPositionX;
     private boolean mIsTurnRight = false;
+    private boolean mIsChangePageAllowed = false;
 
     private final int[] mTab = {R.string.gamenamesetting,R.string.playerlist,R.string.detailsetting};
 
@@ -60,6 +61,17 @@ public class StartGameActivity extends AppCompatActivity implements StartGameCon
             @Override
             public void onPageSelected(int position) {
                 mPresenter.onPageSelected(position);
+
+                //從頭檢查輸入
+                for (int i=0; i<position; i++){
+                    mPresenter.checkInput(i);
+                    if (!mIsChangePageAllowed){
+                        mTabLayout.getTabAt(i).select();
+//                        mViewPager.setCurrentItem(i);
+                        popInputIllegalDialog();
+                        break;
+                    }
+                }
             }
 
             @Override
@@ -218,20 +230,24 @@ public class StartGameActivity extends AppCompatActivity implements StartGameCon
     }
 
     @Override
-    public void setViewPagerCurrentItem(boolean isScrollAllowed) {
-
-        mViewPager.setScrollAllowed(isScrollAllowed);
-        if (mIsTurnRight && !isScrollAllowed) {
-            new AlertDialog.Builder(this).setTitle("幹").setMessage("幹").setPositiveButton("幹", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            }).show();
+    public void setViewPagerCurrentItem(boolean isChangePageAllowed) {
+        mIsChangePageAllowed = isChangePageAllowed;
+        mViewPager.setScrollAllowed(isChangePageAllowed);
+        if (mIsTurnRight && !isChangePageAllowed) {
+            popInputIllegalDialog();
             mIsTurnRight = false;
 //        mViewPager.setCurrentItem(position);
         }
 
+    }
+
+    private void popInputIllegalDialog() {
+        new AlertDialog.Builder(this).setTitle("輸入未完成").setMessage("\n必填項目不符合規定").setPositiveButton("確定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        }).show();
     }
 
     private void setTabInTabLayout() {

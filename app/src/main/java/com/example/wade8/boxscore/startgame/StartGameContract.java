@@ -25,7 +25,7 @@ public interface StartGameContract {
 
         void setDetailSettingToolBar();
 
-        void setViewPagerCurrentItem(boolean isScrollAllowed);
+        void setViewPagerCurrentItem(boolean isChangePageAllowed);
     }
 
     interface Presenter extends BasePresenter{
