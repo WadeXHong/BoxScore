@@ -13,6 +13,8 @@ public interface GameNameSettingContract {
     interface View extends BaseView<Presenter>{
 
         void getSettingResult(GameInfo gameInfo);
+
+        String[] getCheckedInput();
     }
 
     interface Presenter extends BasePresenter{

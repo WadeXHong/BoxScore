@@ -91,4 +91,9 @@ public class GameNameSettingFragment extends Fragment implements GameNameSetting
         //TODO spinner data
 //        gameInfo.setYourTeam(mYourTeam.getSelectedItem().toString());
     }
+
+    @Override
+    public String[] getCheckedInput() {
+        return new String[]{mOpponent.getText().toString()};//未來新增條件可加在這裡
+    }
 }

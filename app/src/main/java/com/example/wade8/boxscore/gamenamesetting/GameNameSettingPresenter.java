@@ -25,4 +25,9 @@ public class GameNameSettingPresenter implements GameNameSettingContract.Present
     public void getDataFromView(GameInfo gameInfo) {
         mGameNameSettingView.getSettingResult(gameInfo);
     }
+
+    public boolean checkInputIsLegal() {
+        String[] input =mGameNameSettingView.getCheckedInput();
+        return !input[0].equals("");
+    }
 }

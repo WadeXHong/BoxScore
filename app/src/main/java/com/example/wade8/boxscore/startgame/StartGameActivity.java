@@ -9,14 +9,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.wade8.boxscore.R;
 import com.example.wade8.boxscore.ViewPagerFragmentAdapter;
+import com.example.wade8.boxscore.customlayout.BSViewPager;
 import com.example.wade8.boxscore.gameboxscore.GameBoxScoreActivity;
-import com.example.wade8.boxscore.login.LoginActivity;
 import com.example.wade8.boxscore.objects.GameInfo;
 
 public class StartGameActivity extends AppCompatActivity implements StartGameContract.View{
@@ -33,9 +34,12 @@ public class StartGameActivity extends AppCompatActivity implements StartGameCon
     private Toolbar mToolbar;
     private TextView mStartGame;
     private ImageView mNextPage;
-    private ViewPager mViewPager;
+    private BSViewPager mViewPager;
     private TabLayout mTabLayout;
     private View.OnClickListener onClickTransToGameNameSetting,onClickTransToPlayerSetting,onClickTransToDetailSetting;
+
+    private float mInitPositionX;
+    private boolean mIsTurnRight = false;
 
     private final int[] mTab = {R.string.gamenamesetting,R.string.playerlist,R.string.detailsetting};
 
@@ -46,7 +50,6 @@ public class StartGameActivity extends AppCompatActivity implements StartGameCon
 
         mViewPager = findViewById(R.id.activity_startgame_viewpager);
         mTabLayout = findViewById(R.id.activity_startgame_tablelayout);
-
         mPresenter = new StartGamePresenter(this, getSupportFragmentManager());
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -61,7 +64,9 @@ public class StartGameActivity extends AppCompatActivity implements StartGameCon
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
+                if (state == ViewPager.SCROLL_STATE_DRAGGING){
+                    mPresenter.checkInput(mViewPager.getCurrentItem());
+                }
             }
         });
 
@@ -73,6 +78,33 @@ public class StartGameActivity extends AppCompatActivity implements StartGameCon
 //        mPresenter.set();
 
 
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        int action = ev.getActionMasked();
+        float dx = ev.getX(0) - mInitPositionX;
+        switch (action){
+
+            case MotionEvent.ACTION_DOWN:
+                mInitPositionX = ev.getX(0);
+                break;
+
+            case MotionEvent.ACTION_MOVE:
+                if (dx < 0) {
+                    mIsTurnRight = true;
+                }else {
+                    mIsTurnRight = false;
+                }
+                break;
+
+            case MotionEvent.ACTION_UP:
+                if (dx < 0) {
+                    mIsTurnRight = true;
+                }
+                break;
+        }
+        return super.dispatchTouchEvent(ev);
     }
 
     private void setOnClickParameters() {
@@ -183,6 +215,23 @@ public class StartGameActivity extends AppCompatActivity implements StartGameCon
         mToolbar.setNavigationOnClickListener(onClickTransToPlayerSetting);
         mNextPage.setVisibility(View.GONE);
         mStartGame.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void setViewPagerCurrentItem(boolean isScrollAllowed) {
+
+        mViewPager.setScrollAllowed(isScrollAllowed);
+        if (mIsTurnRight && !isScrollAllowed) {
+            new AlertDialog.Builder(this).setTitle("幹").setMessage("幹").setPositiveButton("幹", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            }).show();
+            mIsTurnRight = false;
+//        mViewPager.setCurrentItem(position);
+        }
+
     }
 
     private void setTabInTabLayout() {

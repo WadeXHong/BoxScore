@@ -13,6 +13,8 @@ public interface PlayerListContract {
     interface View extends BaseView<Presenter>{
 
         void getSettingResult(GameInfo gameInfo);
+
+        int[] getCheckedInput();
     }
     
     interface Presenter extends BasePresenter{

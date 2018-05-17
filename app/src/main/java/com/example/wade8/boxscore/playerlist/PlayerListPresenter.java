@@ -24,4 +24,9 @@ public class PlayerListPresenter implements PlayerListContract.Presenter{
     public void getDataFromView(GameInfo gameInfo) {
         mPlayerListView.getSettingResult(gameInfo);
     }
+
+    public boolean checkInputIsLegal() {
+        int[] input = mPlayerListView.getCheckedInput();
+        return input[0] == 5 && input[1]>0;
+    }
 }

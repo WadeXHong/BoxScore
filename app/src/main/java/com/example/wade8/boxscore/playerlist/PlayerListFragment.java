@@ -63,4 +63,9 @@ public class PlayerListFragment extends Fragment implements PlayerListContract.V
         gameInfo.setStartingPlayerList(mAdapter.getStartingPlayerList());
         gameInfo.setSubstitutePlayerList(mAdapter.getSubstitutePlayerList());
     }
+
+    @Override
+    public int[] getCheckedInput() {
+        return new int[]{mAdapter.getStartingPlayerList().size(),mAdapter.getSubstitutePlayerList().size()};
+    }
 }

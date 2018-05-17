@@ -103,4 +103,16 @@ public class StartGamePresenter implements StartGameContract.Presenter{
 
         return gameInfo;
     }
+
+    @Override
+    public void checkInput(int currentItem) {
+        switch (currentItem){
+            case 0:
+                    mStartGameView.setViewPagerCurrentItem(mGameNameSettingPresenter.checkInputIsLegal());
+                break;
+            case 1:
+                    mStartGameView.setViewPagerCurrentItem(mPlayerListPresenter.checkInputIsLegal());
+                break;
+        }
+    }
 }

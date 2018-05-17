@@ -24,6 +24,8 @@ public interface StartGameContract {
         void setPlayerListToolBar();
 
         void setDetailSettingToolBar();
+
+        void setViewPagerCurrentItem(boolean isScrollAllowed);
     }
 
     interface Presenter extends BasePresenter{
@@ -39,5 +41,7 @@ public interface StartGameContract {
         void transToDetailSettingPage();
 
         GameInfo getSettingResult(GameInfo gameInfo);
+
+        void checkInput(int currentItem);
     }
 }

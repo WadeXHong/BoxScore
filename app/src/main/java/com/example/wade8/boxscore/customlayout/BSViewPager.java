@@ -16,6 +16,8 @@ import android.view.ViewConfiguration;
 public class BSViewPager extends ViewPager {
     private static final String TAG = BSViewPager.class.getSimpleName();
     private final float mScaledPagingTouchSlop;
+    private float mInitialPositionX;
+    private boolean mIsScrollAllowed = true;
 
     public BSViewPager(@NonNull Context context) {
         super(context);
@@ -67,6 +69,7 @@ public class BSViewPager extends ViewPager {
         switch (action){
             case MotionEvent.ACTION_DOWN:
                 Log.e(TAG,"ACTION_DOWN executed");
+                mInitialPositionX = ev.getX(0);
                 break;
             case MotionEvent.ACTION_MOVE:
                 Log.e(TAG,"ACTION_MOVE executed");
@@ -92,6 +95,22 @@ public class BSViewPager extends ViewPager {
     public boolean onTouchEvent(MotionEvent ev) {
 
         Log.w(TAG,"onTouchEvent executed");
+        if (!mIsScrollAllowed){
+            float dx = ev.getX(0)-mInitialPositionX;
+            switch (getCurrentItem()){
+                case 0:
+                case 1:
+
+                    if (dx<0) {
+                        MotionEvent mMotionEvent = MotionEvent.obtain(ev);
+
+                        mMotionEvent.setAction(MotionEvent.ACTION_CANCEL);
+                        return super.onTouchEvent(mMotionEvent);
+                    }
+
+                    break;
+            }
+        }
 
         int action = ev.getActionMasked();
         switch (action){
@@ -113,8 +132,16 @@ public class BSViewPager extends ViewPager {
         }
 
         boolean returnValue = super.onTouchEvent(ev);
-        Log.d(TAG,"onTouchEvent return : " + returnValue);
+//        Log.d(TAG,"onTouchEvent return : " + returnValue);
 
         return returnValue;
+    }
+
+    public boolean isScrollAllowed() {
+        return mIsScrollAllowed;
+    }
+
+    public void setScrollAllowed(boolean scrollAllowed) {
+        mIsScrollAllowed = scrollAllowed;
     }
 }
