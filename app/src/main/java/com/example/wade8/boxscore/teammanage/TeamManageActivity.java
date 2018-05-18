@@ -34,8 +34,8 @@ public class TeamManageActivity extends AppCompatActivity implements TeamManageC
     }
 
     @Override
-    public void setCreateTeamToolbar() {
-        mToolbar.setTitle(R.string.createTeam);
+    public void setTeamPlayersToolbar() {
+        mToolbar.setTitle(R.string.playerlist);
         mToolbar.setNavigationIcon(R.drawable.ic_keyboard_arrow_left_white_30dp);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

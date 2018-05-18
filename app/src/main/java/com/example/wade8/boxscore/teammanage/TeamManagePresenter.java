@@ -4,8 +4,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.example.wade8.boxscore.R;
-import com.example.wade8.boxscore.createteam.CreateTeamFragment;
+import com.example.wade8.boxscore.createteam.CreateTeamDialogFragment;
 import com.example.wade8.boxscore.createteam.CreateTeamPresenter;
+import com.example.wade8.boxscore.teamplayers.TeamPlayersFragment;
+import com.example.wade8.boxscore.teamplayers.TeamPlayersPresenter;
 import com.example.wade8.boxscore.teammain.TeamMainFragment;
 import com.example.wade8.boxscore.teammain.TeamMainPresenter;
 
@@ -19,13 +21,16 @@ public class TeamManagePresenter implements TeamManageContract.Presenter {
 
     public static final String TEAM_MAIN = "TEAM_MAIN";
     public static final String CREATE_TEAM = "CREATE_TEAM";
+    public static final String TEAM_PLAYERS = "TEAM_PLAYERS";
 
     private final TeamManageContract.View mTeamManageView;
 
     private FragmentManager mFragmentManager;
     private TeamMainFragment mTeamMainFragment;
     private TeamMainPresenter mTeamMainPresenter;
-    private CreateTeamFragment mCreateTeamFragment;
+    private TeamPlayersFragment mTeamPlayersFragment;
+    private TeamPlayersPresenter mTeamPlayersPresenter;
+    private CreateTeamDialogFragment mCreateTeamDialogFragment;
     private CreateTeamPresenter mCreateTeamPresenter;
 
     public TeamManagePresenter(TeamManageContract.View teamManageView, FragmentManager supportFragmentManager) {
@@ -42,41 +47,42 @@ public class TeamManagePresenter implements TeamManageContract.Presenter {
 
     @Override
     public void transToCreateTeam() {
+        if (mCreateTeamDialogFragment == null) mCreateTeamDialogFragment = CreateTeamDialogFragment.newInstance();
+        if (mCreateTeamPresenter == null) mCreateTeamPresenter = new CreateTeamPresenter(mCreateTeamDialogFragment);
+        mCreateTeamDialogFragment.show(mFragmentManager,CREATE_TEAM);
+    }
+
+    @Override
+    public void transToTeamPlayers() {
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
-        transaction.setCustomAnimations(R.anim.slide_left_fragment,R.anim.slide_left_fragment);
+        transaction.setCustomAnimations(R.anim.slide_in_from_right, R.anim.fade_out_dialog, R.anim.slide_in_from_left, R.anim.fade_out_dialog);
 
 
-        if (mCreateTeamFragment == null) mCreateTeamFragment = CreateTeamFragment.newInstance();
+        if (mTeamPlayersFragment == null) mTeamPlayersFragment = TeamPlayersFragment.newInstance();
         if (mTeamMainFragment != null) {
             transaction.hide(mTeamMainFragment);
             transaction.addToBackStack(TEAM_MAIN);
         }
-        if (!mCreateTeamFragment.isAdded()){
-            transaction.add(R.id.activity_teammanage_framelayout, mCreateTeamFragment, CREATE_TEAM);
+        if (!mTeamPlayersFragment.isAdded()){
+            transaction.add(R.id.activity_teammanage_framelayout, mTeamPlayersFragment, TEAM_PLAYERS);
         }else {
-            transaction.show(mCreateTeamFragment);
+            transaction.show(mTeamPlayersFragment);
         }
         transaction.commit();
 
-        if (mCreateTeamPresenter == null){
-            mCreateTeamPresenter = new CreateTeamPresenter(mCreateTeamFragment);
+        if (mTeamPlayersPresenter == null){
+            mTeamPlayersPresenter = new TeamPlayersPresenter(mTeamPlayersFragment);
         }
 
-        setCreateTeamToolbar();
-    }
-
-    @Override
-    public void transToPlayers() {
-
+        setTeamPlayersToolbar();
     }
 
     @Override
     public void transToTeamMain() {
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
-        transaction.setCustomAnimations(R.anim.slide_left_fragment,R.anim.slide_left_fragment);
 
         if (mTeamMainFragment == null) mTeamMainFragment = TeamMainFragment.newInstance();
-        if (mCreateTeamFragment != null) transaction.remove(mCreateTeamFragment);
+        if (mTeamPlayersFragment != null) transaction.remove(mTeamPlayersFragment);
         if (!mTeamMainFragment.isAdded()){
             transaction.add(R.id.activity_teammanage_framelayout, mTeamMainFragment, TEAM_MAIN);
         }else {
@@ -97,7 +103,7 @@ public class TeamManagePresenter implements TeamManageContract.Presenter {
     }
 
     @Override
-    public void setCreateTeamToolbar() {
-        mTeamManageView.setCreateTeamToolbar();
+    public void setTeamPlayersToolbar() {
+        mTeamManageView.setTeamPlayersToolbar();
     }
 }

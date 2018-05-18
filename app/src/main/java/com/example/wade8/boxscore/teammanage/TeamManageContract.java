@@ -10,7 +10,7 @@ import com.example.wade8.boxscore.BaseView;
 public interface TeamManageContract {
     interface View extends BaseView<Presenter>{
 
-        void setCreateTeamToolbar();
+        void setTeamPlayersToolbar();
 
         void setTeamMainToolbar();
 
@@ -20,12 +20,12 @@ public interface TeamManageContract {
 
         void transToCreateTeam();
 
-        void transToPlayers();
+        void transToTeamPlayers();
 
         void transToTeamMain();
 
         void setTeamMainToolbar();
 
-        void setCreateTeamToolbar();
+        void setTeamPlayersToolbar();
     }
 }

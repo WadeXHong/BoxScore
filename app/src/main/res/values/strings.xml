@@ -67,5 +67,7 @@
     <string name="confirmExitDataRecord">退出比賽紀錄</string>
     <string name="exitDataRecordMessage">是否要退出比賽？  選擇「儲存」，下次可藉由開始比賽接續紀錄；  選擇「放棄比賽」將清除資料</string>
     <string name="createTeam">新增球隊</string>
+    <string name="pleaseInputTeamName">請輸入隊名</string>
+    <string name="confirm">確定</string>
 
 </resources>

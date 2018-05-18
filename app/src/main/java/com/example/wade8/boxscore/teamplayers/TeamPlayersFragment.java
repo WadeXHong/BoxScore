@@ -1,4 +1,4 @@
-package com.example.wade8.boxscore.createteam;
+package com.example.wade8.boxscore.teamplayers;
 
 
 import android.os.Bundle;
@@ -12,16 +12,16 @@ import com.example.wade8.boxscore.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CreateTeamFragment extends Fragment implements CreateTeamContract.View{
+public class TeamPlayersFragment extends Fragment implements TeamPlayersContract.View{
 
-    private static final String TAG = CreateTeamFragment.class.getSimpleName();
+    private static final String TAG = TeamPlayersFragment.class.getSimpleName();
 
-    private CreateTeamContract.Presenter mPresenter;
+    private TeamPlayersContract.Presenter mPresenter;
 
-    public static CreateTeamFragment newInstance(){
-        return new CreateTeamFragment();
+    public static TeamPlayersFragment newInstance(){
+        return new TeamPlayersFragment();
     }
-    public CreateTeamFragment() {
+    public TeamPlayersFragment() {
         // Required empty public constructor
     }
 
@@ -36,7 +36,7 @@ public class CreateTeamFragment extends Fragment implements CreateTeamContract.V
     }
 
     @Override
-    public void setPresenter(CreateTeamContract.Presenter presenter) {
+    public void setPresenter(TeamPlayersContract.Presenter presenter) {
         mPresenter = presenter;
     }
 }

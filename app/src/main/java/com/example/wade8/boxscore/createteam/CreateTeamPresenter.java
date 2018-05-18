@@ -1,5 +1,7 @@
 package com.example.wade8.boxscore.createteam;
 
+import android.util.Log;
+
 /**
  * Created by wade8 on 2018/5/18.
  */
@@ -20,5 +22,10 @@ public class CreateTeamPresenter implements CreateTeamContract.Presenter{
     @Override
     public void start() {
 
+    }
+
+    @Override
+    public void pressedConfirm() {
+        Log.d(TAG,"pressedConfirm executed");
     }
 }
