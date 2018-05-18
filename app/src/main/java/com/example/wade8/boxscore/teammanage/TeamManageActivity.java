@@ -19,7 +19,7 @@ public class TeamManageActivity extends AppCompatActivity implements TeamManageC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_manage);
-        mPresenter = new TeamManagePresenter(this);
+        mPresenter = new TeamManagePresenter(this, getSupportFragmentManager());
 
         mToolbar = findViewById(R.id.activity_teammanage_toolbar);
         mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_30dp);
@@ -29,6 +29,8 @@ public class TeamManageActivity extends AppCompatActivity implements TeamManageC
                 onBackPressed();
             }
         });
+
+        mPresenter.start();
 
     }
 

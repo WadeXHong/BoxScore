@@ -10,8 +10,14 @@ import com.example.wade8.boxscore.BaseView;
 public interface TeamMainContract {
     interface View extends BaseView<Presenter>{
 
+        void refreshUI();
+
     }
     interface Presenter extends BasePresenter{
+
+        void queryTeamDataFromDatabase(); // call dbhelper
+
+        void pressAddNewTeam();
 
     }
 }
