@@ -24,7 +24,7 @@ public class GameInfoDbHelper extends SQLiteOpenHelper{
     public static final String SQL_CREATE =
               "CREATE TABLE "+ Constants.GameInfoDBContract.TABLE_NAME + "(" +
                         Constants.GameInfoDBContract._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        Constants.GameInfoDBContract.GAME_ID + " TEXT NON NULL, " +
+                        Constants.GameInfoDBContract.GAME_ID + " TEXT NOT NULL, " +
                         Constants.GameInfoDBContract.GAME_NAME + " TEXT DEFAULT '', " +
                         Constants.GameInfoDBContract.YOUR_TEAM + " TEXT DEFAULT 'NO TEAM', " +
                         Constants.GameInfoDBContract.OPPONENT_NAME + " TEXT DEFAULT '', " +

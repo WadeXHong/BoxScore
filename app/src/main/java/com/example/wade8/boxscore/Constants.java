@@ -142,4 +142,14 @@ public class Constants {
 
     }
 
+    public class TeamInfoDBContract implements BaseColumns{
+
+        public static final String _ID = "_id";
+        public static final String TEAM_NAME = "team_name";
+        public static final String PLAYER_NAME = "player_name";
+        public static final String PLAYER_NUMBER = "player_number";
+        public static final String FLAG = "flag";
+
+    }
+
 }
