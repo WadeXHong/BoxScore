@@ -25,7 +25,10 @@ public class CreateTeamPresenter implements CreateTeamContract.Presenter{
     }
 
     @Override
-    public void pressedConfirm() {
+    public void pressedConfirm(String teamName) {
         Log.d(TAG,"pressedConfirm executed");
+        if (teamName.trim().equals("")){
+            mCreateTeamView.showIllegalHint();
+        }
     }
 }

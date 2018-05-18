@@ -5,6 +5,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.res.ResourcesCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +41,7 @@ public class CreateTeamDialogFragment extends DialogFragment implements CreateTe
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Translucent_NoTitleBar);
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.TransparentDialog);
         mPresenter.start();
     }
 
@@ -65,7 +68,7 @@ public class CreateTeamDialogFragment extends DialogFragment implements CreateTe
             @Override
             public void onClick(View v) {
                 Log.d(TAG,"Confirm pressed");
-                mPresenter.pressedConfirm();
+                mPresenter.pressedConfirm(mEditText.getText().toString());
             }
         });
         mParentLayout.setOnClickListener(new View.OnClickListener() {
@@ -73,6 +76,28 @@ public class CreateTeamDialogFragment extends DialogFragment implements CreateTe
             public void onClick(View v) {
                 Log.d(TAG,"Outside pressed");
                 dismiss();
+            }
+        });
+        mEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!s.toString().trim().equals("")){
+                    mConfirm.setEnabled(true);
+                    mEditText.setBackground(ResourcesCompat.getDrawable(getResources(),R.drawable.shape_edittext_gamename,null));
+                }else {
+                    mConfirm.setEnabled(false);
+                    mEditText.setBackground(ResourcesCompat.getDrawable(getResources(),R.drawable.shape_edittext_gamename_illegal,null));
+                }
             }
         });
 
@@ -94,5 +119,10 @@ public class CreateTeamDialogFragment extends DialogFragment implements CreateTe
     @Override
     public void setPresenter(CreateTeamContract.Presenter presenter) {
         mPresenter = presenter;
+    }
+
+    @Override
+    public void showIllegalHint() {
+        mEditText.setBackground(ResourcesCompat.getDrawable(getResources(),R.drawable.shape_edittext_gamename_illegal,null));
     }
 }

@@ -39,4 +39,11 @@
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
+    <style
+        name="TransparentDialog" parent="StartGame">
+        <item name="android:statusBarColor">@color/colorDialogBackground</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
 </resources>

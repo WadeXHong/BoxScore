@@ -10,12 +10,13 @@ import com.example.wade8.boxscore.BaseView;
 public interface CreateTeamContract {
     
     interface View extends BaseView<Presenter>{
-        
+
+        void showIllegalHint();
     }
     
     interface Presenter extends BasePresenter{
 
-        void pressedConfirm();
+        void pressedConfirm(String teamName);
     }
     
 }
