@@ -8,11 +8,12 @@
     tools:context="com.example.wade8.boxscore.teammain.TeamMainFragment">
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/fragment_teammain_createteam_layout"
         android:layout_width="match_parent"
         android:layout_height="55dp">
 
         <ImageView
-            android:id="@+id/fragment_teammain_add_icon"
+            android:id="@+id/fragment_teammain_createteam_icon"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_marginBottom="8dp"
@@ -24,18 +25,18 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/fragment_teammain_add_textview"
+            android:id="@+id/fragment_teammain_createteam_textview"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:layout_marginBottom="8dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="8dp"
-            android:text="@string/addNewTeam"
+            android:text="@string/createTeam"
             android:gravity="center"
             android:textSize="20sp"
             android:textColor="@color/colorButtonInMain"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/fragment_teammain_add_icon"
+            app:layout_constraintStart_toEndOf="@+id/fragment_teammain_createteam_icon"
             app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>

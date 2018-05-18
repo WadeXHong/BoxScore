@@ -22,13 +22,7 @@ public class TeamManageActivity extends AppCompatActivity implements TeamManageC
         mPresenter = new TeamManagePresenter(this, getSupportFragmentManager());
 
         mToolbar = findViewById(R.id.activity_teammanage_toolbar);
-        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_30dp);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        setTeamMainToolbar();
 
         mPresenter.start();
 
@@ -37,5 +31,29 @@ public class TeamManageActivity extends AppCompatActivity implements TeamManageC
     @Override
     public void setPresenter(TeamManageContract.Presenter presenter) {
         mPresenter = presenter;
+    }
+
+    @Override
+    public void setCreateTeamToolbar() {
+        mToolbar.setTitle(R.string.createTeam);
+        mToolbar.setNavigationIcon(R.drawable.ic_keyboard_arrow_left_white_30dp);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+    }
+
+    @Override
+    public void setTeamMainToolbar() {
+        mToolbar.setTitle(R.string.teamManage);
+        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_30dp);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 }

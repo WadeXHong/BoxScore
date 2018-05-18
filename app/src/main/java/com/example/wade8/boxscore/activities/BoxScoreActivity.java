@@ -20,6 +20,7 @@ import com.example.wade8.boxscore.SharedPreferenceHelper;
 import com.example.wade8.boxscore.gameboxscore.GameBoxScoreActivity;
 import com.example.wade8.boxscore.objects.GameInfo;
 import com.example.wade8.boxscore.startgame.StartGameActivity;
+import com.example.wade8.boxscore.teammanage.TeamManageActivity;
 
 public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContract.View {
     
@@ -56,6 +57,7 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
             @Override
             public void onClick(View v) {
                 Log.i(TAG,"TeamManage pressed");
+                startActivity(new Intent(BoxScoreActivity.this, TeamManageActivity.class));
             }
         });
         mGameHistoryLayout.setOnClickListener(new View.OnClickListener() {

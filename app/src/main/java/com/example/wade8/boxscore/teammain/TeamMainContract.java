@@ -17,7 +17,8 @@ public interface TeamMainContract {
 
         void queryTeamDataFromDatabase(); // call dbhelper
 
-        void pressAddNewTeam();
+        void pressedCreateTeam();
 
+        void refreshToolBar();
     }
 }
