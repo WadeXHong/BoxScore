@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.wade8.boxscore.teammanage.TeamManageActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/activity_teammanage_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorOrange"
+        app:title="球隊管理"
+        app:titleTextColor="@color/colorWhite">
+    </android.support.v7.widget.Toolbar>
+
+    <FrameLayout
+        android:id="@+id/activity_teammanage_framelayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    </FrameLayout>
+
+</LinearLayout>

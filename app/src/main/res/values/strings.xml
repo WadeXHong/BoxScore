@@ -66,5 +66,6 @@
     <string name="goBackConfirmMessage">\n退出將失去目前輸入資料\n確定要退出嗎？</string>
     <string name="confirmExitDataRecord">退出比賽紀錄</string>
     <string name="exitDataRecordMessage">是否要退出比賽？  選擇「儲存」，下次可藉由開始比賽接續紀錄；  選擇「放棄比賽」將清除資料</string>
+    <string name="addNewTeam">新增球隊</string>
 
 </resources>
