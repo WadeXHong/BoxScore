@@ -5,7 +5,7 @@ import android.content.Context;
 
 import com.example.wade8.boxscore.dbhelper.GameDataDbHelper;
 import com.example.wade8.boxscore.dbhelper.GameInfoDbHelper;
-import com.example.wade8.boxscore.dbhelper.TeamInfoDbHelper;
+import com.example.wade8.boxscore.dbhelper.TeamDbHelper;
 
 /**
  * Created by wade8 on 2018/5/6.
@@ -16,7 +16,7 @@ public class BoxScore extends Application {
     private static Context mContext;
     private static GameDataDbHelper mGameDataDbHelper;
     private static GameInfoDbHelper mGameInfoDbHelper;
-    private static TeamInfoDbHelper mTeamInfoDbHelper;
+    private static TeamDbHelper mTeamDbHelper;
 
     @Override
     public void onCreate() {
@@ -38,8 +38,8 @@ public class BoxScore extends Application {
         return mGameInfoDbHelper;
     }
 
-    public static TeamInfoDbHelper getTeamInfoDbHelper(){
-        if (mTeamInfoDbHelper == null)mTeamInfoDbHelper = new TeamInfoDbHelper(getAppContext());
-        return mTeamInfoDbHelper;
+    public static TeamDbHelper getTeamDbHelper(){
+        if (mTeamDbHelper == null) mTeamDbHelper = new TeamDbHelper(getAppContext());
+        return mTeamDbHelper;
     }
 }

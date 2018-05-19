@@ -128,7 +128,7 @@ public class PlayerSelectDialog extends android.support.v4.app.DialogFragment im
     @Override
     public void dismiss() {
         super.dismiss();
-        Log.d(TAG,"dismiss");
+        Log.d(TAG,"dismissAllowingStateLoss");
         getTargetFragment().onActivityResult(DataRecordFragment.REQUEST_PLAYERSELECTDIALOG, Activity.RESULT_OK,new Intent());
     }
 

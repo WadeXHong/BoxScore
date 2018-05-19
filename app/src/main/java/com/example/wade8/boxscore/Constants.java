@@ -145,11 +145,25 @@ public class Constants {
     public class TeamInfoDBContract implements BaseColumns{
 
         public static final String _ID = "_id";
+        public static final String TABLE_NAME = "team_info";
         public static final String TEAM_NAME = "team_name";
+        public static final String TEAM_ID = "team_id";
+
+
+    }
+
+    public class TeamPlayersContract implements BaseColumns{
+
+        public static final String _ID = "_id";
+        public static final String TABLE_NAME = "table_name";
+        public static final String PLAYER_ID = "player_id";
         public static final String PLAYER_NAME = "player_name";
         public static final String PLAYER_NUMBER = "player_number";
-        public static final String FLAG = "flag";
-
+        public static final String PLAY_C = "center";
+        public static final String PLAY_PF = "power_forward";
+        public static final String PLAY_SF = "small_forward";
+        public static final String PLAY_SG = "shooting_guard";
+        public static final String PLAY_PG = "point_guard";
     }
 
 }

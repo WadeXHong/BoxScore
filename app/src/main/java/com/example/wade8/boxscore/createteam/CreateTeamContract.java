@@ -12,6 +12,8 @@ public interface CreateTeamContract {
     interface View extends BaseView<Presenter>{
 
         void showIllegalHint();
+
+        void dismissAllowingStateLoss();
     }
     
     interface Presenter extends BasePresenter{

@@ -62,7 +62,7 @@ public class DataStatisticDialog extends DialogFragment implements DataStatistic
         mInnerFrameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG,"dismiss() executed");
+                Log.d(TAG,"dismissAllowingStateLoss() executed");
                 dismiss();
             }
         });

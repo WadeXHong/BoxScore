@@ -122,7 +122,12 @@ public class CreateTeamDialogFragment extends DialogFragment implements CreateTe
     }
 
     @Override
-    public void showIllegalHint() {
+    public void dismissAllowingStateLoss() {
+        super.dismissAllowingStateLoss();
+    }
+
+    @Override
+    public void showIllegalHint() { //TODO show error message
         mEditText.setBackground(ResourcesCompat.getDrawable(getResources(),R.drawable.shape_edittext_gamename_illegal,null));
     }
 }

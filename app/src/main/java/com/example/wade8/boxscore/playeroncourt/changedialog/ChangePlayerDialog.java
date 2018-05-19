@@ -124,7 +124,7 @@ public class ChangePlayerDialog extends DialogFragment implements ChangePlayerDi
     @Override
     public void dismiss() {
         super.dismiss();
-        Log.d(TAG,"dismiss");
+        Log.d(TAG,"dismissAllowingStateLoss");
     }
 
     @Override
