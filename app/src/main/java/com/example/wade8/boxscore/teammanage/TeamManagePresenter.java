@@ -48,7 +48,7 @@ public class TeamManagePresenter implements TeamManageContract.Presenter {
     @Override
     public void transToCreateTeam() {
         if (mCreateTeamDialogFragment == null) mCreateTeamDialogFragment = CreateTeamDialogFragment.newInstance();
-        if (mCreateTeamPresenter == null) mCreateTeamPresenter = new CreateTeamPresenter(mCreateTeamDialogFragment);
+        if (mCreateTeamPresenter == null) mCreateTeamPresenter = new CreateTeamPresenter(mCreateTeamDialogFragment, this);
         mCreateTeamDialogFragment.show(mFragmentManager,CREATE_TEAM);
     }
 
@@ -95,6 +95,11 @@ public class TeamManagePresenter implements TeamManageContract.Presenter {
         }
 
         setTeamMainToolbar();
+    }
+
+    @Override
+    public void refreshMainUi() {
+        mTeamMainPresenter.refreshUi();
     }
 
     @Override

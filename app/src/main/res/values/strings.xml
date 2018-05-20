@@ -69,5 +69,7 @@
     <string name="createTeam">新增球隊</string>
     <string name="pleaseInputTeamName">請輸入隊名</string>
     <string name="confirm">確定</string>
+    <string name="playersAmount">%d名成員</string>
+    <string name="historyAmount">%d場比賽</string>
 
 </resources>

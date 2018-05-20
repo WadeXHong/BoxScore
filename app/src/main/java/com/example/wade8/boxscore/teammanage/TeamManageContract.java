@@ -27,5 +27,7 @@ public interface TeamManageContract {
         void setTeamMainToolbar();
 
         void setTeamPlayersToolbar();
+
+        void refreshMainUi();
     }
 }

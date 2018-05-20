@@ -39,4 +39,9 @@ public class TeamMainPresenter implements TeamMainContract.Presenter{
     public void refreshToolBar() {
         mTeamManagePresenter.setTeamMainToolbar();
     }
+
+    @Override
+    public void refreshUi() {
+        mTeamMainView.refreshUI();
+    }
 }

@@ -51,7 +51,7 @@
             android:layout_marginEnd="20dp"
             android:layout_marginTop="8dp"
             android:gravity="center|end"
-            android:text="%d名成員"
+            android:text="@string/playersAmount"
             android:textColor="@color/colorButtonInMain"
             android:textSize="18sp"
             android:includeFontPadding="false" />
@@ -101,7 +101,7 @@
             android:layout_marginEnd="20dp"
             android:layout_marginTop="8dp"
             android:gravity="center|end"
-            android:text="%d場比賽"
+            android:text="@string/historyAmount"
             android:textColor="@color/colorButtonInMain"
             android:textSize="18sp"
             android:includeFontPadding="false" />

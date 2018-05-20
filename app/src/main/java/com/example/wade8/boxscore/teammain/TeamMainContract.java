@@ -20,5 +20,7 @@ public interface TeamMainContract {
         void pressedCreateTeam();
 
         void refreshToolBar();
+
+        void refreshUi();
     }
 }

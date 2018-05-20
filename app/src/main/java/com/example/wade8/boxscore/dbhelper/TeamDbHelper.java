@@ -8,8 +8,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.example.wade8.boxscore.Constants;
-import com.example.wade8.boxscore.objects.Team;
+import com.example.wade8.boxscore.objects.TeamDetail;
+import com.example.wade8.boxscore.objects.TeamInfo;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -26,7 +30,9 @@ public class TeamDbHelper extends SQLiteOpenHelper {
               "CREATE TABLE "+ Constants.TeamInfoDBContract.TABLE_NAME + "(" +
                         Constants.TeamInfoDBContract._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         Constants.TeamInfoDBContract.TEAM_NAME + " TEXT NOT NULL, " +
-                        Constants.TeamInfoDBContract.TEAM_ID + " TEXT" +");";
+                        Constants.TeamInfoDBContract.TEAM_ID + " TEXT, " +
+                        Constants.TeamInfoDBContract.TEAM_PLAYERS_AMOUNT + " INTEGER DEFAULT 0, " +
+                        Constants.TeamInfoDBContract.TEAM_HISTORY_AMOUNT + " INTEGER DEFAULT 0" +");";
 
     public static final String SQL_CREATE_TEAMPLAYER =
               "CREATE TABLE "+ Constants.TeamPlayersContract.TABLE_NAME + "(" +
@@ -76,5 +82,27 @@ public class TeamDbHelper extends SQLiteOpenHelper {
         }else {
             return false;
         }
+    }
+
+    public ArrayList<TeamInfo> getTeamsForAdapter(){
+        Cursor cursor = getReadableDatabase().query(Constants.TeamInfoDBContract.TABLE_NAME, null, null, null, null, null, null);
+        int size = cursor.getCount();
+        ArrayList<TeamInfo> teamInfoList = new ArrayList<>();
+
+        for(int i=0; i<size; i++){
+
+            cursor.moveToPosition(i);
+            String teamName = cursor.getString(cursor.getColumnIndex(Constants.TeamInfoDBContract.TEAM_NAME));
+            String teamId = cursor.getString(cursor.getColumnIndex(Constants.TeamInfoDBContract.TEAM_ID));
+            int teamPlayerAmount = cursor.getInt(cursor.getColumnIndex(Constants.TeamInfoDBContract.TEAM_PLAYERS_AMOUNT));
+            int teamHistoryAmount = cursor.getInt(cursor.getColumnIndex(Constants.TeamInfoDBContract.TEAM_HISTORY_AMOUNT));
+
+            List<TeamDetail> teamDetails = new ArrayList<>();
+            teamDetails.add(new TeamDetail(teamName, teamId, teamPlayerAmount, teamHistoryAmount));
+
+            teamInfoList.add(new TeamInfo(teamName, teamDetails));
+        }
+
+        return teamInfoList;
     }
 }

@@ -148,6 +148,8 @@ public class Constants {
         public static final String TABLE_NAME = "team_info";
         public static final String TEAM_NAME = "team_name";
         public static final String TEAM_ID = "team_id";
+        public static final String TEAM_PLAYERS_AMOUNT = "players_amount";
+        public static final String TEAM_HISTORY_AMOUNT = "history_amount";
 
 
     }

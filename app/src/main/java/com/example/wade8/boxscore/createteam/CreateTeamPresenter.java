@@ -3,6 +3,8 @@ package com.example.wade8.boxscore.createteam;
 import android.util.Log;
 
 import com.example.wade8.boxscore.BoxScore;
+import com.example.wade8.boxscore.teammain.TeamMainContract;
+import com.example.wade8.boxscore.teammanage.TeamManageContract;
 
 /**
  * Created by wade8 on 2018/5/18.
@@ -13,10 +15,11 @@ public class CreateTeamPresenter implements CreateTeamContract.Presenter{
     private static final String TAG = CreateTeamPresenter.class.getSimpleName();
 
     private final CreateTeamContract.View mCreateTeamView;
+    private TeamManageContract.Presenter mTeamManagePresenter;
 
-    public CreateTeamPresenter(CreateTeamContract.View createTeamView) {
+    public CreateTeamPresenter(CreateTeamContract.View createTeamView, TeamManageContract.Presenter teamManagePresenter) {
         mCreateTeamView = createTeamView;
-
+        mTeamManagePresenter = teamManagePresenter;
         mCreateTeamView.setPresenter(this);
     }
 
@@ -37,6 +40,7 @@ public class CreateTeamPresenter implements CreateTeamContract.Presenter{
             else {
                 mCreateTeamView.dismissAllowingStateLoss();
                 mCreateTeamView.resetUi();
+                mTeamManagePresenter.refreshMainUi();
             }
         }
     }
