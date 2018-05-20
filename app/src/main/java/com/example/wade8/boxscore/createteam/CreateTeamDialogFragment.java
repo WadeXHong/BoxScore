@@ -127,6 +127,13 @@ public class CreateTeamDialogFragment extends DialogFragment implements CreateTe
     }
 
     @Override
+    public void resetUi() {
+        //TODO resetOnClickListener
+        mEditText.setText("");
+        mEditText.setBackground(ResourcesCompat.getDrawable(getResources(),R.drawable.shape_edittext_gamename,null));
+    }
+
+    @Override
     public void showIllegalHint() { //TODO show error message
         mEditText.setBackground(ResourcesCompat.getDrawable(getResources(),R.drawable.shape_edittext_gamename_illegal,null));
     }

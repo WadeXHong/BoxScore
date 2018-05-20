@@ -14,6 +14,8 @@ public interface CreateTeamContract {
         void showIllegalHint();
 
         void dismissAllowingStateLoss();
+
+        void resetUi();
     }
     
     interface Presenter extends BasePresenter{

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragment_teammain_createteam_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/item_team_teamdetail_players_layout"
+        android:layout_width="match_parent"
+        android:layout_height="55dp">
+        <LinearLayout
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="75dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1.5"
+                android:gravity="center|bottom"
+                android:text="球員名單"
+                android:textColor="@color/colorButtonInMain"
+                android:textSize="18sp"
+                android:includeFontPadding="false"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center|top"
+                android:text="點擊進入"
+                android:textColor="@color/colorButtonInMain"
+                android:textSize="13sp"
+                android:includeFontPadding="false"/>
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/item_team_teamdetail_players_textview"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center|end"
+            android:text="%d名成員"
+            android:textColor="@color/colorButtonInMain"
+            android:textSize="18sp"
+            android:includeFontPadding="false" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/item_team_teamdetail_history_layout"
+        android:layout_width="match_parent"
+        android:layout_height="55dp">
+        <LinearLayout
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="75dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1.5"
+                android:gravity="center|bottom"
+                android:text="歷史紀錄"
+                android:textColor="@color/colorButtonInMain"
+                android:textSize="18sp"
+                android:includeFontPadding="false"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center|top"
+                android:text="點擊進入"
+                android:textColor="@color/colorButtonInMain"
+                android:textSize="13sp"
+                android:includeFontPadding="false"/>
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/item_team_teamdetail_history_textview"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center|end"
+            android:text="%d場比賽"
+            android:textColor="@color/colorButtonInMain"
+            android:textSize="18sp"
+            android:includeFontPadding="false" />
+    </android.support.constraint.ConstraintLayout>
+
+
+</LinearLayout>

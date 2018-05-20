@@ -36,6 +36,7 @@ public class CreateTeamPresenter implements CreateTeamContract.Presenter{
                 mCreateTeamView.showIllegalHint();
             else {
                 mCreateTeamView.dismissAllowingStateLoss();
+                mCreateTeamView.resetUi();
             }
         }
     }
