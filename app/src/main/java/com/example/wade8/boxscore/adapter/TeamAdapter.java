@@ -1,5 +1,7 @@
 package com.example.wade8.boxscore.adapter;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.constraint.ConstraintLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +14,8 @@ import android.widget.TextView;
 import com.example.wade8.boxscore.R;
 import com.example.wade8.boxscore.objects.TeamDetail;
 import com.example.wade8.boxscore.objects.TeamInfo;
+import com.example.wade8.boxscore.objects.TransparentAlertDialog;
+import com.example.wade8.boxscore.teammain.TeamMainContract;
 import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 import com.thoughtbot.expandablerecyclerview.viewholders.ChildViewHolder;
@@ -27,8 +31,11 @@ import static android.view.animation.Animation.RELATIVE_TO_SELF;
 
 public class TeamAdapter extends ExpandableRecyclerViewAdapter<TeamAdapter.TeamViewHolder, TeamAdapter.DetailViewHolder> {
 
-    public TeamAdapter(List<? extends ExpandableGroup> groups) {
+    private TeamMainContract.Presenter mTeamMainPresenter;
+
+    public TeamAdapter(List<? extends ExpandableGroup> groups, TeamMainContract.Presenter teamMainPresenter) {
         super(groups);
+        mTeamMainPresenter = teamMainPresenter;
     }
 
     @Override
@@ -68,7 +75,28 @@ public class TeamAdapter extends ExpandableRecyclerViewAdapter<TeamAdapter.TeamV
         }
 
         public void setTitle(ExpandableGroup group){
-            mTeamName.setText(group.getTitle());
+            final String teamName = group.getTitle();
+            final String teamId = ((TeamInfo)group).getItems().get(0).getTeamId();
+            mTeamName.setText(teamName);
+            mDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new AlertDialog.Builder(v.getContext(), R.style.NotTransparentAlertDialog).setTitle("刪除確認").setMessage("確認刪除"+teamName+"的所有資料?")
+                              .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                                  @Override
+                                  public void onClick(DialogInterface dialog, int which) {
+                                      mTeamMainPresenter.deleteTeam(teamId);
+                                      dialog.dismiss();
+                                  }
+                              })
+                              .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                  @Override
+                                  public void onClick(DialogInterface dialog, int which) {
+                                      dialog.cancel();
+                                  }
+                              }).show();
+                }
+            });
         }
 
         @Override

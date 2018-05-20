@@ -157,7 +157,8 @@ public class Constants {
     public class TeamPlayersContract implements BaseColumns{
 
         public static final String _ID = "_id";
-        public static final String TABLE_NAME = "table_name";
+        public static final String TABLE_NAME = "team_player";
+        public static final String TEAM_ID = "team_id";
         public static final String PLAYER_ID = "player_id";
         public static final String PLAYER_NAME = "player_name";
         public static final String PLAYER_NUMBER = "player_number";

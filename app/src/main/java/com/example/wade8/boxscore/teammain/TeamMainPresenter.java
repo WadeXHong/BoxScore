@@ -1,5 +1,6 @@
 package com.example.wade8.boxscore.teammain;
 
+import com.example.wade8.boxscore.BoxScore;
 import com.example.wade8.boxscore.teammanage.TeamManageContract;
 
 /**
@@ -43,5 +44,11 @@ public class TeamMainPresenter implements TeamMainContract.Presenter{
     @Override
     public void refreshUi() {
         mTeamMainView.refreshUI();
+    }
+
+    @Override
+    public void deleteTeam(String teamId) {
+        BoxScore.getTeamDbHelper().deleteTeamInDB(teamId);
+        refreshUi();
     }
 }

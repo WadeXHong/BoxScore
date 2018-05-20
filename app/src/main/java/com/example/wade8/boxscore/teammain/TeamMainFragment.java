@@ -48,7 +48,7 @@ public class TeamMainFragment extends Fragment implements TeamMainContract.View{
             }
         });
 
-        mRecyclerView.setAdapter(new TeamAdapter(BoxScore.getTeamDbHelper().getTeamsForAdapter()));
+        mRecyclerView.setAdapter(new TeamAdapter(BoxScore.getTeamDbHelper().getTeamsForAdapter(), mPresenter));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return view;
@@ -71,6 +71,6 @@ public class TeamMainFragment extends Fragment implements TeamMainContract.View{
     @Override
     public void refreshUI() {
         //library does not support change data dynamically, as read me file I can only create new adapter every times.
-        mRecyclerView.setAdapter(new TeamAdapter(BoxScore.getTeamDbHelper().getTeamsForAdapter()));
+        mRecyclerView.setAdapter(new TeamAdapter(BoxScore.getTeamDbHelper().getTeamsForAdapter(), mPresenter));
     }
 }

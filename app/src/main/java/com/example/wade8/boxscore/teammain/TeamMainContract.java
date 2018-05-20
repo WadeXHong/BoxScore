@@ -22,5 +22,7 @@ public interface TeamMainContract {
         void refreshToolBar();
 
         void refreshUi();
+
+        void deleteTeam(String teamId);
     }
 }

@@ -37,6 +37,7 @@ public class TeamDbHelper extends SQLiteOpenHelper {
     public static final String SQL_CREATE_TEAMPLAYER =
               "CREATE TABLE "+ Constants.TeamPlayersContract.TABLE_NAME + "(" +
                         Constants.TeamPlayersContract._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        Constants.TeamPlayersContract.TEAM_ID + " TEXT NOT NULL, " +
                         Constants.TeamPlayersContract.PLAYER_ID + " TEXT NOT NULL, " +
                         Constants.TeamPlayersContract.PLAYER_NAME + " TEXT NOT NULL, " +
                         Constants.TeamPlayersContract.PLAYER_NUMBER + " TEXT NOT NULL, " +
@@ -104,5 +105,10 @@ public class TeamDbHelper extends SQLiteOpenHelper {
         }
 
         return teamInfoList;
+    }
+
+    public void deleteTeamInDB(String teamId) {
+        getWritableDatabase().delete(Constants.TeamInfoDBContract.TABLE_NAME, Constants.TeamInfoDBContract.TEAM_ID+" =?", new String[]{teamId});
+        getWritableDatabase().delete(Constants.TeamPlayersContract.TABLE_NAME, Constants.TeamPlayersContract.TEAM_ID+" =?", new String[]{teamId});
     }
 }
