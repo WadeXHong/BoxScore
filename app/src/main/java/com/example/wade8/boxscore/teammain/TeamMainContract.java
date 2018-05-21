@@ -24,5 +24,7 @@ public interface TeamMainContract {
         void refreshUi();
 
         void deleteTeam(String teamId);
+
+        void pressedTeamPlayers(String teamId);
     }
 }

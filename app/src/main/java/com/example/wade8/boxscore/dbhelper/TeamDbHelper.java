@@ -111,4 +111,10 @@ public class TeamDbHelper extends SQLiteOpenHelper {
         getWritableDatabase().delete(Constants.TeamInfoDBContract.TABLE_NAME, Constants.TeamInfoDBContract.TEAM_ID+" =?", new String[]{teamId});
         getWritableDatabase().delete(Constants.TeamPlayersContract.TABLE_NAME, Constants.TeamPlayersContract.TEAM_ID+" =?", new String[]{teamId});
     }
+
+    public Cursor getPlayersFromDb(String teamId) {
+        Log.d(TAG,"getPlayersFromDb executed, teamId = "+ teamId);
+        return getWritableDatabase().query(Constants.TeamPlayersContract.TABLE_NAME, null,
+                  Constants.TeamPlayersContract.TEAM_ID + " =?", new String[]{teamId}, null, null, null);
+    }
 }

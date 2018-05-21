@@ -40,7 +40,7 @@ public class TeamMainFragment extends Fragment implements TeamMainContract.View{
         View view = inflater.inflate(R.layout.fragment_team_main, container, false);
 
         mRecyclerView = view.findViewById(R.id.fragment_teammain_recyclerview);
-        mCreateTeamLayout = view.findViewById(R.id.fragment_teammain_createteam_layout);
+        mCreateTeamLayout = view.findViewById(R.id.fragment_teamplayer_createplayer_layout);
         mCreateTeamLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

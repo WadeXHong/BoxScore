@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/colorDarkBackground"
-    tools:context="com.example.wade8.boxscore.teammain.TeamMainFragment">
+    android:orientation="vertical"
+    tools:context="com.example.wade8.boxscore.teamplayers.TeamPlayersFragment">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/fragment_teamplayer_createplayer_layout"
@@ -13,7 +13,7 @@
         android:layout_height="55dp">
 
         <ImageView
-            android:id="@+id/fragment_teammain_createteam_icon"
+            android:id="@+id/fragment_teamplayer_createplayer_icon"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_marginBottom="8dp"
@@ -25,29 +25,28 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/fragment_teammain_createteam_textview"
+            android:id="@+id/fragment_teamplayer_createplayer_textview"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:layout_marginBottom="8dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="8dp"
-            android:text="@string/createTeam"
             android:gravity="center"
-            android:textSize="20sp"
+            android:text="@string/createPlayer"
             android:textColor="@color/colorButtonInMain"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/fragment_teammain_createteam_icon"
+            app:layout_constraintStart_toEndOf="@+id/fragment_teamplayer_createplayer_icon"
             app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/fragment_teammain_recyclerview"
+        android:id="@+id/fragment_teamplayer_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
     </android.support.v7.widget.RecyclerView>
-
 
 
 </LinearLayout>

@@ -53,9 +53,9 @@ public class TeamManagePresenter implements TeamManageContract.Presenter {
     }
 
     @Override
-    public void transToTeamPlayers() {
+    public void transToTeamPlayers(String teamId) {
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
-        transaction.setCustomAnimations(R.anim.slide_in_from_right, R.anim.fade_out_dialog, R.anim.slide_in_from_left, R.anim.fade_out_dialog);
+        transaction.setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
 
 
         if (mTeamPlayersFragment == null) mTeamPlayersFragment = TeamPlayersFragment.newInstance();
@@ -63,16 +63,18 @@ public class TeamManagePresenter implements TeamManageContract.Presenter {
             transaction.hide(mTeamMainFragment);
             transaction.addToBackStack(TEAM_MAIN);
         }
+
+        mTeamPlayersFragment.setTeamId(teamId);
+
         if (!mTeamPlayersFragment.isAdded()){
             transaction.add(R.id.activity_teammanage_framelayout, mTeamPlayersFragment, TEAM_PLAYERS);
         }else {
             transaction.show(mTeamPlayersFragment);
         }
+
         transaction.commit();
 
-        if (mTeamPlayersPresenter == null){
-            mTeamPlayersPresenter = new TeamPlayersPresenter(mTeamPlayersFragment);
-        }
+        if (mTeamPlayersPresenter == null) mTeamPlayersPresenter = new TeamPlayersPresenter(mTeamPlayersFragment);
 
         setTeamPlayersToolbar();
     }

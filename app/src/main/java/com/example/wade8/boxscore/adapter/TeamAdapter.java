@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.example.wade8.boxscore.R;
 import com.example.wade8.boxscore.objects.TeamDetail;
 import com.example.wade8.boxscore.objects.TeamInfo;
-import com.example.wade8.boxscore.objects.TransparentAlertDialog;
 import com.example.wade8.boxscore.teammain.TeamMainContract;
 import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
@@ -81,7 +80,7 @@ public class TeamAdapter extends ExpandableRecyclerViewAdapter<TeamAdapter.TeamV
             mDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new AlertDialog.Builder(v.getContext(), R.style.NotTransparentAlertDialog).setTitle("刪除確認").setMessage("確認刪除"+teamName+"的所有資料?")
+                    new AlertDialog.Builder(v.getContext(), R.style.OrangeAlertDialog).setTitle("刪除確認").setMessage("確認刪除"+teamName+"的所有資料?")
                               .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
                                   @Override
                                   public void onClick(DialogInterface dialog, int which) {
@@ -142,6 +141,7 @@ public class TeamAdapter extends ExpandableRecyclerViewAdapter<TeamAdapter.TeamV
             mHistoryAmount = itemView.findViewById(R.id.item_team_teamdetail_history_textview);
         }
         public void setView(TeamDetail detail){
+            final String teamId = detail.getTeamId();
             mHistoryAmount.setText(String.format(itemView.getContext().getResources().getString(R.string.historyAmount),detail.getTeamHistoryAmount()));
             mPlayersAmount.setText(String.format(itemView.getContext().getResources().getString(R.string.playersAmount),detail.getTeamPlayersAmount()));
             mHistoryLayout.setOnClickListener(new View.OnClickListener() {
@@ -154,6 +154,7 @@ public class TeamAdapter extends ExpandableRecyclerViewAdapter<TeamAdapter.TeamV
                 @Override
                 public void onClick(View v) {
                     Log.d(TAG,"players layout pressed");
+                    mTeamMainPresenter.pressedTeamPlayers(teamId);
                 }
             });
 

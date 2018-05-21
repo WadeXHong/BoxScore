@@ -32,11 +32,6 @@ public class TeamMainPresenter implements TeamMainContract.Presenter{
     }
 
     @Override
-    public void pressedCreateTeam() {
-        mTeamManagePresenter.transToCreateTeam();
-    }
-
-    @Override
     public void refreshToolBar() {
         mTeamManagePresenter.setTeamMainToolbar();
     }
@@ -44,6 +39,16 @@ public class TeamMainPresenter implements TeamMainContract.Presenter{
     @Override
     public void refreshUi() {
         mTeamMainView.refreshUI();
+    }
+
+    @Override
+    public void pressedCreateTeam() {
+        mTeamManagePresenter.transToCreateTeam();
+    }
+
+    @Override
+    public void pressedTeamPlayers(String teamId) {
+        mTeamManagePresenter.transToTeamPlayers(teamId);
     }
 
     @Override

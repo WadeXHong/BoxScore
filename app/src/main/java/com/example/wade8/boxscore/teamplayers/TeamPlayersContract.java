@@ -1,5 +1,7 @@
 package com.example.wade8.boxscore.teamplayers;
 
+import android.database.Cursor;
+
 import com.example.wade8.boxscore.BasePresenter;
 import com.example.wade8.boxscore.BaseView;
 
@@ -11,9 +13,13 @@ public interface TeamPlayersContract {
 
     interface View extends BaseView<Presenter>{
 
+        void refreshUi();
     }
 
     interface Presenter extends BasePresenter{
 
+        Cursor getPlayers(String teamId);
+
+        void refreshUi();
     }
 }

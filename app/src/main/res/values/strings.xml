@@ -71,5 +71,6 @@
     <string name="confirm">確定</string>
     <string name="playersAmount">%d名成員</string>
     <string name="historyAmount">%d場比賽</string>
+    <string name="createPlayer">新增球員</string>
 
 </resources>

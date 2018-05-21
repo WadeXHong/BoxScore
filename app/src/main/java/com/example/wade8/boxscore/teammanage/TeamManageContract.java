@@ -20,7 +20,7 @@ public interface TeamManageContract {
 
         void transToCreateTeam();
 
-        void transToTeamPlayers();
+        void transToTeamPlayers(String teamId);
 
         void transToTeamMain();
 
