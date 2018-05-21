@@ -4,6 +4,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.example.wade8.boxscore.R;
+import com.example.wade8.boxscore.createplayer.CreatePlayerFragment;
+import com.example.wade8.boxscore.createplayer.CreatePlayerPresenter;
 import com.example.wade8.boxscore.createteam.CreateTeamDialogFragment;
 import com.example.wade8.boxscore.createteam.CreateTeamPresenter;
 import com.example.wade8.boxscore.teamplayers.TeamPlayersFragment;
@@ -22,6 +24,7 @@ public class TeamManagePresenter implements TeamManageContract.Presenter {
     public static final String TEAM_MAIN = "TEAM_MAIN";
     public static final String CREATE_TEAM = "CREATE_TEAM";
     public static final String TEAM_PLAYERS = "TEAM_PLAYERS";
+    public static final String CREATE_PLAYER = "CREATE_PLAYER";
 
     private final TeamManageContract.View mTeamManageView;
 
@@ -32,6 +35,8 @@ public class TeamManagePresenter implements TeamManageContract.Presenter {
     private TeamPlayersPresenter mTeamPlayersPresenter;
     private CreateTeamDialogFragment mCreateTeamDialogFragment;
     private CreateTeamPresenter mCreateTeamPresenter;
+    private CreatePlayerFragment mCreatePlayerFragment;
+    private CreatePlayerPresenter mCreatePlayerPresenter;
 
     public TeamManagePresenter(TeamManageContract.View teamManageView, FragmentManager supportFragmentManager) {
         mTeamManageView = teamManageView;
@@ -74,7 +79,7 @@ public class TeamManagePresenter implements TeamManageContract.Presenter {
 
         transaction.commit();
 
-        if (mTeamPlayersPresenter == null) mTeamPlayersPresenter = new TeamPlayersPresenter(mTeamPlayersFragment);
+        if (mTeamPlayersPresenter == null) mTeamPlayersPresenter = new TeamPlayersPresenter(mTeamPlayersFragment, this);
 
         setTeamPlayersToolbar();
     }
@@ -100,8 +105,39 @@ public class TeamManagePresenter implements TeamManageContract.Presenter {
     }
 
     @Override
+    public void transToCreatePlayer() {
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
+
+        if (mCreatePlayerFragment == null) mCreatePlayerFragment = CreatePlayerFragment.newInstance();
+
+        if (mTeamPlayersFragment != null){
+            transaction.hide(mTeamPlayersFragment);
+            transaction.addToBackStack(TEAM_PLAYERS);
+        }
+
+        if (!mCreatePlayerFragment.isAdded()){
+            transaction.add(R.id.activity_teammanage_framelayout, mCreatePlayerFragment, CREATE_PLAYER);
+        }else {
+            transaction.show(mCreatePlayerFragment);
+        }
+        transaction.commit();
+
+        if (mCreatePlayerPresenter == null){
+            mCreatePlayerPresenter = new CreatePlayerPresenter(mCreatePlayerFragment, this);
+        }
+
+        setCreatePlayerToolbar();
+    }
+
+    @Override
     public void refreshMainUi() {
         mTeamMainPresenter.refreshUi();
+    }
+
+
+    private void setCreatePlayerToolbar() {
+        mTeamManageView.setCreatePlayerToolbar();
     }
 
     @Override

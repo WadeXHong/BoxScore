@@ -4,7 +4,9 @@ package com.example.wade8.boxscore.teamplayers;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +44,18 @@ public class TeamPlayersFragment extends Fragment implements TeamPlayersContract
 
         mCreatePlayerLayout = view.findViewById(R.id.fragment_teamplayer_createplayer_layout);
         mRecyclerView = view.findViewById(R.id.fragment_teamplayer_recyclerview);
+        mCreatePlayerLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG,"create player");
+                mPresenter.pressedCreatePlayer();
+            }
+        });
+
+
         mAdapter = new TeamPlayersAdapter(mTeamId, mPresenter);
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
 
         mPresenter.start();
