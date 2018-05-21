@@ -1,13 +1,154 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_gamenamesetting"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorDarkBackground"
     tools:context="com.example.wade8.boxscore.createplayer.CreatePlayerFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="50dp">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/fragment_createplayer_playername_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="10dp"
+            android:text="@string/playerName"
+            android:textColor="@color/colorButtonInMain"
+            android:textSize="16sp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/fragment_createplayer_playername_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape_edittext_gamename_orange"
+            android:hint="@string/playerNameHint"
+            android:paddingStart="10dp"
+            android:textSize="16sp"
+            android:textColor="@color/colorButtonInMain"
+            android:textColorHint="@color/colorButtonInMainTranslucent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_createplayer_playername_textview" />
+
+        <TextView
+            android:id="@+id/fragment_createplayer_playernumber_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:paddingStart="10dp"
+            android:text="@string/playerNumber"
+            android:textColor="@color/colorButtonInMain"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_createplayer_playername_edittext" />
+
+        <EditText
+            android:id="@+id/fragment_createplayer_playernumber_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape_edittext_gamename_orange"
+            android:hint="Ex: 23"
+            android:textColorHint="@color/colorButtonInMainTranslucent"
+            android:paddingStart="10dp"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_createplayer_playernumber_textview" />
+
+        <TextView
+            android:id="@+id/fragment_createplayer_position_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:paddingStart="10dp"
+            android:text="@string/position"
+            android:textColor="@color/colorButtonInMain"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_createplayer_playernumber_edittext" />
+
+        <CheckBox
+            android:id="@+id/fragment_createplayer_position_c"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="10dp"
+            android:gravity="center"
+            android:text="@string/center"
+            android:textSize="13sp"
+            android:textColor="@color/colorButtonInMain"
+            android:buttonTint="@color/colorButtonInMain"
+            app:layout_constraintEnd_toStartOf="@+id/fragment_createplayer_position_pf"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_createplayer_position_textview" />
+
+        <CheckBox
+            android:id="@+id/fragment_createplayer_position_pf"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:text="@string/powerFoward"
+            android:textSize="13sp"
+            android:textColor="@color/colorButtonInMain"
+            android:buttonTint="@color/colorButtonInMain"
+            app:layout_constraintEnd_toStartOf="@+id/fragment_createplayer_position_sf"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/fragment_createplayer_position_c"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_createplayer_position_textview" />
+
+        <CheckBox
+            android:id="@+id/fragment_createplayer_position_sf"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="10dp"
+            android:gravity="center"
+            android:text="@string/smallFoward"
+            android:textSize="13sp"
+            android:textColor="@color/colorButtonInMain"
+            android:buttonTint="@color/colorButtonInMain"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/fragment_createplayer_position_pf"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_createplayer_position_textview" />
+
+        <CheckBox
+            android:id="@+id/fragment_createplayer_position_sg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/shootingGuard"
+            android:textSize="13sp"
+            android:textColor="@color/colorButtonInMain"
+            android:buttonTint="@color/colorButtonInMain"
+            app:layout_constraintEnd_toEndOf="@+id/fragment_createplayer_position_c"
+            app:layout_constraintStart_toStartOf="@+id/fragment_createplayer_position_c"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_createplayer_position_pf" />
+
+        <CheckBox
+            android:id="@+id/fragment_createplayer_position_pg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/pointGuard"
+            android:textSize="13sp"
+            android:textColor="@color/colorButtonInMain"
+            android:buttonTint="@color/colorButtonInMain"
+            app:layout_constraintEnd_toEndOf="@+id/fragment_createplayer_position_pf"
+            app:layout_constraintStart_toStartOf="@+id/fragment_createplayer_position_pf"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_createplayer_position_pf" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
+</ScrollView>

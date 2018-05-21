@@ -4,6 +4,7 @@
     <color name="colorPrimaryLight">#ffc947</color>
     <color name="colorPrimaryDark">#c66900</color>
     <color name="colorButtonInMain">#D7D8DB</color>
+    <color name="colorButtonInMainTranslucent">#55D7D8DB</color>
     <color name="colorTextInMainButton">#484848</color>
     <color name="colorOrange">#FF9800</color>
     <color name="colerLightOrange">#ffc947</color>

@@ -72,5 +72,14 @@
     <string name="playersAmount">%d名成員</string>
     <string name="historyAmount">%d場比賽</string>
     <string name="createPlayer">新增球員</string>
+    <string name="playerName">球員姓名</string>
+    <string name="playerNameHint">Ex: 光頭哥哥</string>
+    <string name="playerNumber">球員背號</string>
+    <string name="position">位置</string>
+    <string name="center">中鋒</string>
+    <string name="powerFoward">大前鋒</string>
+    <string name="smallFoward">小前鋒</string>
+    <string name="shootingGuard">得分後衛</string>
+    <string name="pointGuard">控球後衛</string>
 
 </resources>
