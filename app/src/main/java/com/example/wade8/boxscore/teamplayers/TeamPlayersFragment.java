@@ -38,6 +38,12 @@ public class TeamPlayersFragment extends Fragment implements TeamPlayersContract
 
 
     @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) mAdapter.refreshCursor();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_team_players, container, false);
@@ -48,7 +54,7 @@ public class TeamPlayersFragment extends Fragment implements TeamPlayersContract
             @Override
             public void onClick(View v) {
                 Log.d(TAG,"create player");
-                mPresenter.pressedCreatePlayer();
+                mPresenter.pressedCreatePlayer(mTeamId);
             }
         });
 

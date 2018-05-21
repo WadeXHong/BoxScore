@@ -59,6 +59,7 @@
             android:textColorHint="@color/colorButtonInMainTranslucent"
             android:paddingStart="10dp"
             android:textSize="16sp"
+            android:textColor="@color/colorButtonInMain"
             app:layout_constraintTop_toBottomOf="@+id/fragment_createplayer_playernumber_textview" />
 
         <TextView
@@ -86,7 +87,8 @@
             app:layout_constraintEnd_toStartOf="@+id/fragment_createplayer_position_pf"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_createplayer_position_textview" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_createplayer_position_textview"
+            />
 
         <CheckBox
             android:id="@+id/fragment_createplayer_position_pf"
@@ -101,7 +103,9 @@
             app:layout_constraintEnd_toStartOf="@+id/fragment_createplayer_position_sf"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/fragment_createplayer_position_c"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_createplayer_position_textview" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_createplayer_position_textview"
+            />
+
 
         <CheckBox
             android:id="@+id/fragment_createplayer_position_sf"
@@ -117,7 +121,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/fragment_createplayer_position_pf"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_createplayer_position_textview" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_createplayer_position_textview"
+            />
 
         <CheckBox
             android:id="@+id/fragment_createplayer_position_sg"
@@ -131,7 +136,8 @@
             android:buttonTint="@color/colorButtonInMain"
             app:layout_constraintEnd_toEndOf="@+id/fragment_createplayer_position_c"
             app:layout_constraintStart_toStartOf="@+id/fragment_createplayer_position_c"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_createplayer_position_pf" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_createplayer_position_pf"
+            />
 
         <CheckBox
             android:id="@+id/fragment_createplayer_position_pg"
@@ -145,7 +151,23 @@
             android:buttonTint="@color/colorButtonInMain"
             app:layout_constraintEnd_toEndOf="@+id/fragment_createplayer_position_pf"
             app:layout_constraintStart_toStartOf="@+id/fragment_createplayer_position_pf"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_createplayer_position_pf" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_createplayer_position_pf"
+            />
+
+        <Button
+            android:id="@+id/fragment_createplayer_createbutton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginTop="60dp"
+            android:background="@drawable/shape_btn_datarecord"
+            android:text="@string/confirm"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_createplayer_position_pg" />
 
 
     </android.support.constraint.ConstraintLayout>

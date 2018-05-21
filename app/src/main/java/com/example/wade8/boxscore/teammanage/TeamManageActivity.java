@@ -68,4 +68,9 @@ public class TeamManageActivity extends AppCompatActivity implements TeamManageC
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

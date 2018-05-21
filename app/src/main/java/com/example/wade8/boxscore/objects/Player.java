@@ -10,10 +10,16 @@ public class Player implements Serializable {
 
     private String mNumber;
     private String mName;
+    private int[] mPosition;
 
-    public Player(String mNumber, String mName) {
-        this.mNumber = mNumber;
-        this.mName = mName;
+    public Player(String number, String name) {
+        this.mNumber = number;
+        this.mName = name;
+    }
+
+    public Player(String number, String name, int[] position){
+        this(number,name);
+        mPosition = position;
     }
 
     public String getNumber() {
@@ -30,6 +36,14 @@ public class Player implements Serializable {
 
     public void setName(String mName) {
         this.mName = mName;
+    }
+
+    public int[] getPosition() {
+        return mPosition;
+    }
+
+    public void setPosition(int[] position) {
+        mPosition = position;
     }
 
 }

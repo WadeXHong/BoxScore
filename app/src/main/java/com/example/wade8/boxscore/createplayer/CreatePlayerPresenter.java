@@ -1,5 +1,7 @@
 package com.example.wade8.boxscore.createplayer;
 
+import com.example.wade8.boxscore.BoxScore;
+import com.example.wade8.boxscore.objects.Player;
 import com.example.wade8.boxscore.teammanage.TeamManageContract;
 
 /**
@@ -30,5 +32,16 @@ public class CreatePlayerPresenter implements CreatePlayerContract.Presenter{
     @Override
     public void refreshToolBar() {
         mTeamManagePresenter.setTeamPlayersToolbar();
+    }
+
+    @Override
+    public void createPlayer(String teamId, Player player) {
+        BoxScore.getTeamDbHelper().createPlayerInDb(teamId, player);
+        mTeamManagePresenter.onBackPressed();
+    }
+
+    @Override
+    public boolean checkNumberIsExist(String teamId, String playerNumber) {
+        return BoxScore.getTeamDbHelper().checkNumberIsExistInDb(teamId, playerNumber);
     }
 }

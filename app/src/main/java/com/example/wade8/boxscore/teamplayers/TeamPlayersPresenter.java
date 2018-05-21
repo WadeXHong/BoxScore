@@ -40,7 +40,7 @@ public class TeamPlayersPresenter implements TeamPlayersContract.Presenter{
     }
 
     @Override
-    public void pressedCreatePlayer() {
-        mTeamManagePresenter.transToCreatePlayer();
+    public void pressedCreatePlayer(String teamId) {
+        mTeamManagePresenter.transToCreatePlayer(teamId);
     }
 }

@@ -105,7 +105,7 @@ public class TeamManagePresenter implements TeamManageContract.Presenter {
     }
 
     @Override
-    public void transToCreatePlayer() {
+    public void transToCreatePlayer(String teamId) {
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
 
@@ -115,6 +115,8 @@ public class TeamManagePresenter implements TeamManageContract.Presenter {
             transaction.hide(mTeamPlayersFragment);
             transaction.addToBackStack(TEAM_PLAYERS);
         }
+
+        mCreatePlayerFragment.setTeamId(teamId);
 
         if (!mCreatePlayerFragment.isAdded()){
             transaction.add(R.id.activity_teammanage_framelayout, mCreatePlayerFragment, CREATE_PLAYER);
@@ -128,6 +130,11 @@ public class TeamManagePresenter implements TeamManageContract.Presenter {
         }
 
         setCreatePlayerToolbar();
+    }
+
+    @Override
+    public void onBackPressed() {
+        mTeamManageView.onBackPressed();
     }
 
     @Override

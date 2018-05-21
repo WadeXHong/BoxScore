@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.example.wade8.boxscore.Constants;
+import com.example.wade8.boxscore.createplayer.CreatePlayerFragment;
+import com.example.wade8.boxscore.objects.Player;
 import com.example.wade8.boxscore.objects.TeamDetail;
 import com.example.wade8.boxscore.objects.TeamInfo;
 
@@ -116,5 +118,29 @@ public class TeamDbHelper extends SQLiteOpenHelper {
         Log.d(TAG,"getPlayersFromDb executed, teamId = "+ teamId);
         return getWritableDatabase().query(Constants.TeamPlayersContract.TABLE_NAME, null,
                   Constants.TeamPlayersContract.TEAM_ID + " =?", new String[]{teamId}, null, null, null);
+    }
+
+    public boolean checkNumberIsExistInDb(String teamId, String playerNumber) {
+        Log.d(TAG,"checkNumberIsExistInDb executed, teamId = "+ teamId);
+        int size = getReadableDatabase().query(Constants.TeamPlayersContract.TABLE_NAME, null,
+                  Constants.TeamPlayersContract.TEAM_ID + " =? AND " + Constants.TeamPlayersContract.PLAYER_NUMBER + " =?",
+                  new String[]{teamId, playerNumber}, null, null, null).getCount();
+
+            return size != 0;
+    }
+
+    public void createPlayerInDb(String teamId, Player player) {
+        ContentValues cv = new ContentValues();
+        cv.put(Constants.TeamPlayersContract.PLAYER_ID, UUID.randomUUID().toString());
+        cv.put(Constants.TeamPlayersContract.PLAYER_NUMBER, player.getNumber());
+        cv.put(Constants.TeamPlayersContract.PLAYER_NAME, player.getName());
+        cv.put(Constants.TeamPlayersContract.PLAY_C, player.getPosition()[CreatePlayerFragment.POSITION_C]);
+        cv.put(Constants.TeamPlayersContract.PLAY_PF, player.getPosition()[CreatePlayerFragment.POSITION_PF]);
+        cv.put(Constants.TeamPlayersContract.PLAY_SF, player.getPosition()[CreatePlayerFragment.POSITION_SF]);
+        cv.put(Constants.TeamPlayersContract.PLAY_SG, player.getPosition()[CreatePlayerFragment.POSITION_SG]);
+        cv.put(Constants.TeamPlayersContract.PLAY_PG, player.getPosition()[CreatePlayerFragment.POSITION_PG]);
+        cv.put(Constants.TeamPlayersContract.TEAM_ID, teamId);
+
+        getWritableDatabase().insert(Constants.TeamPlayersContract.TABLE_NAME, null, cv);
     }
 }

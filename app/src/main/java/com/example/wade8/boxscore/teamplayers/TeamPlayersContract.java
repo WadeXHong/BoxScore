@@ -22,6 +22,6 @@ public interface TeamPlayersContract {
 
         void refreshUi();
 
-        void pressedCreatePlayer();
+        void pressedCreatePlayer(String teamId);
     }
 }

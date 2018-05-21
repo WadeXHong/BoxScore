@@ -15,6 +15,8 @@ public interface TeamManageContract {
         void setTeamMainToolbar();
 
         void setCreatePlayerToolbar();
+
+        void onBackPressed();
     }
 
     interface Presenter extends BasePresenter {
@@ -31,6 +33,8 @@ public interface TeamManageContract {
 
         void refreshMainUi();
 
-        void transToCreatePlayer();
+        void transToCreatePlayer(String teamId);
+
+        void onBackPressed();
     }
 }
