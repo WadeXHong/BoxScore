@@ -59,6 +59,7 @@ public class TeamMainFragment extends Fragment implements TeamMainContract.View{
         super.onHiddenChanged(hidden);
         if (!hidden){
             mPresenter.refreshToolBar();
+            refreshUI();
         }
     }
 

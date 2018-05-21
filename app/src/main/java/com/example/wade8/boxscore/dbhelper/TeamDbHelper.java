@@ -130,17 +130,31 @@ public class TeamDbHelper extends SQLiteOpenHelper {
     }
 
     public void createPlayerInDb(String teamId, Player player) {
-        ContentValues cv = new ContentValues();
-        cv.put(Constants.TeamPlayersContract.PLAYER_ID, UUID.randomUUID().toString());
-        cv.put(Constants.TeamPlayersContract.PLAYER_NUMBER, player.getNumber());
-        cv.put(Constants.TeamPlayersContract.PLAYER_NAME, player.getName());
-        cv.put(Constants.TeamPlayersContract.PLAY_C, player.getPosition()[CreatePlayerFragment.POSITION_C]);
-        cv.put(Constants.TeamPlayersContract.PLAY_PF, player.getPosition()[CreatePlayerFragment.POSITION_PF]);
-        cv.put(Constants.TeamPlayersContract.PLAY_SF, player.getPosition()[CreatePlayerFragment.POSITION_SF]);
-        cv.put(Constants.TeamPlayersContract.PLAY_SG, player.getPosition()[CreatePlayerFragment.POSITION_SG]);
-        cv.put(Constants.TeamPlayersContract.PLAY_PG, player.getPosition()[CreatePlayerFragment.POSITION_PG]);
-        cv.put(Constants.TeamPlayersContract.TEAM_ID, teamId);
 
-        getWritableDatabase().insert(Constants.TeamPlayersContract.TABLE_NAME, null, cv);
+        ContentValues cvPlayers = new ContentValues();
+        cvPlayers.put(Constants.TeamPlayersContract.PLAYER_ID, UUID.randomUUID().toString());
+        cvPlayers.put(Constants.TeamPlayersContract.PLAYER_NUMBER, player.getNumber());
+        cvPlayers.put(Constants.TeamPlayersContract.PLAYER_NAME, player.getName());
+        cvPlayers.put(Constants.TeamPlayersContract.PLAY_C, player.getPosition()[CreatePlayerFragment.POSITION_C]);
+        cvPlayers.put(Constants.TeamPlayersContract.PLAY_PF, player.getPosition()[CreatePlayerFragment.POSITION_PF]);
+        cvPlayers.put(Constants.TeamPlayersContract.PLAY_SF, player.getPosition()[CreatePlayerFragment.POSITION_SF]);
+        cvPlayers.put(Constants.TeamPlayersContract.PLAY_SG, player.getPosition()[CreatePlayerFragment.POSITION_SG]);
+        cvPlayers.put(Constants.TeamPlayersContract.PLAY_PG, player.getPosition()[CreatePlayerFragment.POSITION_PG]);
+        cvPlayers.put(Constants.TeamPlayersContract.TEAM_ID, teamId);
+
+        getWritableDatabase().insert(Constants.TeamPlayersContract.TABLE_NAME, null, cvPlayers);
+
+
+        ContentValues cvInfo = new ContentValues();
+        Cursor cursor = getReadableDatabase().query(Constants.TeamInfoDBContract.TABLE_NAME,
+                  new String[]{Constants.TeamInfoDBContract.TEAM_PLAYERS_AMOUNT},
+                  Constants.TeamInfoDBContract.TEAM_ID + " =?",
+                  new String[]{teamId}, null, null, null);
+
+        cursor.moveToFirst();
+
+        cvInfo.put(Constants.TeamInfoDBContract.TEAM_PLAYERS_AMOUNT,cursor.getInt(0) + 1);
+
+        getWritableDatabase().update(Constants.TeamInfoDBContract.TABLE_NAME, cvInfo, Constants.TeamInfoDBContract.TEAM_ID + " =?", new String[]{teamId});
     }
 }
