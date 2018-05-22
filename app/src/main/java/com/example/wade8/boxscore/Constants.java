@@ -107,6 +107,7 @@ public class Constants {
         public static final String TABLE_NAME = "game_data";
         public static final String COLUMN_NAME_GAME_ID = "game_id";
         public static final String COLUMN_NAME_QUARTER = "quarter";
+        public static final String COLUMN_NAME_PLAYER_ID = "player_id";
         public static final String COLUMN_NAME_PLAYER_NUMBER = "player_number";
         public static final String COLUMN_NAME_PLAYER_NAME = "player_name";
         public static final String COLUMN_NAME_POINTS = "PTS";

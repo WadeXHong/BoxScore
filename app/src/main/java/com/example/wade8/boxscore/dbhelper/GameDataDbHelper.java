@@ -34,6 +34,7 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
               "CREATE TABLE " + Constants.GameDataDBContract.TABLE_NAME +"("+
                         Constants.GameDataDBContract.COLUMN_NAME_GAME_ID + " TEXT, " +
                         Constants.GameDataDBContract.COLUMN_NAME_QUARTER + " INTEGER NOT NULL, " +
+                        Constants.GameDataDBContract.COLUMN_NAME_PLAYER_ID + " TEXT, " +
                         Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER + " TEXT, " +
                         Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NAME +" TEXT, " +
                         Constants.GameDataDBContract.COLUMN_NAME_POINTS + " INTEGER DEFAULT 0, " +
@@ -78,6 +79,7 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
         for (Player mPlayer:mGameInfo.getStartingPlayerList()){
             for (int i = 0; i<totalQuarter; i++){
                 ContentValues contentValues = new ContentValues();
+                contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_ID, mPlayer.getPlayerId());
                 contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_GAME_ID,mGameInfo.getGameId());
                 contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_QUARTER,i+1);
                 contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER,mPlayer.getNumber());
@@ -88,6 +90,7 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
         for (Player mPlayer:mGameInfo.getSubstitutePlayerList()){
             for (int i = 0; i<totalQuarter; i++){
                 ContentValues contentValues = new ContentValues();
+                contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_ID, mPlayer.getPlayerId());
                 contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_GAME_ID,mGameInfo.getGameId());
                 contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_QUARTER,i+1);
                 contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER,mPlayer.getNumber());
@@ -366,25 +369,34 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
     }
 
     public ArrayList<Player> setPlayerListFromDb(){
+
         Cursor cursor = getReadableDatabase()
                   .query(Constants.GameDataDBContract.TABLE_NAME,
-                            new String[]{Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER, Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NAME},
+                            new String[]{Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER, Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NAME, Constants.GameDataDBContract.COLUMN_NAME_PLAYER_ID},
                             Constants.GameDataDBContract.COLUMN_NAME_GAME_ID+" =?",
                             new String[]{mGameInfo.getGameId()},
                             Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER,null,null);
+
         ArrayList<Player> playerList = new ArrayList<>();
         int size = cursor.getCount();
+
         for (int i=0; i<size; i++){
             cursor.moveToPosition(i);
-            playerList.add(new Player(cursor.getString(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER)),cursor.getString(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NAME))));
+            playerList.add(new Player(cursor.getString(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER)),
+                      cursor.getString(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NAME)),
+                      cursor.getString(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_ID))));
         }
+
         cursor.close();
+
         mGameInfo.setStartingPlayerList(new ArrayList<Player>(playerList.subList(0,5)));
         mGameInfo.setSubstitutePlayerList(new ArrayList<Player>(playerList.subList(5,size)));
+
         return playerList;
     }
 
     public void setDetailDataFromDb() {
+
         int totalQuarter = Integer.parseInt(mGameInfo.getTotalQuarter());
 
         SparseArray<SparseArray<SparseIntArray>> mQuarterSparseArray = new SparseArray();
@@ -392,7 +404,6 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
         for (int i=0; i<totalQuarter;i++){
 
             SparseArray<SparseIntArray> mPlayerSparseArray = new SparseArray<SparseIntArray>();
-
 
             for (Player mPlayer:mGameInfo.getStartingPlayerList()){
 
@@ -534,6 +545,7 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
                   new String[]{
                             Constants.GameDataDBContract.COLUMN_NAME_GAME_ID,
                             Constants.GameDataDBContract.COLUMN_NAME_QUARTER,
+                            Constants.GameDataDBContract.COLUMN_NAME_PLAYER_ID,
                             Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER,
                             Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NAME,
                             "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_POINTS + ")",
