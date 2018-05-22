@@ -8,9 +8,15 @@ import java.io.Serializable;
 
 public class Player implements Serializable {
 
+    private String mPlayerId;
     private String mNumber;
     private String mName;
     private int[] mPosition;
+
+    public Player(String number, String name, String playerId){
+        this(number,name);
+        mPlayerId = playerId;
+    }
 
     public Player(String number, String name) {
         this.mNumber = number;
@@ -44,6 +50,14 @@ public class Player implements Serializable {
 
     public void setPosition(int[] position) {
         mPosition = position;
+    }
+
+    public String getPlayerId() {
+        return mPlayerId;
+    }
+
+    public void setPlayerId(String playerId) {
+        mPlayerId = playerId;
     }
 
 }

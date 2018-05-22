@@ -107,6 +107,7 @@ public class Constants {
         public static final String TABLE_NAME = "game_data";
         public static final String COLUMN_NAME_GAME_ID = "game_id";
         public static final String COLUMN_NAME_QUARTER = "quarter";
+        public static final String COLUMN_NAME_PLAYER_ID = "player_id";
         public static final String COLUMN_NAME_PLAYER_NUMBER = "player_number";
         public static final String COLUMN_NAME_PLAYER_NAME = "player_name";
         public static final String COLUMN_NAME_POINTS = "PTS";
@@ -137,6 +138,8 @@ public class Constants {
         public static final String MAX_FOUL = "max_foul";
         public static final String TIMEOUT_FIRST_HALF = "timeout_first_half";
         public static final String TIMEOUT_SECOND_HALF = "timeout_second_half";
+        public static final String YOUR_TEAM_SCORE = "your_score";
+        public static final String OPPONENT_TEAM_SCORE = "opponent_score";
         public static final String GAME_DATE = "game_date";
         public static final String IS_GAMEOVER = "is_gameover";
 
