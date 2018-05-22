@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.wade8.boxscore.gamehistory.GameHistoryActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/activity_gamehistory_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorOrange"
+        app:title="賽前設定"
+        app:titleTextColor="@color/colorWhite">
+
+        <TextView
+            android:id="@+id/activity_gamehistory_startgamebutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="開始紀錄"
+            android:textSize="15sp"
+            android:layout_marginEnd="15dp"
+            android:textColor="@color/colorWhite"/>
+
+        <ImageView
+            android:id="@+id/activity_gamehistory_nextpage"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:layout_marginEnd="15dp"
+            android:src="@drawable/ic_keyboard_arrow_right_white_30dp" />
+
+    </android.support.v7.widget.Toolbar>
+    
+    <FrameLayout
+        android:id="@+id/activity_gamehistory_framelayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorDarkBackground">
+
+
+    </FrameLayout>
+    
+
+
+</LinearLayout>
