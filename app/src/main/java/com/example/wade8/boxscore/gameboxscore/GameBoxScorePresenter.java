@@ -109,6 +109,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
             initResumeTeamData();
             mGameBoxScoreView.setGameInfoFromResume();
             mGameInfo.setGameId(SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME,""));
+            BoxScore.getGameInfoDbHelper().setGameInfo(mGameInfo);
             initGameInfoFromDatabase();
             //TODO call model
             //1. PlayerList
@@ -213,8 +214,9 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     @Override
     public void pressOpponentTeamScore() {
         Log.d(TAG,"Opponent Score +1");
-        mTeamData.put(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE,mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE)+1);
+        mTeamData.put(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE,mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE) + 1);
         SharedPreferenceHelper.write(SharedPreferenceHelper.OPPONENT_TEAM_TOTAL_SCORE,mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE));
+        BoxScore.getGameInfoDbHelper().writeGameData(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE);
         mGameBoxScoreView.updateUiTeamData();
     }
 
@@ -224,6 +226,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
             Log.d(TAG, "Opponent Score -1");
             mTeamData.put(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE, mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE) - 1);
             SharedPreferenceHelper.write(SharedPreferenceHelper.OPPONENT_TEAM_TOTAL_SCORE, mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE));
+            BoxScore.getGameInfoDbHelper().writeGameData(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE);
             mGameBoxScoreView.updateUiTeamData();
         }
     }
@@ -236,7 +239,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     }
 
     @Override
-    public void pressYourTeamFoul() {
+    public void pressYourTeamFoul() { //TODO will be deprecated
         if (mTeamData.get(Constants.RecordDataType.YOUR_TEAM_FOUL) == Integer.parseInt(mGameInfo.getMaxFoul())){
             Log.d(TAG,"TeamFoul is GG");
         }else{
@@ -314,6 +317,8 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
         Log.d(TAG,"number " + number +" " + name + " " + type +" + 1");
         updateUi();
         mUndoHistoryPresenter.notifyInsert();
+
+        BoxScore.getGameInfoDbHelper().writeGameData(type);
     }
 
     @Override

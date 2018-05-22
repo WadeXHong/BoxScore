@@ -33,6 +33,8 @@ public class GameInfoDbHelper extends SQLiteOpenHelper{
                         Constants.GameInfoDBContract.MAX_FOUL + " INTEGER DEFAULT 5, " +
                         Constants.GameInfoDBContract.TIMEOUT_FIRST_HALF + " INTEGER DEFAULT 2, " +
                         Constants.GameInfoDBContract.TIMEOUT_SECOND_HALF + " INTEGER DEFAULT 3, " +
+                        Constants.GameInfoDBContract.YOUR_TEAM_SCORE + " INTEGER DEFAULT 0, " +
+                        Constants.GameInfoDBContract.OPPONENT_TEAM_SCORE + " INTEGER DEFAULT 0, " +
                         Constants.GameInfoDBContract.GAME_DATE + " TEXT DEFAULT '', " +
                         Constants.GameInfoDBContract.IS_GAMEOVER + " BOOLEAN NOT NULL DEFAULT 0" + ");";
 
@@ -86,6 +88,36 @@ public class GameInfoDbHelper extends SQLiteOpenHelper{
     public void removeGameInfo(String gameId) {
         if (!gameId.equals("")){
             getWritableDatabase().delete(Constants.GameInfoDBContract.TABLE_NAME, Constants.GameInfoDBContract.GAME_ID + " = ?", new String[]{gameId});
+        }
+    }
+
+    public void writeGameData(int type) {
+        ContentValues cv = new ContentValues();
+        switch (type){
+
+//            case Constants.RecordDataType.YOUR_TEAM_TOTAL_SCORE:
+            case Constants.RecordDataType.FREE_THROW_SHOT_MADE:
+            case Constants.RecordDataType.TWO_POINT_SHOT_MADE:
+            case Constants.RecordDataType.THREE_POINT_SHOT_MADE:
+            case Constants.RecordDataType.MINUS_FREE_THROW_MADE:
+            case Constants.RecordDataType.MINUS_TWO_POINT_MADE:
+            case Constants.RecordDataType.MINUS_THREE_POINT_MADE:
+
+                cv.put(Constants.GameInfoDBContract.YOUR_TEAM_SCORE, mGameInfo.getTeamData().get(Constants.RecordDataType.YOUR_TEAM_TOTAL_SCORE));
+                getWritableDatabase().update(Constants.GameInfoDBContract.TABLE_NAME,
+                          cv,
+                          Constants.GameInfoDBContract.GAME_ID + " =?",
+                          new String[]{mGameInfo.getGameId()});
+                break;
+
+            case Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE:
+                cv.put(Constants.GameInfoDBContract.OPPONENT_TEAM_SCORE, mGameInfo.getTeamData().get(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE));
+                getWritableDatabase().update(Constants.GameInfoDBContract.TABLE_NAME,
+                          cv,
+                          Constants.GameInfoDBContract.GAME_ID + " =?",
+                          new String[]{mGameInfo.getGameId()});
+            break;
+
         }
     }
 }
