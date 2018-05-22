@@ -81,5 +81,10 @@
     <string name="smallFoward">小前鋒</string>
     <string name="shootingGuard">得分後衛</string>
     <string name="pointGuard">控球後衛</string>
+    <string name="yourTeamName">%s隊</string>
+    <string name="opponentTeamName">%s隊</string>
+    <string name="finalScore">%d：%d</string>
+    <string name="dateExample">2018年3月25日</string>
+    <string name="gametitleDefault">友誼賽</string>
 
 </resources>

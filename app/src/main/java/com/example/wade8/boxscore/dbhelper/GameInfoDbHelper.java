@@ -76,16 +76,25 @@ public class GameInfoDbHelper extends SQLiteOpenHelper{
 
     public Cursor getGameInfo(){
         return getReadableDatabase()
-                  .query(Constants.GameInfoDBContract.TABLE_NAME
-                            ,null
-                            , Constants.GameInfoDBContract.GAME_ID+" =?"
-                            ,new String[]{SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME,null)}
-                            ,null,null, null);
+                  .query(Constants.GameInfoDBContract.TABLE_NAME,
+                            null,
+                            Constants.GameInfoDBContract.GAME_ID+" =?",
+                            new String[]{SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME,null)},
+                            null,null, null);
     }
 
     public void removeGameInfo(String gameId) {
         if (!gameId.equals("")){
             getWritableDatabase().delete(Constants.GameInfoDBContract.TABLE_NAME, Constants.GameInfoDBContract.GAME_ID + " = ?", new String[]{gameId});
         }
+    }
+
+    public Cursor getGameHistory() {
+        return getReadableDatabase()
+                  .query(Constants.GameInfoDBContract.TABLE_NAME,
+                            null,
+                            null,
+                            null
+                            ,null,null, Constants.GameInfoDBContract.GAME_DATE);
     }
 }

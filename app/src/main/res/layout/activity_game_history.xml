@@ -20,18 +20,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:text="開始紀錄"
+            android:text=""
             android:textSize="15sp"
             android:layout_marginEnd="15dp"
             android:textColor="@color/colorWhite"/>
 
-        <ImageView
-            android:id="@+id/activity_gamehistory_nextpage"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:layout_marginEnd="15dp"
-            android:src="@drawable/ic_keyboard_arrow_right_white_30dp" />
 
     </android.support.v7.widget.Toolbar>
     

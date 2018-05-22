@@ -42,7 +42,7 @@ public class GameHistoryPresenter implements GameHistoryContract.Presenter{
 
     @Override
     public void start() {
-
+        transToMain();
     }
 
     @Override
