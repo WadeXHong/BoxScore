@@ -11,9 +11,17 @@ public interface GameHistoryContract {
 
     interface View extends BaseView<Presenter>{
 
+        void setGameHistoryToolBar();
+
     }
 
     interface Presenter extends BasePresenter{
+
+        void transToHistory();
+
+        void transToMain();
+
+
 
     }
 

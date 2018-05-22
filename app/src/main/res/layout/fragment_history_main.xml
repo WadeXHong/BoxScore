@@ -1,5 +1,6 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_historymain_recyclerview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.wade8.boxscore.historymain.HistoryMainFragment">
@@ -10,4 +11,4 @@
         android:layout_height="match_parent"
         android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+</android.support.v7.widget.RecyclerView>

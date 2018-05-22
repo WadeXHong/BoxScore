@@ -12,7 +12,7 @@ public class HistoryTeamDataPresenter implements HistoryTeamDataContract.Present
 
     public HistoryTeamDataPresenter(HistoryTeamDataContract.View historyTeamDataView) {
         mHistoryTeamDataView = historyTeamDataView;
-        
+
         mHistoryTeamDataView.setPresenter(this);
     }
 
