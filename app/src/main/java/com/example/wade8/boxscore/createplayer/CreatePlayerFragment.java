@@ -108,6 +108,8 @@ public class CreatePlayerFragment extends Fragment implements CreatePlayerContra
 
             @Override
             public void afterTextChanged(Editable s) {
+
+                if (s.length() > 0 && s.charAt(0) == '\u0020') s.delete(0,1);
                 if (s.toString().trim().equals("")){ //等於空白
                     isNameLegal = false;
                     mPlayerName.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.shape_edittext_gamename_orange, null));
@@ -131,6 +133,8 @@ public class CreatePlayerFragment extends Fragment implements CreatePlayerContra
 
             @Override
             public void afterTextChanged(Editable s) {
+                if (s.length() == 2 && s.charAt(0) == '\u0030') s.delete(0,1);
+
                 if (s.toString().trim().equals("")){ //輸入不符
                     isNumberLegal = false;
                     mPlayerNumber.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.shape_edittext_gamename_orange, null));

@@ -87,11 +87,26 @@ public class GameNameSettingFragment extends Fragment implements GameNameSetting
 
             @Override
             public void afterTextChanged(Editable s) {
+
+                if (s.length() > 0 && s.charAt(0) == '\u0020') s.delete(0,1);
                 if (s.toString().trim().equals("")) {
                     mOpponent.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.shape_edittext_gamename_illegal, null));
                 } else {
                     mOpponent.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.shape_edittext_gamename, null));
                 }
+            }
+        });
+
+        mGameTitle.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0 && s.charAt(0) == '\u0020') s.delete(0,1);
             }
         });
 

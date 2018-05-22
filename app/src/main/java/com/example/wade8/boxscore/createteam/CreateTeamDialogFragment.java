@@ -91,6 +91,8 @@ public class CreateTeamDialogFragment extends DialogFragment implements CreateTe
 
             @Override
             public void afterTextChanged(Editable s) {
+
+                if (s.length() > 0 && s.charAt(0) == '\u0020') s.delete(0,1);
                 if (!s.toString().trim().equals("")){
                     mConfirm.setEnabled(true);
                     mEditText.setBackground(ResourcesCompat.getDrawable(getResources(),R.drawable.shape_edittext_gamename,null));
