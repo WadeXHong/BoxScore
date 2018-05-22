@@ -47,6 +47,13 @@ public class PlayerListAdapter extends RecyclerView.Adapter{
         fakeDataInit();
     }
 
+    public void setPlayerLists(ArrayList<Player> players){
+        mStartingPlayerList = new ArrayList<>();
+        mSubstitutePlayerList = new ArrayList<>();
+        mUnregisteredPlayerList = players;
+        notifyDataSetChanged();
+    }
+
     private void fakeDataInit() { //TODO
         mStartingPlayerList = new ArrayList<>();
         mSubstitutePlayerList = new ArrayList<>();

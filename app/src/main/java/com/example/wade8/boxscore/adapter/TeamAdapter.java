@@ -80,7 +80,7 @@ public class TeamAdapter extends ExpandableRecyclerViewAdapter<TeamAdapter.TeamV
             mDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new AlertDialog.Builder(v.getContext(), R.style.OrangeAlertDialog).setTitle("刪除確認").setMessage("確認刪除"+teamName+"的所有資料?")
+                    new AlertDialog.Builder(v.getContext(), R.style.OrangeDialog).setTitle("刪除確認").setMessage("確認刪除"+teamName+"的所有資料?")
                               .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
                                   @Override
                                   public void onClick(DialogInterface dialog, int which) {

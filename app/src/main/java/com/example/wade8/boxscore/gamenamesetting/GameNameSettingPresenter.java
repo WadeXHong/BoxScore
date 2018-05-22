@@ -44,4 +44,9 @@ public class GameNameSettingPresenter implements GameNameSettingContract.Present
     public ArrayList<TeamInfo> getTeamInfos() {
         return mTeamInfos;
     }
+
+    @Override
+    public void setDefaultPlayerList(String teamId) {
+        mStartGamePresenter.setDefaultPlayerList(teamId);
+    }
 }

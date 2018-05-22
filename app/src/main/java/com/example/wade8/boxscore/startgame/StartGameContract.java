@@ -43,5 +43,7 @@ public interface StartGameContract {
         GameInfo getSettingResult(GameInfo gameInfo);
 
         void checkInput(int currentItem);
+
+        void setDefaultPlayerList(String teamId);
     }
 }

@@ -23,6 +23,8 @@ public interface GameNameSettingContract {
     interface Presenter extends BasePresenter{
 
         ArrayList<TeamInfo> getTeamInfos();
+
+        void setDefaultPlayerList(String teamId);
     }
 
 }

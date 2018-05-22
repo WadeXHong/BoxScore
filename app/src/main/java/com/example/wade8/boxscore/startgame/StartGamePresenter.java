@@ -115,4 +115,9 @@ public class StartGamePresenter implements StartGameContract.Presenter{
                 break;
         }
     }
+
+    @Override
+    public void setDefaultPlayerList(String teamId) {
+        mPlayerListPresenter.setDefaultPlayerList(teamId);
+    }
 }

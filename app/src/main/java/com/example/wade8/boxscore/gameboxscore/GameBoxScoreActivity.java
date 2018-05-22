@@ -152,7 +152,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
             @Override
             public void onClick(View v) {
                 Log.d(TAG,"mDataStatistic onClick");
-                new AlertDialog.Builder(GameBoxScoreActivity.this, R.style.Theme_AppCompat_Light_Dialog).setTitle("結束比賽")
+                new AlertDialog.Builder(GameBoxScoreActivity.this, R.style.OrangeDialog).setTitle("結束比賽")
                           .setMessage("比賽是否結束並儲存結果？")
                           .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                                 @Override
@@ -289,7 +289,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
 
     @Override
     public void onBackPressed() {
-        new AlertDialog.Builder(this,R.style.Theme_AppCompat_Light_Dialog)
+        new AlertDialog.Builder(this,R.style.OrangeDialog)
                   .setTitle(R.string.confirmExitDataRecord).setMessage(R.string.exitDataRecordMessage)
                   .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                       @Override

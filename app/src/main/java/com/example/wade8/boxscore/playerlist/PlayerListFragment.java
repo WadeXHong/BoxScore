@@ -1,6 +1,7 @@
 package com.example.wade8.boxscore.playerlist;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,9 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.wade8.boxscore.BoxScore;
+import com.example.wade8.boxscore.Constants;
 import com.example.wade8.boxscore.R;
 import com.example.wade8.boxscore.adapter.PlayerListAdapter;
 import com.example.wade8.boxscore.objects.GameInfo;
+import com.example.wade8.boxscore.objects.Player;
+
+import java.util.ArrayList;
 
 
 public class PlayerListFragment extends Fragment implements PlayerListContract.View{
@@ -67,5 +73,11 @@ public class PlayerListFragment extends Fragment implements PlayerListContract.V
     @Override
     public int[] getCheckedInput() {
         return new int[]{mAdapter.getStartingPlayerList().size(),mAdapter.getSubstitutePlayerList().size()};
+    }
+
+    @Override
+    public void setDefaultPlayerList(ArrayList<Player> players) {
+
+        mAdapter.setPlayerLists(players);
     }
 }

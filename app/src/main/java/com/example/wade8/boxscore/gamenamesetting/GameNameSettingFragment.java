@@ -1,10 +1,6 @@
 package com.example.wade8.boxscore.gamenamesetting;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.Context;
-import android.icu.util.Calendar;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,6 +10,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -22,10 +19,7 @@ import android.widget.TextView;
 import com.example.wade8.boxscore.R;
 import com.example.wade8.boxscore.adapter.SelectTeamAdapter;
 import com.example.wade8.boxscore.objects.GameInfo;
-import com.example.wade8.boxscore.playerlist.PlayerListFragment;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.example.wade8.boxscore.objects.TeamInfo;
 
 
 public class GameNameSettingFragment extends Fragment implements GameNameSettingContract.View{
@@ -71,7 +65,7 @@ public class GameNameSettingFragment extends Fragment implements GameNameSetting
             public void onClick(View v) {
 
                 java.util.Calendar c = java.util.Calendar.getInstance();
-                new DatePickerDialog(getContext(), R.style.Theme_AppCompat_Light_Dialog, new DatePickerDialog.OnDateSetListener() {
+                new DatePickerDialog(getContext(), R.style.OrangeDialog, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         String date = year + "年" + (month + 1) + "月" + dayOfMonth + "日";
@@ -103,7 +97,19 @@ public class GameNameSettingFragment extends Fragment implements GameNameSetting
 
         mAdapter = new SelectTeamAdapter(mPresenter.getTeamInfos());
         mYourTeam.setAdapter(mAdapter);
-        
+        mYourTeam.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mPresenter.setDefaultPlayerList(((TeamInfo)parent.getSelectedItem()).getTeamId());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
         return view;
     }
 

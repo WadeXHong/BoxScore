@@ -106,7 +106,7 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
 
     @Override
     public void askResumeGame(String opponentName) {
-        new AlertDialog.Builder(this,R.style.Theme_AppCompat_Light_Dialog).setTitle("恢復比賽")
+        new AlertDialog.Builder(this,R.style.OrangeDialog).setTitle("恢復比賽")
                   .setMessage("上次與\n"+opponentName+" 的比賽記錄尚未結束\n是否恢復比賽？\n\n警告：選擇\n「放棄並開新比賽」\n將刪除紀錄")
                   .setPositiveButton("恢復比賽", new DialogInterface.OnClickListener() {
                       @Override

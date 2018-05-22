@@ -258,7 +258,7 @@ public class StartGameActivity extends AppCompatActivity implements StartGameCon
 
     @Override
     public void onBackPressed() {
-        new AlertDialog.Builder(this,R.style.Theme_AppCompat_Light_Dialog)
+        new AlertDialog.Builder(this,R.style.OrangeDialog)
                   .setTitle(R.string.confirmGoBack).setMessage(R.string.goBackConfirmMessage)
                   .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                       @Override

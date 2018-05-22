@@ -32,7 +32,8 @@
             android:layout_height="35dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/shape_edittext_gamename"
-            android:hint="@string/gameDateHint"
+            android:dropDownSelector="@drawable/shape_edittext_gamename_orange"
+            android:dropDownVerticalOffset = "35dp"
             android:paddingHorizontal="5dp"
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@+id/fragment_gamenamesetting_yourteam_textview" />
