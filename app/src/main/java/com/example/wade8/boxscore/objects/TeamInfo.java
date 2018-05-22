@@ -22,6 +22,11 @@ public class TeamInfo extends ExpandableGroup<TeamDetail>{
     private String mTeamId;
     private ArrayList<Player> mPlayers;
 
+    public TeamInfo(String teamName, String teamId, List<TeamDetail> items){
+        this(teamName, items);
+        mTeamId = teamId;
+    }
+
     public TeamInfo(String teamName, List<TeamDetail> items) {
         super(teamName, items);
         mTeamName = teamName;

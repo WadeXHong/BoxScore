@@ -103,7 +103,7 @@ public class TeamDbHelper extends SQLiteOpenHelper {
             List<TeamDetail> teamDetails = new ArrayList<>();
             teamDetails.add(new TeamDetail(teamName, teamId, teamPlayerAmount, teamHistoryAmount));
 
-            teamInfoList.add(new TeamInfo(teamName, teamDetails));
+            teamInfoList.add(new TeamInfo(teamName, teamId, teamDetails));
         }
 
         return teamInfoList;

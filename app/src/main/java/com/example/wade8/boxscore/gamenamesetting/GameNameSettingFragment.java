@@ -20,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.wade8.boxscore.R;
+import com.example.wade8.boxscore.adapter.SelectTeamAdapter;
 import com.example.wade8.boxscore.objects.GameInfo;
 import com.example.wade8.boxscore.playerlist.PlayerListFragment;
 
@@ -37,6 +38,7 @@ public class GameNameSettingFragment extends Fragment implements GameNameSetting
     private EditText mOpponent;
     private TextView mGameDate;
     private Spinner mYourTeam;
+    private SelectTeamAdapter mAdapter;
 
 
     public GameNameSettingFragment() {
@@ -50,18 +52,19 @@ public class GameNameSettingFragment extends Fragment implements GameNameSetting
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPresenter.start();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_game_name_setting,container,false);
+        View view = inflater.inflate(R.layout.fragment_game_name_setting, container, false);
 
         mGameTitle = view.findViewById(R.id.fragment_gamenamesetting_gametitle_edittext);
         mGameDate = view.findViewById(R.id.fragment_gamenamesetting_gamedate_edittext);
         mOpponent = view.findViewById(R.id.fragment_gamenamesetting_opponent_edittext);
         mYourTeam = view.findViewById(R.id.fragment_gamenamesetting_yourteam_spinner);
-        String today = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR) +"年"+ (java.util.Calendar.getInstance().get(java.util.Calendar.MONTH)+1) + "月" + java.util.Calendar.getInstance().get(java.util.Calendar.DAY_OF_MONTH) + "日";
+        String today = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR) + "年" + (java.util.Calendar.getInstance().get(java.util.Calendar.MONTH) + 1) + "月" + java.util.Calendar.getInstance().get(java.util.Calendar.DAY_OF_MONTH) + "日";
         mGameDate.setText(today);
         mGameDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,10 +74,10 @@ public class GameNameSettingFragment extends Fragment implements GameNameSetting
                 new DatePickerDialog(getContext(), R.style.Theme_AppCompat_Light_Dialog, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        String date = year+"年"+(month+1)+"月"+dayOfMonth+"日";
+                        String date = year + "年" + (month + 1) + "月" + dayOfMonth + "日";
                         mGameDate.setText(date);
                     }
-                }, c.get(java.util.Calendar.YEAR),c.get(java.util.Calendar.MONTH),c.get(java.util.Calendar.DAY_OF_MONTH)).show();
+                }, c.get(java.util.Calendar.YEAR), c.get(java.util.Calendar.MONTH), c.get(java.util.Calendar.DAY_OF_MONTH)).show();
             }
         });
         mOpponent.addTextChangedListener(new TextWatcher() {
@@ -90,13 +93,17 @@ public class GameNameSettingFragment extends Fragment implements GameNameSetting
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.toString().trim().equals("")){
-                    mOpponent.setBackground(ResourcesCompat.getDrawable(getResources(),R.drawable.shape_edittext_gamename_illegal,null));
-                }else {
-                    mOpponent.setBackground(ResourcesCompat.getDrawable(getResources(),R.drawable.shape_edittext_gamename,null));
+                if (s.toString().trim().equals("")) {
+                    mOpponent.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.shape_edittext_gamename_illegal, null));
+                } else {
+                    mOpponent.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.shape_edittext_gamename, null));
                 }
             }
         });
+
+        mAdapter = new SelectTeamAdapter(mPresenter.getTeamInfos());
+        mYourTeam.setAdapter(mAdapter);
+        
         return view;
     }
 
