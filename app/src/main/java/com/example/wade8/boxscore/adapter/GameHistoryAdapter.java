@@ -79,19 +79,26 @@ public class GameHistoryAdapter extends RecyclerView.Adapter {
         }
 
         private void bind (int position){
+
             mCursor.moveToPosition(position);
+
             String date = mCursor.getString(mCursor.getColumnIndex(Constants.GameInfoDBContract.GAME_DATE));
             String gameTitle = mCursor.getString(mCursor.getColumnIndex(Constants.GameInfoDBContract.GAME_NAME));
             String yourTeam = itemView.getResources().getString(R.string.yourTeamName, mCursor.getString(mCursor.getColumnIndex(Constants.GameInfoDBContract.YOUR_TEAM)));
             String opponentTeam = itemView.getResources().getString(R.string.opponentTeamName, mCursor.getString(mCursor.getColumnIndex(Constants.GameInfoDBContract.OPPONENT_NAME)));
-//            String finalScore = itemView.getResources().getString(R.string.finalScore,
-//                      mCursor.getString(mCursor.getColumnIndex(Constants.GameInfoDBContract.))
-//
-//            mDate.setText(date);
-            mGameTitle.setText(gameTitle);
+            String finalScore = itemView.getResources().getString(R.string.finalScore,
+                      mCursor.getInt(mCursor.getColumnIndex(Constants.GameInfoDBContract.YOUR_TEAM_SCORE)),
+                      mCursor.getInt(mCursor.getColumnIndex(Constants.GameInfoDBContract.OPPONENT_TEAM_SCORE)));
+
+            if (gameTitle.equals("")){
+                mGameTitle.setText("友誼賽");
+            }else {
+                mGameTitle.setText(gameTitle);
+            }
+            mDate.setText(date);
             mYourTeam.setText(yourTeam);
             mOpponentTeam.setText(opponentTeam);
-            mFinalScore.setText();
+            mFinalScore.setText(finalScore);
             mShare.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

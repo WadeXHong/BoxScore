@@ -47,6 +47,11 @@ public class GameHistoryPresenter implements GameHistoryContract.Presenter{
 
     @Override
     public void transToHistory() {
+
+    }
+
+    @Override
+    public void transToMain() {
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
         if (mHistoryMainFragment == null) mHistoryMainFragment = HistoryMainFragment.newInstance();
         if (mHistoryDetailFragment != null) transaction.remove(mHistoryDetailFragment);
@@ -60,10 +65,5 @@ public class GameHistoryPresenter implements GameHistoryContract.Presenter{
         if (mHistoryMainPresenter == null) mHistoryMainPresenter = new HistoryMainPresenter(mHistoryMainFragment);
 
         mGameHistoryView.setGameHistoryToolBar();
-    }
-
-    @Override
-    public void transToMain() {
-
     }
 }

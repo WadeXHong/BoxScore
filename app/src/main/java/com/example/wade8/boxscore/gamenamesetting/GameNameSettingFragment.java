@@ -140,7 +140,7 @@ public class GameNameSettingFragment extends Fragment implements GameNameSetting
         gameInfo.setOpponentName(mOpponent.getText().toString());
         gameInfo.setGameDate(mGameDate.getText().toString());
         //TODO spinner data
-//        gameInfo.setYourTeam(mYourTeam.getSelectedItem().toString());
+        gameInfo.setYourTeam(((TeamInfo)mYourTeam.getSelectedItem()).getTeamName());
     }
 
     @Override
