@@ -49,7 +49,7 @@ public class GameHistoryPresenter implements GameHistoryContract.Presenter{
         transaction.setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
         if (mHistoryDetailFragment == null) mHistoryDetailFragment = HistoryDetailFragment.newInstance();
 
-        if (mHistoryDetailPresenter == null) mHistoryDetailPresenter = new HistoryDetailPresenter(mHistoryDetailFragment);
+        if (mHistoryDetailPresenter == null) mHistoryDetailPresenter = new HistoryDetailPresenter(mHistoryDetailFragment, mFragmentManager);
         if (!mHistoryDetailFragment.isAdded()){
             transaction.add(R.id.activity_gamehistory_framelayout, mHistoryDetailFragment, HISTORY_DETAIL);
         }else {

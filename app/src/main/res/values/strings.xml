@@ -86,5 +86,7 @@
     <string name="finalScore">%d：%d</string>
     <string name="dateExample">2018年3月25日</string>
     <string name="gametitleDefault">友誼賽</string>
+    <string name="teamBoxScore">球隊數據</string>
+    <string name="playersBoxscore">球員數據</string>
 
 </resources>

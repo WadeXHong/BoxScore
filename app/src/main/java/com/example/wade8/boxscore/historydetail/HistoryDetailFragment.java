@@ -2,12 +2,15 @@ package com.example.wade8.boxscore.historydetail;
 
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.wade8.boxscore.R;
+import com.example.wade8.boxscore.ViewPagerFragmentAdapter;
 
 
 public class HistoryDetailFragment extends Fragment implements HistoryDetailContract.View{
@@ -15,6 +18,10 @@ public class HistoryDetailFragment extends Fragment implements HistoryDetailCont
     private static final String TAG = HistoryDetailFragment.class.getSimpleName();
 
     private HistoryDetailContract.Presenter mPresenter;
+
+    private ViewPager mViewPager;
+    private TabLayout mTabLayout;
+    private final int[] mTab = {R.string.teamBoxScore,R.string.playersBoxscore};
 
     public HistoryDetailFragment() {
     }
@@ -26,7 +33,14 @@ public class HistoryDetailFragment extends Fragment implements HistoryDetailCont
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_history_detail, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_history_detail, container, false);
+
+        mViewPager = view.findViewById(R.id.fragment_historydetail_viewpager);
+        mTabLayout = view.findViewById(R.id.fragment_historydetail_tablelayout);
+
+        mPresenter.start();
+        return view;
     }
 
     @Override
@@ -37,5 +51,16 @@ public class HistoryDetailFragment extends Fragment implements HistoryDetailCont
     @Override
     public void refreshUi() {
 
+    }
+
+    @Override
+    public void setViewPagerAdapter(ViewPagerFragmentAdapter viewPagerFragmentAdapter) {
+        mViewPager.setAdapter(viewPagerFragmentAdapter);
+        mTabLayout.setupWithViewPager(mViewPager);
+
+        //set tab in tab layout
+        for(int i=0; i<mTab.length;i++){
+            mTabLayout.getTabAt(i).setText(mTab[i]);
+        }
     }
 }
