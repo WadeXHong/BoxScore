@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <TextView
+        android:id="@+id/item_history_teamdetail_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="start"
+        android:text="勝"
+        android:textColor="@color/colorRed"
+        android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/item_history_teamdetail_yourteam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:gravity="center"
+        android:text="我方"
+        android:textColor="@color/colorButtonInMain"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="@+id/item_history_teamdetail_yourteamscore"
+        app:layout_constraintStart_toStartOf="@+id/item_history_teamdetail_yourteamscore"
+        app:layout_constraintTop_toBottomOf="@+id/item_history_teamdetail_status" />
+
+    <TextView
+        android:id="@+id/item_history_teamdetail_yourteamscore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="87"
+        android:textColor="@color/colorRed"
+        android:textSize="60sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.20"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_history_teamdetail_yourteam" />
+
+    <TextView
+        android:id="@+id/item_history_teamdetail_colon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="："
+        android:textColor="@color/colorRed"
+        android:textSize="35sp"
+        app:layout_constraintBottom_toBottomOf="@+id/item_history_teamdetail_opponentteamscore"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/item_history_teamdetail_opponentteamscore" />
+
+
+    <TextView
+        android:id="@+id/item_history_teamdetail_opponent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:gravity="center"
+        android:text="對方"
+        android:textColor="@color/colorButtonInMain"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="@+id/item_history_teamdetail_opponentteamscore"
+        app:layout_constraintStart_toStartOf="@+id/item_history_teamdetail_opponentteamscore"
+        app:layout_constraintTop_toBottomOf="@+id/item_history_teamdetail_status" />
+
+    <TextView
+        android:id="@+id/item_history_teamdetail_opponentteamscore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="87"
+        android:textColor="@color/colorRed"
+        android:textSize="60sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_history_teamdetail_opponent" />
+
+    <LinearLayout
+        android:id="@+id/item_history_teamdetail_columntitle_layout"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:paddingEnd="20dp"
+        android:paddingStart="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/item_history_teamdetail_opponentteamscore">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:textColor="@color/colorButtonInMain"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="1st"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:textColor="@color/colorButtonInMain"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="2nd"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:textColor="@color/colorButtonInMain"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="3rd"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:textColor="@color/colorButtonInMain"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="4th"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:textColor="@color/colorButtonInMain"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="TOL"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:textColor="@color/colorButtonInMain"/>
+
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
