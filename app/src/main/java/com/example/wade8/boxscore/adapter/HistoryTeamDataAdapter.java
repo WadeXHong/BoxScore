@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.example.wade8.boxscore.Constants;
 import com.example.wade8.boxscore.R;
 import com.example.wade8.boxscore.historyteamdata.HistoryTeamDataContract;
+import com.example.wade8.boxscore.historyteamdata.HistoryTeamDataPresenter;
 
 /**
  * Created by wade8 on 2018/5/23.
@@ -27,17 +28,20 @@ public class HistoryTeamDataAdapter extends RecyclerView.Adapter{
     private String mGameId;
     private Cursor mCursor;
 
-    public HistoryTeamDataAdapter(HistoryTeamDataContract.Presenter presenter, String gameId){
-        mGameId = gameId;
+    public HistoryTeamDataAdapter(HistoryTeamDataContract.Presenter presenter){
         mHistoryTeamDataPresenter = presenter;
 
         refreshCursor(mGameId);
     }
 
+
+
     public void refreshCursor(String gameId) {
-        mGameId = gameId;
-        mCursor = mHistoryTeamDataPresenter.getHistoryStatistic(mGameId);
-        notifyDataSetChanged();
+        if (gameId != null) {
+            mGameId = gameId;
+            mCursor = mHistoryTeamDataPresenter.getHistoryStatistic(mGameId);
+            notifyDataSetChanged();
+        }
     }
 
 
@@ -54,10 +58,12 @@ public class HistoryTeamDataAdapter extends RecyclerView.Adapter{
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (position == 0){
-            ((HeaderViewHolder)holder).bind();
-        }else {
-            ((TableViewHolder)holder).bind(position-1); //Todo position change
+        if (mCursor != null) {
+            if (position == 0) {
+                ((HeaderViewHolder) holder).bind();
+            } else {
+                ((TableViewHolder) holder).bind(position - 1); //Todo position change
+            }
         }
 
     }

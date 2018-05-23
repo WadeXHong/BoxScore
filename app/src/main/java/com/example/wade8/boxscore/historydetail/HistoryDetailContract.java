@@ -12,13 +12,10 @@ public interface HistoryDetailContract {
 
     interface View extends BaseView<Presenter> {
 
-        void refreshUi();
-
         void setViewPagerAdapter(ViewPagerFragmentAdapter viewPagerFragmentAdapter);
     }
 
     interface Presenter extends BasePresenter {
 
-        void refreshUi();
     }
 }

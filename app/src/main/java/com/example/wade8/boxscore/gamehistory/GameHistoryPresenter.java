@@ -40,24 +40,29 @@ public class GameHistoryPresenter implements GameHistoryContract.Presenter{
 
     @Override
     public void start() {
-        transToMain();
+        fragmentsInit();
+    }
+
+    private void fragmentsInit() {
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+        mHistoryDetailFragment = HistoryDetailFragment.newInstance();
+        mHistoryDetailPresenter = new HistoryDetailPresenter(mHistoryDetailFragment, mFragmentManager);
+        mHistoryMainFragment = HistoryMainFragment.newInstance();
+        mHistoryMainPresenter = new HistoryMainPresenter(mHistoryMainFragment, this);
+        transaction.add(R.id.activity_gamehistory_framelayout, mHistoryDetailFragment, HISTORY_DETAIL);
+        transaction.add(R.id.activity_gamehistory_framelayout, mHistoryMainFragment, HISTORY_MAIN);
+        transaction.hide(mHistoryDetailFragment);
+        transaction.commit();
     }
 
     @Override
     public void transToDetail(String gameId) {
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
-        if (mHistoryDetailFragment == null )mHistoryDetailFragment = HistoryDetailFragment.newInstance();
 
-        if (mHistoryDetailPresenter == null )mHistoryDetailPresenter = new HistoryDetailPresenter(mHistoryDetailFragment, mFragmentManager);
-        mHistoryDetailPresenter.setGameId(gameId);
+        mHistoryDetailPresenter.setGameIdToAdapter(gameId);
 
-        if (!mHistoryDetailFragment.isAdded()){
-            transaction.add(R.id.activity_gamehistory_framelayout, mHistoryDetailFragment, HISTORY_DETAIL);
-        }else {
-            transaction.show(mHistoryDetailFragment);
-            mHistoryDetailPresenter.refreshUi();
-        }
+        transaction.show(mHistoryDetailFragment);
         transaction.hide(mHistoryMainFragment);
         transaction.addToBackStack(HISTORY_MAIN);
         transaction.commit();
@@ -68,17 +73,11 @@ public class GameHistoryPresenter implements GameHistoryContract.Presenter{
     @Override
     public void transToMain() {
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
-        if (mHistoryMainFragment == null) mHistoryMainFragment = HistoryMainFragment.newInstance();
-        if (mHistoryDetailFragment != null) transaction.remove(mHistoryDetailFragment);
-        if (!mHistoryMainFragment.isAdded()){
-            transaction.add(R.id.activity_gamehistory_framelayout, mHistoryMainFragment, HISTORY_MAIN);
-        }else {
-            transaction.show(mHistoryMainFragment);
-        }
+
+        transaction.show(mHistoryMainFragment);
+        transaction.hide(mHistoryDetailFragment);
         transaction.commit();
-
-        if (mHistoryMainPresenter == null) mHistoryMainPresenter = new HistoryMainPresenter(mHistoryMainFragment, this);
-
+        
         mGameHistoryView.setGameHistoryToolBar();
     }
 

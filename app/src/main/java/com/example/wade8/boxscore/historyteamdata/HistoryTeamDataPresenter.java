@@ -4,6 +4,7 @@ import android.database.Cursor;
 
 import com.example.wade8.boxscore.BoxScore;
 import com.example.wade8.boxscore.Constants;
+import com.example.wade8.boxscore.adapter.HistoryTeamDataAdapter;
 
 /**
  * Created by wade8 on 2018/5/22.
@@ -14,13 +15,18 @@ public class HistoryTeamDataPresenter implements HistoryTeamDataContract.Present
     private static final String TAG = HistoryTeamDataPresenter.class.getSimpleName();
 
     private final HistoryTeamDataContract.View mHistoryTeamDataView;
+    private HistoryTeamDataAdapter mAdapter;
 
     public HistoryTeamDataPresenter(HistoryTeamDataContract.View historyTeamDataView) {
         mHistoryTeamDataView = historyTeamDataView;
 
         mHistoryTeamDataView.setPresenter(this);
+        mAdapter = new HistoryTeamDataAdapter(this);
     }
 
+    public void setGameIdToAdapter(String gameId){
+        mAdapter.refreshCursor(gameId);
+    }
 
     @Override
     public void start() {
@@ -33,7 +39,8 @@ public class HistoryTeamDataPresenter implements HistoryTeamDataContract.Present
     }
 
     @Override
-    public void refreshUi(String gameId) {
-        mHistoryTeamDataView.refreshUi(gameId);
+    public void setAdapter() {
+        mHistoryTeamDataView.setAdapter(mAdapter);
     }
+
 }

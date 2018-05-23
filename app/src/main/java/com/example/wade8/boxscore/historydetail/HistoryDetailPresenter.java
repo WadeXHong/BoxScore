@@ -31,7 +31,6 @@ public class HistoryDetailPresenter implements HistoryDetailContract.Presenter {
     private HistoryPlayersDataFragment mHistoryPlayersDataFragment;
     private HistoryPlayersPresenter mHistoryPlayersPresenter;
     private List<Fragment> mFragmentList;
-    private String mGameId;
 
     public HistoryDetailPresenter(HistoryDetailContract.View historyDetailView, FragmentManager manager) {
         mHistoryDetailView = historyDetailView;
@@ -43,7 +42,7 @@ public class HistoryDetailPresenter implements HistoryDetailContract.Presenter {
 
     private void setViewPager() {
 
-        mHistoryTeamDataFragment = HistoryTeamDataFragment.newInstance(mGameId);
+        mHistoryTeamDataFragment = HistoryTeamDataFragment.newInstance();
         mHistoryTeamDataPresenter = new HistoryTeamDataPresenter(mHistoryTeamDataFragment);
         mHistoryPlayersDataFragment = HistoryPlayersDataFragment.newInstance();
         mHistoryPlayersPresenter = new HistoryPlayersPresenter(mHistoryPlayersDataFragment);
@@ -60,14 +59,7 @@ public class HistoryDetailPresenter implements HistoryDetailContract.Presenter {
         setViewPager();
     }
 
-    @Override
-    public void refreshUi() {
-        mHistoryDetailView.refreshUi();
-        mHistoryTeamDataPresenter.refreshUi(mGameId);
-        mHistoryPlayersPresenter.refreshUi(mGameId);
-    }
-
-    public void setGameId(String gameId) {
-        mGameId = gameId;
+    public void setGameIdToAdapter(String gameId) {
+        mHistoryTeamDataPresenter.setGameIdToAdapter(gameId);
     }
 }

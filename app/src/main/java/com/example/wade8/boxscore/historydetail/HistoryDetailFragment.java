@@ -48,10 +48,6 @@ public class HistoryDetailFragment extends Fragment implements HistoryDetailCont
         mPresenter = presenter;
     }
 
-    @Override
-    public void refreshUi() {
-
-    }
 
     @Override
     public void setViewPagerAdapter(ViewPagerFragmentAdapter viewPagerFragmentAdapter) {
