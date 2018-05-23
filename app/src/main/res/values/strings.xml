@@ -90,5 +90,11 @@
     <string name="playersBoxscore">球員數據</string>
     <string name="win">勝</string>
     <string name="lose">敗</string>
+    <string name="firstQuarter">第一節</string>
+    <string name="secondQuarter">第二節</string>
+    <string name="thirdQuarter">第三節</string>
+    <string name="forthQuarter">第四節</string>
+    <string name="total">總和</string>
+    <string name="quarterFilter">節數篩選</string>
 
 </resources>

@@ -566,7 +566,7 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
                   },
                   Constants.GameDataDBContract.COLUMN_NAME_GAME_ID+" = ?",
                   new String[]{mGameInfo.getGameId()}, //TODO dynamic gameid  shoulb be mGameInfo.getId
-                  Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER,null, Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER);
+                  Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER,null, Constants.GameDataDBContract.COLUMN_NAME_POINTS);
 
         return cursor;
     }
@@ -577,7 +577,7 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
         }
     }
 
-    public Cursor getHistoryStatisic(String gameId, @Nullable String groupAndOrderBy){
+    public Cursor getHistoryStatisic(String selection, String[] selectionArgs, @Nullable String groupBy, @Nullable String orderBy){
 
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.query(Constants.GameDataDBContract.TABLE_NAME,
@@ -602,9 +602,9 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
                             "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_PERSONAL_FOUL + ")",
                             "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_TURNOVER + ")"
                   },
-                  Constants.GameDataDBContract.COLUMN_NAME_GAME_ID+" = ?",
-                  new String[]{gameId}, //TODO dynamic gameid  shoulb be mGameInfo.getId
-                  groupAndOrderBy,null, groupAndOrderBy);
+                  selection,
+                  selectionArgs, //TODO dynamic gameid  shoulb be mGameInfo.getId
+                  groupBy,null, orderBy);
 
         return cursor;
     }
