@@ -11,9 +11,11 @@ public interface HistoryDetailContract {
 
     interface View extends BaseView<Presenter> {
 
+        void refreshUi();
     }
 
     interface Presenter extends BasePresenter {
 
+        void refreshUi(String gameId);
     }
 }

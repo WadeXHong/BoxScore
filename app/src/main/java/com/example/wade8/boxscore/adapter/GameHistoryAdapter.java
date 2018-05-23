@@ -2,7 +2,9 @@ package com.example.wade8.boxscore.adapter;
 
 import android.database.Cursor;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,8 @@ import com.example.wade8.boxscore.historymain.HistoryMainContract;
  */
 
 public class GameHistoryAdapter extends RecyclerView.Adapter {
+
+    private static final String TAG = GameHistoryAdapter.class.getSimpleName();
 
     private HistoryMainContract.Presenter mHistoryMainPresenter;
     private Cursor mCursor;
@@ -59,6 +63,7 @@ public class GameHistoryAdapter extends RecyclerView.Adapter {
 
     public class GameHistoryViewHolder extends RecyclerView.ViewHolder {
 
+        private ConstraintLayout mLayout;
         private TextView mDate;
         private TextView mGameTitle;
         private TextView mYourTeam;
@@ -69,6 +74,7 @@ public class GameHistoryAdapter extends RecyclerView.Adapter {
         public GameHistoryViewHolder(View itemView) {
             super(itemView);
 
+            mLayout = itemView.findViewById(R.id.item_game_history_layout);
             mDate = itemView.findViewById(R.id.item_game_history_date);
             mGameTitle = itemView.findViewById(R.id.item_game_history_gametitle);
             mYourTeam = itemView.findViewById(R.id.item_game_history_yourteam);
@@ -82,6 +88,7 @@ public class GameHistoryAdapter extends RecyclerView.Adapter {
 
             mCursor.moveToPosition(position);
 
+            final String gameId = mCursor.getString(mCursor.getColumnIndex(Constants.GameInfoDBContract.GAME_ID));
             String date = mCursor.getString(mCursor.getColumnIndex(Constants.GameInfoDBContract.GAME_DATE));
             String gameTitle = mCursor.getString(mCursor.getColumnIndex(Constants.GameInfoDBContract.GAME_NAME));
             String yourTeam = itemView.getResources().getString(R.string.yourTeamName, mCursor.getString(mCursor.getColumnIndex(Constants.GameInfoDBContract.YOUR_TEAM)));
@@ -102,8 +109,15 @@ public class GameHistoryAdapter extends RecyclerView.Adapter {
             mShare.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String gameId = mCursor.getString(mCursor.getColumnIndex(Constants.GameInfoDBContract.GAME_ID));
-//                    mHistoryMainPresenter.transToDetail(gameId);
+                    Log.d(TAG,"mShare onClick, gameId = "+ gameId);
+//                    mHistoryMainPresenter.share(gameId);
+                }
+            });
+            mLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d(TAG,"mLayout onClick, gameId = "+ gameId);
+                    mHistoryMainPresenter.transToDetail(gameId);
                 }
             });
 

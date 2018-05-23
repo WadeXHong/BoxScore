@@ -20,4 +20,9 @@ public class HistoryDetailPresenter implements HistoryDetailContract.Presenter {
     public void start() {
 
     }
+
+    @Override
+    public void refreshUi(String gameId) {
+        mHistoryDetailView.refreshUi();
+    }
 }

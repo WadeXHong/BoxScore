@@ -33,4 +33,9 @@ public class HistoryDetailFragment extends Fragment implements HistoryDetailCont
     public void setPresenter(HistoryDetailContract.Presenter presenter) {
         mPresenter = presenter;
     }
+
+    @Override
+    public void refreshUi() {
+
+    }
 }

@@ -97,7 +97,7 @@ public class GameInfoDbHelper extends SQLiteOpenHelper{
                             null,
                             null,
                             null
-                            , null, null, Constants.GameInfoDBContract.GAME_DATE);
+                            , null, null, Constants.GameInfoDBContract.GAME_DATE+" DESC");
     }
 
     public void writeGameData(int type) {

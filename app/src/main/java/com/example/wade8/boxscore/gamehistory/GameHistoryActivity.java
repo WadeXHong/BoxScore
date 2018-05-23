@@ -42,6 +42,18 @@ public class GameHistoryActivity extends AppCompatActivity implements GameHistor
         });
     }
 
+    @Override
+    public void setHistoryDetailToolBar() {
+        mToolbar.setTitle("TODO");
+        mToolbar.setNavigationIcon(R.drawable.ic_keyboard_arrow_left_white_30dp);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+    }
+
     private void init() {
         Log.i(TAG,"GameHistoryActivity.init");
         mPresenter = new GameHistoryPresenter(this, getSupportFragmentManager());

@@ -18,5 +18,9 @@ public interface HistoryMainContract {
     interface Presenter extends BasePresenter {
 
         Cursor getGameHistory();
+
+        void transToDetail(String gameId);
+
+        void setGameHistoryToolBar();
     }
 }

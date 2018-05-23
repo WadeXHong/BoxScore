@@ -21,6 +21,8 @@ import com.example.wade8.boxscore.adapter.SelectTeamAdapter;
 import com.example.wade8.boxscore.objects.GameInfo;
 import com.example.wade8.boxscore.objects.TeamInfo;
 
+import java.util.Calendar;
+
 
 public class GameNameSettingFragment extends Fragment implements GameNameSettingContract.View{
 
@@ -58,7 +60,10 @@ public class GameNameSettingFragment extends Fragment implements GameNameSetting
         mGameDate = view.findViewById(R.id.fragment_gamenamesetting_gamedate_edittext);
         mOpponent = view.findViewById(R.id.fragment_gamenamesetting_opponent_edittext);
         mYourTeam = view.findViewById(R.id.fragment_gamenamesetting_yourteam_spinner);
-        String today = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR) + "年" + (java.util.Calendar.getInstance().get(java.util.Calendar.MONTH) + 1) + "月" + java.util.Calendar.getInstance().get(java.util.Calendar.DAY_OF_MONTH) + "日";
+        String year = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR)  + "年";
+        String month = (java.util.Calendar.getInstance().get(java.util.Calendar.MONTH) + 1) < 10 ? "0" +(java.util.Calendar.getInstance().get(java.util.Calendar.MONTH) + 1) +"月" : (java.util.Calendar.getInstance().get(java.util.Calendar.MONTH) + 1) +"月";
+        String day = java.util.Calendar.getInstance().get(Calendar.DAY_OF_MONTH) < 10 ? "0" + java.util.Calendar.getInstance().get(java.util.Calendar.DAY_OF_MONTH) +"日" : java.util.Calendar.getInstance().get(Calendar.DAY_OF_MONTH) +"日";
+        String today =  year + month + day;
         mGameDate.setText(today);
         mGameDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,7 +73,9 @@ public class GameNameSettingFragment extends Fragment implements GameNameSetting
                 new DatePickerDialog(getContext(), R.style.OrangeDialog, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        String date = year + "年" + (month + 1) + "月" + dayOfMonth + "日";
+                        String monthWithZero = (month+1) < 10 ? String.valueOf("0"+(month+1)) : String.valueOf(month+1);
+                        String dayOfMonthWithZero = dayOfMonth < 10 ? String.valueOf("0"+dayOfMonth) : String.valueOf(dayOfMonth);
+                        String date = year + "年" + monthWithZero + "月" + dayOfMonthWithZero + "日";
                         mGameDate.setText(date);
                     }
                 }, c.get(java.util.Calendar.YEAR), c.get(java.util.Calendar.MONTH), c.get(java.util.Calendar.DAY_OF_MONTH)).show();

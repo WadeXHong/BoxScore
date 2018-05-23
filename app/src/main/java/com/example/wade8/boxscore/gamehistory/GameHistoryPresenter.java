@@ -8,8 +8,6 @@ import com.example.wade8.boxscore.historydetail.HistoryDetailFragment;
 import com.example.wade8.boxscore.historydetail.HistoryDetailPresenter;
 import com.example.wade8.boxscore.historymain.HistoryMainFragment;
 import com.example.wade8.boxscore.historymain.HistoryMainPresenter;
-import com.example.wade8.boxscore.historyteamdata.HistoryTeamDataFragment;
-import com.example.wade8.boxscore.historyteamdata.HistoryTeamDataPresenter;
 
 /**
  * Created by wade8 on 2018/5/22.
@@ -46,8 +44,23 @@ public class GameHistoryPresenter implements GameHistoryContract.Presenter{
     }
 
     @Override
-    public void transToHistory() {
+    public void transToDetail(String gameId) {
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
+        if (mHistoryDetailFragment == null) mHistoryDetailFragment = HistoryDetailFragment.newInstance();
 
+        if (mHistoryDetailPresenter == null) mHistoryDetailPresenter = new HistoryDetailPresenter(mHistoryDetailFragment);
+        if (!mHistoryDetailFragment.isAdded()){
+            transaction.add(R.id.activity_gamehistory_framelayout, mHistoryDetailFragment, HISTORY_DETAIL);
+        }else {
+            transaction.show(mHistoryDetailFragment);
+            mHistoryDetailPresenter.refreshUi(gameId);
+        }
+        transaction.hide(mHistoryMainFragment);
+        transaction.addToBackStack(HISTORY_MAIN);
+        transaction.commit();
+
+        mGameHistoryView.setHistoryDetailToolBar();
     }
 
     @Override
@@ -62,8 +75,18 @@ public class GameHistoryPresenter implements GameHistoryContract.Presenter{
         }
         transaction.commit();
 
-        if (mHistoryMainPresenter == null) mHistoryMainPresenter = new HistoryMainPresenter(mHistoryMainFragment);
+        if (mHistoryMainPresenter == null) mHistoryMainPresenter = new HistoryMainPresenter(mHistoryMainFragment, this);
 
+        mGameHistoryView.setGameHistoryToolBar();
+    }
+
+    @Override
+    public void setGameHistoryToolBar() {
+        mGameHistoryView.setGameHistoryToolBar();
+    }
+
+    @Override
+    public void setHistoryDetailToolBar() {
         mGameHistoryView.setGameHistoryToolBar();
     }
 }

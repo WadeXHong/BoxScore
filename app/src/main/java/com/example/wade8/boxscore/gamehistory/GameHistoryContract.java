@@ -1,7 +1,5 @@
 package com.example.wade8.boxscore.gamehistory;
 
-import android.database.Cursor;
-
 import com.example.wade8.boxscore.BasePresenter;
 import com.example.wade8.boxscore.BaseView;
 
@@ -15,13 +13,19 @@ public interface GameHistoryContract {
 
         void setGameHistoryToolBar();
 
+        void setHistoryDetailToolBar();
     }
 
     interface Presenter extends BasePresenter{
 
-        void transToHistory();
+        void transToDetail(String gameId);
 
         void transToMain();
+
+        void setGameHistoryToolBar();
+
+        void setHistoryDetailToolBar();
+
 
     }
 
