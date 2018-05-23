@@ -20,4 +20,9 @@ public class HistoryPlayersPresenter implements HistoryPlayersContract.Presenter
     public void start() {
 
     }
+
+    @Override
+    public void refreshUi(String gameId) {
+
+    }
 }

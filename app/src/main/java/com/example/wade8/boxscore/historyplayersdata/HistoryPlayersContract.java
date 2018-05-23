@@ -15,6 +15,7 @@ public interface HistoryPlayersContract {
 
     interface Presenter extends BasePresenter {
 
+        void refreshUi(String gameId);
     }
 
 }

@@ -1,5 +1,10 @@
 package com.example.wade8.boxscore.historyteamdata;
 
+import android.database.Cursor;
+
+import com.example.wade8.boxscore.BoxScore;
+import com.example.wade8.boxscore.Constants;
+
 /**
  * Created by wade8 on 2018/5/22.
  */
@@ -20,5 +25,15 @@ public class HistoryTeamDataPresenter implements HistoryTeamDataContract.Present
     @Override
     public void start() {
 
+    }
+
+    @Override
+    public Cursor getHistoryStatistic(String gameId) {
+        return BoxScore.getGameDataDbHelper().getHistoryStatisic(gameId, Constants.GameDataDBContract.COLUMN_NAME_QUARTER);
+    }
+
+    @Override
+    public void refreshUi(String gameId) {
+        mHistoryTeamDataView.refreshUi(gameId);
     }
 }

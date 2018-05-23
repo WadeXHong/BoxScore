@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.util.SparseArray;
 import android.util.SparseIntArray;
@@ -574,5 +575,37 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
         if (!gameId.equals("")) {
             getWritableDatabase().delete(Constants.GameDataDBContract.TABLE_NAME,Constants.GameDataDBContract.COLUMN_NAME_GAME_ID + " = ?",new String[]{gameId});
         }
+    }
+
+    public Cursor getHistoryStatisic(String gameId, @Nullable String groupAndOrderBy){
+
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.query(Constants.GameDataDBContract.TABLE_NAME,
+                  new String[]{
+                            Constants.GameDataDBContract.COLUMN_NAME_GAME_ID,
+                            Constants.GameDataDBContract.COLUMN_NAME_QUARTER,
+                            Constants.GameDataDBContract.COLUMN_NAME_PLAYER_ID,
+                            Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER,
+                            Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NAME,
+                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_POINTS + ")",
+                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_FIELD_GOALS_MADE + ")",
+                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_FIELD_GOALS_ATTEMPTED + ")",
+                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_THREE_POINT_MADE + ")",
+                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_THREE_POINT_ATTEMPTED + ")",
+                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_FREE_THROW_MADE + ")",
+                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_FREE_THROW_ATTEMPTED + ")",
+                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_OFFENSIVE_REBOUND + ")",
+                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_DEFENSIVE_REBOUND + ")",
+                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_ASSIST + ")",
+                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_STEAL + ")",
+                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_BLOCK + ")",
+                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_PERSONAL_FOUL + ")",
+                            "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_TURNOVER + ")"
+                  },
+                  Constants.GameDataDBContract.COLUMN_NAME_GAME_ID+" = ?",
+                  new String[]{gameId}, //TODO dynamic gameid  shoulb be mGameInfo.getId
+                  groupAndOrderBy,null, groupAndOrderBy);
+
+        return cursor;
     }
 }

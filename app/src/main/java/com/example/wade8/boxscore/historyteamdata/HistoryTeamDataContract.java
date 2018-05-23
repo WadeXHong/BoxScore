@@ -1,5 +1,7 @@
 package com.example.wade8.boxscore.historyteamdata;
 
+import android.database.Cursor;
+
 import com.example.wade8.boxscore.BasePresenter;
 import com.example.wade8.boxscore.BaseView;
 
@@ -11,10 +13,14 @@ public interface HistoryTeamDataContract {
 
     interface View extends BaseView<Presenter> {
 
+        void refreshUi(String gameId);
     }
 
     interface Presenter extends BasePresenter {
 
+        Cursor getHistoryStatistic(String gameId);
+
+        void refreshUi(String gameId);
     }
 
 }

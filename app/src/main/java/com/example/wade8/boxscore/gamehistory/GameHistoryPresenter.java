@@ -47,14 +47,16 @@ public class GameHistoryPresenter implements GameHistoryContract.Presenter{
     public void transToDetail(String gameId) {
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
-        if (mHistoryDetailFragment == null) mHistoryDetailFragment = HistoryDetailFragment.newInstance();
+        if (mHistoryDetailFragment == null )mHistoryDetailFragment = HistoryDetailFragment.newInstance();
 
-        if (mHistoryDetailPresenter == null) mHistoryDetailPresenter = new HistoryDetailPresenter(mHistoryDetailFragment, mFragmentManager);
+        if (mHistoryDetailPresenter == null )mHistoryDetailPresenter = new HistoryDetailPresenter(mHistoryDetailFragment, mFragmentManager);
+        mHistoryDetailPresenter.setGameId(gameId);
+
         if (!mHistoryDetailFragment.isAdded()){
             transaction.add(R.id.activity_gamehistory_framelayout, mHistoryDetailFragment, HISTORY_DETAIL);
         }else {
             transaction.show(mHistoryDetailFragment);
-            mHistoryDetailPresenter.refreshUi(gameId);
+            mHistoryDetailPresenter.refreshUi();
         }
         transaction.hide(mHistoryMainFragment);
         transaction.addToBackStack(HISTORY_MAIN);
