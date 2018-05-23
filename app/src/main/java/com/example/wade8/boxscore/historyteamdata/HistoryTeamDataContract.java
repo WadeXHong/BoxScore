@@ -23,6 +23,8 @@ public interface HistoryTeamDataContract {
         Cursor getHistoryStatistic(String gameId);
 
         void setAdapter();
+
+        Cursor getHistoryInfo(String gameId);
     }
 
 }

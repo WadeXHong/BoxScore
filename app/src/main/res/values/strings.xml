@@ -88,5 +88,7 @@
     <string name="gametitleDefault">友誼賽</string>
     <string name="teamBoxScore">球隊數據</string>
     <string name="playersBoxscore">球員數據</string>
+    <string name="win">勝</string>
+    <string name="lose">敗</string>
 
 </resources>

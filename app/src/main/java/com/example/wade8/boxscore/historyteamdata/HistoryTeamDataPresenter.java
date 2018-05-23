@@ -43,4 +43,9 @@ public class HistoryTeamDataPresenter implements HistoryTeamDataContract.Present
         mHistoryTeamDataView.setAdapter(mAdapter);
     }
 
+    @Override
+    public Cursor getHistoryInfo(String gameId) {
+        return BoxScore.getGameInfoDbHelper().getHistoryInfo(gameId);
+    }
+
 }

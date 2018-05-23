@@ -77,7 +77,7 @@ public class GameHistoryPresenter implements GameHistoryContract.Presenter{
         transaction.show(mHistoryMainFragment);
         transaction.hide(mHistoryDetailFragment);
         transaction.commit();
-        
+
         mGameHistoryView.setGameHistoryToolBar();
     }
 
