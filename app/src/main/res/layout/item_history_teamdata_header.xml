@@ -2,12 +2,12 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
     <TextView
-        android:id="@+id/item_history_teamdetail_status"
+        android:id="@+id/item_history_teamdata_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/item_history_teamdetail_yourteam"
+        android:id="@+id/item_history_teamdata_yourteam"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -31,12 +31,12 @@
         android:text="我方"
         android:textColor="@color/colorButtonInMain"
         android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="@+id/item_history_teamdetail_yourteamscore"
-        app:layout_constraintStart_toStartOf="@+id/item_history_teamdetail_yourteamscore"
-        app:layout_constraintTop_toBottomOf="@+id/item_history_teamdetail_status" />
+        app:layout_constraintEnd_toEndOf="@+id/item_history_teamdata_yourteamscore"
+        app:layout_constraintStart_toStartOf="@+id/item_history_teamdata_yourteamscore"
+        app:layout_constraintTop_toBottomOf="@+id/item_history_teamdata_status" />
 
     <TextView
-        android:id="@+id/item_history_teamdetail_yourteamscore"
+        android:id="@+id/item_history_teamdata_yourteamscore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -50,10 +50,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.20"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/item_history_teamdetail_yourteam" />
+        app:layout_constraintTop_toBottomOf="@+id/item_history_teamdata_yourteam" />
 
     <TextView
-        android:id="@+id/item_history_teamdetail_colon"
+        android:id="@+id/item_history_teamdata_colon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -64,14 +64,14 @@
         android:text="："
         android:textColor="@color/colorRed"
         android:textSize="35sp"
-        app:layout_constraintBottom_toBottomOf="@+id/item_history_teamdetail_opponentteamscore"
+        app:layout_constraintBottom_toBottomOf="@+id/item_history_teamdata_opponentteamscore"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/item_history_teamdetail_opponentteamscore" />
+        app:layout_constraintTop_toTopOf="@+id/item_history_teamdata_opponentteamscore" />
 
 
     <TextView
-        android:id="@+id/item_history_teamdetail_opponent"
+        android:id="@+id/item_history_teamdata_opponent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -80,12 +80,12 @@
         android:text="對方"
         android:textColor="@color/colorButtonInMain"
         android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="@+id/item_history_teamdetail_opponentteamscore"
-        app:layout_constraintStart_toStartOf="@+id/item_history_teamdetail_opponentteamscore"
-        app:layout_constraintTop_toBottomOf="@+id/item_history_teamdetail_status" />
+        app:layout_constraintEnd_toEndOf="@+id/item_history_teamdata_opponentteamscore"
+        app:layout_constraintStart_toStartOf="@+id/item_history_teamdata_opponentteamscore"
+        app:layout_constraintTop_toBottomOf="@+id/item_history_teamdata_status" />
 
     <TextView
-        android:id="@+id/item_history_teamdetail_opponentteamscore"
+        android:id="@+id/item_history_teamdata_opponentteamscore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -99,17 +99,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/item_history_teamdetail_opponent" />
+        app:layout_constraintTop_toBottomOf="@+id/item_history_teamdata_opponent" />
 
     <LinearLayout
-        android:id="@+id/item_history_teamdetail_columntitle_layout"
+        android:id="@+id/item_history_teamdata_table_layout"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_marginTop="8dp"
         android:paddingEnd="20dp"
         android:paddingStart="20dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/item_history_teamdetail_opponentteamscore">
+        app:layout_constraintTop_toBottomOf="@+id/item_history_teamdata_opponentteamscore">
 
         <TextView
             android:layout_width="0dp"

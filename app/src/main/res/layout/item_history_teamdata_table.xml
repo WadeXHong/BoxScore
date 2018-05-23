@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/item_history_teamdata_table_layout"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:paddingEnd="20dp"
+        android:paddingStart="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/item_history_teamdata_table_type"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:textColor="@color/colorButtonInMain"/>
+
+        <TextView
+            android:id="@+id/item_history_teamdata_table_1st"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="1st"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:textColor="@color/colorButtonInMain"/>
+
+        <TextView
+            android:id="@+id/item_history_teamdata_table_2nd"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="2nd"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:textColor="@color/colorButtonInMain"/>
+
+        <TextView
+            android:id="@+id/item_history_teamdata_table_3rd"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="3rd"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:textColor="@color/colorButtonInMain"/>
+
+        <TextView
+            android:id="@+id/item_history_teamdata_table_4th"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="4th"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:textColor="@color/colorButtonInMain"/>
+
+        <TextView
+            android:id="@+id/item_history_teamdata_table_total"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="TOL"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:textColor="@color/colorButtonInMain"/>
+    </LinearLayout>
