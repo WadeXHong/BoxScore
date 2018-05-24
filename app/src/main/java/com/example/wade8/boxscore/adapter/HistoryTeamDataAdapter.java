@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.example.wade8.boxscore.Constants;
 import com.example.wade8.boxscore.R;
 import com.example.wade8.boxscore.historyteamdata.HistoryTeamDataContract;
+import com.github.mikephil.charting.charts.PieChart;
 
 /**
  * Created by wade8 on 2018/5/23.
@@ -21,6 +22,8 @@ public class HistoryTeamDataAdapter extends RecyclerView.Adapter{
 
     private static final int VIEWTYPE_HEADER = 0;
     private static final int VIEWTYPE_TABLE = 1;
+    private static final int VIEWTYPE_GRAPH = 2;
+    private static final int DATA_TYPE_COUNT = 14;
     private static final int COLUMN_POSITION_DISPLACEMENT = 5;
 
     private HistoryTeamDataContract.Presenter mHistoryTeamDataPresenter;
@@ -51,11 +54,14 @@ public class HistoryTeamDataAdapter extends RecyclerView.Adapter{
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == VIEWTYPE_HEADER){
+        if (viewType == VIEWTYPE_TABLE){
+            return new TableViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_history_teamdata_table, parent, false));
+        }else if (viewType == VIEWTYPE_HEADER){
             return new HeaderViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_history_teamdata_header, parent, false));
         }else {
-            return new TableViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_history_teamdata_table, parent, false));
+            return new GraphViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_history_teamdata_chart, parent, false));
         }
+
     }
 
     @Override
@@ -63,7 +69,9 @@ public class HistoryTeamDataAdapter extends RecyclerView.Adapter{
         if (mGameId != null) {
             if (position == 0) {
                 ((HeaderViewHolder) holder).bind();
-            } else {
+            }else if (position == DATA_TYPE_COUNT +1 ){
+                //TODO
+            }else {
                 ((TableViewHolder) holder).bind(position - 1); //Todo position change
             }
         }
@@ -72,13 +80,15 @@ public class HistoryTeamDataAdapter extends RecyclerView.Adapter{
 
     @Override
     public int getItemCount() {
-        return 15; //TODO 圖表
+        return DATA_TYPE_COUNT + 2; //data types showing + header and graph
     }
 
     @Override
     public int getItemViewType(int position) {
         if (position == 0) {
             return VIEWTYPE_HEADER;
+        }else if (position == DATA_TYPE_COUNT+1) {
+            return VIEWTYPE_GRAPH;
         }else {
             return VIEWTYPE_TABLE;
         }
@@ -172,6 +182,20 @@ public class HistoryTeamDataAdapter extends RecyclerView.Adapter{
                 }
             }
             mTextViewTotal.setText(String.valueOf(fifth));
+
+        }
+
+    }
+
+
+    public class GraphViewHolder extends RecyclerView.ViewHolder{
+
+        private PieChart mPieChart;
+
+        public GraphViewHolder(View itemView) {
+            super(itemView);
+
+            mPieChart = itemView.findViewById(R.id.chart);
 
         }
     }
