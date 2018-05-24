@@ -215,6 +215,10 @@ public class HistoryTeamDataAdapter extends RecyclerView.Adapter{
 
         private void bind(){
             int size = mCursorData.getCount();
+
+            int[] FTA = new int[5], FTM = new int[5];
+            float[] FTP = new float[5];
+            int[] _2PS= new int[5], _3PS= new int[5], _1PS = new int[5];
             int[] TPA = new int[5];
             int[] TPM = new int[5];
             float[] TPP = new float[5];
@@ -226,20 +230,28 @@ public class HistoryTeamDataAdapter extends RecyclerView.Adapter{
 
                 mCursorData.moveToPosition(i);
 
-                        TPA[i] = mCursorData.getInt(mCursorData.getColumnIndex("SUM(" + Constants.GameDataDBContract.COLUMN_NAME_THREE_POINT_ATTEMPTED + ")"));
-                        TPM[i] = mCursorData.getInt(mCursorData.getColumnIndex("SUM(" + Constants.GameDataDBContract.COLUMN_NAME_THREE_POINT_MADE + ")"));
-                        if (TPA[i] != 0) TPP[i] = (float) 100*TPM[i]/TPA[i];
+                //罰球
+                FTA[i] = mCursorData.getInt(mCursorData.getColumnIndex("SUM(" + Constants.GameDataDBContract.COLUMN_NAME_FREE_THROW_ATTEMPTED + ")"));
+                FTM[i] = mCursorData.getInt(mCursorData.getColumnIndex("SUM(" + Constants.GameDataDBContract.COLUMN_NAME_FREE_THROW_MADE + ")"));
+                if (FTA[i] != 0) FTP[i] = (float) 100*FTM[i]/FTA[i];
+                //三分
+                TPA[i] = mCursorData.getInt(mCursorData.getColumnIndex("SUM(" + Constants.GameDataDBContract.COLUMN_NAME_THREE_POINT_ATTEMPTED + ")"));
+                TPM[i] = mCursorData.getInt(mCursorData.getColumnIndex("SUM(" + Constants.GameDataDBContract.COLUMN_NAME_THREE_POINT_MADE + ")"));
+                if (TPA[i] != 0) TPP[i] = (float) 100*TPM[i]/TPA[i];
+                //FieldGoal
+                FGA[i] = mCursorData.getInt(mCursorData.getColumnIndex("SUM(" + Constants.GameDataDBContract.COLUMN_NAME_FIELD_GOALS_ATTEMPTED + ")"));
+                FGM[i] = mCursorData.getInt(mCursorData.getColumnIndex("SUM(" + Constants.GameDataDBContract.COLUMN_NAME_FIELD_GOALS_MADE + ")"));
+                if (FGA[i] != 0) FGP[i] = (float) 100*FGM[i]/FGA[i];
 
-                        FGA[i] = mCursorData.getInt(mCursorData.getColumnIndex("SUM(" + Constants.GameDataDBContract.COLUMN_NAME_FIELD_GOALS_ATTEMPTED + ")"));
-                        FGM[i] = mCursorData.getInt(mCursorData.getColumnIndex("SUM(" + Constants.GameDataDBContract.COLUMN_NAME_FIELD_GOALS_MADE + ")"));
-                        if (FGA[i] != 0) FGP[i] = (float) 100*FGM[i]/FGA[i];
+                _1PS[i] = FTM[i]; _3PS[i] = 3*TPM[i]; _2PS[i] = 2*(FGM[i] - TPM[i]);
 
-                        TPA[4] += TPA[i];
-                        TPM[4] += TPM[i];
-                        FGA[4] += FGA[i];
-                        FGM[4] += FGM[i];
+                FTA[4] += FTA[i]; FTM[4] += FTM[i];
+                TPA[4] += TPA[i]; TPM[4] += TPM[i];
+                FGA[4] += FGA[i]; FGM[4] += FGM[i];
+                _1PS[4] += _1PS[i]; _2PS[4] += _2PS[i];_3PS[4] += _3PS[i];
             }
-
+            // *100 顯示為 %
+            if (FTA[4] != 0) FTP[4] =(float) 100*FTM[4]/FTA[4];
             if (TPA[4] != 0) TPP[4] =(float) 100*TPM[4]/TPA[4];
             if (FGA[4] != 0) FGP[4] =(float) 100*FGM[4]/FGA[4];
             mThreePointPieChart.setMaxAngle(360f*TPP[4]/100); //要先設 不然有時會顯示到舊的limit
