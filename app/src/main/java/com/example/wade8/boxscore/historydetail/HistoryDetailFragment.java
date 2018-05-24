@@ -31,6 +31,14 @@ public class HistoryDetailFragment extends Fragment implements HistoryDetailCont
     }
 
     @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden){
+            mViewPager.setCurrentItem(0);
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 

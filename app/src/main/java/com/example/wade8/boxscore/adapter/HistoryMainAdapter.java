@@ -13,23 +13,22 @@ import android.widget.TextView;
 
 import com.example.wade8.boxscore.Constants;
 import com.example.wade8.boxscore.R;
-import com.example.wade8.boxscore.gamehistory.GameHistoryContract;
 import com.example.wade8.boxscore.historymain.HistoryMainContract;
 
 /**
  * Created by wade8 on 2018/5/23.
  */
 
-public class GameHistoryAdapter extends RecyclerView.Adapter {
+public class HistoryMainAdapter extends RecyclerView.Adapter {
 
-    private static final String TAG = GameHistoryAdapter.class.getSimpleName();
+    private static final String TAG = HistoryMainAdapter.class.getSimpleName();
 
     private HistoryMainContract.Presenter mHistoryMainPresenter;
     private Cursor mCursor;
 
 
 
-    public GameHistoryAdapter (HistoryMainContract.Presenter historyMainPresenter){
+    public HistoryMainAdapter(HistoryMainContract.Presenter historyMainPresenter){
         mHistoryMainPresenter = historyMainPresenter;
 
         refreshCursor();

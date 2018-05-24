@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.wade8.boxscore.R;
-import com.example.wade8.boxscore.adapter.GameHistoryAdapter;
+import com.example.wade8.boxscore.adapter.HistoryMainAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,7 +22,7 @@ public class HistoryMainFragment extends Fragment implements HistoryMainContract
     private HistoryMainContract.Presenter mPresenter;
 
     private RecyclerView mRecyclerView;
-    private GameHistoryAdapter mAdapter;
+    private HistoryMainAdapter mAdapter;
 
     public static HistoryMainFragment newInstance(){
         return new HistoryMainFragment();
@@ -46,7 +46,7 @@ public class HistoryMainFragment extends Fragment implements HistoryMainContract
         View view = inflater.inflate(R.layout.fragment_history_main, container, false);
 
         mRecyclerView = view.findViewById(R.id.fragment_historymain_recyclerview);
-        mAdapter = new GameHistoryAdapter(mPresenter);
+        mAdapter = new HistoryMainAdapter(mPresenter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mAdapter);
 
