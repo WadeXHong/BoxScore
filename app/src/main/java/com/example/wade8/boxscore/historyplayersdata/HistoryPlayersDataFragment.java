@@ -1,22 +1,29 @@
 package com.example.wade8.boxscore.historyplayersdata;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.cleveroad.adaptivetablelayout.AdaptiveTableLayout;
+import com.cleveroad.adaptivetablelayout.OnItemClickListener;
 import com.example.wade8.boxscore.R;
+import com.example.wade8.boxscore.adapter.HistoryPlayersDataStatisticAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HistoryPlayersDataFragment extends Fragment implements HistoryPlayersContract.View{
+public class HistoryPlayersDataFragment extends Fragment implements HistoryPlayersDataContract.View{
 
     private static final String TAG = HistoryPlayersDataFragment.class.getSimpleName();
 
-    private HistoryPlayersContract.Presenter mPresenter;
+    private HistoryPlayersDataContract.Presenter mPresenter;
+
+    private AdaptiveTableLayout mAdaptiveTableLayout;
 
 
 
@@ -32,12 +39,58 @@ public class HistoryPlayersDataFragment extends Fragment implements HistoryPlaye
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_history_players_data, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_history_players_data, container, false);
+        mAdaptiveTableLayout = view.findViewById(R.id.fragment_history_playersdata_tablelayout);
+
+        mPresenter.setAdapter();
+
+        return view;
     }
 
     @Override
-    public void setPresenter(HistoryPlayersContract.Presenter presenter) {
+    public void setPresenter(HistoryPlayersDataContract.Presenter presenter) {
         mPresenter = presenter;
+    }
+
+    @Override
+    public void setAdapter(final HistoryPlayersDataStatisticAdapter adapter) {
+        adapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(int row, int column) {
+
+            }
+
+            @Override
+            public void onRowHeaderClick(int row) {
+
+            }
+
+            @Override
+            public void onColumnHeaderClick(int column) {
+
+            }
+
+            @Override
+            public void onLeftTopHeaderClick() {
+                final CharSequence[] charSequences = new CharSequence[]{getResources().getString(R.string.total),
+                          getResources().getString(R.string.firstQuarter),
+                          getResources().getString(R.string.secondQuarter),
+                          getResources().getString(R.string.thirdQuarter),
+                          getResources().getString(R.string.forthQuarter)};
+                new AlertDialog.Builder(getContext())
+                          .setTitle(R.string.quarterFilter)
+                          .setItems(charSequences, new DialogInterface.OnClickListener() {
+                              @Override
+                              public void onClick(DialogInterface dialog, int which) {
+                                  adapter.chooseFilter(which);
+//                                  mQuarterFilter = which;
+//                                  refreshCursor(mGameId);
+//                                  mTextView.setText(charSequences[which]);
+                              }
+                          }).show();
+            }
+        });
+        mAdaptiveTableLayout.setAdapter(adapter);
     }
 }

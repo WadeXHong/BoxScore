@@ -1,13 +1,11 @@
 package com.example.wade8.boxscore.historydetail;
 
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.ViewPager;
 
 import com.example.wade8.boxscore.ViewPagerFragmentAdapter;
 import com.example.wade8.boxscore.historyplayersdata.HistoryPlayersDataFragment;
-import com.example.wade8.boxscore.historyplayersdata.HistoryPlayersPresenter;
+import com.example.wade8.boxscore.historyplayersdata.HistoryPlayersDataPresenter;
 import com.example.wade8.boxscore.historyteamdata.HistoryTeamDataFragment;
 import com.example.wade8.boxscore.historyteamdata.HistoryTeamDataPresenter;
 
@@ -29,7 +27,7 @@ public class HistoryDetailPresenter implements HistoryDetailContract.Presenter {
     private HistoryTeamDataFragment mHistoryTeamDataFragment;
     private HistoryTeamDataPresenter mHistoryTeamDataPresenter;
     private HistoryPlayersDataFragment mHistoryPlayersDataFragment;
-    private HistoryPlayersPresenter mHistoryPlayersPresenter;
+    private HistoryPlayersDataPresenter mHistoryPlayersDataPresenter;
     private List<Fragment> mFragmentList;
 
     public HistoryDetailPresenter(HistoryDetailContract.View historyDetailView, FragmentManager manager) {
@@ -45,7 +43,7 @@ public class HistoryDetailPresenter implements HistoryDetailContract.Presenter {
         mHistoryTeamDataFragment = HistoryTeamDataFragment.newInstance();
         mHistoryTeamDataPresenter = new HistoryTeamDataPresenter(mHistoryTeamDataFragment);
         mHistoryPlayersDataFragment = HistoryPlayersDataFragment.newInstance();
-        mHistoryPlayersPresenter = new HistoryPlayersPresenter(mHistoryPlayersDataFragment);
+        mHistoryPlayersDataPresenter = new HistoryPlayersDataPresenter(mHistoryPlayersDataFragment);
         mFragmentList = new ArrayList<>();
         mFragmentList.add(mHistoryTeamDataFragment);
         mFragmentList.add(mHistoryPlayersDataFragment);
@@ -61,5 +59,6 @@ public class HistoryDetailPresenter implements HistoryDetailContract.Presenter {
 
     public void setGameIdToAdapter(String gameId) {
         mHistoryTeamDataPresenter.setGameIdToAdapter(gameId);
+        mHistoryPlayersDataPresenter.setGameIdToAdapter(gameId);
     }
 }

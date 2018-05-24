@@ -16,6 +16,7 @@ import com.cleveroad.adaptivetablelayout.ViewHolderImpl;
 import com.example.wade8.boxscore.BoxScore;
 import com.example.wade8.boxscore.Constants;
 import com.example.wade8.boxscore.R;
+import com.example.wade8.boxscore.historyplayersdata.HistoryPlayersDataContract;
 
 /**
  * Created by wade8 on 2018/5/8.
@@ -25,57 +26,86 @@ public class HistoryPlayersDataStatisticAdapter extends LinkedAdaptiveTableAdapt
 
     private static final String TAG = HistoryPlayersDataStatisticAdapter.class.getSimpleName();
 
+    private HistoryPlayersDataContract.Presenter mHistoryPlayersDataPresenter;
+
     private int mQuarterFilter;
     private String mGameId;
     private Cursor mCursor;
     private int mGameDataStartColumnPosition;
 
-    public HistoryPlayersDataStatisticAdapter() {
-        refreshCursor();
-        mGameDataStartColumnPosition = mCursor.getColumnIndex("SUM(" + Constants.GameDataDBContract.COLUMN_NAME_POINTS + ")");
-        Log.e(TAG,mGameDataStartColumnPosition+"");
+
+    public HistoryPlayersDataStatisticAdapter(HistoryPlayersDataContract.Presenter presenter) {
+        mHistoryPlayersDataPresenter = presenter;
+        refreshCursor(mGameId);
     }
 
-    private void refreshCursor() {
-        if (mQuarterFilter != 0) {
-            mCursor = BoxScore.getGameDataDbHelper()
-                      .getHistoryStatisic(Constants.GameDataDBContract.COLUMN_NAME_GAME_ID + " =? AND " + Constants.GameDataDBContract.COLUMN_NAME_QUARTER + " =?",
-                                new String[]{mGameId, String.valueOf(mQuarterFilter)},
-                                Constants.GameDataDBContract.COLUMN_NAME_PLAYER_ID, Constants.GameDataDBContract.COLUMN_NAME_POINTS+" DESC");
-        }else {
-            mCursor = BoxScore.getGameDataDbHelper()
-                      .getHistoryStatisic(Constants.GameDataDBContract.COLUMN_NAME_GAME_ID + " =?",
-                                new String[]{mGameId, String.valueOf(mQuarterFilter)},
-                                Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER, Constants.GameDataDBContract.COLUMN_NAME_POINTS+" DESC");
+    public void refreshCursor(String gameId) {
+        if (gameId != null) {
+            if (mGameId != null && !mGameId.equals(gameId)) {
+                mQuarterFilter = 0;
+                notifyItemChanged(0,0);
+            }
+
+            mGameId = gameId;
+
+            if (mQuarterFilter != 0) {
+                mCursor = BoxScore.getGameDataDbHelper()
+                          .getHistoryStatisic(Constants.GameDataDBContract.COLUMN_NAME_GAME_ID + " =? AND " + Constants.GameDataDBContract.COLUMN_NAME_QUARTER + " =?",
+                                    new String[]{mGameId, String.valueOf(mQuarterFilter)},
+                                    Constants.GameDataDBContract.COLUMN_NAME_PLAYER_ID, Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER);
+            } else {
+                mCursor = BoxScore.getGameDataDbHelper()
+                          .getHistoryStatisic(Constants.GameDataDBContract.COLUMN_NAME_GAME_ID + " =?",
+                                    new String[]{mGameId},
+                                    Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER, Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER);
+            }
+
+            notifyDataSetChanged();
+            mGameDataStartColumnPosition = mCursor.getColumnIndex("SUM(" + Constants.GameDataDBContract.COLUMN_NAME_POINTS + ")");
+            Log.e(TAG,mGameDataStartColumnPosition+"");
         }
+    }
+
+    public void chooseFilter(int quarterFilter){
+        mQuarterFilter = quarterFilter;
+        refreshCursor(mGameId);
+        notifyItemChanged(0,0);
     }
 
     @Override
     public int getRowCount() {
-        return mCursor.getCount()+1;
+        if (mGameId == null){
+            return 0;
+        }else {
+            return mCursor.getCount() + 1;
+        }
     }
 
     @Override
     public int getColumnCount() {
-        return mCursor.getColumnCount() - mGameDataStartColumnPosition+1;
+        if (mGameId == null){
+            return 0;
+        }else {
+            return mCursor.getColumnCount() - mGameDataStartColumnPosition + 1;
+        }
     }
 
     @NonNull
     @Override
     public ViewHolderImpl onCreateItemViewHolder(@NonNull ViewGroup parent) {
-        return new LeftTopViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_datastatistic,parent,false));
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_datastatistic_lighttext,parent,false));
     }
 
     @NonNull
     @Override
     public ViewHolderImpl onCreateColumnHeaderViewHolder(@NonNull ViewGroup parent) {
-        return new ColumnViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_datastatistic,parent,false));
+        return new ColumnViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_datastatistic_lighttext,parent,false));
     }
 
     @NonNull
     @Override
     public ViewHolderImpl onCreateRowHeaderViewHolder(@NonNull ViewGroup parent) {
-        return new RowViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_datastatistic,parent,false));
+        return new RowViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_datastatistic_lighttext,parent,false));
     }
 
     @NonNull
@@ -86,22 +116,22 @@ public class HistoryPlayersDataStatisticAdapter extends LinkedAdaptiveTableAdapt
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderImpl viewHolder, int row, int column) {
-        ((LeftTopViewHolder)viewHolder).bind(row-1,column-1);
+        if (mGameId != null) ((ViewHolder)viewHolder).bind(row-1,column-1);
     }
 
     @Override
     public void onBindHeaderColumnViewHolder(@NonNull ViewHolderImpl viewHolder, int column) {
-        ((ColumnViewHolder)viewHolder).bind(column-1);
+        if (mGameId != null) ((ColumnViewHolder)viewHolder).bind(column-1);
     }
 
     @Override
     public void onBindHeaderRowViewHolder(@NonNull ViewHolderImpl viewHolder, int row) {
-        ((RowViewHolder)viewHolder).bind(row-1);
+        if (mGameId != null) ((RowViewHolder)viewHolder).bind(row-1);
     }
 
     @Override
     public void onBindLeftTopHeaderViewHolder(@NonNull ViewHolderImpl viewHolder) {
-        ((LeftTopViewHolder)viewHolder).mTextView.setText(R.string.name);
+        if (mGameId != null) ((LeftTopViewHolder)viewHolder).bind();
     }
 
     @Override
@@ -125,34 +155,13 @@ public class HistoryPlayersDataStatisticAdapter extends LinkedAdaptiveTableAdapt
     }
 
 
-    private class LeftTopViewHolder extends ViewHolderImpl {
+    private class ViewHolder extends ViewHolderImpl {
 
-        private ConstraintLayout mLayout;
         private TextView mTextView;
 
-        private LeftTopViewHolder(@NonNull View itemView) {
+        private ViewHolder(@NonNull View itemView) {
             super(itemView);
             mTextView = itemView.findViewById(R.id.item_datastatistic_textview);
-            mLayout = itemView.findViewById(R.id.item_datastatistic_filter_layout);
-            mLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new AlertDialog.Builder(v.getContext())
-                              .setTitle(R.string.quarterFilter)
-                              .setItems(new CharSequence[]{v.getResources().getString(R.string.total),
-                                        v.getResources().getString(R.string.firstQuarter),
-                                        v.getResources().getString(R.string.secondQuarter),
-                                        v.getResources().getString(R.string.thirdQuarter),
-                                        v.getResources().getString(R.string.forthQuarter)},
-                                        new DialogInterface.OnClickListener() {
-                                  @Override
-                                  public void onClick(DialogInterface dialog, int which) {
-                                      mQuarterFilter = which;
-                                      refreshCursor();
-                                  }
-                              }).show();
-                }
-            });
         }
 
         private void bind (int row, int column){
@@ -199,6 +208,25 @@ public class HistoryPlayersDataStatisticAdapter extends LinkedAdaptiveTableAdapt
             String name = mCursor.getString(mCursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NAME));
             mTextView.setText(name);
             Log.d(TAG,"bind name at row = "+(row));
+        }
+    }
+
+    private class LeftTopViewHolder extends ViewHolderImpl{
+
+        private final int[] charSequence;
+        private ConstraintLayout mLayout;
+        private TextView mTextView;
+
+        public LeftTopViewHolder(@NonNull View itemView) {
+            super(itemView);
+            charSequence = new int[]{R.string.total, R.string.firstQuarter, R.string.secondQuarter, R.string.thirdQuarter, R.string.forthQuarter};
+            mTextView = itemView.findViewById(R.id.item_datastatistic_filter_text);
+            mLayout = itemView.findViewById(R.id.item_datastatistic_filter_layout);
+
+        }
+
+        private void bind() {
+            mTextView.setText(charSequence[mQuarterFilter]);
         }
     }
 }
