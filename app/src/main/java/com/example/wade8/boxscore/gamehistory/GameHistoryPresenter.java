@@ -52,6 +52,7 @@ public class GameHistoryPresenter implements GameHistoryContract.Presenter{
         transaction.add(R.id.activity_gamehistory_framelayout, mHistoryDetailFragment, HISTORY_DETAIL);
         transaction.add(R.id.activity_gamehistory_framelayout, mHistoryMainFragment, HISTORY_MAIN);
         transaction.hide(mHistoryDetailFragment);
+        transaction.setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
         transaction.commit();
     }
 

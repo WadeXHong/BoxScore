@@ -2,7 +2,6 @@ package com.example.wade8.boxscore.adapter;
 
 import android.database.Cursor;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -201,20 +200,17 @@ public class HistoryTeamDataAdapter extends RecyclerView.Adapter{
 
     public class GraphViewHolder extends RecyclerView.ViewHolder{
 
-        private PieChart mPieChart;
+        private PieChart mThreePointPieChart;
+        private PieChart mFieldGoalPieChart;
 
         public GraphViewHolder(View itemView) {
             super(itemView);
 
-            mPieChart = itemView.findViewById(R.id.chart);
+            mThreePointPieChart = itemView.findViewById(R.id.item_history_teamdata_3Pchart);
+            mFieldGoalPieChart = itemView.findViewById(R.id.item_history_teamdata_FGchart);
+
 
         }
-
-//                                    "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_FIELD_GOALS_MADE + ")",
-//                  "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_FIELD_GOALS_ATTEMPTED + ")",
-//                  "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_THREE_POINT_MADE + ")",
-//                  "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_THREE_POINT_ATTEMPTED + ")",
-
 
 
         private void bind(){
@@ -246,29 +242,58 @@ public class HistoryTeamDataAdapter extends RecyclerView.Adapter{
 
             if (TPA[4] != 0) TPP[4] =(float) 100*TPM[4]/TPA[4];
             if (FGA[4] != 0) FGP[4] =(float) 100*FGM[4]/FGA[4];
-            PieEntry TPPPie = new PieEntry(TPP[4], "TPP");
-//            PieEntry TPPPieM = new PieEntry(1-TPP[5], "miss");
-            List<PieEntry> entries = new ArrayList<>();
-            entries.add(TPPPie);
+            mThreePointPieChart.setMaxAngle(360f*TPP[4]/100); //要先設 不然有時會顯示到舊的limit
+            mFieldGoalPieChart.setMaxAngle(360f*FGP[4]/100);
 
 
-            PieDataSet set = new PieDataSet(entries,"test");
-            set.setColor(ResourcesCompat.getColor(itemView.getResources(),R.color.colorOrange, null));
-            PieData data = new PieData(set);
-            data.setValueTextColor(ResourcesCompat.getColor(itemView.getResources(), R.color.colorButtonInMain, null));
-            data.setValueFormatter(new PercentFormatter());
-            mPieChart.setMaxAngle(360f*TPP[4]/100);
-            mPieChart.setData(data);
-            data.setDrawValues(false);//隱藏 圓上面的數字
-            mPieChart.setHoleColor(ResourcesCompat.getColor(itemView.getResources(), R.color.tranparent, null));
-            mPieChart.setCenterText(itemView.getContext().getResources().getString(R.string.threePointInPie, String.format("%.1f", set.getValues().get(0).getValue()))+ " %");
-            mPieChart.setDrawEntryLabels(false); //圖上面的label
-            mPieChart.setRotationEnabled(false);
-            mPieChart.getLegend().setEnabled(false);//圖例隱藏
-            mPieChart.getDescription().setEnabled(false); //description label 隱藏
-            mPieChart.setCenterTextColor(ResourcesCompat.getColor(itemView.getResources(), R.color.colorButtonInMain, null));
-            mPieChart.spin(1500,-90,270, Easing.EasingOption.EaseInOutQuad);
-            mPieChart.animateX(1500);
+            //3分圓餅
+            List<PieEntry> entries3P = new ArrayList<>();
+            entries3P.add(new PieEntry(TPP[4], "3P%"));
+
+            PieDataSet set3P = new PieDataSet(entries3P,"");
+            set3P.setColor(ResourcesCompat.getColor(itemView.getResources(),R.color.colorOrange, null));
+
+            PieData data3P = new PieData(set3P);
+            data3P.setValueTextColor(ResourcesCompat.getColor(itemView.getResources(), R.color.colorButtonInMain, null));
+            data3P.setValueFormatter(new PercentFormatter());
+            data3P.setDrawValues(false);//隱藏 圓上面的數字
+
+            mThreePointPieChart.setData(data3P);
+
+            mThreePointPieChart.setHoleColor(ResourcesCompat.getColor(itemView.getResources(), R.color.tranparent, null));
+            mThreePointPieChart.setCenterText(itemView.getContext().getResources().getString(R.string.threePointInPie, String.format("%.1f", set3P.getValues().get(0).getValue()))+ " %");
+            mThreePointPieChart.setCenterTextColor(ResourcesCompat.getColor(itemView.getResources(), R.color.colorButtonInMain, null));
+            mThreePointPieChart.setDrawEntryLabels(false); //圖上面的label
+            mThreePointPieChart.getLegend().setEnabled(false);//圖例隱藏
+            mThreePointPieChart.getDescription().setEnabled(false); //description label 隱藏
+            mThreePointPieChart.setRotationEnabled(false);
+            mThreePointPieChart.spin(1500,-90,270, Easing.EasingOption.EaseInOutQuad);
+            mThreePointPieChart.animateX(1500);
+
+            //FG圓餅
+            List<PieEntry> entriesFG = new ArrayList<>();
+            entriesFG.add(new PieEntry(FGP[4], "FG%"));
+
+            PieDataSet setFG = new PieDataSet(entriesFG,"");
+            setFG.setColor(ResourcesCompat.getColor(itemView.getResources(),R.color.colorOrange, null));
+
+            PieData dataFG = new PieData(setFG);
+            dataFG.setValueTextColor(ResourcesCompat.getColor(itemView.getResources(), R.color.colorButtonInMain, null));
+            dataFG.setValueFormatter(new PercentFormatter());
+            dataFG.setDrawValues(false);//隱藏 圓上面的數字
+
+            mFieldGoalPieChart.setData(dataFG);
+
+            mFieldGoalPieChart.setHoleColor(ResourcesCompat.getColor(itemView.getResources(), R.color.tranparent, null));
+            mFieldGoalPieChart.setCenterText(itemView.getContext().getResources().getString(R.string.fieldGoalInPie, String.format("%.1f", setFG.getValues().get(0).getValue()))+ " %");
+            mFieldGoalPieChart.setCenterTextColor(ResourcesCompat.getColor(itemView.getResources(), R.color.colorButtonInMain, null));
+            mFieldGoalPieChart.setDrawEntryLabels(false); //圖上面的label
+            mFieldGoalPieChart.getLegend().setEnabled(false);//圖例隱藏
+            mFieldGoalPieChart.getDescription().setEnabled(false); //description label 隱藏
+            mFieldGoalPieChart.setRotationEnabled(false);
+            mFieldGoalPieChart.spin(1500,-90,270, Easing.EasingOption.EaseInOutQuad);
+            mFieldGoalPieChart.animateX(1500);
+
 
         }
     }

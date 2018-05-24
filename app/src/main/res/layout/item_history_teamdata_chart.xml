@@ -5,19 +5,19 @@
     android:layout_height="200dp">
 
     <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/chart"
+        android:id="@+id/item_history_teamdata_3Pchart"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@+id/chart2" />
+        app:layout_constraintStart_toEndOf="@+id/item_history_teamdata_FGchart" />
 
     <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/chart2"
+        android:id="@+id/item_history_teamdata_FGchart"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        app:layout_constraintEnd_toStartOf="@+id/chart"
+        app:layout_constraintEnd_toStartOf="@+id/item_history_teamdata_3Pchart"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toStartOf="parent" />

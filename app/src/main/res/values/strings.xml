@@ -97,5 +97,6 @@
     <string name="total">總和</string>
     <string name="quarterFilter">節數篩選</string>
     <string name="threePointInPie">三分球\n%1$s</string>
+    <string name="fieldGoalInPie">出手\n%1$s</string>
 
 </resources>

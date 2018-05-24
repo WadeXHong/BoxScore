@@ -70,4 +70,10 @@ public class HistoryTeamDataFragment extends Fragment implements HistoryTeamData
     public void setAdapter(HistoryTeamDataAdapter adapter) {
         mRecyclerView.setAdapter(adapter);
     }
+
+    @Override
+    public void scrollToTop() {
+        if (mRecyclerView != null)
+        mRecyclerView.getLayoutManager().scrollToPosition(0);
+    }
 }

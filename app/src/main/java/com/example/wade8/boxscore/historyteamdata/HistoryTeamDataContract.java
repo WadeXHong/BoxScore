@@ -16,6 +16,8 @@ public interface HistoryTeamDataContract {
 
 
         void setAdapter(HistoryTeamDataAdapter adapter);
+
+        void scrollToTop();
     }
 
     interface Presenter extends BasePresenter {

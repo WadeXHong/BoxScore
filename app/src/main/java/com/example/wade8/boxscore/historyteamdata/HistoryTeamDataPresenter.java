@@ -26,6 +26,7 @@ public class HistoryTeamDataPresenter implements HistoryTeamDataContract.Present
 
     public void setGameIdToAdapter(String gameId){
         mAdapter.refreshCursor(gameId);
+        mHistoryTeamDataView.scrollToTop();
     }
 
     @Override
