@@ -14,10 +14,19 @@ import com.example.wade8.boxscore.R;
 import com.example.wade8.boxscore.historyteamdata.HistoryTeamDataContract;
 import com.example.wade8.boxscore.objects.PercentFormatter;
 import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.DefaultValueFormatter;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -202,12 +211,14 @@ public class HistoryTeamDataAdapter extends RecyclerView.Adapter{
 
         private PieChart mThreePointPieChart;
         private PieChart mFieldGoalPieChart;
+        private BarChart mBarChart;
 
         public GraphViewHolder(View itemView) {
             super(itemView);
 
             mThreePointPieChart = itemView.findViewById(R.id.item_history_teamdata_3Pchart);
             mFieldGoalPieChart = itemView.findViewById(R.id.item_history_teamdata_FGchart);
+            mBarChart = itemView.findViewById(R.id.item_history_teamdata_barchart);
 
 
         }
@@ -306,6 +317,55 @@ public class HistoryTeamDataAdapter extends RecyclerView.Adapter{
             mFieldGoalPieChart.spin(1500,-90,270, Easing.EasingOption.EaseInOutQuad);
             mFieldGoalPieChart.animateX(1500);
 
+
+
+
+            List<BarEntry> entriesGroup1 = new ArrayList<>();
+            List<BarEntry> entriesGroup2 = new ArrayList<>();
+            List<BarEntry> entriesGroup3 = new ArrayList<>();
+
+            for(int i = 0; i < 5; i++) {
+                entriesGroup1.add(new BarEntry(i, new float[]{_1PS[i],_2PS[i],_3PS[i]}));
+//                entriesGroup2.add(new BarEntry(i, _2PS[i]));
+//                entriesGroup3.add(new BarEntry(i, _3PS[i]));
+            }
+
+            BarDataSet set1 = new BarDataSet(entriesGroup1, "");
+
+            set1.setStackLabels(new String[]{"罰球","二分球","三分球"});
+
+
+            mBarChart.getXAxis().setDrawGridLines(false);
+            mBarChart.getAxisLeft().setAxisMinimum(0);
+            mBarChart.getAxisLeft().setGranularity(1f);
+            mBarChart.getAxisLeft().setDrawGridLines(false);
+            mBarChart.getAxisLeft().setDrawZeroLine(true);
+            mBarChart.getAxisLeft().setTextColor(ResourcesCompat.getColor(itemView.getResources(), R.color.colorButtonInMain, null));
+            mBarChart.getAxisRight().setDrawGridLines(false);
+            mBarChart.getAxisRight().setDrawLabels(false);
+            mBarChart.getXAxis().setTextSize(10);
+            mBarChart.getXAxis().setGranularity(1f);
+            mBarChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(new String[]{"第一節","第二節","第三節","第四節","總和"}));
+            mBarChart.getXAxis().setTextColor(ResourcesCompat.getColor(itemView.getResources(),R.color.colorButtonInMain, null));
+            mBarChart.getDescription().setEnabled(false);
+            mBarChart.getLegend().setTextColor(ResourcesCompat.getColor(itemView.getResources(),R.color.colorButtonInMain, null));
+            mBarChart.getLegend().setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+            mBarChart.getLegend().setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+            mBarChart.setDragEnabled(false);
+            mBarChart.setScaleEnabled(false);
+            mBarChart.setTouchEnabled(false);
+            mBarChart.animateY(1500,Easing.EasingOption.EaseInOutQuad);
+
+
+
+            set1.setColors(new int[]{R.color.colorPrimary,R.color.secondaryLightColor,R.color.colorAccent}, itemView.getContext());
+            BarData barData= new BarData(set1);
+            barData.setValueTextSize(10);
+            barData.setValueTextColor(ResourcesCompat.getColor(itemView.getResources(),R.color.colorButtonInMain, null));
+            barData.setBarWidth(0.5f);
+            barData.setValueFormatter(new DefaultValueFormatter(0));
+
+            mBarChart.setData(barData);
 
         }
     }
