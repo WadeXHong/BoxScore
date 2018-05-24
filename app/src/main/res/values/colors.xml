@@ -20,5 +20,6 @@
     <color name="secondaryDarkColor">#8e0000</color>
     <color name="colorAccent">#c62828</color>
     <color name="colorGreen">#2ec929</color>
+    <color name="tranparent">#00000000</color>
 
 </resources>

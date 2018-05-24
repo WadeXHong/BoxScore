@@ -2,6 +2,7 @@ package com.example.wade8.boxscore.adapter;
 
 import android.database.Cursor;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,7 +13,15 @@ import android.widget.TextView;
 import com.example.wade8.boxscore.Constants;
 import com.example.wade8.boxscore.R;
 import com.example.wade8.boxscore.historyteamdata.HistoryTeamDataContract;
+import com.example.wade8.boxscore.objects.PercentFormatter;
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by wade8 on 2018/5/23.
@@ -31,6 +40,8 @@ public class HistoryTeamDataAdapter extends RecyclerView.Adapter{
     private String mGameId;
     private Cursor mCursorData;
     private Cursor mCursorInfo;
+
+    private ArrayList mArrayList;
 
     public HistoryTeamDataAdapter(HistoryTeamDataContract.Presenter presenter){
         mHistoryTeamDataPresenter = presenter;
@@ -70,7 +81,7 @@ public class HistoryTeamDataAdapter extends RecyclerView.Adapter{
             if (position == 0) {
                 ((HeaderViewHolder) holder).bind();
             }else if (position == DATA_TYPE_COUNT +1 ){
-                //TODO
+                ((GraphViewHolder) holder).bind();
             }else {
                 ((TableViewHolder) holder).bind(position - 1); //Todo position change
             }
@@ -196,6 +207,68 @@ public class HistoryTeamDataAdapter extends RecyclerView.Adapter{
             super(itemView);
 
             mPieChart = itemView.findViewById(R.id.chart);
+
+        }
+
+//                                    "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_FIELD_GOALS_MADE + ")",
+//                  "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_FIELD_GOALS_ATTEMPTED + ")",
+//                  "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_THREE_POINT_MADE + ")",
+//                  "SUM(" + Constants.GameDataDBContract.COLUMN_NAME_THREE_POINT_ATTEMPTED + ")",
+
+
+
+        private void bind(){
+            int size = mCursorData.getCount();
+            int[] TPA = new int[5];
+            int[] TPM = new int[5];
+            float[] TPP = new float[5];
+            int[] FGA = new int[5];
+            int[] FGM = new int[5];
+            float[] FGP = new float[5];
+
+            for (int i = 0 ; i<size ; i++) {
+
+                mCursorData.moveToPosition(i);
+
+                        TPA[i] = mCursorData.getInt(mCursorData.getColumnIndex("SUM(" + Constants.GameDataDBContract.COLUMN_NAME_THREE_POINT_ATTEMPTED + ")"));
+                        TPM[i] = mCursorData.getInt(mCursorData.getColumnIndex("SUM(" + Constants.GameDataDBContract.COLUMN_NAME_THREE_POINT_MADE + ")"));
+                        if (TPA[i] != 0) TPP[i] = (float) 100*TPM[i]/TPA[i];
+
+                        FGA[i] = mCursorData.getInt(mCursorData.getColumnIndex("SUM(" + Constants.GameDataDBContract.COLUMN_NAME_FIELD_GOALS_ATTEMPTED + ")"));
+                        FGM[i] = mCursorData.getInt(mCursorData.getColumnIndex("SUM(" + Constants.GameDataDBContract.COLUMN_NAME_FIELD_GOALS_MADE + ")"));
+                        if (FGA[i] != 0) FGP[i] = (float) 100*FGM[i]/FGA[i];
+
+                        TPA[4] += TPA[i];
+                        TPM[4] += TPM[i];
+                        FGA[4] += FGA[i];
+                        FGM[4] += FGM[i];
+            }
+
+            if (TPA[4] != 0) TPP[4] =(float) 100*TPM[4]/TPA[4];
+            if (FGA[4] != 0) FGP[4] =(float) 100*FGM[4]/FGA[4];
+            PieEntry TPPPie = new PieEntry(TPP[4], "TPP");
+//            PieEntry TPPPieM = new PieEntry(1-TPP[5], "miss");
+            List<PieEntry> entries = new ArrayList<>();
+            entries.add(TPPPie);
+
+
+            PieDataSet set = new PieDataSet(entries,"test");
+            set.setColor(ResourcesCompat.getColor(itemView.getResources(),R.color.colorOrange, null));
+            PieData data = new PieData(set);
+            data.setValueTextColor(ResourcesCompat.getColor(itemView.getResources(), R.color.colorButtonInMain, null));
+            data.setValueFormatter(new PercentFormatter());
+            mPieChart.setMaxAngle(360f*TPP[4]/100);
+            mPieChart.setData(data);
+            data.setDrawValues(false);//隱藏 圓上面的數字
+            mPieChart.setHoleColor(ResourcesCompat.getColor(itemView.getResources(), R.color.tranparent, null));
+            mPieChart.setCenterText(itemView.getContext().getResources().getString(R.string.threePointInPie, String.format("%.1f", set.getValues().get(0).getValue()))+ " %");
+            mPieChart.setDrawEntryLabels(false); //圖上面的label
+            mPieChart.setRotationEnabled(false);
+            mPieChart.getLegend().setEnabled(false);//圖例隱藏
+            mPieChart.getDescription().setEnabled(false); //description label 隱藏
+            mPieChart.setCenterTextColor(ResourcesCompat.getColor(itemView.getResources(), R.color.colorButtonInMain, null));
+            mPieChart.spin(1500,-90,270, Easing.EasingOption.EaseInOutQuad);
+            mPieChart.animateX(1500);
 
         }
     }
