@@ -13,6 +13,8 @@ public interface HistoryDetailContract {
     interface View extends BaseView<Presenter> {
 
         void setViewPagerAdapter(ViewPagerFragmentAdapter viewPagerFragmentAdapter);
+
+        void setViewPagerPage();
     }
 
     interface Presenter extends BasePresenter {

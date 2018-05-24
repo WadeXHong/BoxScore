@@ -60,5 +60,6 @@ public class HistoryDetailPresenter implements HistoryDetailContract.Presenter {
     public void setGameIdToAdapter(String gameId) {
         mHistoryTeamDataPresenter.setGameIdToAdapter(gameId);
         mHistoryPlayersDataPresenter.setGameIdToAdapter(gameId);
+        mHistoryDetailView.setViewPagerPage();
     }
 }

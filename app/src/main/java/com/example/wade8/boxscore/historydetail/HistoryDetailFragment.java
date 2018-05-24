@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.example.wade8.boxscore.R;
 import com.example.wade8.boxscore.ViewPagerFragmentAdapter;
+import com.example.wade8.boxscore.customlayout.NonSwipeableViewPager;
 
 
 public class HistoryDetailFragment extends Fragment implements HistoryDetailContract.View{
@@ -19,7 +20,7 @@ public class HistoryDetailFragment extends Fragment implements HistoryDetailCont
 
     private HistoryDetailContract.Presenter mPresenter;
 
-    private ViewPager mViewPager;
+    private NonSwipeableViewPager mViewPager;
     private TabLayout mTabLayout;
     private final int[] mTab = {R.string.teamBoxScore,R.string.playersBoxscore};
 
@@ -31,14 +32,6 @@ public class HistoryDetailFragment extends Fragment implements HistoryDetailCont
     }
 
     @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden){
-            mViewPager.setCurrentItem(0);
-        }
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -46,6 +39,27 @@ public class HistoryDetailFragment extends Fragment implements HistoryDetailCont
 
         mViewPager = view.findViewById(R.id.fragment_historydetail_viewpager);
         mTabLayout = view.findViewById(R.id.fragment_historydetail_tablelayout);
+
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (mViewPager.getCurrentItem() == 0){
+                    mViewPager.setSwipeable(true);
+                }else {
+                    mViewPager.setSwipeable(false);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         mPresenter.start();
         return view;
@@ -66,5 +80,10 @@ public class HistoryDetailFragment extends Fragment implements HistoryDetailCont
         for(int i=0; i<mTab.length;i++){
             mTabLayout.getTabAt(i).setText(mTab[i]);
         }
+    }
+
+    @Override
+    public void setViewPagerPage() {
+        mViewPager.setCurrentItem(0);
     }
 }

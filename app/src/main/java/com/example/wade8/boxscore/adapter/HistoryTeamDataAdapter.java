@@ -88,10 +88,10 @@ public class HistoryTeamDataAdapter extends RecyclerView.Adapter{
         if (mGameId != null) {
             if (position == 0) {
                 ((HeaderViewHolder) holder).bind();
-            }else if (position == DATA_TYPE_COUNT +1 ){
+            }else if (position == 1 ){
                 ((GraphViewHolder) holder).bind();
             }else {
-                ((TableViewHolder) holder).bind(position - 1); //Todo position change
+                ((TableViewHolder) holder).bind(position - 2); //Todo position change
             }
         }
 
@@ -106,7 +106,7 @@ public class HistoryTeamDataAdapter extends RecyclerView.Adapter{
     public int getItemViewType(int position) {
         if (position == 0) {
             return VIEWTYPE_HEADER;
-        }else if (position == DATA_TYPE_COUNT+1) {
+        }else if (position == 1) {
             return VIEWTYPE_GRAPH;
         }else {
             return VIEWTYPE_TABLE;
@@ -354,7 +354,7 @@ public class HistoryTeamDataAdapter extends RecyclerView.Adapter{
             mBarChart.setDragEnabled(false);
             mBarChart.setScaleEnabled(false);
             mBarChart.setTouchEnabled(false);
-            mBarChart.animateY(1500,Easing.EasingOption.EaseInOutQuad);
+            mBarChart.animateY(2000,Easing.EasingOption.EaseInOutQuad);
 
 
 
