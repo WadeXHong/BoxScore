@@ -100,5 +100,6 @@
     <string name="fieldGoalInPie">出手\n%1$s</string>
     <string name="brightness">螢幕亮度</string>
     <string name="finger">%s指</string>
+    <string name="none">無</string>
 
 </resources>

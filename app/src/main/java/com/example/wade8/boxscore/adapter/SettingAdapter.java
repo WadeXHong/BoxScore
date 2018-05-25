@@ -41,7 +41,8 @@ public class SettingAdapter extends RecyclerView.Adapter {
 
 
     public SettingAdapter() { //TODO
-        TYPE_CHOICE_INT = new int[]{Constants.RecordDataType.TWO_POINT_SHOT_MADE,
+        TYPE_CHOICE_INT = new int[]{-1,
+                  Constants.RecordDataType.TWO_POINT_SHOT_MADE,
                   Constants.RecordDataType.TWO_POINT_SHOT_MISSED,
                   Constants.RecordDataType.THREE_POINT_SHOT_MADE,
                   Constants.RecordDataType.THREE_POINT_SHOT_MISSED,
@@ -109,7 +110,7 @@ public class SettingAdapter extends RecyclerView.Adapter {
             super(itemView);
 
             TYPE_CHOICE_STRING = new String[]{
-                      itemView.getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(TYPE_CHOICE_INT[0])),
+                      "無",
                       itemView.getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(TYPE_CHOICE_INT[1])),
                       itemView.getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(TYPE_CHOICE_INT[2])),
                       itemView.getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(TYPE_CHOICE_INT[3])),
@@ -122,6 +123,7 @@ public class SettingAdapter extends RecyclerView.Adapter {
                       itemView.getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(TYPE_CHOICE_INT[10])),
                       itemView.getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(TYPE_CHOICE_INT[11])),
                       itemView.getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(TYPE_CHOICE_INT[12])),
+                      itemView.getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(TYPE_CHOICE_INT[13]))
             };
             GESTURE_SETTING = itemView.getResources().getStringArray(R.array.gesture_setting);
             mGestureDirection = itemView.findViewById(R.id.item_setting_gesture_text);
@@ -135,7 +137,8 @@ public class SettingAdapter extends RecyclerView.Adapter {
                               .setItems(TYPE_CHOICE_STRING, new DialogInterface.OnClickListener() {
                                   @Override
                                   public void onClick(DialogInterface dialog, int which) {
-                                      mGestureDataType.setText(itemView.getContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(TYPE_CHOICE_INT[which])));
+                                      mGestureDataType.setText(itemView.getContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(TYPE_CHOICE_INT[which],R.string.none)));
+                                      SharedPreferenceHelper.write(GESTURE_TYPE_ARRAY[getLayoutPosition()-1],TYPE_CHOICE_INT[which]);
                                   }
                               }).show();
                 }
