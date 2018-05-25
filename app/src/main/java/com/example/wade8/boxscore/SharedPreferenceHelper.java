@@ -27,6 +27,16 @@ public class SharedPreferenceHelper {
     public static final String OPPONENT_TEAM_FOUL = "OPPONENT_TEAM_FOUL";
     public static final String QUARTER = "QUARTER";
 
+    public static final String DOUBLE_UP = "DOUBLE_UP";
+    public static final String DOUBLE_DOWN = "DOUBLE_DOWN";
+    public static final String DOUBLE_LEFT = "DOUBLE_LEFT";
+    public static final String DOUBLE_RIGHT = "DOUBLE_RIGHT";
+    public static final String TRIPLE_UP = "TRIPLE_UP";
+    public static final String TRIPLE_DOWN = "TRIPLE_DOWN";
+    public static final String TRIPLE_LEFT = "TRIPLE_LEFT";
+    public static final String TRIPLE_RIGHT = "TRIPLE_RIGHT";
+
+
 
 
 
