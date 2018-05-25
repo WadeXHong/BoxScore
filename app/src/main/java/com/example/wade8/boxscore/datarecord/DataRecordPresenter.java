@@ -39,12 +39,17 @@ public class DataRecordPresenter implements DataRecordContract.Presenter{
             mDataRecordView.popIsShotMadeDialog(type);
 
         }else {
-            PlayerSelectDialog dialog = PlayerSelectDialog.newInstance(type);
-            PlayerSelectPresenter dialogPresenter = new PlayerSelectPresenter(dialog,this);
-            mDataRecordView.popPlayerSelectDialog(dialog,Constants.TITLE_SPARSE_ARRAY.get(type));
+            popPlayerSelectProccess(type);
         }
 
     }
+
+    public void popPlayerSelectProccess(int type) {
+        PlayerSelectDialog dialog = PlayerSelectDialog.newInstance(type);
+        PlayerSelectPresenter dialogPresenter = new PlayerSelectPresenter(dialog,this);
+        mDataRecordView.popPlayerSelectDialog(dialog, Constants.TITLE_SPARSE_ARRAY.get(type));
+    }
+
     @Override
     public void pressTwoPoint() {
         Log.d(TAG,"PressTwoPint executed");
@@ -144,17 +149,13 @@ public class DataRecordPresenter implements DataRecordContract.Presenter{
     @Override
     public void pressShotMade(int type) {
         Log.d(TAG,"pressShotMade executed");
-        PlayerSelectDialog dialog = PlayerSelectDialog.newInstance(type);
-        PlayerSelectPresenter dialogPresenter = new PlayerSelectPresenter(dialog,this);
-        mDataRecordView.popPlayerSelectDialog(dialog,Constants.TITLE_SPARSE_ARRAY.get(type));
+        popPlayerSelectProccess(type);
     }
 
     @Override
     public void pressShotMissed(int type) {
         Log.d(TAG,"pressShotMade executed");
-        PlayerSelectDialog dialog = PlayerSelectDialog.newInstance(type);
-        PlayerSelectPresenter dialogPresenter = new PlayerSelectPresenter(dialog,this);
-        mDataRecordView.popPlayerSelectDialog(dialog,Constants.TITLE_SPARSE_ARRAY.get(type));
+        popPlayerSelectProccess(type);
     }
 
     @Override

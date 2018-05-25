@@ -98,5 +98,7 @@
     <string name="quarterFilter">節數篩選</string>
     <string name="threePointInPie">三分球\n%1$s</string>
     <string name="fieldGoalInPie">出手\n%1$s</string>
+    <string name="brightness">螢幕亮度</string>
+    <string name="finger">%s指</string>
 
 </resources>
