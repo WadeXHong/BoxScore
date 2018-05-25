@@ -3,6 +3,7 @@ package com.example.wade8.boxscore.gameboxscore;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import com.example.wade8.boxscore.customlayout.BSViewPager;
 import com.example.wade8.boxscore.dialogfragment.datastatistic.DataStatisticDialog;
 import com.example.wade8.boxscore.gesturelistener.OnScrollGestureListener;
 import com.example.wade8.boxscore.objects.GameInfo;
+import com.example.wade8.boxscore.setting.SettingActivity;
 
 public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxScoreContract.View{
 
@@ -50,6 +52,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
     private ImageView mUndo;
     private ImageView mDataStatistic;
     private ImageView mSave;
+    private ImageView mSetting;
 
 
     @Override
@@ -67,6 +70,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
         mUndo = findViewById(R.id.activity_gameboxscore_undo);
         mDataStatistic = findViewById(R.id.activity_gameboxscore_datastatistic);
         mSave = findViewById(R.id.activity_gameboxscore_save);
+        mSetting = findViewById(R.id.activity_gameboxscore_setting);
 
         init();
 
@@ -151,7 +155,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
         mSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG,"mDataStatistic onClick");
+                Log.d(TAG,"mSave onClick");
                 new AlertDialog.Builder(GameBoxScoreActivity.this, R.style.OrangeDialog).setTitle("結束比賽")
                           .setMessage("比賽是否結束並儲存結果？")
                           .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -168,6 +172,13 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
                                   dialog.dismiss();
                               }
                           }).show();
+            }
+        });
+        mSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG,"mSave onClick");
+                startActivity(new Intent(GameBoxScoreActivity.this, SettingActivity.class));
             }
         });
     }
