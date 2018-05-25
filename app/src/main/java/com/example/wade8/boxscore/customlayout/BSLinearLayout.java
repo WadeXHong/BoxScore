@@ -119,9 +119,11 @@ public class BSLinearLayout extends LinearLayout{
                     mLastPositionY = y;
                     mDistanceX += Math.abs(dx);
                     mDistanceY += Math.abs(dy);
-                    if(mDistanceY> 2f* mDistanceX && mDistanceY> 3.0f*mScaledPagingTouchSlop){
-                        return true;
-                    }
+
+                    //單指滑動攔截
+//                    if(mDistanceY> 2f* mDistanceX && mDistanceY> 3.0f*mScaledPagingTouchSlop){
+//                        return true;
+//                    }
                 }
                 break;
             case MotionEvent.ACTION_UP:
