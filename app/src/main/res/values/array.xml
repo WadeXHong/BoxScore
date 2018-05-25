@@ -8,4 +8,15 @@
         <item>total</item>
     </array>
 
+    <string-array name="gesture_setting">
+        <item>兩指向上</item>
+        <item>兩指向下</item>
+        <item>兩指向左</item>
+        <item>兩指向右</item>
+        <item>三指向上</item>
+        <item>三指向下</item>
+        <item>三指向左</item>
+        <item>三指向右</item>
+    </string-array>
+
 </resources>
