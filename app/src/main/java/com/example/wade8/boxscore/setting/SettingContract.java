@@ -11,10 +11,12 @@ public interface SettingContract {
 
     interface View extends BaseView<Presenter>{
 
+        void setBrightness(float brightness);
     }
 
     interface Presenter extends BasePresenter{
 
+        void setBrightness(float brightness);
     }
 
 }

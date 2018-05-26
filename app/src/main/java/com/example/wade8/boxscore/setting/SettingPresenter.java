@@ -1,5 +1,7 @@
 package com.example.wade8.boxscore.setting;
 
+import com.example.wade8.boxscore.SharedPreferenceHelper;
+
 /**
  * Created by wade8 on 2018/5/25.
  */
@@ -20,5 +22,11 @@ public class SettingPresenter implements SettingContract.Presenter{
     @Override
     public void start() {
 
+    }
+
+    @Override
+    public void setBrightness(float brightness) {
+        mSettingView.setBrightness(brightness);
+        SharedPreferenceHelper.write(SharedPreferenceHelper.BRIGHTNESS, brightness);
     }
 }

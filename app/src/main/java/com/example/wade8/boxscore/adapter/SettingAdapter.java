@@ -1,7 +1,11 @@
 package com.example.wade8.boxscore.adapter;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.res.ResourcesCompat;
@@ -9,12 +13,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.wade8.boxscore.BoxScore;
 import com.example.wade8.boxscore.Constants;
 import com.example.wade8.boxscore.R;
 import com.example.wade8.boxscore.SharedPreferenceHelper;
+import com.example.wade8.boxscore.setting.SettingContract;
 
 /**
  * Created by wade8 on 2018/5/25.
@@ -24,7 +31,6 @@ public class SettingAdapter extends RecyclerView.Adapter {
 
     private static final int VIEWTYPE_HEADER = 0;
     private static final int VIEWTYPE_GESTURE = 1;
-    private String[] GESTURE_SETTING;
     private static final String[] GESTURE_TYPE_ARRAY
               = new String[]{
               SharedPreferenceHelper.DOUBLE_UP,
@@ -37,11 +43,16 @@ public class SettingAdapter extends RecyclerView.Adapter {
               SharedPreferenceHelper.TRIPLE_RIGHT
     };
 
+    private SettingContract.Presenter mSettingPresenter;
+
     private int[] TYPE_CHOICE_INT;
     private String[] TYPE_CHOICE_STRING;
+    private String[] GESTURE_SETTING;
 
 
-    public SettingAdapter() {
+
+    public SettingAdapter(SettingContract.Presenter presenter) {
+        mSettingPresenter = presenter;
 
         TYPE_CHOICE_INT = new int[]{-1,
                   Constants.RecordDataType.TWO_POINT_SHOT_MADE,
@@ -108,10 +119,41 @@ public class SettingAdapter extends RecyclerView.Adapter {
 
     public class HeaderViewHolder extends RecyclerView.ViewHolder{
 
+        private SeekBar mSeekBar;
 
-        public HeaderViewHolder(View itemView) {
+
+        public HeaderViewHolder(final View itemView) {
             super(itemView);
 
+            mSeekBar = itemView.findViewById(R.id.item_setting_others_seekbar);
+            int brightness = (int)(SharedPreferenceHelper.read(SharedPreferenceHelper.BRIGHTNESS, -0.01f)*100);
+
+            if (brightness == -1) {
+                mSeekBar.setProgress(50);
+            }else {
+                mSeekBar.setProgress(brightness);
+            }
+
+            mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+                    float brightness = (float)progress/100;
+                    SharedPreferenceHelper.write(SharedPreferenceHelper.BRIGHTNESS,brightness);
+                    if (SharedPreferenceHelper.read(SharedPreferenceHelper.BRIGHTNESS,-1f) != -1f)
+                        mSettingPresenter.setBrightness(brightness);
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+
+                }
+            });
         }
 
         private void bind() {

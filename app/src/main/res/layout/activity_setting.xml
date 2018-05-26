@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp"
+    android:paddingTop="40dp"
     android:background="@color/colorDarkBackground"
     tools:context="com.example.wade8.boxscore.setting.SettingActivity">
 
@@ -395,9 +398,7 @@
         android:id="@+id/activity_setting_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingStart="30dp"
-        android:paddingEnd="30dp"
-        android:paddingTop="50dp"
+
 >
 
 

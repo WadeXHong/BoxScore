@@ -36,6 +36,8 @@ public class SharedPreferenceHelper {
     public static final String TRIPLE_LEFT = "TRIPLE_LEFT";
     public static final String TRIPLE_RIGHT = "TRIPLE_RIGHT";
 
+    public static final String BRIGHTNESS = "BRIGHTNESS";
+
 
 
 
@@ -56,6 +58,10 @@ public class SharedPreferenceHelper {
         return mSharedPreferences.getInt(key,defValue);
     }
 
+    public static float read(String key, float defValue){
+        return mSharedPreferences.getFloat(key,defValue);
+    }
+
     public static void write(String key, String value){
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString(key,value);
@@ -65,6 +71,12 @@ public class SharedPreferenceHelper {
     public static void write(String key, int value){
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putInt(key,value);
+        editor.apply();
+    }
+
+    public static void write(String key, float value){
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putFloat(key,value);
         editor.apply();
     }
 
