@@ -5,36 +5,51 @@
     android:id="@+id/activity_boxscore_main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="20dp"
     android:background="@drawable/background_main"
+    android:paddingTop="30dp"
+    android:paddingBottom="20dp"
     tools:context="com.example.wade8.boxscore.activities.BoxScoreActivity">
 
     <ImageView
         android:id="@+id/activity_boxscore_logo_imageview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:scaleType="fitCenter"
         android:src="@drawable/logo_main"
-        app:layout_constraintBottom_toTopOf="@+id/activity_boxscore_startgame_layout"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_weight="5" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintVertical_weight="0.5"
+        android:paddingEnd="45dp"
+        android:paddingStart="45dp"
+        app:layout_constraintBottom_toTopOf="@+id/activity_boxscore_startgame_layout"
+        app:layout_constraintTop_toBottomOf="@+id/activity_boxscore_logo_imageview">
+
+    </android.support.constraint.ConstraintLayout>
 
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/activity_boxscore_startgame_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:paddingStart="45dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:paddingEnd="45dp"
+        android:paddingStart="45dp"
         app:layout_constraintBottom_toTopOf="@+id/activity_boxscore_teammanage_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_boxscore_logo_imageview"
-        app:layout_constraintVertical_weight="0.8">
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintVertical_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -64,10 +79,10 @@
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
                 android:gravity="center"
+                android:includeFontPadding="false"
                 android:text="@string/startGame"
                 android:textColor="@color/colorButtonInMain"
                 android:textSize="16sp"
-                android:includeFontPadding="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -80,19 +95,22 @@
         android:id="@+id/activity_boxscore_teammanage_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        android:paddingStart="45dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:paddingEnd="45dp"
-        app:layout_constraintVertical_weight="0.8"
+        android:paddingStart="45dp"
         app:layout_constraintBottom_toTopOf="@+id/activity_boxscore_gamehistory_layout"
-        app:layout_constraintTop_toBottomOf="@+id/activity_boxscore_startgame_layout">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_boxscore_startgame_layout"
+        app:layout_constraintVertical_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/shape_btn_main"
             android:gravity="center"
             android:orientation="horizontal"
-            android:background="@drawable/shape_btn_main"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -116,10 +134,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
+                android:includeFontPadding="false"
                 android:text="@string/teamManage"
                 android:textColor="@color/colorButtonInMain"
                 android:textSize="16sp"
-                android:includeFontPadding="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView2" />
@@ -132,19 +150,22 @@
         android:id="@+id/activity_boxscore_gamehistory_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        android:paddingStart="45dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:paddingEnd="45dp"
-        app:layout_constraintVertical_weight="0.8"
+        android:paddingStart="45dp"
         app:layout_constraintBottom_toTopOf="@+id/activity_boxscore_setting_layout"
-        app:layout_constraintTop_toBottomOf="@+id/activity_boxscore_teammanage_layout">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_boxscore_teammanage_layout"
+        app:layout_constraintVertical_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/shape_btn_main_ori"
             android:gravity="center"
             android:orientation="horizontal"
-            android:background="@drawable/shape_btn_main_ori"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -169,8 +190,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:gravity="center"
-                android:text="@string/gameHistory"
                 android:includeFontPadding="false"
+                android:text="@string/gameHistory"
                 android:textColor="@color/colorTextInMainButton"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -186,20 +207,22 @@
         android:id="@+id/activity_boxscore_setting_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="70dp"
-        android:paddingStart="45dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:paddingEnd="45dp"
-        app:layout_constraintVertical_weight="0.8"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_boxscore_gamehistory_layout">
+        android:paddingStart="45dp"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_boxscore_gamehistory_layout"
+        app:layout_constraintVertical_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/shape_btn_main_ori"
             android:gravity="center"
             android:orientation="horizontal"
-            android:background="@drawable/shape_btn_main_ori"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -223,15 +246,27 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:gravity="center"
+                android:includeFontPadding="false"
                 android:text="@string/setting"
                 android:textColor="@color/colorTextInMainButton"
                 android:textSize="16sp"
-                android:includeFontPadding="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
         </LinearLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintVertical_weight="0.5"
+        android:paddingEnd="45dp"
+        android:paddingStart="45dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_boxscore_setting_layout">
 
     </android.support.constraint.ConstraintLayout>
 
