@@ -17,6 +17,8 @@ public interface SettingContract {
     interface Presenter extends BasePresenter{
 
         void setBrightness(float brightness);
+
+        void unManualBrightness();
     }
 
 }

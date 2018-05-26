@@ -1,18 +1,27 @@
 package com.example.wade8.boxscore.setting;
 
-import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.WindowManager;
 
+import com.example.wade8.boxscore.BoxScore;
 import com.example.wade8.boxscore.R;
 import com.example.wade8.boxscore.adapter.SettingAdapter;
 
 public class SettingActivity extends AppCompatActivity implements SettingContract.View{
 
     private static final String TAG = SettingActivity.class.getSimpleName();
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (BoxScore.sBrightness != -1f){
+            setBrightness(BoxScore.sBrightness);
+        }
+
+    }
 
     private SettingContract.Presenter mPresenter;
 

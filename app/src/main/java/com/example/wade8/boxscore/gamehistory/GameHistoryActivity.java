@@ -1,14 +1,13 @@
 package com.example.wade8.boxscore.gamehistory;
 
-import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 
+import com.example.wade8.boxscore.BoxScore;
 import com.example.wade8.boxscore.R;
 
 public class GameHistoryActivity extends AppCompatActivity implements GameHistoryContract.View{
@@ -19,6 +18,15 @@ public class GameHistoryActivity extends AppCompatActivity implements GameHistor
 
     private Toolbar mToolbar;
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (BoxScore.sBrightness != -1) {
+            WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+            layoutParams.screenBrightness = BoxScore.sBrightness;
+            getWindow().setAttributes(layoutParams);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

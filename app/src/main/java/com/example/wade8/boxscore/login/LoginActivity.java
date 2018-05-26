@@ -2,7 +2,9 @@ package com.example.wade8.boxscore.login;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.WindowManager;
 
+import com.example.wade8.boxscore.BoxScore;
 import com.example.wade8.boxscore.R;
 
 public class LoginActivity extends AppCompatActivity implements LoginContract.View {
@@ -11,6 +13,15 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
     private LoginContract.Presenter mPresenter;
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (BoxScore.sBrightness != -1) {
+            WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+            layoutParams.screenBrightness = BoxScore.sBrightness;
+            getWindow().setAttributes(layoutParams);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

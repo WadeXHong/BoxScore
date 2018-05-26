@@ -17,6 +17,7 @@ public class BoxScore extends Application {
     private static GameDataDbHelper mGameDataDbHelper;
     private static GameInfoDbHelper mGameInfoDbHelper;
     private static TeamDbHelper mTeamDbHelper;
+    public static float sBrightness;
 
     @Override
     public void onCreate() {
@@ -24,6 +25,7 @@ public class BoxScore extends Application {
         mContext = this;
         mGameDataDbHelper = null;
         SharedPreferenceHelper.init(this);
+        sBrightness = SharedPreferenceHelper.read(SharedPreferenceHelper.BRIGHTNESS, -1f);
     }
 
     public static Context getAppContext(){return mContext;}

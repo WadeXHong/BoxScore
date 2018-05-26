@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.wade8.boxscore.BoxScore;
 import com.example.wade8.boxscore.Constants;
 import com.example.wade8.boxscore.R;
 import com.example.wade8.boxscore.ViewPagerFragmentAdapter;
@@ -54,6 +55,16 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
     private ImageView mSave;
     private ImageView mSetting;
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (BoxScore.sBrightness != -1) {
+            WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+            layoutParams.screenBrightness = BoxScore.sBrightness;
+            getWindow().setAttributes(layoutParams);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

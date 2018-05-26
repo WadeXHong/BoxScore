@@ -13,10 +13,10 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.example.wade8.boxscore.BoxScore;
 import com.example.wade8.boxscore.BoxScoreContract;
 import com.example.wade8.boxscore.BoxScorePresenter;
 import com.example.wade8.boxscore.R;
-import com.example.wade8.boxscore.SharedPreferenceHelper;
 import com.example.wade8.boxscore.gameboxscore.GameBoxScoreActivity;
 import com.example.wade8.boxscore.gamehistory.GameHistoryActivity;
 import com.example.wade8.boxscore.objects.GameInfo;
@@ -36,6 +36,16 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
     private ConstraintLayout mTeamManageLayout;
     private ConstraintLayout mGameHistoryLayout;
     private ConstraintLayout mSettingLayout;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (BoxScore.sBrightness != -1) {
+            WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+            layoutParams.screenBrightness = BoxScore.sBrightness;
+            getWindow().setAttributes(layoutParams);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

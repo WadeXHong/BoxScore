@@ -1,20 +1,16 @@
 package com.example.wade8.boxscore.adapter;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
+import android.widget.CompoundButton;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.wade8.boxscore.BoxScore;
@@ -120,14 +116,33 @@ public class SettingAdapter extends RecyclerView.Adapter {
     public class HeaderViewHolder extends RecyclerView.ViewHolder{
 
         private SeekBar mSeekBar;
+        private Switch mSwitch;
 
 
         public HeaderViewHolder(final View itemView) {
             super(itemView);
 
+            mSwitch = itemView.findViewById(R.id.item_setting_others_switch);
             mSeekBar = itemView.findViewById(R.id.item_setting_others_seekbar);
-            int brightness = (int)(SharedPreferenceHelper.read(SharedPreferenceHelper.BRIGHTNESS, -0.01f)*100);
 
+            if (BoxScore.sBrightness == -1){
+                mSwitch.setChecked(false);
+            }else {
+                mSwitch.setChecked(true);
+            }
+
+            mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked){
+                        mSettingPresenter.setBrightness(50);
+                    }else {
+                        mSettingPresenter.unManualBrightness();
+                    }
+                }
+            });
+
+            int brightness = (int)(SharedPreferenceHelper.read(SharedPreferenceHelper.BRIGHTNESS, -0.01f)*100);
             if (brightness == -1) {
                 mSeekBar.setProgress(50);
             }else {
@@ -142,6 +157,7 @@ public class SettingAdapter extends RecyclerView.Adapter {
                     SharedPreferenceHelper.write(SharedPreferenceHelper.BRIGHTNESS,brightness);
                     if (SharedPreferenceHelper.read(SharedPreferenceHelper.BRIGHTNESS,-1f) != -1f)
                         mSettingPresenter.setBrightness(brightness);
+
                 }
 
                 @Override

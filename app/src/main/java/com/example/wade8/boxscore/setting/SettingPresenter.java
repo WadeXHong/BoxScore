@@ -1,5 +1,6 @@
 package com.example.wade8.boxscore.setting;
 
+import com.example.wade8.boxscore.BoxScore;
 import com.example.wade8.boxscore.SharedPreferenceHelper;
 
 /**
@@ -28,5 +29,12 @@ public class SettingPresenter implements SettingContract.Presenter{
     public void setBrightness(float brightness) {
         mSettingView.setBrightness(brightness);
         SharedPreferenceHelper.write(SharedPreferenceHelper.BRIGHTNESS, brightness);
+        BoxScore.sBrightness = brightness;
+    }
+
+    @Override
+    public void unManualBrightness() {
+        SharedPreferenceHelper.remove(SharedPreferenceHelper.BRIGHTNESS);
+        BoxScore.sBrightness = -1f;
     }
 }

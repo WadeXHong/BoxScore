@@ -11,9 +11,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.wade8.boxscore.BoxScore;
 import com.example.wade8.boxscore.R;
 import com.example.wade8.boxscore.ViewPagerFragmentAdapter;
 import com.example.wade8.boxscore.customlayout.BSViewPager;
@@ -43,6 +45,16 @@ public class StartGameActivity extends AppCompatActivity implements StartGameCon
     private boolean mIsChangePageAllowed = false;
 
     private final int[] mTab = {R.string.gamenamesetting,R.string.playerlist,R.string.detailsetting};
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (BoxScore.sBrightness != -1) {
+            WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+            layoutParams.screenBrightness = BoxScore.sBrightness;
+            getWindow().setAttributes(layoutParams);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
