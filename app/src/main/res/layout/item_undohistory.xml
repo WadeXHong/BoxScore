@@ -5,7 +5,7 @@
     android:id="@+id/item_undohistory_layout"
     android:layout_width="match_parent"
     android:layout_height="55dp"
-    android:background="@color/colorDarkGray"
+    android:background="@drawable/ripple_layout_darkgray"
     android:gravity="center">
 
     <TextView

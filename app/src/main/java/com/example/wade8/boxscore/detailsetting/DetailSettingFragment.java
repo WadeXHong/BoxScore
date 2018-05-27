@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.wade8.boxscore.R;
@@ -30,11 +30,11 @@ public class DetailSettingFragment extends Fragment implements DetailSettingCont
     private Button mTimeoutsSecondHalfPlus;
     private Button mTimeoutsSecondHalfMinus;
 
-    private EditText mQuarterLengthEditText;
-    private EditText mTotalQuarterEditText;
-    private EditText mMaxFoulEditText;
-    private EditText mTimeoutsFirstHalfEditText;
-    private EditText mTimeoutsSecondHalfEditText;
+    private TextView mQuarterLengthTextView;
+    private TextView mTotalQuarterTextView;
+    private TextView mMaxFoulTextView;
+    private TextView mTimeoutsFirstHalfTextView;
+    private TextView mTimeoutsSecondHalfTextView;
 
     private String mQuaterLength;
     private String mTotalQuarter;
@@ -67,17 +67,17 @@ public class DetailSettingFragment extends Fragment implements DetailSettingCont
         mTimeoutsSecondHalfPlus = view.findViewById(R.id.fragment_detailsetting_timeouts_secondhalf_plus);
         mTimeoutsSecondHalfMinus = view.findViewById(R.id.fragment_detailsetting_timeouts_secondhalf_minus);
 
-        mQuarterLengthEditText = view.findViewById(R.id.fragment_detailsetting_quarterlength_edittext);
-        mTotalQuarterEditText = view.findViewById(R.id.fragment_detailsetting_totalquarter_edittext);
-        mMaxFoulEditText = view.findViewById(R.id.fragment_detailsetting_maxfoul_edittext);
-        mTimeoutsFirstHalfEditText = view.findViewById(R.id.fragment_detailsetting_timeouts_firsthalf_edittext);
-        mTimeoutsSecondHalfEditText = view.findViewById(R.id.fragment_detailsetting_timeouts_secondhalf_edittext);
+        mQuarterLengthTextView = view.findViewById(R.id.fragment_detailsetting_quarterlength_textview);
+        mTotalQuarterTextView = view.findViewById(R.id.fragment_detailsetting_totalquarter_edittext);
+        mMaxFoulTextView = view.findViewById(R.id.fragment_detailsetting_maxfoul_edittext);
+        mTimeoutsFirstHalfTextView = view.findViewById(R.id.fragment_detailsetting_timeouts_firsthalf_edittext);
+        mTimeoutsSecondHalfTextView = view.findViewById(R.id.fragment_detailsetting_timeouts_secondhalf_edittext);
 
-        mQuaterLength = mQuarterLengthEditText.getText().toString();
-        mTotalQuarter = mTotalQuarterEditText.getText().toString();
-        mMaxFoul = mMaxFoulEditText.getText().toString();
-        mTimeoutsFirstHalf = mTimeoutsFirstHalfEditText.getText().toString();
-        mTimeoutsSecondHalf = mTimeoutsSecondHalfEditText.getText().toString();
+        mQuaterLength = mQuarterLengthTextView.getText().toString();
+        mTotalQuarter = mTotalQuarterTextView.getText().toString();
+        mMaxFoul = mMaxFoulTextView.getText().toString();
+        mTimeoutsFirstHalf = mTimeoutsFirstHalfTextView.getText().toString();
+        mTimeoutsSecondHalf = mTimeoutsSecondHalfTextView.getText().toString();
 
         setOnClickOnButton();
 
@@ -89,70 +89,70 @@ public class DetailSettingFragment extends Fragment implements DetailSettingCont
         mMaxFoulPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.maxFoulPlus(mMaxFoulEditText.getText().toString());
+                mPresenter.maxFoulPlus(mMaxFoulTextView.getText().toString());
             }
         });
 
         mMaxFoulMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.maxFoulMinus(mMaxFoulEditText.getText().toString());
+                mPresenter.maxFoulMinus(mMaxFoulTextView.getText().toString());
             }
         });
 
         mQuarterLengthPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.quarterLengthPlus(mQuarterLengthEditText.getText().toString());
+                mPresenter.quarterLengthPlus(mQuarterLengthTextView.getText().toString());
             }
         });
 
         mQuarterLengthMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.quarterLengthMinus(mQuarterLengthEditText.getText().toString());
+                mPresenter.quarterLengthMinus(mQuarterLengthTextView.getText().toString());
             }
         });
 
         mTotalQuarterPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.totalQuarterPlus(mTotalQuarterEditText.getText().toString());
+                mPresenter.totalQuarterPlus(mTotalQuarterTextView.getText().toString());
             }
         });
 
         mTotalQuarterMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.totalQuarterMinus(mTotalQuarterEditText.getText().toString());
+                mPresenter.totalQuarterMinus(mTotalQuarterTextView.getText().toString());
             }
         });
 
         mTimeoutsFirstHalfPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.timeoutsFirstHalfPlus(mTimeoutsFirstHalfEditText.getText().toString());
+                mPresenter.timeoutsFirstHalfPlus(mTimeoutsFirstHalfTextView.getText().toString());
             }
         });
 
         mTimeoutsFirstHalfMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.timeoutsFirstHalfMinus(mTimeoutsFirstHalfEditText.getText().toString());
+                mPresenter.timeoutsFirstHalfMinus(mTimeoutsFirstHalfTextView.getText().toString());
             }
         });
 
         mTimeoutsSecondHalfPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.timeoutsSecondHalfPlus(mTimeoutsSecondHalfEditText.getText().toString());
+                mPresenter.timeoutsSecondHalfPlus(mTimeoutsSecondHalfTextView.getText().toString());
             }
         });
 
         mTimeoutsSecondHalfMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.timeoutsSecondHalfMinus(mTimeoutsSecondHalfEditText.getText().toString());
+                mPresenter.timeoutsSecondHalfMinus(mTimeoutsSecondHalfTextView.getText().toString());
             }
         });
     }
@@ -164,27 +164,27 @@ public class DetailSettingFragment extends Fragment implements DetailSettingCont
 
     @Override
     public void updateMaxFoulInEditText(String s) {
-        mMaxFoulEditText.setText(s);
+        mMaxFoulTextView.setText(s);
     }
 
     @Override
     public void updateQuarterLengthEditText(String s) {
-        mQuarterLengthEditText.setText(s);
+        mQuarterLengthTextView.setText(s);
     }
 
     @Override
     public void updateTotalQuarterEditText(String s) {
-        mTotalQuarterEditText.setText(s);
+        mTotalQuarterTextView.setText(s);
     }
 
     @Override
     public void updateTimeoutsFirstHalfEditText(String s) {
-        mTimeoutsFirstHalfEditText.setText(s);
+        mTimeoutsFirstHalfTextView.setText(s);
     }
 
     @Override
     public void updateTimeoutsSecondHalfEditText(String s) {
-        mTimeoutsSecondHalfEditText.setText(s);
+        mTimeoutsSecondHalfTextView.setText(s);
     }
 
     @Override
@@ -196,10 +196,10 @@ public class DetailSettingFragment extends Fragment implements DetailSettingCont
 
     @Override
     public void getSettingResult(GameInfo gameInfo) {
-        gameInfo.setQuarterLength(mQuarterLengthEditText.getText().toString());
-        gameInfo.setTotalQuarter(mTotalQuarterEditText.getText().toString());
-        gameInfo.setMaxFoul(mMaxFoulEditText.getText().toString());
-        gameInfo.setTimeoutFirstHalf(mTimeoutsFirstHalfEditText.getText().toString());
-        gameInfo.setTimeoutSecondHalf(mTimeoutsSecondHalfEditText.getText().toString());
+        gameInfo.setQuarterLength(mQuarterLengthTextView.getText().toString());
+        gameInfo.setTotalQuarter(mTotalQuarterTextView.getText().toString());
+        gameInfo.setMaxFoul(mMaxFoulTextView.getText().toString());
+        gameInfo.setTimeoutFirstHalf(mTimeoutsFirstHalfTextView.getText().toString());
+        gameInfo.setTimeoutSecondHalf(mTimeoutsSecondHalfTextView.getText().toString());
     }
 }

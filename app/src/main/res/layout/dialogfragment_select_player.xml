@@ -55,6 +55,7 @@
             android:textSize="20sp"
             android:text="@string/cancel"
             android:textColor="@color/colorDarkGray"
+            android:background="@drawable/ripple_layout"
             />
 
     </LinearLayout>

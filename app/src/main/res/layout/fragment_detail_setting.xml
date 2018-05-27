@@ -21,14 +21,15 @@
             android:textColor="@color/colorTextInMainButton"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/fragment_detailsetting_quarterlength_edittext"
+        <TextView
+            android:id="@+id/fragment_detailsetting_quarterlength_textview"
             android:layout_width="70dp"
             android:layout_height="35dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/shape_edittext_gamename"
             android:text="10"
+            android:gravity="center_vertical"
             android:maxLength="2"
             android:inputType="number"
             android:paddingHorizontal="5dp"
@@ -47,9 +48,9 @@
             android:text="@string/minute"
             android:textColor="@color/colorTextInMainButton"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@+id/fragment_detailsetting_quarterlength_edittext"
-            app:layout_constraintStart_toEndOf="@+id/fragment_detailsetting_quarterlength_edittext"
-            app:layout_constraintTop_toTopOf="@+id/fragment_detailsetting_quarterlength_edittext" />
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_detailsetting_quarterlength_textview"
+            app:layout_constraintStart_toEndOf="@+id/fragment_detailsetting_quarterlength_textview"
+            app:layout_constraintTop_toTopOf="@+id/fragment_detailsetting_quarterlength_textview" />
 
         <Button
             android:id="@+id/fragment_detailsetting_quarterlength_minus"
@@ -58,13 +59,13 @@
             android:layout_marginBottom="4dp"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="4dp"
-            android:background="@drawable/shape_btn_main"
+            android:background="@drawable/ripple_btn_datarecord"
             android:gravity="center"
             android:includeFontPadding="false"
             android:text="－"
-            app:layout_constraintBottom_toBottomOf="@+id/fragment_detailsetting_quarterlength_edittext"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_detailsetting_quarterlength_textview"
             app:layout_constraintEnd_toStartOf="@+id/fragment_detailsetting_quarterlength_plus"
-            app:layout_constraintTop_toTopOf="@+id/fragment_detailsetting_quarterlength_edittext" />
+            app:layout_constraintTop_toTopOf="@+id/fragment_detailsetting_quarterlength_textview" />
 
         <Button
             android:id="@+id/fragment_detailsetting_quarterlength_plus"
@@ -73,13 +74,13 @@
             android:layout_marginBottom="4dp"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="4dp"
-            android:background="@drawable/shape_btn_main"
+            android:background="@drawable/ripple_btn_datarecord"
             android:gravity="center"
             android:includeFontPadding="false"
             android:text="＋"
-            app:layout_constraintBottom_toBottomOf="@+id/fragment_detailsetting_quarterlength_edittext"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_detailsetting_quarterlength_textview"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/fragment_detailsetting_quarterlength_edittext" />
+            app:layout_constraintTop_toTopOf="@+id/fragment_detailsetting_quarterlength_textview" />
 
 
 
@@ -92,9 +93,9 @@
             android:layout_marginTop="40dp"
             android:textSize="16sp"
             android:textColor="@color/colorTextInMainButton"
-            app:layout_constraintTop_toBottomOf="@id/fragment_detailsetting_quarterlength_edittext" />
+            app:layout_constraintTop_toBottomOf="@id/fragment_detailsetting_quarterlength_textview" />
 
-        <EditText
+        <TextView
             android:id="@+id/fragment_detailsetting_totalquarter_edittext"
             android:layout_width="70dp"
             android:layout_height="35dp"
@@ -102,6 +103,7 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/shape_edittext_gamename"
             android:text="4"
+            android:gravity="center_vertical"
             android:maxLength="1"
             android:inputType="number"
             android:paddingHorizontal="5dp"
@@ -131,7 +133,7 @@
             android:layout_marginBottom="4dp"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="4dp"
-            android:background="@drawable/shape_btn_main"
+            android:background="@drawable/ripple_btn_datarecord"
             android:gravity="center"
             android:includeFontPadding="false"
             android:text="－"
@@ -146,7 +148,7 @@
             android:layout_marginBottom="4dp"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="4dp"
-            android:background="@drawable/shape_btn_main"
+            android:background="@drawable/ripple_btn_datarecord"
             android:gravity="center"
             android:includeFontPadding="false"
             android:text="＋"
@@ -166,7 +168,7 @@
             android:textColor="@color/colorTextInMainButton"
             app:layout_constraintTop_toBottomOf="@id/fragment_detailsetting_totalquarter_edittext" />
 
-        <EditText
+        <TextView
             android:id="@+id/fragment_detailsetting_maxfoul_edittext"
             android:layout_width="70dp"
             android:layout_height="35dp"
@@ -175,6 +177,7 @@
             android:background="@drawable/shape_edittext_gamename"
             android:text="5"
             android:maxLength="1"
+            android:gravity="center_vertical"
             android:inputType="number"
             android:paddingHorizontal="5dp"
             android:textSize="16sp"
@@ -203,7 +206,7 @@
             android:layout_marginBottom="4dp"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="4dp"
-            android:background="@drawable/shape_btn_main"
+            android:background="@drawable/ripple_btn_datarecord"
             android:gravity="center"
             android:includeFontPadding="false"
             android:text="－"
@@ -218,7 +221,7 @@
             android:layout_marginBottom="4dp"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="4dp"
-            android:background="@drawable/shape_btn_main"
+            android:background="@drawable/ripple_btn_datarecord"
             android:gravity="center"
             android:includeFontPadding="false"
             android:text="＋"
@@ -251,7 +254,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/fragment_detailsetting_timeouts_firsthalf_edittext" />
 
-        <EditText
+        <TextView
             android:id="@+id/fragment_detailsetting_timeouts_firsthalf_edittext"
             android:layout_width="20dp"
             android:layout_height="35dp"
@@ -260,6 +263,7 @@
             android:background="@drawable/shape_edittext_gamename"
             android:inputType="number"
             android:maxLength="1"
+            android:gravity="center_vertical"
             android:paddingHorizontal="5dp"
             android:text="5"
             android:textSize="16sp"
@@ -287,7 +291,7 @@
             android:layout_marginBottom="4dp"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="4dp"
-            android:background="@drawable/shape_btn_main"
+            android:background="@drawable/ripple_btn_datarecord"
             android:gravity="center"
             android:includeFontPadding="false"
             android:text="－"
@@ -302,7 +306,7 @@
             android:layout_marginBottom="4dp"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="4dp"
-            android:background="@drawable/shape_btn_main"
+            android:background="@drawable/ripple_btn_datarecord"
             android:gravity="center"
             android:includeFontPadding="false"
             android:text="＋"
@@ -324,7 +328,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/fragment_detailsetting_timeouts_secondhalf_edittext" />
 
-        <EditText
+        <TextView
             android:id="@+id/fragment_detailsetting_timeouts_secondhalf_edittext"
             android:layout_width="20dp"
             android:layout_height="35dp"
@@ -334,6 +338,7 @@
             android:background="@drawable/shape_edittext_gamename"
             android:inputType="number"
             android:maxLength="1"
+            android:gravity="center_vertical"
             android:paddingHorizontal="5dp"
             android:text="5"
             android:textSize="16sp"
@@ -362,7 +367,7 @@
             android:layout_marginBottom="4dp"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="4dp"
-            android:background="@drawable/shape_btn_main"
+            android:background="@drawable/ripple_btn_datarecord"
             android:gravity="center"
             android:includeFontPadding="false"
             android:text="－"
@@ -377,7 +382,7 @@
             android:layout_marginBottom="4dp"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="4dp"
-            android:background="@drawable/shape_btn_main"
+            android:background="@drawable/ripple_btn_datarecord"
             android:gravity="center"
             android:includeFontPadding="false"
             android:text="＋"
