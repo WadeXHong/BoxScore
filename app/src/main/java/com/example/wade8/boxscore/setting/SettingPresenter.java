@@ -35,6 +35,6 @@ public class SettingPresenter implements SettingContract.Presenter{
     @Override
     public void unManualBrightness() {
         SharedPreferenceHelper.remove(SharedPreferenceHelper.BRIGHTNESS);
-        BoxScore.sBrightness = -1f;
+        setBrightness(-1f);
     }
 }

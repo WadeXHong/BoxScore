@@ -14,19 +14,17 @@ public class SettingActivity extends AppCompatActivity implements SettingContrac
 
     private static final String TAG = SettingActivity.class.getSimpleName();
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (BoxScore.sBrightness != -1f){
-            setBrightness(BoxScore.sBrightness);
-        }
-
-    }
-
     private SettingContract.Presenter mPresenter;
 
     private RecyclerView mRecyclerView;
+
     private SettingAdapter mAdapter;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setBrightness(BoxScore.sBrightness);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -37,9 +37,9 @@
             android:id="@+id/item_setting_others_switch_text"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="5dp"
             android:gravity="center"
-            android:text="自動"
+            android:text="手動"
             android:textColor="@color/colorButtonInMain"
             android:textSize="12sp"
             app:layout_constraintEnd_toStartOf="@+id/item_setting_others_switch" />

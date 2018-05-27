@@ -127,17 +127,22 @@ public class SettingAdapter extends RecyclerView.Adapter {
 
             if (BoxScore.sBrightness == -1){
                 mSwitch.setChecked(false);
+                mSeekBar.setEnabled(false);
             }else {
                 mSwitch.setChecked(true);
+                mSeekBar.setProgress((int)BoxScore.sBrightness*100);
             }
 
             mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked){
+                        mSeekBar.setEnabled(true);
+                        mSeekBar.setProgress(50);
                         mSettingPresenter.setBrightness(50);
                     }else {
-                        mSettingPresenter.unManualBrightness();
+                        mSeekBar.setEnabled(false);
+                        mSettingPresenter.setBrightness(-1f);
                     }
                 }
             });
