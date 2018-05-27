@@ -10,7 +10,9 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/item_team_teamdetail_players_layout"
         android:layout_width="match_parent"
-        android:layout_height="55dp">
+        android:layout_height="55dp"
+        android:background="@drawable/ripple_layout">
+
         <LinearLayout
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -60,8 +62,10 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/item_team_teamdetail_history_layout"
         android:layout_width="match_parent"
-        android:layout_height="55dp">
-        <LinearLayout
+        android:layout_height="55dp"
+        android:background="@drawable/ripple_layout">
+
+    <LinearLayout
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

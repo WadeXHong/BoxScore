@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fragment_teamplayer_createplayer_layout"
     android:layout_width="match_parent"
-    android:layout_height="55dp">
+    android:layout_height="55dp"
+    android:background="@drawable/ripple_layout">
     <ImageView
         android:id="@+id/item_team_teamname_icon"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -10,7 +10,8 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/fragment_teamplayer_createplayer_layout"
         android:layout_width="match_parent"
-        android:layout_height="55dp">
+        android:layout_height="55dp"
+        android:background="@drawable/ripple_layout">
 
         <ImageView
             android:id="@+id/fragment_teammain_createteam_icon"
