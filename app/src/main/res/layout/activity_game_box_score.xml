@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.example.wade8.boxscore.customlayout.BSLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.wadexhong.boxscore.customlayout.BSLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_gameboxscore_outestlayout"
@@ -7,9 +7,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/colorDarkBackground"
-    tools:context="com.example.wade8.boxscore.gameboxscore.GameBoxScoreActivity">
+    tools:context="com.example.wade8.boxscore.com.wadexhong.wade8.boxscore.gameboxscore.GameBoxScoreActivity">
 
-    <com.example.wade8.boxscore.customlayout.BSConstraintLayout
+    <com.wadexhong.boxscore.customlayout.BSConstraintLayout
         android:id="@+id/activity_gameboxscore_toplayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -247,7 +247,7 @@
             app:layout_constraintVertical_bias="0.421" />
 
 
-    </com.example.wade8.boxscore.customlayout.BSConstraintLayout>
+    </com.wadexhong.boxscore.customlayout.BSConstraintLayout>
 
 
     <LinearLayout
@@ -271,15 +271,15 @@
             android:layout_height="3dp"
             android:background="@color/secondaryDarkColor"/>
 
-        <com.example.wade8.boxscore.customlayout.BSViewPager
+        <com.wadexhong.boxscore.customlayout.BSViewPager
             android:id="@+id/activity_gameboxscore_viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
 
-        </com.example.wade8.boxscore.customlayout.BSViewPager>
+        </com.wadexhong.boxscore.customlayout.BSViewPager>
 
     </LinearLayout>
 
 
-</com.example.wade8.boxscore.customlayout.BSLinearLayout>
+</com.wadexhong.boxscore.customlayout.BSLinearLayout>

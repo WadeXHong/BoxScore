@@ -4,7 +4,7 @@
     android:id="@+id/fragment_detailsetting"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.wade8.boxscore.detailsetting.DetailSettingFragment">
+    tools:context="com.example.wade8.boxscore.com.wadexhong.wade8.boxscore.detailsetting.DetailSettingFragment">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"

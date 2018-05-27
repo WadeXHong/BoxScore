@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorDarkBackground"
-    tools:context="com.example.wade8.boxscore.createplayer.CreatePlayerFragment">
+    tools:context="com.example.wade8.boxscore.com.wadexhong.wade8.boxscore.createplayer.CreatePlayerFragment">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/colorDarkBackground"
-    tools:context="com.example.wade8.boxscore.teammain.TeamMainFragment">
+    tools:context="com.example.wade8.boxscore.com.wadexhong.wade8.boxscore.teammain.TeamMainFragment">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/fragment_teamplayer_createplayer_layout"

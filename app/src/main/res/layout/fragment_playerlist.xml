@@ -3,7 +3,7 @@
     android:id="@+id/fragment_playerlist"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.wade8.boxscore.playerlist.PlayerListFragment">
+    tools:context="com.example.wade8.boxscore.com.wadexhong.wade8.boxscore.playerlist.PlayerListFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <android.support.v7.widget.RecyclerView

@@ -1,0 +1,25 @@
+package com.wadexhong.boxscore.dialogfragment;
+
+import com.wadexhong.boxscore.BasePresenter;
+import com.wadexhong.boxscore.BaseView;
+import com.wadexhong.boxscore.objects.Player;
+
+import java.util.ArrayList;
+
+/**
+ * Created by wade8 on 2018/5/4.
+ */
+
+public interface PlayerSelectorContract {
+    interface View extends BaseView<Presenter>{
+
+        void dismiss();
+    }
+
+    interface Presenter extends BasePresenter{
+
+        void editDataInDB(int position, int type);
+
+        ArrayList<Player> getPlayerOnCourt();
+    }
+}

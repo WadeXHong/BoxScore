@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.wade8.boxscore.startgame.StartGameActivity">
+    tools:context="com.example.wade8.boxscore.com.wadexhong.wade8.boxscore.startgame.StartGameActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/activity_startgame_toolbar"
@@ -43,14 +43,14 @@
         app:tabIndicatorColor="@color/secondaryDarkColor"
         app:tabIndicatorHeight="3dp" />
 
-    <com.example.wade8.boxscore.customlayout.BSViewPager
+    <com.wadexhong.boxscore.customlayout.BSViewPager
         android:id="@+id/activity_startgame_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
 
 
-    </com.example.wade8.boxscore.customlayout.BSViewPager>
+    </com.wadexhong.boxscore.customlayout.BSViewPager>
 
 
 

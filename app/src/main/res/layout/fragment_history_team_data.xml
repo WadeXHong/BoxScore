@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.example.wade8.boxscore.historyteamdata.HistoryTeamDataFragment">
+    tools:context="com.example.wade8.boxscore.com.wadexhong.wade8.boxscore.historyteamdata.HistoryTeamDataFragment">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/fragment_history_teamdata_recyclerview"
         android:layout_width="match_parent"

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorDialogBackground"
-    tools:context="com.example.wade8.boxscore.dialogfragment.datastatistic.DataStatisticDialog">
+    tools:context="com.example.wade8.boxscore.com.wadexhong.wade8.boxscore.dialogfragment.datastatistic.DataStatisticDialog">
     <FrameLayout
         android:id="@+id/dialogfragment_game_statistic_innerlayout"
         android:layout_width="match_parent"

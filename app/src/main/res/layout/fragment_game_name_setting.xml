@@ -4,7 +4,7 @@
     android:id="@+id/fragment_gamenamesetting"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.wade8.boxscore.gamenamesetting.GameNameSettingFragment">
+    tools:context="com.example.wade8.boxscore.com.wadexhong.wade8.boxscore.gamenamesetting.GameNameSettingFragment">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
