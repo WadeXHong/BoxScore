@@ -1,6 +1,8 @@
 package com.example.wade8.boxscore;
 
 import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
+import android.util.Log;
 
 /**
  * Created by wade8 on 2018/5/1.
@@ -54,7 +56,11 @@ public class BoxScorePresenter implements BoxScoreContract.Presenter {
                                 ,Constants.GameInfoDBContract.GAME_ID + " = ?"
                                 ,new String[]{SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME,"")},null,null,null);
             cursor.moveToFirst();
-            mBoxScoreView.askResumeGame(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.OPPONENT_NAME)));
+            try{
+                mBoxScoreView.askResumeGame(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.OPPONENT_NAME)));
+            }catch (CursorIndexOutOfBoundsException e){
+                Log.w(TAG, e.getMessage());
+            }
             cursor.close();
         }else {
             transToStartGame();

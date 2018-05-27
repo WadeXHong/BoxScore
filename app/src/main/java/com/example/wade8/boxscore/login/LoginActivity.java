@@ -16,11 +16,9 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     @Override
     protected void onResume() {
         super.onResume();
-        if (BoxScore.sBrightness != -1) {
             WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
             layoutParams.screenBrightness = BoxScore.sBrightness;
             getWindow().setAttributes(layoutParams);
-        }
     }
 
     @Override

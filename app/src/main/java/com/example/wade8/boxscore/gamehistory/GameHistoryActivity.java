@@ -21,11 +21,9 @@ public class GameHistoryActivity extends AppCompatActivity implements GameHistor
     @Override
     protected void onResume() {
         super.onResume();
-        if (BoxScore.sBrightness != -1) {
             WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
             layoutParams.screenBrightness = BoxScore.sBrightness;
             getWindow().setAttributes(layoutParams);
-        }
     }
 
     @Override
