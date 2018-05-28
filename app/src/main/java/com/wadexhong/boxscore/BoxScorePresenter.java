@@ -2,7 +2,15 @@ package com.wadexhong.boxscore;
 
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
+import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.View;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.wadexhong.boxscore.activities.BoxScoreActivity;
 
 /**
  * Created by wade8 on 2018/5/1.
@@ -22,7 +30,7 @@ public class BoxScorePresenter implements BoxScoreContract.Presenter {
 
     @Override
     public void start() {
-
+        mBoxScoreView.showMainUi(View.VISIBLE, View.GONE);
     }
 
     @Override
@@ -81,5 +89,22 @@ public class BoxScorePresenter implements BoxScoreContract.Presenter {
     public void removeGameDataInDataBase() {
         BoxScore.getGameDataDbHelper().removeGameData(SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME,""));
         BoxScore.getGameInfoDbHelper().removeGameInfo(SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME,""));
+    }
+
+    @Override
+    public void signUpFireBase(String userEmail, String password) {
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(userEmail, password).addOnCompleteListener((BoxScoreActivity)BoxScore.getAppContext(), new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()){
+                    Log.w("","");
+                }
+            }
+        });
+    }
+
+    @Override
+    public void logInFireBase(String userEmail, String password) {
+
     }
 }

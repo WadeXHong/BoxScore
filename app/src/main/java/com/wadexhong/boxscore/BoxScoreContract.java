@@ -9,7 +9,7 @@ public interface BoxScoreContract {
 
     interface View extends BaseView<Presenter>{
 
-        void showMainUi();
+        void showMainUi(int logInViewVisibility, int fuctionViewVisibility);
 
 
         void askResumeGame(String opponentName);
@@ -34,6 +34,10 @@ public interface BoxScoreContract {
         void removeGameDataSharedPreferences();
 
         void removeGameDataInDataBase();
+
+        void signUpFireBase(String userName, String password);
+
+        void logInFireBase(String userEmail, String password);
     }
 
 }

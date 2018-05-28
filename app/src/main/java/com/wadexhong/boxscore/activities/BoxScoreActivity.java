@@ -5,16 +5,25 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.wadexhong.boxscore.BoxScore;
 import com.wadexhong.boxscore.BoxScoreContract;
 import com.wadexhong.boxscore.BoxScorePresenter;
@@ -47,7 +56,9 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
     private EditText mUserNameEditText;
     private EditText mPassWordEditText;
 
-    boolean mIsLogIn = true; //TODO
+    private boolean mIsLogIn = false; //TODO
+    private boolean mIsUserNameLegal = false;
+    private boolean mIsPassWordLegal = false;
 
 
     @Override
@@ -63,6 +74,7 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_box_score);
         mContext = this;
+        FirebaseAuth.getInstance();
 
         mMainLayout = findViewById(R.id.activity_boxscore_main_layout);
         mStartGameLayout = findViewById(R.id.activity_boxscore_startgame_layout);
@@ -76,17 +88,11 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
         mUserNameEditText = findViewById(R.id.activity_boxscore_username_edittext);
         mPassWordEditText = findViewById(R.id.activity_boxscore_password_edittext);
 
-        if (mIsLogIn){ //TODO  token判斷
-            mUserNameLayout.setVisibility(View.GONE);
-            mPassWordLayout.setVisibility(View.GONE);
-            mLogInLayout.setVisibility(View.GONE);
-            mSignUpLayout.setVisibility(View.GONE);
-        }else {
-            mStartGameLayout.setVisibility(View.GONE);
-            mTeamManageLayout.setVisibility(View.GONE);
-            mGameHistoryLayout.setVisibility(View.GONE);
-            mSettingLayout.setVisibility(View.GONE);
-        }
+//        if (mIsLogIn){ //TODO  token判斷
+//            showUi(View.GONE, View.VISIBLE);
+//        }else {
+//            showUi(View.VISIBLE, View.GONE);
+//        }
 
         mStartGameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,9 +122,92 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
                 startActivity(new Intent(BoxScoreActivity.this, SettingActivity.class));
             }
         });
+        mLogInLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signInWithEmailAndPassword(mUserNameEditText.getText().toString(), mPassWordEditText.getText().toString())
+                          .addOnCompleteListener(BoxScoreActivity.this, new OnCompleteListener<AuthResult>() {
+                              @Override
+                              public void onComplete(@NonNull Task<AuthResult> task) {
+                                  if (task.isSuccessful()){
+                                      showToast("登入成功");
+                                      showMainUi(View.GONE, View.VISIBLE);
+                                  }else {
+                                      showToast(task.getException().toString());
+                                  }
+                              }
+                          });
+                mPresenter.logInFireBase(mUserNameEditText.getText().toString(), mPassWordEditText.getText().toString());
+            }
+        });
+        mSignUpLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mIsUserNameLegal && mIsPassWordLegal){
+                    FirebaseAuth.getInstance().createUserWithEmailAndPassword(mUserNameEditText.getText().toString(), mPassWordEditText.getText().toString())
+                              .addOnCompleteListener(BoxScoreActivity.this, new OnCompleteListener<AuthResult>() {
+                                  @Override
+                                  public void onComplete(@NonNull Task<AuthResult> task) {
+                                      if (task.isSuccessful()) {
+                                          //CHANGE UI
+                                          showMainUi(View.GONE, View.VISIBLE);
+                                          //SHOW TOAST
+                                          showToast("成功");
+                                          //Get TOKEN IN SHAREDPREFERENCES
+                                      }else {
+                                          showToast(task.getException().toString());
+                                      }
+                                  }
+                              });
+                }else if (!mIsUserNameLegal){
+                    showToast("帳號不符規定");
+                }else {
+                    showToast("密碼長度不得小於6位");
+                }
+            }
+        });
 
+        mUserNameEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.length() > 0 && s.charAt(s.length()-1) == '\u0020') s.delete(s.length()-1, s.length());
+                mIsUserNameLegal = Patterns.EMAIL_ADDRESS.matcher(s).matches();
+            }
+        });
+
+        mPassWordEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                mIsPassWordLegal = s.length() >= 6;
+            }
+        });
 
         init();
+    }
+
+
+    public void showToast(String message) {
+        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
     }
 
     private void init() {
@@ -144,8 +233,17 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
     }
 
     @Override
-    public void showMainUi() {
+    public void showMainUi(int logInViewVisibility, int fuctionViewVisibility) {
 
+        mUserNameLayout.setVisibility(logInViewVisibility);
+        mPassWordLayout.setVisibility(logInViewVisibility);
+        mLogInLayout.setVisibility(logInViewVisibility);
+        mSignUpLayout.setVisibility(logInViewVisibility);
+
+        mStartGameLayout.setVisibility(fuctionViewVisibility);
+        mTeamManageLayout.setVisibility(fuctionViewVisibility);
+        mGameHistoryLayout.setVisibility(fuctionViewVisibility);
+        mSettingLayout.setVisibility(fuctionViewVisibility);
     }
 
     @Override
