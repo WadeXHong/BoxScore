@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/colorDarkBackground"
-    tools:context="com.example.wade8.boxscore.com.wadexhong.wade8.boxscore.teammain.TeamMainFragment">
+    tools:context="com.wadexhong.boxscore.teammain.TeamMainFragment">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/fragment_teamplayer_createplayer_layout"
@@ -20,6 +20,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="8dp"
+            android:scaleType="centerInside"
             android:src="@drawable/ic_add_white_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -11,9 +11,7 @@
         android:id="@+id/item_dialog_player_number"
         android:layout_width="80dp"
         android:layout_height="match_parent"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:gravity="center|start"
+        android:gravity="center"
         android:text="87"
         android:textColor="@color/colorTextInMainButton"
         android:textSize="20sp"/>
@@ -22,6 +20,7 @@
         android:id="@+id/item_dialog_player_name"
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:layout_marginStart="20dp"
         android:gravity="center|start"
         android:text="王曉明"
         android:textColor="@color/colorTextInMainButton"

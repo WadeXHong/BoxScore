@@ -5,20 +5,19 @@
     android:id="@+id/item_teamplayers_layout"
     android:layout_width="match_parent"
     android:layout_height="55dp"
-    android:padding="10dp"
     android:background="@drawable/ripple_layout">
 
 
     <TextView
         android:id="@+id/item_teamplayers_playernumber"
-        android:layout_width="wrap_content"
+        android:layout_width="75dp"
         android:layout_height="0dp"
-        android:layout_marginStart="15dp"
         android:maxLength="2"
         android:gravity="center"
         android:text="00"
-        android:textColor="@color/colorWhite"
+        android:textColor="@color/colorButtonInMain"
         android:textSize="20sp"
+        android:includeFontPadding="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -27,16 +26,16 @@
         android:id="@+id/item_teamplayers_playername"
         android:layout_width="0dp"
         android:layout_height="35dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="70dp"
-        android:maxLength="15"
+        android:layout_marginStart="75dp"
         android:gravity="center|start"
+        android:maxLength="15"
         android:text="王曉明"
-        android:textColor="@color/colorWhite"
+        android:textColor="@color/colorButtonInMain"
         android:textSize="20sp"
+        android:includeFontPadding="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/item_teamplayers_edit"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/item_teamplayers_playernumber"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
@@ -55,7 +54,7 @@
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="18dp"
         android:layout_marginTop="8dp"
         android:src="@drawable/ic_delete_forever_white_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
