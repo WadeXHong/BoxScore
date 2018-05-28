@@ -6,9 +6,9 @@
     <application
         android:name="com.wadexhong.boxscore.BoxScore"
         android:allowBackup="false"
-        android:icon="@drawable/logo_main"
+        android:icon="@drawable/mipmap"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/logo_main"
+        android:roundIcon="@drawable/mipmap"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">

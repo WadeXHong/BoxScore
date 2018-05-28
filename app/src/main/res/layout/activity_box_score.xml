@@ -8,7 +8,7 @@
     android:background="@drawable/background_main"
     android:paddingTop="30dp"
     android:paddingBottom="20dp"
-    tools:context="com.example.wade8.boxscore.com.wadexhong.wade8.boxscore.activities.BoxScoreActivity">
+    tools:context="com.wadexhong.boxscore.activities.BoxScoreActivity">
 
     <ImageView
         android:id="@+id/activity_boxscore_logo_imageview"
@@ -31,29 +31,30 @@
         app:layout_constraintVertical_weight="0.5"
         android:paddingEnd="45dp"
         android:paddingStart="45dp"
-        app:layout_constraintBottom_toTopOf="@+id/activity_boxscore_startgame_layout"
+        app:layout_constraintBottom_toTopOf="@+id/activity_boxscore_first_layout"
         app:layout_constraintTop_toBottomOf="@+id/activity_boxscore_logo_imageview">
 
     </android.support.constraint.ConstraintLayout>
 
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/activity_boxscore_startgame_layout"
+        android:id="@+id/activity_boxscore_first_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:paddingEnd="45dp"
         android:paddingStart="45dp"
-        app:layout_constraintBottom_toTopOf="@+id/activity_boxscore_teammanage_layout"
+        app:layout_constraintBottom_toTopOf="@+id/activity_boxscore_second_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
         app:layout_constraintVertical_weight="1">
 
         <LinearLayout
+            android:id="@+id/activity_boxscore_startgame_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:background="@drawable/ripple_btn_main"
             android:gravity="center"
             android:orientation="horizontal"
@@ -88,26 +89,56 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/activity_boxscore_username_layout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center|start"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:id="@+id/activity_boxscore_username_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="20dp"
+                android:layout_gravity="center"
+                android:gravity="center|start"
+                android:includeFontPadding="false"
+                android:hint="username@email.com"
+                android:textColor="@color/colorTextInMainButton"
+                android:textSize="16sp"
+                android:inputType="textEmailAddress"
+                android:background="@drawable/shape_btn_main_ori"
+
+                />
+
+        </LinearLayout>
+
 
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/activity_boxscore_teammanage_layout"
+        android:id="@+id/activity_boxscore_second_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:paddingEnd="45dp"
         android:paddingStart="45dp"
-        app:layout_constraintBottom_toTopOf="@+id/activity_boxscore_gamehistory_layout"
+        app:layout_constraintBottom_toTopOf="@+id/activity_boxscore_third_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_boxscore_startgame_layout"
+        app:layout_constraintTop_toBottomOf="@+id/activity_boxscore_first_layout"
         app:layout_constraintVertical_weight="1">
 
         <LinearLayout
+            android:id="@+id/activity_boxscore_teammanage_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:background="@drawable/ripple_btn_main"
             android:gravity="center"
             android:orientation="horizontal"
@@ -144,25 +175,53 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/activity_boxscore_password_layout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center|start"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:id="@+id/activity_boxscore_password_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:paddingStart="20dp"
+                android:gravity="center|start"
+                android:includeFontPadding="false"
+                android:hint="password"
+                android:textColor="@color/colorTextInMainButton"
+                android:textSize="16sp"
+                android:inputType="textPassword"
+                android:background="@drawable/shape_btn_main_ori"/>
+
+        </LinearLayout>
+
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/activity_boxscore_gamehistory_layout"
+        android:id="@+id/activity_boxscore_third_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:paddingEnd="45dp"
         android:paddingStart="45dp"
-        app:layout_constraintBottom_toTopOf="@+id/activity_boxscore_setting_layout"
+        app:layout_constraintBottom_toTopOf="@+id/activity_boxscore_fourth_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_boxscore_teammanage_layout"
+        app:layout_constraintTop_toBottomOf="@+id/activity_boxscore_second_layout"
         app:layout_constraintVertical_weight="1">
 
         <LinearLayout
+            android:id="@+id/activity_boxscore_gamehistory_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:background="@drawable/ripple_btn_main"
             android:gravity="center"
             android:orientation="horizontal"
@@ -200,11 +259,41 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/activity_boxscore_login_layout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/ripple_btn_main"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:text="登入"
+                android:textColor="@color/colorButtonInMain"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+
+        </LinearLayout>
+
+
+
 
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/activity_boxscore_setting_layout"
+        android:id="@+id/activity_boxscore_fourth_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginEnd="8dp"
@@ -214,12 +303,13 @@
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_boxscore_gamehistory_layout"
+        app:layout_constraintTop_toBottomOf="@+id/activity_boxscore_third_layout"
         app:layout_constraintVertical_weight="1">
 
         <LinearLayout
+            android:id="@+id/activity_boxscore_setting_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:background="@drawable/ripple_btn_main"
             android:gravity="center"
             android:orientation="horizontal"
@@ -256,6 +346,34 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/activity_boxscore_signup_layout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/ripple_btn_main"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:text="註冊"
+                android:textColor="@color/colorButtonInMain"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+
+        </LinearLayout>
+
+
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
@@ -266,7 +384,7 @@
         android:paddingEnd="45dp"
         android:paddingStart="45dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_boxscore_setting_layout">
+        app:layout_constraintTop_toBottomOf="@+id/activity_boxscore_fourth_layout">
 
     </android.support.constraint.ConstraintLayout>
 

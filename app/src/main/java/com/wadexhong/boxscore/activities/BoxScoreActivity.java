@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.wadexhong.boxscore.BoxScore;
 import com.wadexhong.boxscore.BoxScoreContract;
@@ -32,10 +34,21 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
     private BoxScoreContract.Presenter mPresenter;
 
     private ConstraintLayout mMainLayout;
-    private ConstraintLayout mStartGameLayout;
-    private ConstraintLayout mTeamManageLayout;
-    private ConstraintLayout mGameHistoryLayout;
-    private ConstraintLayout mSettingLayout;
+    private LinearLayout mStartGameLayout;
+    private LinearLayout mTeamManageLayout;
+    private LinearLayout mGameHistoryLayout;
+    private LinearLayout mSettingLayout;
+
+    private LinearLayout mUserNameLayout;
+    private LinearLayout mPassWordLayout;
+    private LinearLayout mLogInLayout;
+    private LinearLayout mSignUpLayout;
+
+    private EditText mUserNameEditText;
+    private EditText mPassWordEditText;
+
+    boolean mIsLogIn = true; //TODO
+
 
     @Override
     protected void onResume() {
@@ -56,6 +69,25 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
         mTeamManageLayout = findViewById(R.id.activity_boxscore_teammanage_layout);
         mGameHistoryLayout = findViewById(R.id.activity_boxscore_gamehistory_layout);
         mSettingLayout = findViewById(R.id.activity_boxscore_setting_layout);
+        mUserNameLayout = findViewById(R.id.activity_boxscore_username_layout);
+        mPassWordLayout = findViewById(R.id.activity_boxscore_password_layout);
+        mLogInLayout = findViewById(R.id.activity_boxscore_login_layout);
+        mSignUpLayout = findViewById(R.id.activity_boxscore_signup_layout);
+        mUserNameEditText = findViewById(R.id.activity_boxscore_username_edittext);
+        mPassWordEditText = findViewById(R.id.activity_boxscore_password_edittext);
+
+        if (mIsLogIn){ //TODO  token判斷
+            mUserNameLayout.setVisibility(View.GONE);
+            mPassWordLayout.setVisibility(View.GONE);
+            mLogInLayout.setVisibility(View.GONE);
+            mSignUpLayout.setVisibility(View.GONE);
+        }else {
+            mStartGameLayout.setVisibility(View.GONE);
+            mTeamManageLayout.setVisibility(View.GONE);
+            mGameHistoryLayout.setVisibility(View.GONE);
+            mSettingLayout.setVisibility(View.GONE);
+        }
+
         mStartGameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
