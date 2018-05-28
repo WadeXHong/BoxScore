@@ -15,6 +15,7 @@ public class GameInfo implements Serializable{
     private String mGameName;
     private String mOpponentName;
     private String mGameDate;
+    private String mYourTeamId;
     private String mYourTeam;
     private String mQuarterLength;
     private String mTotalQuarter;
@@ -129,6 +130,7 @@ public class GameInfo implements Serializable{
         mOpponentName = "" ;
         mGameDate = "" ;
         mYourTeam = "" ;
+        mYourTeamId = "" ;
         mQuarterLength = "" ;
         mTotalQuarter = "" ;
         mMaxFoul = "" ;
@@ -152,5 +154,13 @@ public class GameInfo implements Serializable{
 
     public void setTeamData(SparseIntArray mTeamData) {
         this.mTeamData = mTeamData;
+    }
+
+    public String getYourTeamId() {
+        return mYourTeamId;
+    }
+
+    public void setYourTeamId(String yourTeamId) {
+        mYourTeamId = yourTeamId;
     }
 }

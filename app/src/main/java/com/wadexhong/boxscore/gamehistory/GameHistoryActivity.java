@@ -50,7 +50,7 @@ public class GameHistoryActivity extends AppCompatActivity implements GameHistor
 
     @Override
     public void setHistoryDetailToolBar() {
-        mToolbar.setTitle("TODO");
+        mToolbar.setTitle("比賽內容");
         mToolbar.setNavigationIcon(R.drawable.ic_keyboard_arrow_left_white_30dp);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

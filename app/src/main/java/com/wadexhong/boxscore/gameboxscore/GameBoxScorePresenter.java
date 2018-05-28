@@ -150,6 +150,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
         mGameInfo.setMaxFoul(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.MAX_FOUL)));
         mGameInfo.setTotalQuarter(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.TOTAL_QUARTER)));
         mGameInfo.setQuarterLength(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.QUARTER_LENGTH)));
+        mGameInfo.setYourTeamId(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.YOUR_TEAM_ID)));
         mGameInfo.setYourTeam(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.YOUR_TEAM)));
         mGameInfo.setOpponentName(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.OPPONENT_NAME)));
         mGameInfo.setGameName(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.GAME_NAME)));

@@ -133,6 +133,7 @@ public class Constants {
         public static final String TABLE_NAME = "game_info";
         public static final String GAME_ID = "game_id";
         public static final String GAME_NAME = "game_name";
+        public static final String YOUR_TEAM_ID = "your_team_id";
         public static final String YOUR_TEAM = "team";
         public static final String OPPONENT_NAME = "opponent";
         public static final String QUARTER_LENGTH = "quarter_length";

@@ -26,6 +26,7 @@ public class GameInfoDbHelper extends SQLiteOpenHelper{
                         Constants.GameInfoDBContract._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         Constants.GameInfoDBContract.GAME_ID + " TEXT NOT NULL, " +
                         Constants.GameInfoDBContract.GAME_NAME + " TEXT DEFAULT '', " +
+                        Constants.GameInfoDBContract.YOUR_TEAM_ID + " TEXT DEFAULT 'quick_game', " +
                         Constants.GameInfoDBContract.YOUR_TEAM + " TEXT DEFAULT 'NO TEAM', " +
                         Constants.GameInfoDBContract.OPPONENT_NAME + " TEXT DEFAULT '', " +
                         Constants.GameInfoDBContract.QUARTER_LENGTH + " INTEGER DEFAULT 12, " +
@@ -63,6 +64,7 @@ public class GameInfoDbHelper extends SQLiteOpenHelper{
         ContentValues cv = new ContentValues();
         cv.put(Constants.GameInfoDBContract.GAME_ID,mGameInfo.getGameId());
         cv.put(Constants.GameInfoDBContract.GAME_NAME,mGameInfo.getGameName());
+        cv.put(Constants.GameInfoDBContract.YOUR_TEAM_ID,mGameInfo.getYourTeamId());
         cv.put(Constants.GameInfoDBContract.YOUR_TEAM,mGameInfo.getYourTeam());
         cv.put(Constants.GameInfoDBContract.OPPONENT_NAME,mGameInfo.getOpponentName());
         cv.put(Constants.GameInfoDBContract.QUARTER_LENGTH,mGameInfo.getQuarterLength());
