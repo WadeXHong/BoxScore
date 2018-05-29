@@ -24,6 +24,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.google.firebase.auth.FirebaseUser;
 import com.wadexhong.boxscore.BoxScore;
 import com.wadexhong.boxscore.BoxScoreContract;
 import com.wadexhong.boxscore.BoxScorePresenter;
@@ -67,6 +71,17 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
             WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
             layoutParams.screenBrightness = BoxScore.sBrightness;
             getWindow().setAttributes(layoutParams);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null){
+            showMainUi(View.GONE, View.VISIBLE);
+        }else {
+            showMainUi(View.VISIBLE, View.GONE);
+        }
     }
 
     @Override
@@ -125,19 +140,38 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
         mLogInLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseAuth.getInstance().signInWithEmailAndPassword(mUserNameEditText.getText().toString(), mPassWordEditText.getText().toString())
-                          .addOnCompleteListener(BoxScoreActivity.this, new OnCompleteListener<AuthResult>() {
-                              @Override
-                              public void onComplete(@NonNull Task<AuthResult> task) {
-                                  if (task.isSuccessful()){
-                                      showToast("登入成功");
-                                      showMainUi(View.GONE, View.VISIBLE);
-                                  }else {
-                                      showToast(task.getException().toString());
+                String userName = mUserNameEditText.getText().toString();
+                String passWord = mPassWordEditText.getText().toString();
+                if (!userName.trim().equals("") && !passWord.trim().equals("")) {
+
+                    FirebaseAuth.getInstance().signInWithEmailAndPassword(mUserNameEditText.getText().toString(), mPassWordEditText.getText().toString())
+                              .addOnCompleteListener(BoxScoreActivity.this, new OnCompleteListener<AuthResult>() {
+                                  @Override
+                                  public void onComplete(@NonNull Task<AuthResult> task) {
+                                      if (task.isSuccessful()) {
+                                          showToast("登入成功");
+                                          showMainUi(View.GONE, View.VISIBLE);
+                                      } else {
+                                          try {
+                                              throw task.getException();
+                                          } catch(FirebaseAuthWeakPasswordException e) {
+
+                                          } catch(FirebaseAuthInvalidCredentialsException e) {
+                                              showToast("密碼錯誤");
+
+                                          } catch(FirebaseAuthUserCollisionException e) {
+                                              showToast("其他裝置帳號登入中");
+
+                                          } catch(Exception e) {
+                                              showToast("帳號不存在");
+                                          }
+                                      }
                                   }
-                              }
-                          });
-                mPresenter.logInFireBase(mUserNameEditText.getText().toString(), mPassWordEditText.getText().toString());
+                              });
+                }else {
+                    showToast("輸入不符合規定");
+                }
+//                mPresenter.logInFireBase(mUserNameEditText.getText().toString(), mPassWordEditText.getText().toString());
             }
         });
         mSignUpLayout.setOnClickListener(new View.OnClickListener() {
@@ -154,8 +188,15 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
                                           //SHOW TOAST
                                           showToast("成功");
                                           //Get TOKEN IN SHAREDPREFERENCES
-                                      }else {
-                                          showToast(task.getException().toString());
+                                      } else {
+                                          try {
+                                              throw task.getException();
+                                          } catch(FirebaseAuthUserCollisionException e) {
+                                              showToast("此帳號已註冊");
+
+                                          } catch(Exception e) {
+                                              showToast(e.toString());
+                                          }
                                       }
                                   }
                               });

@@ -54,4 +54,9 @@ public class SettingActivity extends AppCompatActivity implements SettingContrac
         layoutParams.screenBrightness = brightness; // Set Value
         getWindow().setAttributes(layoutParams); // Set params
     }
+
+    @Override
+    public void finishActivity() {
+        finish();
+    }
 }

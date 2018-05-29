@@ -13,6 +13,7 @@ import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.wadexhong.boxscore.Constants;
 import com.wadexhong.boxscore.SharedPreferenceHelper;
 import com.wadexhong.boxscore.setting.SettingContract;
@@ -27,6 +28,7 @@ public class SettingAdapter extends RecyclerView.Adapter {
 
     private static final int VIEWTYPE_HEADER = 0;
     private static final int VIEWTYPE_GESTURE = 1;
+    private static final int VIEWTYPE_OTHERS = 2;
     private static final String[] GESTURE_TYPE_ARRAY
               = new String[]{
               SharedPreferenceHelper.DOUBLE_UP,
@@ -86,6 +88,7 @@ public class SettingAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemViewType(int position) {
         if (position == 0)return 0;
+        if (position == getItemCount()-1)return 2;
         return 1;
     }
 
@@ -93,7 +96,9 @@ public class SettingAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == VIEWTYPE_HEADER){
-            return new HeaderViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_setting_others, parent, false));
+            return new HeaderViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_setting_header, parent, false));
+        }else if (viewType == VIEWTYPE_OTHERS) {
+            return new OtherViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_setting_others, parent, false));
         }else {
             return new GestureViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_setting_gesture_child, parent, false));
         }
@@ -103,6 +108,8 @@ public class SettingAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (position == 0){
             ((HeaderViewHolder)holder).bind();
+        }else if (position == getItemCount()-1){
+            ((OtherViewHolder)holder).bind();
         }else {
             ((GestureViewHolder)holder).bind(position-1);
         }
@@ -110,7 +117,7 @@ public class SettingAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return 9;
+        return 10;
     }
 
     public class HeaderViewHolder extends RecyclerView.ViewHolder{
@@ -122,8 +129,8 @@ public class SettingAdapter extends RecyclerView.Adapter {
         public HeaderViewHolder(final View itemView) {
             super(itemView);
 
-            mSwitch = itemView.findViewById(R.id.item_setting_others_switch);
-            mSeekBar = itemView.findViewById(R.id.item_setting_others_seekbar);
+            mSwitch = itemView.findViewById(R.id.item_setting_header_switch);
+            mSeekBar = itemView.findViewById(R.id.item_setting_header_seekbar);
 
             if (BoxScore.sBrightness == -1){
                 mSwitch.setChecked(false);
@@ -219,6 +226,30 @@ public class SettingAdapter extends RecyclerView.Adapter {
             }else {
                 mGestureDataType.setText(Constants.TITLE_SPARSE_ARRAY.get(value));
             }
+
+        }
+    }
+
+
+    public class OtherViewHolder extends RecyclerView.ViewHolder{
+
+        private ConstraintLayout mConstraintLayout;
+
+        public OtherViewHolder(View itemView) {
+            super(itemView);
+
+            mConstraintLayout = itemView.findViewById(R.id.item_setting_account_logout);
+            mConstraintLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FirebaseAuth.getInstance().signOut();
+                    mSettingPresenter.finishActivity();
+                }
+            });
+        }
+
+
+        private void bind() {
 
         }
     }

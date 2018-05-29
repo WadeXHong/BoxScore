@@ -37,4 +37,9 @@ public class SettingPresenter implements SettingContract.Presenter{
         SharedPreferenceHelper.remove(SharedPreferenceHelper.BRIGHTNESS);
         setBrightness(-1f);
     }
+
+    @Override
+    public void finishActivity() {
+        mSettingView.finishActivity();
+    }
 }

@@ -12,6 +12,8 @@ public interface SettingContract {
     interface View extends BaseView<Presenter>{
 
         void setBrightness(float brightness);
+
+        void finishActivity();
     }
 
     interface Presenter extends BasePresenter{
@@ -19,6 +21,8 @@ public interface SettingContract {
         void setBrightness(float brightness);
 
         void unManualBrightness();
+
+        void finishActivity();
     }
 
 }

@@ -30,7 +30,7 @@ public class BoxScorePresenter implements BoxScoreContract.Presenter {
 
     @Override
     public void start() {
-        mBoxScoreView.showMainUi(View.VISIBLE, View.GONE);
+
     }
 
     @Override
