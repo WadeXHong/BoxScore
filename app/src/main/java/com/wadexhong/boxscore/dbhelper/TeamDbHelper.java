@@ -5,9 +5,19 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.wadexhong.boxscore.Constants;
+import com.wadexhong.boxscore.firebasemodel.Create;
 import com.wadexhong.boxscore.objects.Player;
 import com.wadexhong.boxscore.objects.TeamInfo;
 import com.wadexhong.boxscore.createplayer.CreatePlayerFragment;
@@ -72,13 +82,18 @@ public class TeamDbHelper extends SQLiteOpenHelper {
                   new String[]{teamName},null,null,null);
 
         if (cursor.getCount() == 0){
+            String teamUuid = UUID.randomUUID().toString();
+            //Local SQLite
             ContentValues contentValues = new ContentValues();
             contentValues.put(Constants.TeamInfoDBContract.TEAM_NAME,teamName);
-            contentValues.put(Constants.TeamInfoDBContract.TEAM_ID, UUID.randomUUID().toString());
+            contentValues.put(Constants.TeamInfoDBContract.TEAM_ID, teamUuid);
             // TODO 未來新增球隊的輸入資料放在這
 
             getWritableDatabase().insert(Constants.TeamInfoDBContract.TABLE_NAME, null, contentValues);
             getWritableDatabase().close();
+
+            //add to firebase;
+            Create.getInstance().CreateTeam(teamUuid, teamName);
 
             return true;
         }else {

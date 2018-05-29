@@ -175,4 +175,11 @@ public class Constants {
         public static final String PLAY_PG = "point_guard";
     }
 
+    public class FireBaseConstant{
+
+        public static final String USERS = "users";
+        public static final String USER_EMAIL = "email";
+        public static final String PLAYER_LIST = "player_list";
+        public static final String TEAM_LIST = "team_list";
+    }
 }
