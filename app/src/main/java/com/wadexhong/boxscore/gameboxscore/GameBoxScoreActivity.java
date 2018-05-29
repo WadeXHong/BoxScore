@@ -170,7 +170,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
                           .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    mPresenter.removeGameDataSharedPreferences();
+                                    mPresenter.saveAndEndCurrentGame(mGameInfo.getGameId());
                                     dialog.dismiss();
                                     finish();
                                 }

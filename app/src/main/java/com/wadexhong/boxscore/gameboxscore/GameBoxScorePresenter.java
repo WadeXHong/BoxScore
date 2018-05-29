@@ -5,9 +5,11 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.util.SparseIntArray;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.wadexhong.boxscore.Constants;
 import com.wadexhong.boxscore.SharedPreferenceHelper;
 import com.wadexhong.boxscore.dbhelper.GameInfoDbHelper;
+import com.wadexhong.boxscore.firebasemodel.Create;
 import com.wadexhong.boxscore.playeroncourt.ChangePlayerFragment;
 import com.wadexhong.boxscore.BoxScore;
 import com.wadexhong.boxscore.ViewPagerFragmentAdapter;
@@ -288,6 +290,14 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
             SharedPreferenceHelper.write(SharedPreferenceHelper.QUARTER,mTeamData.get(Constants.RecordDataType.QUARTER));
             mGameBoxScoreView.updateUiTeamData();
         }
+    }
+
+    @Override
+    public void saveAndEndCurrentGame(String gameId) {
+        if (FirebaseAuth.getInstance().getCurrentUser() != null){
+            Create.getInstance().CreateGameData(BoxScore.getGameDataDbHelper().getSpecificGameData(gameId));
+        }
+        removeGameDataSharedPreferences();
     }
 
     @Override

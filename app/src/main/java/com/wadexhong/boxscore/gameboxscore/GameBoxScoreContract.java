@@ -82,5 +82,7 @@ public interface GameBoxScoreContract {
         void longPressOpponentTeamFoul();
 
         void longPressQuarter();
+
+        void saveAndEndCurrentGame(String gameId);
     }
 }
