@@ -48,7 +48,7 @@ public class HistoryTeamDataPresenter implements HistoryTeamDataContract.Present
 
     @Override
     public Cursor getHistoryInfo(String gameId) {
-        return BoxScore.getGameInfoDbHelper().getHistoryInfo(gameId);
+        return BoxScore.getGameInfoDbHelper().getSpecificInfo(gameId);
     }
 
 }

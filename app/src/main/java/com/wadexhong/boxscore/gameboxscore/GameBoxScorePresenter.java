@@ -296,6 +296,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     public void saveAndEndCurrentGame(String gameId) {
         if (FirebaseAuth.getInstance().getCurrentUser() != null){
             Create.getInstance().CreateGameData(BoxScore.getGameDataDbHelper().getSpecificGameData(gameId));
+            Create.getInstance().CreateGameInfo(BoxScore.getGameInfoDbHelper().getSpecificInfo(gameId));
         }
         removeGameDataSharedPreferences();
     }

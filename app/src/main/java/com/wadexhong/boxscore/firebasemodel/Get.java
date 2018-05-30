@@ -28,7 +28,7 @@ public class Get {
     }
 
 
-    public static void test() {
+    public static void onCreate() {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.FireBaseConstant.USERS).child(FirebaseAuth.getInstance().getUid());
 
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -42,7 +42,7 @@ public class Get {
                     String  gameId =                      games.getKey();
                     String  gameDate =           (String) games.child(Constants.GameInfoDBContract.GAME_DATE).getValue();
                     String  gameName =           (String) games.child(Constants.GameInfoDBContract.GAME_NAME).getValue();
-                    boolean isGameOver =         (boolean)games.child(Constants.GameInfoDBContract.IS_GAMEOVER).getValue();
+                    long    isGameOver =         (long)   games.child(Constants.GameInfoDBContract.IS_GAMEOVER).getValue();
                     long    maxFoul =            (long)   games.child(Constants.GameInfoDBContract.MAX_FOUL).getValue();
                     String  opponent =           (String) games.child(Constants.GameInfoDBContract.OPPONENT_NAME).getValue();
                     long    opponentTeamScore =  (long)   games.child(Constants.GameInfoDBContract.OPPONENT_TEAM_SCORE).getValue();
@@ -54,20 +54,20 @@ public class Get {
                     String  yourTeamId =         (String) games.child(Constants.GameInfoDBContract.YOUR_TEAM_ID).getValue();
                     long    yourTeamScore =      (long)   games.child(Constants.GameInfoDBContract.YOUR_TEAM_SCORE).getValue();
 
-                    Log.d(TAG, "gameId =           "+gameId            );
-                    Log.d(TAG, "gameDate =         "+gameDate          );
-                    Log.d(TAG, "gameName =         "+gameName          );
-                    Log.d(TAG, "isGameOver =       "+isGameOver        );
-                    Log.d(TAG, "maxFoul =          "+maxFoul           );
-                    Log.d(TAG, "opponent =         "+opponent          );
-                    Log.d(TAG, "opponentTeamScore ="+opponentTeamScore );
-                    Log.d(TAG, "quarterLength =    "+quarterLength     );
-                    Log.d(TAG, "timeoutFirstHalf = "+timeoutFirstHalf  );
-                    Log.d(TAG, "timeoutSecondHalf ="+timeoutSecondHalf );
-                    Log.d(TAG, "totalQuarter =     "+totalQuarter      );
-                    Log.d(TAG, "yourTeam =         "+yourTeam          );
-                    Log.d(TAG, "yourTeamId =       "+yourTeamId        );
-                    Log.d(TAG, "yourTeamScore =    "+yourTeamScore     );
+                    Log.i(TAG, "gameId =           "+gameId            );
+                    Log.i(TAG, "gameDate =         "+gameDate          );
+                    Log.i(TAG, "gameName =         "+gameName          );
+                    Log.i(TAG, "isGameOver =       "+isGameOver        );
+                    Log.i(TAG, "maxFoul =          "+maxFoul           );
+                    Log.i(TAG, "opponent =         "+opponent          );
+                    Log.i(TAG, "opponentTeamScore ="+opponentTeamScore );
+                    Log.i(TAG, "quarterLength =    "+quarterLength     );
+                    Log.i(TAG, "timeoutFirstHalf = "+timeoutFirstHalf  );
+                    Log.i(TAG, "timeoutSecondHalf ="+timeoutSecondHalf );
+                    Log.i(TAG, "totalQuarter =     "+totalQuarter      );
+                    Log.i(TAG, "yourTeam =         "+yourTeam          );
+                    Log.i(TAG, "yourTeamId =       "+yourTeamId        );
+                    Log.i(TAG, "yourTeamScore =    "+yourTeamScore     );
 
 
                     //TODO  DO  SOMETHING IN GAMEINFODATABASE
@@ -80,9 +80,9 @@ public class Get {
                         String playerName =   (String) players.child(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NAME).getValue();
                         String playerNumber = (String) players.child(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER).getValue();
 
-                        Log.d(playerId, "playerId "+playerId);
-                        Log.d(playerId, "playerName "+playerName);
-                        Log.d(playerId, "playerNumber "+playerNumber);
+                        Log.i(TAG, "playerId "+playerId);
+                        Log.i(TAG, "playerName "+playerName);
+                        Log.i(TAG, "playerNumber "+playerNumber);
 
 
 
@@ -106,21 +106,21 @@ public class Get {
                             long PF =   (long) quarters.child(Constants.GameDataDBContract.COLUMN_NAME_PERSONAL_FOUL).getValue();
                             long TOV =  (long) quarters.child(Constants.GameDataDBContract.COLUMN_NAME_TURNOVER).getValue();
 
-                            Log.d(TAG, "quarter "+quarter);
-                            Log.d(TAG, "PTS = " + PTS );
-                            Log.d(TAG, "FGM = " + FGM );
-                            Log.d(TAG, "FGA = " + FGA );
-                            Log.d(TAG, "TPM = " + TPM );
-                            Log.d(TAG, "TPA = " + TPA );
-                            Log.d(TAG, "FTM = " + FTM );
-                            Log.d(TAG, "FTA = " + FTA );
-                            Log.d(TAG, "OREB = " + OREB);
-                            Log.d(TAG, "DREB = " + DREB);
-                            Log.d(TAG, "AST = " + AST );
-                            Log.d(TAG, "STL = " + STL );
-                            Log.d(TAG, "BLK = " + BLK );
-                            Log.d(TAG, "PF = " + PF);
-                            Log.d(TAG, "TOV = " + TOV );
+                            Log.i(TAG, "quarter "+quarter);
+                            Log.i(TAG, "PTS = " + PTS );
+                            Log.i(TAG, "FGM = " + FGM );
+                            Log.i(TAG, "FGA = " + FGA );
+                            Log.i(TAG, "TPM = " + TPM );
+                            Log.i(TAG, "TPA = " + TPA );
+                            Log.i(TAG, "FTM = " + FTM );
+                            Log.i(TAG, "FTA = " + FTA );
+                            Log.i(TAG, "OREB = " + OREB);
+                            Log.i(TAG, "DREB = " + DREB);
+                            Log.i(TAG, "AST = " + AST );
+                            Log.i(TAG, "STL = " + STL );
+                            Log.i(TAG, "BLK = " + BLK );
+                            Log.i(TAG, "PF = " + PF);
+                            Log.i(TAG, "TOV = " + TOV );
 
 
                         }
@@ -182,8 +182,8 @@ public class Get {
 //                @Override
 //                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 //                    for (DataSnapshot snap:dataSnapshot.getChildren()) {
-//                        Log.d("key", snap.getKey());
-//                        Log.d("value", (String) snap.getValue());
+//                        Log.i("key", snap.getKey());
+//                        Log.i("value", (String) snap.getValue());
 //                    }
 //                }
 //
@@ -200,13 +200,13 @@ public class Get {
 //                @Override
 //                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 //                    for (DataSnapshot snap:dataSnapshot.getChildren()) {
-//                        Log.d("key", snap.getKey());
+//                        Log.i("key", snap.getKey());
 //
 //                        for (DataSnapshot snapChild:snap.child("players").getChildren()){
-//                            Log.d("kk", snapChild.getKey());
+//                            Log.i("kk", snapChild.getKey());
 //                        }
 //
-////                        Log.d("value", (String) snap.getValue());
+////                        Log.i("value", (String) snap.getValue());
 //                    }
 //                }
 //

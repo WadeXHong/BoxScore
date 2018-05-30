@@ -170,20 +170,20 @@ public class Create {
             String playerId = cursor.getString(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_ID));
             String playerNumber = cursor.getString(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER));
             String playerName = cursor.getString(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NAME));
-            int PTS = cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_POINTS));
-            int FGM = cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_FIELD_GOALS_MADE));
-            int FGA = cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_FIELD_GOALS_ATTEMPTED));
-            int TPM = cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_THREE_POINT_MADE));
-            int TPA = cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_THREE_POINT_ATTEMPTED));
-            int FTM = cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_FREE_THROW_MADE));
-            int FTA = cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_FREE_THROW_ATTEMPTED));
+            int PTS =  cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_POINTS));
+            int FGM =  cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_FIELD_GOALS_MADE));
+            int FGA =  cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_FIELD_GOALS_ATTEMPTED));
+            int TPM =  cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_THREE_POINT_MADE));
+            int TPA =  cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_THREE_POINT_ATTEMPTED));
+            int FTM =  cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_FREE_THROW_MADE));
+            int FTA =  cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_FREE_THROW_ATTEMPTED));
             int OREB = cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_OFFENSIVE_REBOUND));
             int DREB = cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_DEFENSIVE_REBOUND));
-            int AST = cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_ASSIST));
-            int STL = cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_STEAL));
-            int BLK = cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_BLOCK));
-            int PF = cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_PERSONAL_FOUL));
-            int TOV = cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_TURNOVER));
+            int AST =  cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_ASSIST));
+            int STL =  cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_STEAL));
+            int BLK =  cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_BLOCK));
+            int PF =   cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_PERSONAL_FOUL));
+            int TOV =  cursor.getInt(cursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_TURNOVER));
 
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(Constants.FireBaseConstant.USERS)
                       .child(FirebaseAuth.getInstance().getUid())
@@ -211,6 +211,42 @@ public class Create {
             data.child(Constants.GameDataDBContract.COLUMN_NAME_TURNOVER).setValue(TOV);
 
         }
+    }
+
+    public void CreateGameInfo (Cursor cursor){
+
+        cursor.moveToFirst();
+        String gameId            = cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.GAME_ID));
+        String gameData          = cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.GAME_DATE));
+        String gameName          = cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.GAME_NAME));
+        int    isGameOver        = cursor.getInt   (cursor.getColumnIndex(Constants.GameInfoDBContract.IS_GAMEOVER));
+        int    maxFoul           = cursor.getInt   (cursor.getColumnIndex(Constants.GameInfoDBContract.MAX_FOUL));
+        String opponent          = cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.OPPONENT_NAME));
+        int    opponentScore     = cursor.getInt   (cursor.getColumnIndex(Constants.GameInfoDBContract.OPPONENT_TEAM_SCORE));
+        int    quarterLength     = cursor.getInt   (cursor.getColumnIndex(Constants.GameInfoDBContract.QUARTER_LENGTH));
+        String team              = cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.YOUR_TEAM));
+        int    timeoutFirstHalf  = cursor.getInt   (cursor.getColumnIndex(Constants.GameInfoDBContract.TIMEOUT_FIRST_HALF));
+        int    timeoutSecondHalf = cursor.getInt   (cursor.getColumnIndex(Constants.GameInfoDBContract.TIMEOUT_SECOND_HALF));
+        int    totalQuarter      = cursor.getInt   (cursor.getColumnIndex(Constants.GameInfoDBContract.TOTAL_QUARTER));
+        int    yourScore         = cursor.getInt   (cursor.getColumnIndex(Constants.GameInfoDBContract.YOUR_TEAM_SCORE));
+        String teamId            = cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.YOUR_TEAM_ID));
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(Constants.FireBaseConstant.USERS).child(FirebaseAuth.getInstance().getUid()).child(Constants.GameInfoDBContract.TABLE_NAME).child(gameId);
+
+        ref.child(Constants.GameInfoDBContract.GAME_ID).setValue(gameId);
+        ref.child(Constants.GameInfoDBContract.GAME_DATE).setValue(gameData);
+        ref.child(Constants.GameInfoDBContract.GAME_NAME).setValue(gameName);
+        ref.child(Constants.GameInfoDBContract.IS_GAMEOVER).setValue(isGameOver);
+        ref.child(Constants.GameInfoDBContract.MAX_FOUL).setValue(maxFoul);
+        ref.child(Constants.GameInfoDBContract.OPPONENT_NAME).setValue(opponent);
+        ref.child(Constants.GameInfoDBContract.OPPONENT_TEAM_SCORE).setValue(opponentScore);
+        ref.child(Constants.GameInfoDBContract.QUARTER_LENGTH).setValue(quarterLength);
+        ref.child(Constants.GameInfoDBContract.YOUR_TEAM).setValue(team);
+        ref.child(Constants.GameInfoDBContract.TIMEOUT_FIRST_HALF).setValue(timeoutFirstHalf);
+        ref.child(Constants.GameInfoDBContract.TIMEOUT_SECOND_HALF).setValue(timeoutSecondHalf);
+        ref.child(Constants.GameInfoDBContract.TOTAL_QUARTER).setValue(totalQuarter);
+        ref.child(Constants.GameInfoDBContract.YOUR_TEAM_SCORE).setValue(yourScore);
+        ref.child(Constants.GameInfoDBContract.YOUR_TEAM_ID).setValue(teamId);
     }
 }
 

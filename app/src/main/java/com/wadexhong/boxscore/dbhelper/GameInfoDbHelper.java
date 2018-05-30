@@ -132,7 +132,7 @@ public class GameInfoDbHelper extends SQLiteOpenHelper{
         }
     }
 
-    public Cursor getHistoryInfo(String gameId) {
+    public Cursor getSpecificInfo(String gameId) {
         return getReadableDatabase().query(Constants.GameInfoDBContract.TABLE_NAME, null,
                   Constants.GameInfoDBContract.GAME_ID + " =?",
                   new String[]{gameId}, null, null, null);
