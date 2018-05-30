@@ -82,6 +82,7 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
         }else {
             showMainUi(View.VISIBLE, View.GONE);
         }
+        mPresenter.start();
     }
 
     @Override
@@ -255,7 +256,6 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
         Log.i(TAG,"BoxScoreActivity.init");
         setStatusBar(this);
         mPresenter = new BoxScorePresenter(this);
-        mPresenter.start();
 
     }
 

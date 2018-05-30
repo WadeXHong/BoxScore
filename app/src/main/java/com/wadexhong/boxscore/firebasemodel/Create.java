@@ -5,14 +5,13 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.wadexhong.boxscore.Constants;
+import com.wadexhong.boxscore.objects.Player;
 
 /**
  * Created by wade8 on 2018/5/29.
@@ -31,7 +30,7 @@ public class Create {
 
 
     public void CreateTeam(String teamId, String teamName){
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.FireBaseConstant.USERS).child(FirebaseAuth.getInstance().getUid()).child(Constants.FireBaseConstant.TEAM_LIST).child(teamId);
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.FireBaseConstant.USERS).child(FirebaseAuth.getInstance().getUid()).child(Constants.FireBaseConstant.TEAM_INFO).child(teamId);
         ref.child(Constants.TeamInfoDBContract.TEAM_NAME).setValue(teamName);
         ref.child(Constants.TeamInfoDBContract.TEAM_PLAYERS_AMOUNT).setValue(0);
         ref.child(Constants.TeamInfoDBContract.TEAM_HISTORY_AMOUNT).setValue(0);
@@ -46,7 +45,7 @@ public class Create {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 //gameinfo & gamedata
-                for (DataSnapshot games : dataSnapshot.child(Constants.GameInfoDBContract.TABLE_NAME).getChildren()){
+                for (DataSnapshot games : dataSnapshot.child(Constants.FireBaseConstant.GAME_INFO).getChildren()){
                     //other info includes game_data, game_name....
 
                     String  gameId =                      games.getKey();
@@ -83,7 +82,7 @@ public class Create {
                     //TODO  DO  SOMETHING IN GAMEINFODATABASE
 
                     // games = List<gameUUID>
-                    for (DataSnapshot players : games.child(Constants.GameDataDBContract.TABLE_NAME).getChildren()){
+                    for (DataSnapshot players : games.child(Constants.FireBaseConstant.GAME_DATA).getChildren()){
                         //other info includes player_name, player_number
 
                         String playerId =              players.getKey();
@@ -97,7 +96,7 @@ public class Create {
 
 
                         //players = List<playerUUID>
-                        for(DataSnapshot quarters:players.child(Constants.GameDataDBContract.COLUMN_NAME_QUARTER).getChildren()){
+                        for(DataSnapshot quarters:players.child(Constants.FireBaseConstant.QUARTER).getChildren()){
 
                             String quarter = quarters.getKey();
 
@@ -187,9 +186,9 @@ public class Create {
 
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(Constants.FireBaseConstant.USERS)
                       .child(FirebaseAuth.getInstance().getUid())
-                      .child(Constants.GameInfoDBContract.TABLE_NAME)
+                      .child(Constants.FireBaseConstant.GAME_INFO)
                       .child(gameId)
-                      .child(Constants.GameDataDBContract.TABLE_NAME)
+                      .child(Constants.FireBaseConstant.GAME_DATA)
                       .child(playerId);
             ref.child(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NAME).setValue(playerName);
             ref.child(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER).setValue(playerNumber);
@@ -231,7 +230,7 @@ public class Create {
         int    yourScore         = cursor.getInt   (cursor.getColumnIndex(Constants.GameInfoDBContract.YOUR_TEAM_SCORE));
         String teamId            = cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.YOUR_TEAM_ID));
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(Constants.FireBaseConstant.USERS).child(FirebaseAuth.getInstance().getUid()).child(Constants.GameInfoDBContract.TABLE_NAME).child(gameId);
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(Constants.FireBaseConstant.USERS).child(FirebaseAuth.getInstance().getUid()).child(Constants.FireBaseConstant.GAME_INFO).child(gameId);
 
         ref.child(Constants.GameInfoDBContract.GAME_ID).setValue(gameId);
         ref.child(Constants.GameInfoDBContract.GAME_DATE).setValue(gameData);
@@ -247,6 +246,20 @@ public class Create {
         ref.child(Constants.GameInfoDBContract.TOTAL_QUARTER).setValue(totalQuarter);
         ref.child(Constants.GameInfoDBContract.YOUR_TEAM_SCORE).setValue(yourScore);
         ref.child(Constants.GameInfoDBContract.YOUR_TEAM_ID).setValue(teamId);
+    }
+
+    public void CreatePlayer(String teamId, Player player){
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(Constants.FireBaseConstant.USERS).child(FirebaseAuth.getInstance().getUid()).child(Constants.FireBaseConstant.TEAM_PLAYER).child(player.getPlayerId());
+        ref.child(Constants.TeamPlayersContract.PLAYER_NAME).setValue(player.getName());
+        ref.child(Constants.TeamPlayersContract.PLAYER_NUMBER).setValue(player.getNumber());
+        ref.child(Constants.TeamPlayersContract.PLAY_C).setValue(player.getPosition()[Player.POSITION_C]);
+        ref.child(Constants.TeamPlayersContract.PLAY_PF).setValue(player.getPosition()[Player.POSITION_PF]);
+        ref.child(Constants.TeamPlayersContract.PLAY_SF).setValue(player.getPosition()[Player.POSITION_SF]);
+        ref.child(Constants.TeamPlayersContract.PLAY_SG).setValue(player.getPosition()[Player.POSITION_SG]);
+        ref.child(Constants.TeamPlayersContract.PLAY_PG).setValue(player.getPosition()[Player.POSITION_PG]);
+        ref.child(Constants.TeamPlayersContract.TEAM_ID).setValue(teamId);
+
     }
 }
 

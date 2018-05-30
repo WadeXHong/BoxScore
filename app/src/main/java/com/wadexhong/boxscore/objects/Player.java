@@ -8,6 +8,12 @@ import java.io.Serializable;
 
 public class Player implements Serializable {
 
+    public static final int POSITION_C = 0;
+    public static final int POSITION_PF = 1;
+    public static final int POSITION_SF = 2;
+    public static final int POSITION_SG = 3;
+    public static final int POSITION_PG = 4;
+
     private String mPlayerId;
     private String mNumber;
     private String mName;

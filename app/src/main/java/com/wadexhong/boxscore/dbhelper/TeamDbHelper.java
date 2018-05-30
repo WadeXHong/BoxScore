@@ -93,7 +93,9 @@ public class TeamDbHelper extends SQLiteOpenHelper {
             getWritableDatabase().close();
 
             //add to firebase;
-            Create.getInstance().CreateTeam(teamUuid, teamName);
+            if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                Create.getInstance().CreateTeam(teamUuid, teamName);
+            }
 
             return true;
         }else {
@@ -145,8 +147,12 @@ public class TeamDbHelper extends SQLiteOpenHelper {
 
     public void createPlayerInDb(String teamId, Player player) {
 
+        String playerId = UUID.randomUUID().toString();
+        player.setPlayerId(playerId);
+
         ContentValues cvPlayers = new ContentValues();
-        cvPlayers.put(Constants.TeamPlayersContract.PLAYER_ID, UUID.randomUUID().toString());
+
+        cvPlayers.put(Constants.TeamPlayersContract.PLAYER_ID, playerId);
         cvPlayers.put(Constants.TeamPlayersContract.PLAYER_NUMBER, player.getNumber());
         cvPlayers.put(Constants.TeamPlayersContract.PLAYER_NAME, player.getName());
         cvPlayers.put(Constants.TeamPlayersContract.PLAY_C, player.getPosition()[CreatePlayerFragment.POSITION_C]);
@@ -170,5 +176,9 @@ public class TeamDbHelper extends SQLiteOpenHelper {
         cvInfo.put(Constants.TeamInfoDBContract.TEAM_PLAYERS_AMOUNT,cursor.getInt(0) + 1);
 
         getWritableDatabase().update(Constants.TeamInfoDBContract.TABLE_NAME, cvInfo, Constants.TeamInfoDBContract.TEAM_ID + " =?", new String[]{teamId});
+
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            Create.getInstance().CreatePlayer(teamId, player);
+        }
     }
 }

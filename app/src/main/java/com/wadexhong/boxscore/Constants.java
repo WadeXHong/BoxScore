@@ -179,7 +179,10 @@ public class Constants {
 
         public static final String USERS = "users";
         public static final String USER_EMAIL = "email";
-        public static final String PLAYER_LIST = "player_list";
-        public static final String TEAM_LIST = "team_list";
+        public static final String TEAM_PLAYER = "team_player";
+        public static final String TEAM_INFO = "team_info";
+        public static final String GAME_DATA = "game_data";
+        public static final String GAME_INFO = "game_info";
+        public static final String QUARTER = "quarter";
     }
 }
