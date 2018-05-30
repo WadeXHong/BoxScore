@@ -31,7 +31,9 @@ public class BoxScorePresenter implements BoxScoreContract.Presenter {
 
     @Override
     public void start() {
-        Get.onCreate();
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            Get.onCreate();
+        }
     }
 
     @Override

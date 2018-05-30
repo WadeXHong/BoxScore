@@ -1,5 +1,7 @@
 package com.wadexhong.boxscore.firebasemodel;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -11,6 +13,7 @@ import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.wadexhong.boxscore.BoxScore;
 import com.wadexhong.boxscore.Constants;
 
 /**
@@ -36,6 +39,11 @@ public class Get {
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                SQLiteDatabase dbGameInfo = BoxScore.getGameInfoDbHelper().getWritableDatabase();
+                SQLiteDatabase dbGameData = BoxScore.getGameDataDbHelper().getWritableDatabase();
+                SQLiteDatabase dbTeam = BoxScore.getTeamDbHelper().getReadableDatabase();
+
 
                 //gameinfo & gamedata
                 for (DataSnapshot games : dataSnapshot.child(Constants.FireBaseConstant.GAME_INFO).getChildren()){
@@ -74,6 +82,26 @@ public class Get {
 
 
                     //TODO  DO  SOMETHING IN GAMEINFODATABASE
+
+                    ContentValues cvGameInfo = new ContentValues();
+                    cvGameInfo.put(Constants.GameInfoDBContract.GAME_ID, gameId);
+                    cvGameInfo.put(Constants.GameInfoDBContract.GAME_DATE, gameDate);
+                    cvGameInfo.put(Constants.GameInfoDBContract.GAME_NAME, gameName);
+                    cvGameInfo.put(Constants.GameInfoDBContract.IS_GAMEOVER, isGameOver);
+                    cvGameInfo.put(Constants.GameInfoDBContract.MAX_FOUL, maxFoul);
+                    cvGameInfo.put(Constants.GameInfoDBContract.OPPONENT_NAME, opponent);
+                    cvGameInfo.put(Constants.GameInfoDBContract.OPPONENT_TEAM_SCORE, opponentTeamScore);
+                    cvGameInfo.put(Constants.GameInfoDBContract.QUARTER_LENGTH, quarterLength);
+                    cvGameInfo.put(Constants.GameInfoDBContract.TIMEOUT_FIRST_HALF, timeoutFirstHalf);
+                    cvGameInfo.put(Constants.GameInfoDBContract.TIMEOUT_SECOND_HALF, timeoutSecondHalf);
+                    cvGameInfo.put(Constants.GameInfoDBContract.TOTAL_QUARTER, totalQuarter);
+                    cvGameInfo.put(Constants.GameInfoDBContract.YOUR_TEAM, yourTeam);
+                    cvGameInfo.put(Constants.GameInfoDBContract.YOUR_TEAM_ID, yourTeamId);
+                    cvGameInfo.put(Constants.GameInfoDBContract.YOUR_TEAM_SCORE, yourTeamScore);
+
+                    dbGameInfo.insert(Constants.GameInfoDBContract.TABLE_NAME, null, cvGameInfo);
+
+
 
                     // games = List<gameUUID>
                     for (DataSnapshot players : games.child(Constants.FireBaseConstant.GAME_DATA).getChildren()){
@@ -126,7 +154,29 @@ public class Get {
                             Log.i(TAG, "PF = " + PF);
                             Log.i(TAG, "TOV = " + TOV );
 
+                            ContentValues cvGameData = new ContentValues();
 
+                            cvGameData.put(Constants.GameDataDBContract.COLUMN_NAME_GAME_ID, gameId);
+                            cvGameData.put(Constants.GameDataDBContract.COLUMN_NAME_QUARTER, quarter);
+                            cvGameData.put(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_ID, playerId);
+                            cvGameData.put(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER, playerNumber);
+                            cvGameData.put(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NAME, playerName);
+                            cvGameData.put(Constants.GameDataDBContract.COLUMN_NAME_POINTS, PTS);
+                            cvGameData.put(Constants.GameDataDBContract.COLUMN_NAME_FIELD_GOALS_MADE, FGM);
+                            cvGameData.put(Constants.GameDataDBContract.COLUMN_NAME_FIELD_GOALS_ATTEMPTED, FGA);
+                            cvGameData.put(Constants.GameDataDBContract.COLUMN_NAME_THREE_POINT_MADE, TPM);
+                            cvGameData.put(Constants.GameDataDBContract.COLUMN_NAME_THREE_POINT_ATTEMPTED, TPA);
+                            cvGameData.put(Constants.GameDataDBContract.COLUMN_NAME_FREE_THROW_MADE, FTM);
+                            cvGameData.put(Constants.GameDataDBContract.COLUMN_NAME_FREE_THROW_ATTEMPTED, FTA);
+                            cvGameData.put(Constants.GameDataDBContract.COLUMN_NAME_OFFENSIVE_REBOUND, OREB);
+                            cvGameData.put(Constants.GameDataDBContract.COLUMN_NAME_DEFENSIVE_REBOUND, DREB);
+                            cvGameData.put(Constants.GameDataDBContract.COLUMN_NAME_ASSIST, AST);
+                            cvGameData.put(Constants.GameDataDBContract.COLUMN_NAME_STEAL, STL);
+                            cvGameData.put(Constants.GameDataDBContract.COLUMN_NAME_BLOCK, BLK);
+                            cvGameData.put(Constants.GameDataDBContract.COLUMN_NAME_PERSONAL_FOUL, PF);
+                            cvGameData.put(Constants.GameDataDBContract.COLUMN_NAME_TURNOVER, TOV);
+
+                            dbGameData.insert(Constants.GameDataDBContract.TABLE_NAME, null, cvGameData);
                         }
                     }
                 }
@@ -137,6 +187,7 @@ public class Get {
 
                 for (DataSnapshot players: dataSnapshot.child(Constants.FireBaseConstant.TEAM_PLAYER).getChildren()){
                     String playerId =              players.getKey();
+                    String teamId =       (String) players.child(Constants.TeamPlayersContract.TEAM_ID).getValue();
                     String playerName =   (String) players.child(Constants.TeamPlayersContract.PLAYER_NAME).getValue();
                     String playerNumber = (String) players.child(Constants.TeamPlayersContract.PLAYER_NUMBER).getValue();
                     Long   playC =        (Long)   players.child(Constants.TeamPlayersContract.PLAY_C).getValue();
@@ -147,6 +198,7 @@ public class Get {
 
                     Log.d(TAG, "team_player");
                     Log.i(TAG,"playerId    " + playerId    );
+                    Log.i(TAG,"teamId      " + teamId      );
                     Log.i(TAG,"playerName  " + playerName  );
                     Log.i(TAG,"playerNumber" + playerNumber);
                     Log.i(TAG,"playC =     " + playC       );
@@ -154,6 +206,20 @@ public class Get {
                     Log.i(TAG,"playSF =    " + playSF      );
                     Log.i(TAG,"playSG =    " + playSG      );
                     Log.i(TAG,"playPG =    " + playPG      );
+
+                    ContentValues cvTeamPlayers = new ContentValues();
+
+                    cvTeamPlayers.put(Constants.TeamPlayersContract.TEAM_ID, teamId);
+                    cvTeamPlayers.put(Constants.TeamPlayersContract.PLAYER_ID, playerId);
+                    cvTeamPlayers.put(Constants.TeamPlayersContract.PLAYER_NAME, playerName);
+                    cvTeamPlayers.put(Constants.TeamPlayersContract.PLAYER_NUMBER, playerNumber);
+                    cvTeamPlayers.put(Constants.TeamPlayersContract.PLAY_C, playC);
+                    cvTeamPlayers.put(Constants.TeamPlayersContract.PLAY_PF, playPF);
+                    cvTeamPlayers.put(Constants.TeamPlayersContract.PLAY_SF, playSF);
+                    cvTeamPlayers.put(Constants.TeamPlayersContract.PLAY_SG, playSG);
+                    cvTeamPlayers.put(Constants.TeamPlayersContract.PLAY_PG, playPG);
+
+                    dbTeam.insert(Constants.TeamPlayersContract.TABLE_NAME, null,cvTeamPlayers);
                 }
 
                 //teamlist
@@ -169,6 +235,15 @@ public class Get {
                     Log.i(TAG,"teamName      " + teamName      );
                     Log.i(TAG,"historyAmount " + historyAmount );
                     Log.i(TAG,"playersAmount " + playersAmount );
+
+                    ContentValues cvTeamInfo = new ContentValues();
+
+                    cvTeamInfo.put(Constants.TeamInfoDBContract.TEAM_ID, teamId);
+                    cvTeamInfo.put(Constants.TeamInfoDBContract.TEAM_NAME, teamName);
+                    cvTeamInfo.put(Constants.TeamInfoDBContract.TEAM_HISTORY_AMOUNT, historyAmount);
+                    cvTeamInfo.put(Constants.TeamInfoDBContract.TEAM_PLAYERS_AMOUNT, playersAmount);
+
+                    dbTeam.insert(Constants.TeamInfoDBContract.TABLE_NAME, null, cvTeamInfo);
                 }
 
             }
