@@ -181,4 +181,9 @@ public class TeamDbHelper extends SQLiteOpenHelper {
             Create.getInstance().CreatePlayer(teamId, player);
         }
     }
+
+    public void deleteAll(){
+        getWritableDatabase().delete(Constants.TeamInfoDBContract.TABLE_NAME, null, null);
+        getWritableDatabase().delete(Constants.TeamPlayersContract.TABLE_NAME, null, null);
+    }
 }

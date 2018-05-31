@@ -137,4 +137,9 @@ public class GameInfoDbHelper extends SQLiteOpenHelper{
                   Constants.GameInfoDBContract.GAME_ID + " =?",
                   new String[]{gameId}, null, null, null);
     }
+
+
+    public void deleteAll(){
+        getWritableDatabase().delete(Constants.GameInfoDBContract.TABLE_NAME, null, null);
+    }
 }

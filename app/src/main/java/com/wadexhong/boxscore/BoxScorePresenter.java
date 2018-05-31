@@ -4,7 +4,6 @@ import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.view.View;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -112,6 +111,9 @@ public class BoxScorePresenter implements BoxScoreContract.Presenter {
     @Override
     public void updateDbFromFireBase() {
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            BoxScore.getGameDataDbHelper().deleteAll();
+            BoxScore.getGameInfoDbHelper().deleteAll();
+            BoxScore.getTeamDbHelper().deleteAll();
             Get.onCreate();
         }
     }

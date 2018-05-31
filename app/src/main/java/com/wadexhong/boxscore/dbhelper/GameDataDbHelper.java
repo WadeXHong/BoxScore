@@ -615,4 +615,8 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
                   new String[]{gameId},
                   null, null, null);
     }
+
+    public void deleteAll(){
+        getWritableDatabase().delete(Constants.GameDataDBContract.TABLE_NAME, null, null);
+    }
 }
