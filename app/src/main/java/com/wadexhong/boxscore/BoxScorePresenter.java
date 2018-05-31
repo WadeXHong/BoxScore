@@ -31,9 +31,7 @@ public class BoxScorePresenter implements BoxScoreContract.Presenter {
 
     @Override
     public void start() {
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            Get.onCreate();
-        }
+        updateDbFromFireBase();
     }
 
     @Override
@@ -109,5 +107,12 @@ public class BoxScorePresenter implements BoxScoreContract.Presenter {
     @Override
     public void logInFireBase(String userEmail, String password) {
 
+    }
+
+    @Override
+    public void updateDbFromFireBase() {
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            Get.onCreate();
+        }
     }
 }
