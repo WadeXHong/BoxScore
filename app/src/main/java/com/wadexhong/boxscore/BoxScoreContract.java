@@ -17,6 +17,8 @@ public interface BoxScoreContract {
         void transToStartGame();
 
         void transToGameBoxScore();
+
+        void showProgressBarDialog(String message);
     }
 
     interface Presenter extends BasePresenter{

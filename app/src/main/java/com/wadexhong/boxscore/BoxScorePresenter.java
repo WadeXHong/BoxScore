@@ -10,6 +10,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.wadexhong.boxscore.activities.BoxScoreActivity;
+import com.wadexhong.boxscore.dialogfragment.ProgressBarDialog;
 import com.wadexhong.boxscore.firebasemodel.Create;
 import com.wadexhong.boxscore.firebasemodel.Get;
 
@@ -117,6 +118,7 @@ public class BoxScorePresenter implements BoxScoreContract.Presenter {
     @Override
     public void updateDbFromFireBase() {
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            mBoxScoreView.showProgressBarDialog("同步資料中...");
             BoxScore.getGameDataDbHelper().deleteAll();
             BoxScore.getGameInfoDbHelper().deleteAll();
             BoxScore.getTeamDbHelper().deleteAll();

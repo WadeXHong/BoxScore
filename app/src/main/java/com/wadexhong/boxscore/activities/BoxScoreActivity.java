@@ -32,6 +32,7 @@ import com.wadexhong.boxscore.BoxScore;
 import com.wadexhong.boxscore.BoxScoreContract;
 import com.wadexhong.boxscore.BoxScorePresenter;
 import com.wadexhong.boxscore.R;
+import com.wadexhong.boxscore.dialogfragment.ProgressBarDialog;
 import com.wadexhong.boxscore.gameboxscore.GameBoxScoreActivity;
 import com.wadexhong.boxscore.gamehistory.GameHistoryActivity;
 import com.wadexhong.boxscore.objects.GameInfo;
@@ -140,15 +141,22 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
         mLogInLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                showProgressBarDialog("登入中...");
+
                 String userName = mUserNameEditText.getText().toString();
                 String passWord = mPassWordEditText.getText().toString();
+
                 if (!userName.trim().equals("") && !passWord.trim().equals("")) {
 
                     FirebaseAuth.getInstance().signInWithEmailAndPassword(mUserNameEditText.getText().toString(), mPassWordEditText.getText().toString())
                               .addOnCompleteListener(BoxScoreActivity.this, new OnCompleteListener<AuthResult>() {
                                   @Override
                                   public void onComplete(@NonNull Task<AuthResult> task) {
+
                                       if (task.isSuccessful()) {
+//                                          ProgressBarDialog.showProgressBarDialog(BoxScoreActivity.this, "資料同步中");
+                                          mPresenter.updateDbFromFireBase();
                                           showToast("登入成功");
                                           showMainUi(View.GONE, View.VISIBLE);
                                       } else {
@@ -165,12 +173,17 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
                                           } catch(Exception e) {
                                               showToast("帳號不存在");
                                           }
+                                          ProgressBarDialog.hideProgressBarDialog();
                                       }
                                   }
                               });
                 }else {
                     showToast("輸入不符合規定");
+                    ProgressBarDialog.hideProgressBarDialog();
+
                 }
+
+
 //                mPresenter.logInFireBase(mUserNameEditText.getText().toString(), mPassWordEditText.getText().toString());
             }
         });
@@ -178,6 +191,7 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
             @Override
             public void onClick(View v) {
                 if (mIsUserNameLegal && mIsPassWordLegal){
+                    showProgressBarDialog("註冊中...");
                     FirebaseAuth.getInstance().createUserWithEmailAndPassword(mUserNameEditText.getText().toString(), mPassWordEditText.getText().toString())
                               .addOnCompleteListener(BoxScoreActivity.this, new OnCompleteListener<AuthResult>() {
                                   @Override
@@ -198,6 +212,7 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
                                               showToast(e.toString());
                                           }
                                       }
+                                      ProgressBarDialog.hideProgressBarDialog();
                                   }
                               });
                 }else if (!mIsUserNameLegal){
@@ -327,6 +342,11 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
     public void transToGameBoxScore() {
         startActivity(new Intent(this, GameBoxScoreActivity.class).putExtra("GameInfo",new GameInfo()).putExtra("isResume",true));
 
+    }
+
+    @Override
+    public void showProgressBarDialog(String message) {
+        ProgressBarDialog.showProgressBarDialog(this, message);
     }
 
 }

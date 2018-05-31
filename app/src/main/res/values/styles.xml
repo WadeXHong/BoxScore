@@ -58,4 +58,16 @@
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
+    <style name="ProgressBarDialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@color/colorProgressBarBackground</item>
+        <item name="android:colorBackground">@color/colorProgressBarBackground</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:statusBarColor">@color/tranparent</item>
+
+
+    </style>
+
+
 </resources>
