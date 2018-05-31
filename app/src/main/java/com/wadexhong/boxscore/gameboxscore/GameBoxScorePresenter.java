@@ -125,7 +125,8 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
             mGameBoxScoreView.setGameInfoFromInput();
             mGameInfo = mGameBoxScoreView.getGameInfo();
             mGameInfo.setGameId(UUID.randomUUID().toString());
-            SharedPreferenceHelper.write(SharedPreferenceHelper.PLAYING_GAME,mGameInfo.getGameId());
+            SharedPreferenceHelper.write(SharedPreferenceHelper.PLAYING_GAME, mGameInfo.getGameId());
+            SharedPreferenceHelper.write(SharedPreferenceHelper.YOUR_TEAM_ID, mGameInfo.getYourTeamId());
             writeInitDataIntoModel();
         }
         mGameInfo.setTeamData(mTeamData);
@@ -180,6 +181,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     @Override
     public void removeGameDataSharedPreferences() {
         SharedPreferenceHelper.remove(SharedPreferenceHelper.PLAYING_GAME);
+        SharedPreferenceHelper.remove(SharedPreferenceHelper.YOUR_TEAM_ID);
         SharedPreferenceHelper.remove(SharedPreferenceHelper.YOUR_TEAM_FOUL);
         SharedPreferenceHelper.remove(SharedPreferenceHelper.OPPONENT_TEAM_FOUL);
         SharedPreferenceHelper.remove(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE);
@@ -293,10 +295,16 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     }
 
     @Override
-    public void saveAndEndCurrentGame(String gameId) {
+    public void saveAndEndCurrentGame() {
+
+        int newHistoryAmount = BoxScore.getGameInfoDbHelper().overExpandingGame(mGameInfo.getGameId(), mGameInfo.getYourTeamId());
+
+        BoxScore.getTeamDbHelper().updateHistoryAmount(mGameInfo.getYourTeamId(), newHistoryAmount);
+
         if (FirebaseAuth.getInstance().getCurrentUser() != null){
-            Create.getInstance().CreateGameData(BoxScore.getGameDataDbHelper().getSpecificGameData(gameId));
-            Create.getInstance().CreateGameInfo(BoxScore.getGameInfoDbHelper().getSpecificInfo(gameId));
+            Create.getInstance().CreateGameData(BoxScore.getGameDataDbHelper().getSpecificGameData(mGameInfo.getGameId()));
+            Create.getInstance().CreateGameInfo(BoxScore.getGameInfoDbHelper().getSpecificInfo(mGameInfo.getGameId()));
+            Create.getInstance().UpdateTeamHistoryAmount(mGameInfo.getYourTeamId(), newHistoryAmount);
         }
         removeGameDataSharedPreferences();
     }

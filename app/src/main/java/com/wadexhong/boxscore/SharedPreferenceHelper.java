@@ -21,6 +21,7 @@ public class SharedPreferenceHelper {
     }
 
     public static final String PLAYING_GAME = "PLAYING_GAME";
+    public static final String YOUR_TEAM_ID = "YOUR_TEAM_ID";
     public static final String YOUR_TEAM_TOTAL_SCORE = "YOUR_TEAM_TOTAL_SCORE";
     public static final String OPPONENT_TEAM_TOTAL_SCORE = "OPPONENT_TEAM_TOTAL_SCORE";
     public static final String YOUR_TEAM_FOUL = "YOUR_TEAM_FOUL";

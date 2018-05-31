@@ -301,7 +301,7 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
                       @Override
                       public void onClick(DialogInterface dialog, int which) {
                           Log.d(TAG,"pressed End and start new");
-                          mPresenter.removeGameDataSharedPreferences();
+                          mPresenter.saveAndEndCurrentGame();
                           transToStartGame();
                           dialog.dismiss();
                       }})

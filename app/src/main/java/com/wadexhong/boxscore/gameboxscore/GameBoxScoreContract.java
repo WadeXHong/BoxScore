@@ -83,6 +83,6 @@ public interface GameBoxScoreContract {
 
         void longPressQuarter();
 
-        void saveAndEndCurrentGame(String gameId);
+        void saveAndEndCurrentGame();
     }
 }

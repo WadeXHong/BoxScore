@@ -164,7 +164,6 @@ public class TeamDbHelper extends SQLiteOpenHelper {
 
         getWritableDatabase().insert(Constants.TeamPlayersContract.TABLE_NAME, null, cvPlayers);
 
-
         ContentValues cvInfo = new ContentValues();
         Cursor cursor = getReadableDatabase().query(Constants.TeamInfoDBContract.TABLE_NAME,
                   new String[]{Constants.TeamInfoDBContract.TEAM_PLAYERS_AMOUNT},
@@ -173,13 +172,25 @@ public class TeamDbHelper extends SQLiteOpenHelper {
 
         cursor.moveToFirst();
 
-        cvInfo.put(Constants.TeamInfoDBContract.TEAM_PLAYERS_AMOUNT,cursor.getInt(0) + 1);
+        int teamPlayerAmount = cursor.getInt(0);
+        cvInfo.put(Constants.TeamInfoDBContract.TEAM_PLAYERS_AMOUNT, teamPlayerAmount + 1);
 
         getWritableDatabase().update(Constants.TeamInfoDBContract.TABLE_NAME, cvInfo, Constants.TeamInfoDBContract.TEAM_ID + " =?", new String[]{teamId});
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            Create.getInstance().CreatePlayer(teamId, player);
+            Create.getInstance().CreatePlayer(teamId, player, teamPlayerAmount +1);
         }
+    }
+
+    public void updateHistoryAmount(String teamId, int amount){
+
+        ContentValues cv = new ContentValues();
+        cv.put(Constants.TeamInfoDBContract.TEAM_HISTORY_AMOUNT, amount);
+
+        getWritableDatabase().update(Constants.TeamInfoDBContract.TABLE_NAME,
+                  cv,
+                  Constants.TeamInfoDBContract.TEAM_ID + " =?",
+                  new String[]{teamId});
     }
 
     public void deleteAll(){

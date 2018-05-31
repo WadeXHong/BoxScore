@@ -10,6 +10,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.wadexhong.boxscore.activities.BoxScoreActivity;
+import com.wadexhong.boxscore.firebasemodel.Create;
 import com.wadexhong.boxscore.firebasemodel.Get;
 
 /**
@@ -68,6 +69,9 @@ public class BoxScorePresenter implements BoxScoreContract.Presenter {
                 mBoxScoreView.askResumeGame(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.OPPONENT_NAME)));
             }catch (CursorIndexOutOfBoundsException e){
                 Log.w(TAG, e.getMessage());
+                removeGameDataSharedPreferences();
+                Log.w(TAG, "SharedPreferences have been removed in order to making function executed normally");
+                transToGameHistory();
             }
             cursor.close();
         }else {
@@ -78,11 +82,13 @@ public class BoxScorePresenter implements BoxScoreContract.Presenter {
     @Override
     public void removeGameDataSharedPreferences() {
         SharedPreferenceHelper.remove(SharedPreferenceHelper.PLAYING_GAME);
+        SharedPreferenceHelper.remove(SharedPreferenceHelper.YOUR_TEAM_ID);
         SharedPreferenceHelper.remove(SharedPreferenceHelper.YOUR_TEAM_FOUL);
         SharedPreferenceHelper.remove(SharedPreferenceHelper.OPPONENT_TEAM_FOUL);
         SharedPreferenceHelper.remove(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE);
         SharedPreferenceHelper.remove(SharedPreferenceHelper.OPPONENT_TEAM_TOTAL_SCORE);
         SharedPreferenceHelper.remove(SharedPreferenceHelper.QUARTER);
+        Log.d(TAG, "removeGameDataSharedPreferences executed");
     }
 
     @Override
@@ -116,5 +122,26 @@ public class BoxScorePresenter implements BoxScoreContract.Presenter {
             BoxScore.getTeamDbHelper().deleteAll();
             Get.onCreate();
         }
+    }
+
+    @Override
+    public void saveAndEndCurrentGame() {
+
+        String gameId = SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME,"");
+        String teamId = SharedPreferenceHelper.read(SharedPreferenceHelper.YOUR_TEAM_ID,"");
+        if (!gameId.equals("") && !teamId.equals("")){
+
+            int newHistoryAmount = BoxScore.getGameInfoDbHelper().overExpandingGame(gameId, teamId);
+
+            BoxScore.getTeamDbHelper().updateHistoryAmount(teamId, newHistoryAmount);
+
+            if (FirebaseAuth.getInstance().getCurrentUser() != null){
+                Create.getInstance().CreateGameData(BoxScore.getGameDataDbHelper().getSpecificGameData(gameId));
+                Create.getInstance().CreateGameInfo(BoxScore.getGameInfoDbHelper().getSpecificInfo(gameId));
+                Create.getInstance().UpdateTeamHistoryAmount(teamId, newHistoryAmount);
+            }
+
+        }
+        removeGameDataSharedPreferences();
     }
 }

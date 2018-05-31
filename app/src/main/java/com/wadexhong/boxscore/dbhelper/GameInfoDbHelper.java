@@ -97,8 +97,8 @@ public class GameInfoDbHelper extends SQLiteOpenHelper{
         return getReadableDatabase()
                   .query(Constants.GameInfoDBContract.TABLE_NAME,
                             null,
-                            null,
-                            null
+                            Constants.GameInfoDBContract.IS_GAMEOVER + " =?",
+                            new String[]{"1"}
                             , null, null, Constants.GameInfoDBContract.GAME_DATE+" DESC");
     }
 
@@ -141,5 +141,21 @@ public class GameInfoDbHelper extends SQLiteOpenHelper{
 
     public void deleteAll(){
         getWritableDatabase().delete(Constants.GameInfoDBContract.TABLE_NAME, null, null);
+    }
+
+    public int overExpandingGame(String gameId, String teamId){
+
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(Constants.GameInfoDBContract.IS_GAMEOVER, true);
+        db.update(Constants.GameInfoDBContract.TABLE_NAME, cv, Constants.GameInfoDBContract.GAME_ID + " =?", new String[]{gameId});
+
+        Cursor cursor = getReadableDatabase().query(Constants.GameInfoDBContract.TABLE_NAME,
+                  new String[]{Constants.GameInfoDBContract.GAME_ID},
+                  Constants.GameInfoDBContract.YOUR_TEAM_ID + " =? AND "+ Constants.GameInfoDBContract.IS_GAMEOVER + " =?",
+                  new String[]{teamId,"1"},
+                  null, null, null);
+
+        return cursor.getCount();
     }
 }

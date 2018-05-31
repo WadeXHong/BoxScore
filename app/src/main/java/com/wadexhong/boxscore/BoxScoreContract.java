@@ -40,6 +40,8 @@ public interface BoxScoreContract {
         void logInFireBase(String userEmail, String password);
 
         void updateDbFromFireBase();
+
+        void saveAndEndCurrentGame();
     }
 
 }
