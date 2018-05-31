@@ -29,6 +29,7 @@ public class ProgressBarDialog extends Dialog {
     public static void showProgressBarDialog(Context context, String message){
         if (mInstance == null && context == null)return;
         if (mInstance == null) mInstance = new ProgressBarDialog(context);
+        mInstance.getWindow().setWindowAnimations(R.style.dialog_animation_fade);
         mTextView.setText(message);
         Animation anim = new AlphaAnimation(0.0f, 1.0f);
         anim.setDuration(500); //You can manage the blinking time with this parameter

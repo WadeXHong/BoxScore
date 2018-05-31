@@ -72,7 +72,7 @@ public class BoxScorePresenter implements BoxScoreContract.Presenter {
                 Log.w(TAG, e.getMessage());
                 removeGameDataSharedPreferences();
                 Log.w(TAG, "SharedPreferences have been removed in order to making function executed normally");
-                transToGameHistory();
+                transToStartGame();
             }
             cursor.close();
         }else {
