@@ -47,6 +47,9 @@ import com.wadexhong.boxscore.teammanage.TeamManageActivity;
 public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContract.View {
     
     private static final String  TAG = BoxScoreActivity.class.getSimpleName();
+
+    public static final int REQUEST_CODE_SETTING = 0;
+
     private Context mContext;
 
     private BoxScoreContract.Presenter mPresenter;
@@ -89,6 +92,13 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
         }else {
             showMainUi(View.VISIBLE, View.GONE);
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_SETTING)
+            mPassWordEditText.setText("");
     }
 
     @Override
@@ -163,7 +173,7 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
             @Override
             public void onClick(View v) {
                 Log.i(TAG,"Setting pressed");
-                startActivity(new Intent(BoxScoreActivity.this, SettingActivity.class));
+                startActivityForResult(new Intent(BoxScoreActivity.this, SettingActivity.class), REQUEST_CODE_SETTING);
             }
         });
         mLogInLayout.setOnClickListener(new View.OnClickListener() {
@@ -225,11 +235,9 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
                                   @Override
                                   public void onComplete(@NonNull Task<AuthResult> task) {
                                       if (task.isSuccessful()) {
-                                          //CHANGE UI
+                                          mPassWordEditText.setText("");
                                           showMainUi(View.GONE, View.VISIBLE);
-                                          //SHOW TOAST
                                           showToast("成功");
-                                          //Get TOKEN IN SHAREDPREFERENCES
                                       } else {
                                           try {
                                               throw task.getException();
