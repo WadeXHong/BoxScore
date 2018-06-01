@@ -11,13 +11,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.transition.ChangeBounds;
+import android.transition.Fade;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -61,6 +65,8 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
     private EditText mUserNameEditText;
     private EditText mPassWordEditText;
 
+    private ImageView mLogo;
+
     private boolean mIsLogIn = false; //TODO
     private boolean mIsUserNameLegal = false;
     private boolean mIsPassWordLegal = false;
@@ -86,11 +92,32 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ProgressBarDialog.setNull();
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_box_score);
         mContext = this;
         FirebaseAuth.getInstance();
+        ChangeBounds bounds = new ChangeBounds();
+        bounds.setDuration(750);
+        getWindow().setSharedElementEnterTransition(bounds);
+
+//        ChangeBounds mBounds = new ChangeBounds();
+//        mBounds.setDuration(500);
+//        getWindow().setSharedElementReturnTransition(null);
+
 
         mMainLayout = findViewById(R.id.activity_boxscore_main_layout);
         mStartGameLayout = findViewById(R.id.activity_boxscore_startgame_layout);
@@ -103,6 +130,7 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
         mSignUpLayout = findViewById(R.id.activity_boxscore_signup_layout);
         mUserNameEditText = findViewById(R.id.activity_boxscore_username_edittext);
         mPassWordEditText = findViewById(R.id.activity_boxscore_password_edittext);
+        mLogo = findViewById(R.id.activity_boxscore_logo_imageview);
 
 //        if (mIsLogIn){ //TODO  token判斷
 //            showUi(View.GONE, View.VISIBLE);
@@ -155,7 +183,7 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
                                   public void onComplete(@NonNull Task<AuthResult> task) {
 
                                       if (task.isSuccessful()) {
-//                                          ProgressBarDialog.showProgressBarDialog(BoxScoreActivity.this, "資料同步中");
+                                          showProgressBarDialog("資料同步中");
                                           mPresenter.updateDbFromFireBase();
                                           showToast("登入成功");
                                           showMainUi(View.GONE, View.VISIBLE);
@@ -270,7 +298,23 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
         Log.i(TAG,"BoxScoreActivity.init");
         setStatusBar(this);
         mPresenter = new BoxScorePresenter(this);
-        mPresenter.start();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mPresenter.start();
+                    }
+                });
+            }
+        }).start();
     }
 
     private void setStatusBar(Activity activity) {
@@ -294,6 +338,7 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
         mPassWordLayout.setVisibility(logInViewVisibility);
         mLogInLayout.setVisibility(logInViewVisibility);
         mSignUpLayout.setVisibility(logInViewVisibility);
+
 
         mStartGameLayout.setVisibility(fuctionViewVisibility);
         mTeamManageLayout.setVisibility(fuctionViewVisibility);
@@ -347,6 +392,12 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
     @Override
     public void showProgressBarDialog(String message) {
         ProgressBarDialog.showProgressBarDialog(this, message);
+    }
+
+    @Override
+    public void onBackPressed() {
+        mLogo.setTransitionName(null);
+        super.onBackPressed();
     }
 
 }

@@ -45,4 +45,8 @@ public class ProgressBarDialog extends Dialog {
             mInstance.dismiss();
         }
     }
+
+    public static void setNull(){
+        mInstance = null;
+    }
 }

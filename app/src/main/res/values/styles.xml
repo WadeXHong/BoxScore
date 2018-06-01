@@ -17,6 +17,7 @@
         <item name="colorPrimary">@color/colorOrange</item>
         <item name="colorPrimaryDark">@color/colorOrange</item>
         <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:windowActivityTransitions">true</item>
     </style>
 
 
@@ -30,6 +31,13 @@
         name="dialog_animation_slide" >
         <item name="android:windowEnterAnimation">@anim/slide_up_dialog</item>
         <item name="android:windowExitAnimation">@anim/slide_down_dialog</item>
+    </style>
+
+    <style
+        name="main_activity_animation_long_fade" >
+        <item name="android:windowEnterAnimation">@anim/long_fade_in</item>
+        <item name="android:windowReturnTransition">@anim/long_fade_out</item>
+        <item name="android:windowExitAnimation">@anim/long_fade_out</item>
     </style>
 
     <style
