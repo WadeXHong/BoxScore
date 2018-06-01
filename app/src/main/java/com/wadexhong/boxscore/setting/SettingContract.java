@@ -22,7 +22,7 @@ public interface SettingContract {
 
         void unManualBrightness();
 
-        void finishActivity();
+        void signOut();
     }
 
 }

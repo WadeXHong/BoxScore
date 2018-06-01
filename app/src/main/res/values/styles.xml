@@ -18,8 +18,13 @@
         <item name="colorPrimaryDark">@color/colorOrange</item>
         <item name="colorAccent">@color/colorPrimary</item>
         <item name="android:windowActivityTransitions">true</item>
+
     </style>
 
+    <style name="full" parent="StartGame">
+        <item name="android:windowBackground">@color/blue</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
 
     <style
         name="dialog_animation_fade" >
@@ -35,7 +40,7 @@
 
     <style
         name="main_activity_animation_long_fade" >
-        <item name="android:windowEnterAnimation">@anim/long_fade_in</item>
+        <!--<item name="android:windowEnterAnimation">@anim/long_fade_in</item>-->
         <item name="android:windowReturnTransition">@anim/long_fade_out</item>
         <item name="android:windowExitAnimation">@anim/long_fade_out</item>
     </style>

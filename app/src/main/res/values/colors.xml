@@ -22,5 +22,6 @@
     <color name="colorAccent">#c62828</color>
     <color name="colorGreen">#2ec929</color>
     <color name="tranparent">#00000000</color>
+    <color name="blue">#CC399fc9</color>
 
 </resources>

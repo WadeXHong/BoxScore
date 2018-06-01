@@ -242,8 +242,8 @@ public class SettingAdapter extends RecyclerView.Adapter {
             mConstraintLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    mSettingPresenter.signOut();
                     FirebaseAuth.getInstance().signOut();
-                    mSettingPresenter.finishActivity();
                 }
             });
         }

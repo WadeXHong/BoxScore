@@ -115,7 +115,6 @@
                 android:textSize="16sp"
                 android:inputType="textEmailAddress"
                 android:background="@drawable/shape_btn_main_ori"
-                android:text="test@test.com"
 
                 />
 
@@ -202,7 +201,6 @@
                 android:textSize="16sp"
                 android:inputType="textPassword"
                 android:background="@drawable/shape_btn_main_ori"
-                android:text="88888888"
                 />
 
         </LinearLayout>

@@ -39,7 +39,10 @@ public class SettingPresenter implements SettingContract.Presenter{
     }
 
     @Override
-    public void finishActivity() {
+    public void signOut() {
+        BoxScore.getGameDataDbHelper().deleteAll(null);
+        BoxScore.getGameInfoDbHelper().deleteAll(null);
+        BoxScore.getTeamDbHelper().deleteAll();
         mSettingView.finishActivity();
     }
 }

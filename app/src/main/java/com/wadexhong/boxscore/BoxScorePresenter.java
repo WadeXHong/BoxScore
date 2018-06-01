@@ -119,8 +119,9 @@ public class BoxScorePresenter implements BoxScoreContract.Presenter {
     public void updateDbFromFireBase() {
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             mBoxScoreView.showProgressBarDialog("同步資料中...");
-            BoxScore.getGameDataDbHelper().deleteAll();
-            BoxScore.getGameInfoDbHelper().deleteAll();
+            String notEndedGameId = SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME,"");
+            BoxScore.getGameDataDbHelper().deleteAll(notEndedGameId);
+            BoxScore.getGameInfoDbHelper().deleteAll(notEndedGameId);
             BoxScore.getTeamDbHelper().deleteAll();
             Get.onCreate();
         }

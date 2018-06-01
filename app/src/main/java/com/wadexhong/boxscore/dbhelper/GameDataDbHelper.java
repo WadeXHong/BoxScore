@@ -616,7 +616,13 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
                   null, null, null);
     }
 
-    public void deleteAll(){
-        getWritableDatabase().delete(Constants.GameDataDBContract.TABLE_NAME, null, null);
+    public void deleteAll(@Nullable String notEndedGameId){
+        if (notEndedGameId == null || notEndedGameId.equals("")) {
+            getWritableDatabase().delete(Constants.GameDataDBContract.TABLE_NAME, null, null);
+        }else {
+            getWritableDatabase().delete(Constants.GameDataDBContract.TABLE_NAME,
+                      Constants.GameDataDBContract.COLUMN_NAME_GAME_ID + " !=?",
+                      new String[]{notEndedGameId});
+        }
     }
 }

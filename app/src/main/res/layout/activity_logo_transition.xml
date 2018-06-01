@@ -5,7 +5,7 @@
     android:id="@+id/activity_logo_transition_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#CC399fc9"
+    android:background="@color/blue"
     android:transitionName="layout"
     tools:context="com.wadexhong.boxscore.activities.LogoTransitionActivity">
 

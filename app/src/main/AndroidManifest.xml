@@ -15,7 +15,7 @@
         <activity
             android:name=".activities.LogoTransitionActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/StartGame">
+            android:theme="@style/full">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
