@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.wade8.boxscore.com.wadexhong.wade8.boxscore.historydetail.HistoryDetailFragment">
+    tools:context="com.wadexhong.boxscore.historydetail.HistoryDetailFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <android.support.design.widget.TabLayout
