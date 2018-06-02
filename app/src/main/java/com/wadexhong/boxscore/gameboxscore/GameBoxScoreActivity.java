@@ -96,21 +96,25 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
         mOutestLinearLayout.setOnScrollGestureListener(new OnScrollGestureListener() {
             @Override
             public void ScrollUp(int pointerCount) {
+                BoxScore.vibrate();
                 mPresenter.scrollUp(pointerCount);
             }
 
             @Override
             public void ScrollDown(int pointerCount) {
+                BoxScore.vibrate();
                 mPresenter.scrollDown(pointerCount);
             }
 
             @Override
             public void ScrollLeft(int pointerCount) {
+                BoxScore.vibrate();
                 mPresenter.scrollLeft(pointerCount);
             }
 
             @Override
             public void ScrollRight(int pointerCount) {
+                BoxScore.vibrate();
                 mPresenter.scrollRight(pointerCount);
             }
         });
