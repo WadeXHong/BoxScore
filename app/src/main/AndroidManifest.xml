@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.wadexhong.boxscore">
 
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
     <application
         android:name=".BoxScore"
         android:allowBackup="false"
@@ -11,7 +13,9 @@
         android:roundIcon="@drawable/mipmap"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:replace="android:allowBackup">
+        tools:replace="android:allowBackup"
+        >
+
         <activity
             android:name=".activities.LogoTransitionActivity"
             android:screenOrientation="portrait"

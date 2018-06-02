@@ -123,10 +123,17 @@ public class PlayerSelectDialog extends android.support.v4.app.DialogFragment im
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d(TAG,"onDestroyView");
+        getTargetFragment().onActivityResult(DataRecordFragment.REQUEST_PLAYERSELECTDIALOG, Activity.RESULT_OK,new Intent());
+    }
+
+    @Override
     public void dismiss() {
         super.dismiss();
-        Log.d(TAG,"dismissAllowingStateLoss");
-        getTargetFragment().onActivityResult(DataRecordFragment.REQUEST_PLAYERSELECTDIALOG, Activity.RESULT_OK,new Intent());
+        Log.d(TAG,"dismiss");
+//        getTargetFragment().onActivityResult(DataRecordFragment.REQUEST_PLAYERSELECTDIALOG, Activity.RESULT_OK,new Intent());
     }
 
     @Override

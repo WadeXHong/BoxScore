@@ -33,18 +33,18 @@ public class DataRecordPresenter implements DataRecordContract.Presenter{
     }
 
     private void createPlayerSelectDialog(int type){
-
+        //TODO Foul
         mDataRecordView.enableAllButtons(false);
         if (type == Constants.RecordDataType.TWO_POINT_SHOT || type == Constants.RecordDataType.THREE_POINT_SHOT || type == Constants.RecordDataType.FREE_THROW_SHOT){
             mDataRecordView.popIsShotMadeDialog(type);
 
         }else {
-            popPlayerSelectProccess(type);
+            popPlayerSelectProcess(type);
         }
 
     }
 
-    public void popPlayerSelectProccess(int type) {
+    public void popPlayerSelectProcess(int type) {
         PlayerSelectDialog dialog = PlayerSelectDialog.newInstance(type);
         PlayerSelectPresenter dialogPresenter = new PlayerSelectPresenter(dialog,this);
         mDataRecordView.popPlayerSelectDialog(dialog, Constants.TITLE_SPARSE_ARRAY.get(type));
@@ -149,13 +149,13 @@ public class DataRecordPresenter implements DataRecordContract.Presenter{
     @Override
     public void pressShotMade(int type) {
         Log.d(TAG,"pressShotMade executed");
-        popPlayerSelectProccess(type);
+        popPlayerSelectProcess(type);
     }
 
     @Override
     public void pressShotMissed(int type) {
         Log.d(TAG,"pressShotMade executed");
-        popPlayerSelectProccess(type);
+        popPlayerSelectProcess(type);
     }
 
     @Override

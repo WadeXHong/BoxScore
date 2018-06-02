@@ -369,7 +369,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
             case 2:
                 value = SharedPreferenceHelper.read(SharedPreferenceHelper.DOUBLE_UP,-1);
                 if (value != -1){
-                    mDataRecordPresenter.popPlayerSelectProccess(value);
+                    mDataRecordPresenter.popPlayerSelectProcess(value);
                 }
 //                mDataRecordPresenter.pressTwoPointMade();
                 Log.d(TAG,"double fingers scrolled UP.");
@@ -377,7 +377,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
             case 3:
                 value = SharedPreferenceHelper.read(SharedPreferenceHelper.TRIPLE_UP,-1);
                 if (value != -1){
-                    mDataRecordPresenter.popPlayerSelectProccess(value);
+                    mDataRecordPresenter.popPlayerSelectProcess(value);
                 }
 //                mDataRecordPresenter.pressThreePointMade();
                 Log.d(TAG,"triple fingers scrolled UP.");
@@ -394,7 +394,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
 //            case 1:
 //                value = SharedPreferenceHelper.read(SharedPreferenceHelper.DOUBLE_DOWN,-1);
 //                if (value != -1){
-//                    mDataRecordPresenter.popPlayerSelectProccess(value);
+//                    mDataRecordPresenter.popPlayerSelectProcess(value);
 //                }
 ////                mDataRecordPresenter.pressFreeThrowMissed();
 //                Log.d(TAG,"single finger scrolled DOWN.");
@@ -402,7 +402,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
             case 2:
                 value = SharedPreferenceHelper.read(SharedPreferenceHelper.DOUBLE_DOWN,-1);
                 if (value != -1){
-                    mDataRecordPresenter.popPlayerSelectProccess(value);
+                    mDataRecordPresenter.popPlayerSelectProcess(value);
                 }
 //                mDataRecordPresenter.pressTwoPointMissed();
                 Log.d(TAG,"double fingers scrolled DOWN.");
@@ -410,7 +410,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
             case 3:
                 value = SharedPreferenceHelper.read(SharedPreferenceHelper.TRIPLE_DOWN,-1);
                 if (value != -1){
-                    mDataRecordPresenter.popPlayerSelectProccess(value);
+                    mDataRecordPresenter.popPlayerSelectProcess(value);
                 }
 //                mDataRecordPresenter.pressThreePointMissed();
                 Log.d(TAG,"triple fingers scrolled DOWN.");
@@ -428,7 +428,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
             case 2:
                 value = SharedPreferenceHelper.read(SharedPreferenceHelper.DOUBLE_LEFT,-1);
                 if (value != -1){
-                    mDataRecordPresenter.popPlayerSelectProccess(value);
+                    mDataRecordPresenter.popPlayerSelectProcess(value);
                 }
 //                mDataRecordPresenter.pressDefensiveRebound();
                 Log.d(TAG,"double fingers scrolled LEFT.");
@@ -436,7 +436,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
             case 3:
                 value = SharedPreferenceHelper.read(SharedPreferenceHelper.TRIPLE_LEFT,-1);
                 if (value != -1){
-                    mDataRecordPresenter.popPlayerSelectProccess(value);
+                    mDataRecordPresenter.popPlayerSelectProcess(value);
                 }
 //                mDataRecordPresenter.pressBlock();
                 Log.d(TAG,"triple fingers scrolled LEFT.");
@@ -454,7 +454,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
             case 2:
                 value = SharedPreferenceHelper.read(SharedPreferenceHelper.DOUBLE_RIGHT,-1);
                 if (value != -1){
-                    mDataRecordPresenter.popPlayerSelectProccess(value);
+                    mDataRecordPresenter.popPlayerSelectProcess(value);
                 }
 //                mDataRecordPresenter.pressOffensiveRebound();
                 Log.d(TAG,"double fingers scrolled RIGHT.");
@@ -462,7 +462,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
             case 3:
                 value = SharedPreferenceHelper.read(SharedPreferenceHelper.TRIPLE_RIGHT,-1);
                 if (value != -1){
-                    mDataRecordPresenter.popPlayerSelectProccess(value);
+                    mDataRecordPresenter.popPlayerSelectProcess(value);
                 }
 //                mDataRecordPresenter.pressSteal();
                 Log.d(TAG,"triple fingers scrolled RIGHT.");

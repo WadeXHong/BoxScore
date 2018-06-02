@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.wadexhong.boxscore.BoxScore;
 import com.wadexhong.boxscore.R;
 import com.wadexhong.boxscore.dialogfragment.PlayerSelectDialog;
 
@@ -76,68 +77,82 @@ public class DataRecordFragment extends Fragment implements DataRecordContract.V
         mTurnover = view.findViewById(R.id.datarecord_turnover);
         mDefensiveRebound = view.findViewById(R.id.datarecord_defensiverebound);
 
+        setOnClick();
+
+        return view;
+    }
+
+    private void setOnClick() {
         mTwoPoint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                BoxScore.vibrate();
                 mPresenter.pressTwoPoint();
             }
         });
         mThreePoint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                BoxScore.vibrate();
                 mPresenter.pressThreePoint();
             }
         });
         mFreeThrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                BoxScore.vibrate();
                 mPresenter.pressFreeThrow();
             }
         });
         mAssist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                BoxScore.vibrate();
                 mPresenter.pressAssist();
             }
         });
         mOffensiveRebound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                BoxScore.vibrate();
                 mPresenter.pressOffensiveRebound();
             }
         });
         mSteal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                BoxScore.vibrate();
                 mPresenter.pressSteal();
             }
         });
         mBlock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                BoxScore.vibrate();
                 mPresenter.pressBlock();
             }
         });
         mFoul.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                BoxScore.vibrate();
                 mPresenter.pressFoul();
             }
         });
         mTurnover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                BoxScore.vibrate();
                 mPresenter.pressTurnover();
             }
         });
         mDefensiveRebound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                BoxScore.vibrate();
                 mPresenter.pressDefensiveRebound();
             }
         });
-
-        return view;
     }
 
     @Override

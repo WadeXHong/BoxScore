@@ -123,6 +123,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
             public void onClick(View v) {
                 Log.d(TAG,"mOpponentTeamScore onClick");
                 mPresenter.pressOpponentTeamScore();
+                BoxScore.vibrate();
             }
         });
 
@@ -131,6 +132,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
             public void onClick(View v) {
                 Log.d(TAG,"mYourTeamFoul onClick");
                 mPresenter.pressYourTeamFoul();
+                BoxScore.vibrate();
             }
         });
         mOpponentTeamfoul.setOnClickListener(new View.OnClickListener() {
@@ -138,6 +140,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
             public void onClick(View v) {
                 Log.d(TAG,"mOpponentTeamFoul onClick");
                 mPresenter.pressOpponentTeamFoul();
+                BoxScore.vibrate();
             }
         });
         mQuarter.setOnClickListener(new View.OnClickListener() {
@@ -145,6 +148,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
             public void onClick(View v) {
                 Log.d(TAG,"mQuarter onClick");
                 mPresenter.pressQuarter();
+                BoxScore.vibrate();
             }
         });
         mUndo.setOnClickListener(new View.OnClickListener() {
@@ -152,6 +156,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
             public void onClick(View v) {
                 Log.d(TAG,"mUndo onClick");
                 mPresenter.pressUndo();
+                BoxScore.vibrate();
             }
         });
         mDataStatistic.setOnClickListener(new View.OnClickListener() {
@@ -159,11 +164,13 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
             public void onClick(View v) {
                 Log.d(TAG,"mDataStatistic onClick");
                 mPresenter.pressDataStatistic();
+                BoxScore.vibrate();
             }
         });
         mSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                BoxScore.vibrate();
                 Log.d(TAG,"mSave onClick");
                 new AlertDialog.Builder(GameBoxScoreActivity.this, R.style.OrangeDialog).setTitle("結束比賽")
                           .setMessage("比賽是否結束並儲存結果？")
@@ -186,7 +193,8 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
         mSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG,"mSave onClick");
+                BoxScore.vibrate();
+                Log.d(TAG,"mSetting onClick");
                 startActivity(new Intent(GameBoxScoreActivity.this, SettingActivity.class));
             }
         });
@@ -197,6 +205,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
         mOpponentTeamScore.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                BoxScore.vibrate();
                 mPresenter.longPressOpponentTeamScore();
                 return true;
             }
@@ -205,6 +214,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
         mOpponentTeamfoul.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                BoxScore.vibrate();
                 mPresenter.longPressOpponentTeamFoul();
                 return true;
             }
@@ -213,6 +223,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
         mQuarter.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                BoxScore.vibrate();
                 mPresenter.longPressQuarter();
                 return true;
             }
@@ -309,6 +320,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
 
     @Override
     public void onBackPressed() {
+        BoxScore.vibrate();
         new AlertDialog.Builder(this,R.style.OrangeDialog)
                   .setTitle(R.string.confirmExitDataRecord).setMessage(R.string.exitDataRecordMessage)
                   .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

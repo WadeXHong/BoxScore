@@ -2,6 +2,9 @@ package com.wadexhong.boxscore;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Build;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 
 import com.wadexhong.boxscore.dbhelper.GameDataDbHelper;
 import com.wadexhong.boxscore.dbhelper.GameInfoDbHelper;
@@ -17,6 +20,7 @@ public class BoxScore extends Application {
     private static GameDataDbHelper mGameDataDbHelper;
     private static GameInfoDbHelper mGameInfoDbHelper;
     private static TeamDbHelper mTeamDbHelper;
+    private static Vibrator mVibrator;
     public static float sBrightness;
 
     @Override
@@ -26,6 +30,7 @@ public class BoxScore extends Application {
         mGameDataDbHelper = null;
         SharedPreferenceHelper.init(this);
         sBrightness = SharedPreferenceHelper.read(SharedPreferenceHelper.BRIGHTNESS, -1f);
+        mVibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
     }
 
     public static Context getAppContext(){return mContext;}
@@ -43,5 +48,13 @@ public class BoxScore extends Application {
     public static TeamDbHelper getTeamDbHelper(){
         if (mTeamDbHelper == null) mTeamDbHelper = new TeamDbHelper(getAppContext());
         return mTeamDbHelper;
+    }
+
+    public static void vibrate(){
+        if (Build.VERSION.SDK_INT < 26){
+            mVibrator.vibrate(20);
+        }else {
+            mVibrator.vibrate(VibrationEffect.createOneShot(20, VibrationEffect.DEFAULT_AMPLITUDE));
+        }
     }
 }
