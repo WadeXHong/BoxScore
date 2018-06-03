@@ -7,14 +7,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/colorDarkBackground"
-    tools:context="com.example.wade8.boxscore.com.wadexhong.wade8.boxscore.gameboxscore.GameBoxScoreActivity">
+    tools:context="com.wadexhong.boxscore.gameboxscore.GameBoxScoreActivity">
 
     <com.wadexhong.boxscore.customlayout.BSConstraintLayout
         android:id="@+id/activity_gameboxscore_toplayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:orientation="vertical">
 
         <TextView
@@ -256,12 +256,12 @@
         android:layout_height="0dp"
         android:orientation="vertical"
         android:background="@android:color/transparent"
-        android:layout_weight="2">
+        android:layout_weight="3">
 
         <android.support.design.widget.TabLayout
             android:id="@+id/activity_gameboxscore_tablelayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             app:tabBackground="@drawable/selector_tabbackground"
             app:tabIndicatorColor="@color/secondaryDarkColor"
             app:tabIndicatorHeight="0dp"/>
