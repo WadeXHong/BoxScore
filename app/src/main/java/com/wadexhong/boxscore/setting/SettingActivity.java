@@ -1,7 +1,6 @@
 package com.wadexhong.boxscore.setting;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,8 +9,6 @@ import android.view.WindowManager;
 
 import com.wadexhong.boxscore.BoxScore;
 import com.wadexhong.boxscore.R;
-import com.wadexhong.boxscore.activities.BoxScoreActivity;
-import com.wadexhong.boxscore.adapter.SettingAdapter;
 
 public class SettingActivity extends AppCompatActivity implements SettingContract.View{
 

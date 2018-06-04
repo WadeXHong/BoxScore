@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.wadexhong.boxscore.Constants;
-import com.wadexhong.boxscore.historyteamdata.HistoryTeamDataContract;
+import com.wadexhong.boxscore.gamehistory.historydetail.historyteamdata.HistoryTeamDataContract;
 import com.wadexhong.boxscore.objects.PercentFormatter;
 import com.wadexhong.boxscore.R;
 import com.github.mikephil.charting.animation.Easing;

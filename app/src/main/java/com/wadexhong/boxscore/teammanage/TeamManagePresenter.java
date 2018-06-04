@@ -4,14 +4,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.wadexhong.boxscore.R;
-import com.wadexhong.boxscore.createplayer.CreatePlayerFragment;
-import com.wadexhong.boxscore.createplayer.CreatePlayerPresenter;
-import com.wadexhong.boxscore.createteam.CreateTeamDialogFragment;
-import com.wadexhong.boxscore.createteam.CreateTeamPresenter;
-import com.wadexhong.boxscore.teammain.TeamMainFragment;
-import com.wadexhong.boxscore.teammain.TeamMainPresenter;
-import com.wadexhong.boxscore.teamplayers.TeamPlayersFragment;
-import com.wadexhong.boxscore.teamplayers.TeamPlayersPresenter;
+import com.wadexhong.boxscore.teammanage.teamplayers.createplayer.CreatePlayerFragment;
+import com.wadexhong.boxscore.teammanage.teamplayers.createplayer.CreatePlayerPresenter;
+import com.wadexhong.boxscore.teammanage.createteam.CreateTeamDialogFragment;
+import com.wadexhong.boxscore.teammanage.createteam.CreateTeamPresenter;
+import com.wadexhong.boxscore.teammanage.teammain.TeamMainFragment;
+import com.wadexhong.boxscore.teammanage.teammain.TeamMainPresenter;
+import com.wadexhong.boxscore.teammanage.teamplayers.TeamPlayersFragment;
+import com.wadexhong.boxscore.teammanage.teamplayers.TeamPlayersPresenter;
 
 /**
  * Created by wade8 on 2018/5/18.

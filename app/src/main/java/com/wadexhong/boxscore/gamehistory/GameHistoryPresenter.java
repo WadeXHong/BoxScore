@@ -4,10 +4,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.wadexhong.boxscore.R;
-import com.wadexhong.boxscore.historydetail.HistoryDetailPresenter;
-import com.wadexhong.boxscore.historymain.HistoryMainFragment;
-import com.wadexhong.boxscore.historydetail.HistoryDetailFragment;
-import com.wadexhong.boxscore.historymain.HistoryMainPresenter;
+import com.wadexhong.boxscore.gamehistory.historydetail.HistoryDetailPresenter;
+import com.wadexhong.boxscore.gamehistory.historymain.HistoryMainFragment;
+import com.wadexhong.boxscore.gamehistory.historydetail.HistoryDetailFragment;
+import com.wadexhong.boxscore.gamehistory.historymain.HistoryMainPresenter;
 
 /**
  * Created by wade8 on 2018/5/22.

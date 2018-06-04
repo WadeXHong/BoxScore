@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import com.cleveroad.adaptivetablelayout.AdaptiveTableLayout;
 import com.cleveroad.adaptivetablelayout.LinkedAdaptiveTableAdapter;
 import com.wadexhong.boxscore.R;
-import com.wadexhong.boxscore.adapter.DataStatisticAdapter;
 
 /**
  * A simple {@link Fragment} subclass.

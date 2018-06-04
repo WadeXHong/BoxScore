@@ -7,22 +7,22 @@ import android.util.SparseIntArray;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.wadexhong.boxscore.Constants;
-import com.wadexhong.boxscore.SharedPreferenceHelper;
-import com.wadexhong.boxscore.dbhelper.GameInfoDbHelper;
-import com.wadexhong.boxscore.firebasemodel.Create;
-import com.wadexhong.boxscore.playeroncourt.ChangePlayerFragment;
+import com.wadexhong.boxscore.modelhelper.SharedPreferenceHelper;
+import com.wadexhong.boxscore.modelhelper.GameInfoDbHelper;
+import com.wadexhong.boxscore.modelhelper.firebasemodel.Create;
+import com.wadexhong.boxscore.gameboxscore.changeplayer.ChangePlayerFragment;
 import com.wadexhong.boxscore.BoxScore;
-import com.wadexhong.boxscore.ViewPagerFragmentAdapter;
-import com.wadexhong.boxscore.datarecord.DataRecordFragment;
-import com.wadexhong.boxscore.datarecord.DataRecordPresenter;
-import com.wadexhong.boxscore.dbhelper.GameDataDbHelper;
-import com.wadexhong.boxscore.dialogfragment.datastatistic.DataStatisticDialog;
-import com.wadexhong.boxscore.dialogfragment.datastatistic.DataStatisticDialogPresenter;
+import com.wadexhong.boxscore.adapter.ViewPagerFragmentAdapter;
+import com.wadexhong.boxscore.gameboxscore.datarecord.DataRecordFragment;
+import com.wadexhong.boxscore.gameboxscore.datarecord.DataRecordPresenter;
+import com.wadexhong.boxscore.modelhelper.GameDataDbHelper;
+import com.wadexhong.boxscore.gameboxscore.datastatistic.DataStatisticDialog;
+import com.wadexhong.boxscore.gameboxscore.datastatistic.DataStatisticDialogPresenter;
 import com.wadexhong.boxscore.objects.GameInfo;
 import com.wadexhong.boxscore.objects.Undo;
-import com.wadexhong.boxscore.playeroncourt.ChangePlayerPresenter;
-import com.wadexhong.boxscore.undohistory.UndoHistoryFragment;
-import com.wadexhong.boxscore.undohistory.UndoHistoryPresenter;
+import com.wadexhong.boxscore.gameboxscore.changeplayer.ChangePlayerPresenter;
+import com.wadexhong.boxscore.gameboxscore.undohistory.UndoHistoryFragment;
+import com.wadexhong.boxscore.gameboxscore.undohistory.UndoHistoryPresenter;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -363,8 +363,8 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
 
     @Override
     public void editAtPosition(int position) {
-        BoxScore.getGameDataDbHelper().undoGameData(position);
-        BoxScore.getGameDataDbHelper().
+//        BoxScore.getGameDataDbHelper().undoGameData(position);
+//        BoxScore.getGameDataDbHelper().
     }
 
     @Override

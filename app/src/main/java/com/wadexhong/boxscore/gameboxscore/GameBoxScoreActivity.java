@@ -24,9 +24,9 @@ import com.wadexhong.boxscore.objects.GameInfo;
 import com.wadexhong.boxscore.setting.SettingActivity;
 import com.wadexhong.boxscore.BoxScore;
 import com.wadexhong.boxscore.R;
-import com.wadexhong.boxscore.ViewPagerFragmentAdapter;
+import com.wadexhong.boxscore.adapter.ViewPagerFragmentAdapter;
 import com.wadexhong.boxscore.customlayout.BSViewPager;
-import com.wadexhong.boxscore.dialogfragment.datastatistic.DataStatisticDialog;
+import com.wadexhong.boxscore.gameboxscore.datastatistic.DataStatisticDialog;
 
 public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxScoreContract.View{
 

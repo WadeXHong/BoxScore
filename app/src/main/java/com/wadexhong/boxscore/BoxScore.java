@@ -6,9 +6,10 @@ import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 
-import com.wadexhong.boxscore.dbhelper.GameDataDbHelper;
-import com.wadexhong.boxscore.dbhelper.GameInfoDbHelper;
-import com.wadexhong.boxscore.dbhelper.TeamDbHelper;
+import com.wadexhong.boxscore.modelhelper.GameDataDbHelper;
+import com.wadexhong.boxscore.modelhelper.GameInfoDbHelper;
+import com.wadexhong.boxscore.modelhelper.SharedPreferenceHelper;
+import com.wadexhong.boxscore.modelhelper.TeamDbHelper;
 
 /**
  * Created by wade8 on 2018/5/6.

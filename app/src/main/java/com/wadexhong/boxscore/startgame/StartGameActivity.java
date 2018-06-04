@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.wadexhong.boxscore.objects.GameInfo;
 import com.wadexhong.boxscore.BoxScore;
 import com.wadexhong.boxscore.R;
-import com.wadexhong.boxscore.ViewPagerFragmentAdapter;
+import com.wadexhong.boxscore.adapter.ViewPagerFragmentAdapter;
 import com.wadexhong.boxscore.customlayout.BSViewPager;
 import com.wadexhong.boxscore.gameboxscore.GameBoxScoreActivity;
 

@@ -1,6 +1,6 @@
 package com.wadexhong.boxscore.setting;
 
-import com.wadexhong.boxscore.SharedPreferenceHelper;
+import com.wadexhong.boxscore.modelhelper.SharedPreferenceHelper;
 import com.wadexhong.boxscore.BoxScore;
 
 /**

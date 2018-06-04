@@ -4,8 +4,8 @@ import android.util.SparseIntArray;
 
 import com.wadexhong.boxscore.BasePresenter;
 import com.wadexhong.boxscore.BaseView;
-import com.wadexhong.boxscore.ViewPagerFragmentAdapter;
-import com.wadexhong.boxscore.dialogfragment.datastatistic.DataStatisticDialog;
+import com.wadexhong.boxscore.adapter.ViewPagerFragmentAdapter;
+import com.wadexhong.boxscore.gameboxscore.datastatistic.DataStatisticDialog;
 import com.wadexhong.boxscore.objects.GameInfo;
 import com.wadexhong.boxscore.objects.Undo;
 
