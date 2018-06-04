@@ -45,13 +45,19 @@ public class UndoHistoryPresenter implements UndoHistoryContract.Presenter{
         mGameBoxScorePresenter.undoDataInDb(position);
     }
 
-
+    @Override
+    public void editAtPosition(int position) {
+        mUndoPosition = position;
+        mGameBoxScorePresenter.editAtPosition(position);
+    }
 
     @Override
     public void updateUi() {
         mUndoHistoryView.updateUi();
         mAdapter.notifyDataSetChanged();
     }
+
+
 
     @Override
     public void notifyInsert() {

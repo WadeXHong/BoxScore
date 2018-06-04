@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.wadexhong.boxscore.BoxScore;
 import com.wadexhong.boxscore.Constants;
 import com.wadexhong.boxscore.R;
 import com.wadexhong.boxscore.objects.Undo;
@@ -23,9 +24,12 @@ import java.util.LinkedList;
 
 public class UndoHistoryAdapter extends RecyclerView.Adapter{
 
+    private static final String TAG = UndoHistoryAdapter.class.getSimpleName();
+
     private UndoHistoryContract.Presenter mUndoHistoryPresenter;
 
     private LinkedList<Undo> mUndoList;
+
 
     public UndoHistoryAdapter(UndoHistoryContract.Presenter mPresenter, LinkedList<Undo> mUndoList) {
         mUndoHistoryPresenter = mPresenter;
@@ -71,7 +75,7 @@ public class UndoHistoryAdapter extends RecyclerView.Adapter{
                 @Override
                 public void onClick(View v) {
 
-                    new AlertDialog.Builder(itemView.getContext(),R.style.Theme_AppCompat_Light_Dialog)
+                    new AlertDialog.Builder(itemView.getContext(), R.style.OrangeDialog)
                               .setTitle("復原確認")
                               .setMessage("\n是否要對\n\n「 "+ mName.getText().toString()+" "+mType.getText().toString()+" 」\n\n進行復原 ?\n\n警告:\n　　 復原後將清除該項紀錄且不會另行顯示更動內容 !\n")
                               .setPositiveButton(R.string.yes, dialogClickListener)
@@ -79,6 +83,41 @@ public class UndoHistoryAdapter extends RecyclerView.Adapter{
                 }
             });
 
+            mConstraintLayout.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+
+                    new AlertDialog.Builder(itemView.getContext(), R.style.OrangeDialog)
+                              .setTitle("操作選單")
+                              .setItems(new String[]{"標記","編輯","刪除"}, new DialogInterface.OnClickListener() {
+                                  @Override
+                                  public void onClick(DialogInterface dialog, int which) {
+
+                                      switch (which) {
+
+                                          case 0:
+
+                                              break;
+
+                                          case 1:
+                                              new AlertDialog.Builder(itemView.getContext(), R.style.OrangeDialog).setItems(Constants.TYPE_CHOICE_STRING, new DialogInterface.OnClickListener() {
+                                                  @Override
+                                                  public void onClick(DialogInterface dialog, int which) {
+                                                      mUndoHistoryPresenter.editAtPosition(getLayoutPosition());
+                                                  }
+                                              });
+                                              break;
+
+                                          case 2:
+                                              break;
+                                      }
+                                  }
+                              }).show();
+
+
+                    return true;
+                }
+            });
         }
     }
 

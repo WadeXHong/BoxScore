@@ -43,8 +43,7 @@ public class SettingAdapter extends RecyclerView.Adapter {
 
     private SettingContract.Presenter mSettingPresenter;
 
-    private int[] TYPE_CHOICE_INT;
-    private String[] TYPE_CHOICE_STRING;
+//    private String[] TYPE_CHOICE_STRING;
     private String[] GESTURE_SETTING;
 
 
@@ -52,37 +51,22 @@ public class SettingAdapter extends RecyclerView.Adapter {
     public SettingAdapter(SettingContract.Presenter presenter) {
         mSettingPresenter = presenter;
 
-        TYPE_CHOICE_INT = new int[]{-1,
-                  Constants.RecordDataType.TWO_POINT_SHOT_MADE,
-                  Constants.RecordDataType.TWO_POINT_SHOT_MISSED,
-                  Constants.RecordDataType.THREE_POINT_SHOT_MADE,
-                  Constants.RecordDataType.THREE_POINT_SHOT_MISSED,
-                  Constants.RecordDataType.FREE_THROW_SHOT_MADE,
-                  Constants.RecordDataType.FREE_THROW_SHOT_MISSED,
-                  Constants.RecordDataType.OFFENSIVE_REBOUND,
-                  Constants.RecordDataType.DEFENSIVE_REBOUND,
-                  Constants.RecordDataType.ASSIST,
-                  Constants.RecordDataType.STEAL,
-                  Constants.RecordDataType.BLOCK,
-                  Constants.RecordDataType.FOUL,
-                  Constants.RecordDataType.TURNOVER};
-
-        TYPE_CHOICE_STRING = new String[]{
-                  BoxScore.getAppContext().getResources().getString(R.string.none),
-                  BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(TYPE_CHOICE_INT[1])),
-                  BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(TYPE_CHOICE_INT[2])),
-                  BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(TYPE_CHOICE_INT[3])),
-                  BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(TYPE_CHOICE_INT[4])),
-                  BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(TYPE_CHOICE_INT[5])),
-                  BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(TYPE_CHOICE_INT[6])),
-                  BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(TYPE_CHOICE_INT[7])),
-                  BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(TYPE_CHOICE_INT[8])),
-                  BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(TYPE_CHOICE_INT[9])),
-                  BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(TYPE_CHOICE_INT[10])),
-                  BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(TYPE_CHOICE_INT[11])),
-                  BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(TYPE_CHOICE_INT[12])),
-                  BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(TYPE_CHOICE_INT[13]))
-        };
+//        TYPE_CHOICE_STRING = new String[]{
+//                  BoxScore.getAppContext().getResources().getString(R.string.none),
+//                  BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(Constants.TYPE_CHOICE_INT[1])),
+//                  BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(Constants.TYPE_CHOICE_INT[2])),
+//                  BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(Constants.TYPE_CHOICE_INT[3])),
+//                  BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(Constants.TYPE_CHOICE_INT[4])),
+//                  BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(Constants.TYPE_CHOICE_INT[5])),
+//                  BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(Constants.TYPE_CHOICE_INT[6])),
+//                  BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(Constants.TYPE_CHOICE_INT[7])),
+//                  BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(Constants.TYPE_CHOICE_INT[8])),
+//                  BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(Constants.TYPE_CHOICE_INT[9])),
+//                  BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(Constants.TYPE_CHOICE_INT[10])),
+//                  BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(Constants.TYPE_CHOICE_INT[11])),
+//                  BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(Constants.TYPE_CHOICE_INT[12])),
+//                  BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(Constants.TYPE_CHOICE_INT[13]))
+//        };
     }
 
     @Override
@@ -207,11 +191,11 @@ public class SettingAdapter extends RecyclerView.Adapter {
                 public void onClick(View v) {
                     new AlertDialog.Builder(v.getContext(),R.style.OrangeDialog)
                               .setTitle(GESTURE_SETTING[getLayoutPosition()-1])
-                              .setItems(TYPE_CHOICE_STRING, new DialogInterface.OnClickListener() {
+                              .setItems(Constants.TYPE_CHOICE_STRING, new DialogInterface.OnClickListener() {
                                   @Override
                                   public void onClick(DialogInterface dialog, int which) {
-                                      mGestureDataType.setText(BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(TYPE_CHOICE_INT[which],R.string.none)));
-                                      SharedPreferenceHelper.write(GESTURE_TYPE_ARRAY[getLayoutPosition()-1],TYPE_CHOICE_INT[which]);
+                                      mGestureDataType.setText(BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(Constants.TYPE_CHOICE_INT[which],R.string.none)));
+                                      SharedPreferenceHelper.write(GESTURE_TYPE_ARRAY[getLayoutPosition()-1], Constants.TYPE_CHOICE_INT[which]);
                                   }
                               }).show();
                 }

@@ -1,4 +1,4 @@
-package com.wadexhong.boxscore.adapter;
+package com.wadexhong.boxscore.adapter.spinner;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class SelectTeamAdapter extends BaseAdapter{
 
-    ArrayList<TeamInfo> mTeamInfos;
+    private ArrayList<TeamInfo> mTeamInfos;
 
     public SelectTeamAdapter(ArrayList<TeamInfo> teamInfos) {
         mTeamInfos = teamInfos;

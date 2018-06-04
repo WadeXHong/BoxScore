@@ -9,6 +9,7 @@ public class Undo {
     private Player mPlayer;
     private int mType;
     private int mQuarter;
+    private boolean mIsMarked;
 
     public Undo(int mType,int mQuarter, Player mPlayer) {
         this.mPlayer = mPlayer;
@@ -38,5 +39,13 @@ public class Undo {
 
     public void setType(int mType) {
         this.mType = mType;
+    }
+
+    public boolean isMarked() {
+        return mIsMarked;
+    }
+
+    public void setMarked(boolean marked) {
+        mIsMarked = marked;
     }
 }

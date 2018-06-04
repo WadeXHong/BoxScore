@@ -30,6 +30,7 @@
             android:textColor="@color/colorRed"
             android:textSize="60sp"
             android:textStyle="bold"
+            android:includeFontPadding="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.20"
@@ -50,6 +51,7 @@
             android:textColor="@color/colorRed"
             android:textSize="60sp"
             android:textStyle="bold"
+            android:includeFontPadding="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.8"
@@ -80,20 +82,17 @@
             android:id="@+id/activity_gameboxscore_opponentteamfoul"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:gravity="start"
             android:text="0"
             android:textColor="@color/colorOrange"
             android:textSize="35sp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.933"
+            app:layout_constraintHorizontal_bias="0.9"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.934" />
+            app:layout_constraintTop_toBottomOf="@+id/activity_gameboxscore_teamfoulright" />
 
 
         <TextView
@@ -107,12 +106,12 @@
             android:gravity="start"
             android:text="1"
             android:textColor="@color/colorOrange"
-            android:textSize="35sp"
+            android:textSize="45sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.65" />
+            app:layout_constraintVertical_bias="0.6" />
 
         <ImageView
             android:id="@+id/activity_gameboxscore_undo"
@@ -155,14 +154,13 @@
 
         <ImageView
             android:id="@+id/activity_gameboxscore_datastatistic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:src="@drawable/ripple_table"
-            android:text="@string/dataStatistic"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -185,20 +183,32 @@
             app:layout_constraintVertical_bias="0.666" />
 
         <TextView
+            android:id="@+id/activity_gameboxscore_datastatistictitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:gravity="center"
+            android:text="@string/dataStatistic"
+            android:textColor="@color/colorButtonInMain"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toTopOf="@+id/activity_gameboxscore_datastatistic"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5" />
+
+        <TextView
             android:id="@+id/activity_gameboxscore_teamfoulright"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
+            android:layout_marginTop="8dp"
             android:gravity="center"
             android:text="團犯"
             android:textColor="@color/colorButtonInMain"
             android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/activity_gameboxscore_opponentteamfoul"
             app:layout_constraintStart_toStartOf="@+id/activity_gameboxscore_opponentteamfoul"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.666" />
-
+            app:layout_constraintTop_toBottomOf="@+id/activity_gameboxscore_opponentteamscore" />
         <TextView
             android:id="@+id/activity_gameboxscore_teamscore_yours"
             android:layout_width="wrap_content"
@@ -244,7 +254,58 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.421" />
+            app:layout_constraintVertical_bias="0.4" />
+
+        <LinearLayout
+            android:id="@+id/activity_gameboxscore_opponentteamscore_adjust"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@+id/activity_gameboxscore_opponentteamscore"
+            app:layout_constraintStart_toEndOf="@+id/activity_gameboxscore_opponentteamscore"
+            app:layout_constraintTop_toTopOf="@+id/activity_gameboxscore_opponentteamscore">
+
+            <ImageView
+                android:id="@+id/activity_gameboxscore_opponentteamscore_plus"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_plus_box_white_24dp" />
+
+            <ImageView
+                android:id="@+id/activity_gameboxscore_opponentteamscore_minus"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_minus_check_box_white_24dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/activity_gameboxscore_opponentteamfoul_adjust"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@+id/activity_gameboxscore_opponentteamfoul"
+            app:layout_constraintStart_toEndOf="@+id/activity_gameboxscore_opponentteamfoul"
+            app:layout_constraintTop_toTopOf="@+id/activity_gameboxscore_opponentteamfoul">
+
+            <ImageView
+                android:id="@+id/activity_gameboxscore_opponentteamfoul_plus"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_plus_box_white_24dp" />
+
+            <ImageView
+                android:id="@+id/activity_gameboxscore_opponentteamfoul_minus"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_minus_check_box_white_24dp" />
+
+        </LinearLayout>
+
 
 
     </com.wadexhong.boxscore.customlayout.BSConstraintLayout>

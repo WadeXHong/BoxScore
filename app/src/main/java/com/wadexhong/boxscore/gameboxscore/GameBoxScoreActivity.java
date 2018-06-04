@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,6 +56,14 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
     private ImageView mSave;
     private ImageView mSetting;
 
+    private LinearLayout mOpponentTeamScoreAdjust;
+    private LinearLayout mOpponentTeamFoulAdjust;
+    private ImageView mOpponentTeamScorePlus;
+    private ImageView mOpponentTeamScoreMinus;
+    private ImageView mOpponentTeamFoulPlus;
+    private ImageView mOpponentTeamFoulMinus;
+
+
 
     @Override
     protected void onResume() {
@@ -80,6 +89,13 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
         mDataStatistic = findViewById(R.id.activity_gameboxscore_datastatistic);
         mSave = findViewById(R.id.activity_gameboxscore_save);
         mSetting = findViewById(R.id.activity_gameboxscore_setting);
+        mOpponentTeamScoreAdjust = findViewById(R.id.activity_gameboxscore_opponentteamscore_adjust);
+        mOpponentTeamScorePlus = findViewById(R.id.activity_gameboxscore_opponentteamscore_plus);
+        mOpponentTeamScoreMinus = findViewById(R.id.activity_gameboxscore_opponentteamscore_minus);
+        mOpponentTeamFoulAdjust = findViewById(R.id.activity_gameboxscore_opponentteamfoul_adjust);
+        mOpponentTeamFoulPlus = findViewById(R.id.activity_gameboxscore_opponentteamfoul_plus);
+        mOpponentTeamFoulMinus = findViewById(R.id.activity_gameboxscore_opponentteamfoul_minus);
+
 
         init();
 
@@ -151,8 +167,22 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
             @Override
             public void onClick(View v) {
                 Log.d(TAG,"mQuarter onClick");
-                mPresenter.pressQuarter();
                 BoxScore.vibrate();
+                new AlertDialog.Builder(GameBoxScoreActivity.this, R.style.OrangeDialog).setTitle("進入下一節")
+                          .setMessage("進入下一節後若須補登資料，請透過上方補登按鈕操作")
+                          .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                              @Override
+                              public void onClick(DialogInterface dialog, int which) {
+                                  mPresenter.pressQuarter();
+                                  BoxScore.vibrate();
+                              }
+                          })
+                          .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                              @Override
+                              public void onClick(DialogInterface dialog, int which) {
+                                  dialog.cancel();
+                              }
+                          }).show();
             }
         });
         mUndo.setOnClickListener(new View.OnClickListener() {
@@ -202,6 +232,38 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
                 startActivity(new Intent(GameBoxScoreActivity.this, SettingActivity.class));
             }
         });
+        mOpponentTeamScorePlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG,"mOpponentTeamScorePlus onClick");
+                mPresenter.pressOpponentTeamScore();
+                BoxScore.vibrate();
+            }
+        });
+        mOpponentTeamScoreMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG,"mOpponentTeamScoreMinus onClick");
+                mPresenter.longPressOpponentTeamScore();
+                BoxScore.vibrate();
+            }
+        });
+        mOpponentTeamFoulPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG,"mOpponentTeamFoulPlus onClick");
+                mPresenter.pressOpponentTeamFoul();
+                BoxScore.vibrate();
+            }
+        });
+        mOpponentTeamFoulMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG,"mOpponentTeamFoulMinus onClick");
+                mPresenter.longPressOpponentTeamFoul();
+                BoxScore.vibrate();
+            }
+        });
     }
 
     private void setOnLongClick() {
@@ -223,15 +285,15 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
                 return true;
             }
         });
-
-        mQuarter.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                BoxScore.vibrate();
-                mPresenter.longPressQuarter();
-                return true;
-            }
-        });
+        //取消退回前節功能
+//        mQuarter.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                BoxScore.vibrate();
+//                mPresenter.longPressQuarter();
+//                return true;
+//            }
+//        });
     }
 
     private void logTestingGameInfo() {
@@ -284,6 +346,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
 
     @Override
     public void updateUiTeamData() {
+        //TODO TIMEOUTS
         mYourTeamScore.setText(String.valueOf(mTeamData.get(Constants.RecordDataType.YOUR_TEAM_TOTAL_SCORE)));
         mOpponentTeamScore.setText(String.valueOf(mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE)));
         mYourTeamFoul.setText(String.valueOf(mTeamData.get(Constants.RecordDataType.YOUR_TEAM_FOUL)));

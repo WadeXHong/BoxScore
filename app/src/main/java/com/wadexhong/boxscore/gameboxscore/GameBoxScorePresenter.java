@@ -277,10 +277,16 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     @Override
     public void pressQuarter() {
         if (mTeamData.get(Constants.RecordDataType.QUARTER) == Integer.parseInt(mGameInfo.getTotalQuarter())){
-            Log.d(TAG,"Quarter is already GG");
+            Log.d(TAG,"Quarter is already Max");
         }else{
-            mTeamData.put(Constants.RecordDataType.QUARTER,mTeamData.get(Constants.RecordDataType.QUARTER)+1);
+            //TODO TIMEOUTS
+            mTeamData.put(Constants.RecordDataType.QUARTER, mTeamData.get(Constants.RecordDataType.QUARTER)+1);
+            mTeamData.put(Constants.RecordDataType.OPPONENT_TEAM_FOUL, 0);
+            mTeamData.put(Constants.RecordDataType.YOUR_TEAM_FOUL, 0);
             SharedPreferenceHelper.write(SharedPreferenceHelper.QUARTER,mTeamData.get(Constants.RecordDataType.QUARTER));
+            SharedPreferenceHelper.write(SharedPreferenceHelper.OPPONENT_TEAM_FOUL, mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_FOUL));
+            SharedPreferenceHelper.write(SharedPreferenceHelper.YOUR_TEAM_FOUL, mTeamData.get(Constants.RecordDataType.YOUR_TEAM_FOUL));
+
             mGameBoxScoreView.updateUiTeamData();
         }
     }
@@ -327,14 +333,13 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
 
     @Override
     public void editDataInDb(int position, int type) {
-        //TODO write data into DB
-        GameDataDbHelper mGameDataDbHelper = BoxScore.getGameDataDbHelper();
-        mGameDataDbHelper.writeGameData(position,type);
-        //TODO add to UNDOList
+        //write data into DB
+        BoxScore.getGameDataDbHelper().writeGameData(position,type);
+        //add to UNDOList
         mUndoList.addFirst(new Undo(type, mGameInfo.getTeamData().get(Constants.RecordDataType.QUARTER),mGameInfo.getStartingPlayerList().get(position)));
-        String name = mGameInfo.getStartingPlayerList().get(position).getName();
-        String number =mGameInfo.getStartingPlayerList().get(position).getNumber();
-        Log.d(TAG,"number " + number +" " + name + " " + type +" + 1");
+//        String name = mGameInfo.getStartingPlayerList().get(position).getName();
+//        String number = mGameInfo.getStartingPlayerList().get(position).getNumber();
+//        Log.d(TAG,"number " + number +" " + name + " " + type +" + 1");
         updateUi();
         mUndoHistoryPresenter.notifyInsert();
 
@@ -349,11 +354,17 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
 
     @Override
     public void undoDataInDb(int position) {
-        GameDataDbHelper mGameDataDbHelper = BoxScore.getGameDataDbHelper();
-        mGameDataDbHelper.undoGameData(position);
+        BoxScore.getGameDataDbHelper().undoGameData(position);
         mUndoList.remove(position);
         updateUi();
         mUndoHistoryPresenter.notifyRemove(position);
+    }
+
+
+    @Override
+    public void editAtPosition(int position) {
+        BoxScore.getGameDataDbHelper().undoGameData(position);
+        BoxScore.getGameDataDbHelper().
     }
 
     @Override

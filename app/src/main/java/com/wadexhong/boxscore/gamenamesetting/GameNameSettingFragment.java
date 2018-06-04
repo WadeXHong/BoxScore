@@ -17,7 +17,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.wadexhong.boxscore.R;
-import com.wadexhong.boxscore.adapter.SelectTeamAdapter;
+import com.wadexhong.boxscore.adapter.spinner.SelectTeamAdapter;
 import com.wadexhong.boxscore.objects.GameInfo;
 import com.wadexhong.boxscore.objects.TeamInfo;
 

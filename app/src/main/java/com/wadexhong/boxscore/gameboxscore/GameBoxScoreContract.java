@@ -84,5 +84,7 @@ public interface GameBoxScoreContract {
         void longPressQuarter();
 
         void saveAndEndCurrentGame();
+
+        void editAtPosition(int position);
     }
 }
