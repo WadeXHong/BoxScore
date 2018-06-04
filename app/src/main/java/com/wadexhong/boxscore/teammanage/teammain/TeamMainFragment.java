@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 
 import com.wadexhong.boxscore.BoxScore;
 import com.wadexhong.boxscore.R;
-import com.wadexhong.boxscore.adapter.spinner.TeamAdapter;
 
 /**
  * A simple {@link Fragment} subclass.

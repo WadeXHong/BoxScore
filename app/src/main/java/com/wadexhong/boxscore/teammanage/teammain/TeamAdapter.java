@@ -1,4 +1,4 @@
-package com.wadexhong.boxscore.adapter.spinner;
+package com.wadexhong.boxscore.teammanage.teammain;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.wadexhong.boxscore.R;
 import com.wadexhong.boxscore.objects.TeamInfo;
 import com.wadexhong.boxscore.objects.TeamDetail;
-import com.wadexhong.boxscore.teammanage.teammain.TeamMainContract;
 import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 import com.thoughtbot.expandablerecyclerview.viewholders.ChildViewHolder;

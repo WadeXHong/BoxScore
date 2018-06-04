@@ -1,21 +1,29 @@
 package com.wadexhong.boxscore.gameboxscore.undohistory;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.wadexhong.boxscore.BoxScore;
 import com.wadexhong.boxscore.Constants;
 import com.wadexhong.boxscore.R;
+import com.wadexhong.boxscore.adapter.spinner.SelectPlayerAdapter;
+import com.wadexhong.boxscore.adapter.spinner.SelectTypeAdapter;
 import com.wadexhong.boxscore.objects.GameInfo;
+import com.wadexhong.boxscore.objects.Player;
 import com.wadexhong.boxscore.objects.Undo;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 
 /**
@@ -117,12 +125,15 @@ public class UndoHistoryAdapter extends RecyclerView.Adapter{
                                               break;
 
                                           case 1:
-                                              new AlertDialog.Builder(itemView.getContext(), R.style.OrangeDialog).setItems(TYPE_CHOICE_STRING, new DialogInterface.OnClickListener() {
-                                                  @Override
-                                                  public void onClick(DialogInterface dialog, int which) {
-                                                      mUndoHistoryPresenter.editAtPosition(getLayoutPosition());
-                                                  }
-                                              }).show();
+
+                                                new EditDialog(itemView.getContext(), R.style.OrangeDialog, getLayoutPosition()).show();
+
+//                                              new AlertDialog.Builder(itemView.getContext(), R.style.OrangeDialog).setItems(TYPE_CHOICE_STRING, new DialogInterface.OnClickListener() {
+//                                                  @Override
+//                                                  public void onClick(DialogInterface dialog, int which) {
+//                                                      mUndoHistoryPresenter.editAtPosition(getLayoutPosition());
+//                                                  }
+//                                              }).show();
                                               break;
 
                                           case 2:
@@ -155,5 +166,71 @@ public class UndoHistoryAdapter extends RecyclerView.Adapter{
     @Override
     public int getItemCount() {
         return mUndoList.size();
+    }
+
+
+    public class EditDialog extends AlertDialog.Builder{
+
+        private Spinner mTypeSpinner;
+        private Spinner mPlayerSpinner;
+        private int mType;
+        private Player mPlayer;
+
+        public EditDialog(@NonNull Context context, int themeResId, int position) {
+            super(context, themeResId);
+
+            View view = LayoutInflater.from(context).inflate(R.layout.dialog_undo_edit, null);
+
+            mTypeSpinner = view.findViewById(R.id.dialog_history_edit_type_spinner);
+            mPlayerSpinner = view.findViewById(R.id.dialog_history_edit_player_spinner);
+
+            mTypeSpinner.setAdapter(new SelectTypeAdapter());
+            mTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    mType = (Integer)parent.getSelectedItem();
+                    Log.d(TAG, "type = " + mType);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
+            mPlayerSpinner.setAdapter(new SelectPlayerAdapter(mGameInfo.getStartingPlayerList(), mGameInfo.getSubstitutePlayerList()));
+            mPlayerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    mPlayer = (Player)parent.getSelectedItem();
+                    Log.d(TAG, "name = " + mPlayer.getName());
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
+            String number = mUndoList.get(position).getPlayer().getNumber();
+            String type = context.getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(mUndoList.get(position).getType()));
+            setTitle("變更選項");
+            setMessage("\n將　"+number + "號  –  "+ type + "\n\n變更為：");
+            setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Log.d(TAG, "onClick : type = " + mType);
+                    Log.d(TAG, "name = " + mPlayer.getName());
+                    dialog.cancel();
+                }
+            });
+            setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            setView(view);
+        }
     }
 }

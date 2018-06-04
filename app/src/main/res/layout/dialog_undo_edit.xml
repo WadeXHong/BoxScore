@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dialog_history_edit"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="25dp">
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/dialog_history_edit_player_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="球員"
+            android:textSize="16sp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Spinner
+            android:id="@+id/dialog_history_edit_player_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/shape_edittext_gamename"
+            android:dropDownSelector="@drawable/shape_edittext_gamename_orange"
+            android:dropDownVerticalOffset="35dp"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_history_edit_player_title" />
+
+        <TextView
+            android:id="@+id/dialog_history_edit_type_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="數據"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_history_edit_player_spinner"/>
+
+        <Spinner
+            android:id="@+id/dialog_history_edit_type_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/shape_edittext_gamename"
+            android:dropDownSelector="@drawable/shape_edittext_gamename_orange"
+            android:dropDownVerticalOffset="35dp"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_history_edit_type_title"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+
+
+</RelativeLayout>
