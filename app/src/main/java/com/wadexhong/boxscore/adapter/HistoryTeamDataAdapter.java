@@ -225,15 +225,15 @@ public class HistoryTeamDataAdapter extends RecyclerView.Adapter{
         private void bind(){
             int size = mCursorData.getCount();
 
-            int[] FTA = new int[5], FTM = new int[5];
-            float[] FTP = new float[5];
-            int[] _2PS= new int[5], _3PS= new int[5], _1PS = new int[5];
-            int[] TPA = new int[5];
-            int[] TPM = new int[5];
-            float[] TPP = new float[5];
-            int[] FGA = new int[5];
-            int[] FGM = new int[5];
-            float[] FGP = new float[5];
+            int[]   FTA  = new int[5],   FTM  = new int[5];
+            float[] FTP  = new float[5];
+            int[]   _2PS = new int[5],   _3PS = new int[5], _1PS = new int[5];
+            int[]   TPA  = new int[5];
+            int[]   TPM  = new int[5];
+            float[] TPP  = new float[5];
+            int[]   FGA  = new int[5];
+            int[]   FGM  = new int[5];
+            float[] FGP  = new float[5];
 
             for (int i = 0 ; i<size ; i++) {
 

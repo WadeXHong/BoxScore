@@ -9,7 +9,7 @@
     android:gravity="center">
 
     <TextView
-        android:id="@+id/item_undohistory_quarter"
+        android:id="@+id/item_undohistory_quarter_textview"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -19,14 +19,14 @@
         android:textColor="@color/colorButtonInMain"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/item_undohistory_number"
+        app:layout_constraintEnd_toStartOf="@+id/item_undohistory_number_textview"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_weight="0.8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/item_undohistory_number"
+        android:id="@+id/item_undohistory_number_textview"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -36,14 +36,14 @@
         android:textColor="@color/colorButtonInMain"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/item_undohistory_name"
+        app:layout_constraintEnd_toStartOf="@+id/item_undohistory_name_textview"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_weight="0.8"
-        app:layout_constraintStart_toEndOf="@+id/item_undohistory_quarter"
+        app:layout_constraintStart_toEndOf="@+id/item_undohistory_quarter_textview"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/item_undohistory_name"
+        android:id="@+id/item_undohistory_name_textview"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -53,14 +53,14 @@
         android:textColor="@color/colorButtonInMain"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/item_undohistory_type"
+        app:layout_constraintEnd_toStartOf="@+id/item_undohistory_type_textview"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_weight="1.5"
-        app:layout_constraintStart_toEndOf="@+id/item_undohistory_number"
+        app:layout_constraintStart_toEndOf="@+id/item_undohistory_number_textview"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/item_undohistory_type"
+        android:id="@+id/item_undohistory_type_textview"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -73,7 +73,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_weight="1.7"
-        app:layout_constraintStart_toEndOf="@+id/item_undohistory_name"
+        app:layout_constraintStart_toEndOf="@+id/item_undohistory_name_textview"
         app:layout_constraintTop_toTopOf="parent" />
 
 

@@ -7,6 +7,7 @@ import com.wadexhong.boxscore.BaseView;
 import com.wadexhong.boxscore.adapter.ViewPagerFragmentAdapter;
 import com.wadexhong.boxscore.gameboxscore.datastatistic.DataStatisticDialog;
 import com.wadexhong.boxscore.objects.GameInfo;
+import com.wadexhong.boxscore.objects.Player;
 import com.wadexhong.boxscore.objects.Undo;
 
 import java.util.LinkedList;
@@ -85,6 +86,6 @@ public interface GameBoxScoreContract {
 
         void saveAndEndCurrentGame();
 
-        void editAtPosition(int position);
+        void editAtPosition(int position, Player player, int type);
     }
 }

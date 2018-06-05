@@ -2,6 +2,7 @@ package com.wadexhong.boxscore.gameboxscore.undohistory;
 
 import com.wadexhong.boxscore.gameboxscore.GameBoxScoreContract;
 import com.wadexhong.boxscore.objects.GameInfo;
+import com.wadexhong.boxscore.objects.Player;
 import com.wadexhong.boxscore.objects.Undo;
 
 import java.util.LinkedList;
@@ -48,9 +49,9 @@ public class UndoHistoryPresenter implements UndoHistoryContract.Presenter{
     }
 
     @Override
-    public void editAtPosition(int position) {
+    public void editUndoAtPosition(int position, Player player, int type) {
         mUndoPosition = position;
-        mGameBoxScorePresenter.editAtPosition(position);
+        mGameBoxScorePresenter.editAtPosition(position, player, type);
     }
 
     @Override

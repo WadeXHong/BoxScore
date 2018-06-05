@@ -2,6 +2,7 @@ package com.wadexhong.boxscore.gameboxscore.undohistory;
 
 import com.wadexhong.boxscore.BasePresenter;
 import com.wadexhong.boxscore.BaseView;
+import com.wadexhong.boxscore.objects.Player;
 
 /**
  * Created by wade8 on 2018/5/10.
@@ -27,6 +28,6 @@ public interface UndoHistoryContract {
 
         void notifyRemove(int position);
 
-        void editAtPosition(int position);
+        void editUndoAtPosition(int position, Player player, int type);
     }
 }

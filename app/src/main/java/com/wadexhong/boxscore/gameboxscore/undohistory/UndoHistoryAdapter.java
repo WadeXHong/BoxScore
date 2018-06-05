@@ -23,14 +23,13 @@ import com.wadexhong.boxscore.objects.GameInfo;
 import com.wadexhong.boxscore.objects.Player;
 import com.wadexhong.boxscore.objects.Undo;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 
 /**
  * Created by wade8 on 2018/5/10.
  */
 
-public class UndoHistoryAdapter extends RecyclerView.Adapter{
+public class UndoHistoryAdapter extends RecyclerView.Adapter {
 
     private static final String TAG = UndoHistoryAdapter.class.getSimpleName();
 
@@ -40,9 +39,9 @@ public class UndoHistoryAdapter extends RecyclerView.Adapter{
     private GameInfo mGameInfo;
     private final String[] TYPE_CHOICE_STRING;
 
-    public UndoHistoryAdapter(UndoHistoryContract.Presenter mPresenter, LinkedList<Undo> mUndoList, GameInfo gameInfo) {
-        mUndoHistoryPresenter = mPresenter;
-        this.mUndoList = mUndoList;
+    public UndoHistoryAdapter(UndoHistoryContract.Presenter presenter, LinkedList<Undo> undoList, GameInfo gameInfo) {
+        mUndoHistoryPresenter = presenter;
+        mUndoList = undoList;
         mGameInfo = gameInfo;
         TYPE_CHOICE_STRING = new String[]{
                   BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(Constants.TYPE_CHOICE_INT[1])),
@@ -61,34 +60,35 @@ public class UndoHistoryAdapter extends RecyclerView.Adapter{
         };
     }
 
-    private class ViewHolder extends RecyclerView.ViewHolder{
+    private class ViewHolder extends RecyclerView.ViewHolder {
 
         private ConstraintLayout mConstraintLayout;
-        private TextView mQuarter;
-        private TextView mNumber;
-        private TextView mName;
-        private TextView mType;
+        private TextView mQuarterTextView;
+        private TextView mNumberTextView;
+        private TextView mNameTextView;
+        private TextView mTypeTextView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             mConstraintLayout = itemView.findViewById(R.id.item_undohistory_layout);
-            mQuarter = itemView.findViewById(R.id.item_undohistory_quarter);
-            mNumber = itemView.findViewById(R.id.item_undohistory_number);
-            mName = itemView.findViewById(R.id.item_undohistory_name);
-            mType = itemView.findViewById(R.id.item_undohistory_type);
+            mQuarterTextView = itemView.findViewById(R.id.item_undohistory_quarter_textview);
+            mNumberTextView = itemView.findViewById(R.id.item_undohistory_number_textview);
+            mNameTextView = itemView.findViewById(R.id.item_undohistory_name_textview);
+            mTypeTextView = itemView.findViewById(R.id.item_undohistory_type_textview);
         }
 
-        private void bind (int position){
+        private void bind(int position) {
             Undo undo = mUndoList.get(position);
-            mQuarter.setText(String.valueOf(undo.getQuarter()));
-            mNumber.setText(undo.getPlayer().getNumber());
-            mName.setText(undo.getPlayer().getName());
-            mType.setText(Constants.TITLE_SPARSE_ARRAY.get(undo.getType()));
+            mQuarterTextView.setText(String.valueOf(undo.getQuarter()));
+            mNumberTextView.setText(undo.getPlayer().getNumber());
+            mNameTextView.setText(undo.getPlayer().getName());
+            mTypeTextView.setText(Constants.TITLE_SPARSE_ARRAY.get(undo.getType()));
 
             final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    switch (which){
+
+                    switch (which) {
                         case DialogInterface.BUTTON_POSITIVE:
                             mUndoHistoryPresenter.undoAtPosition(getLayoutPosition());
                             break;
@@ -102,7 +102,9 @@ public class UndoHistoryAdapter extends RecyclerView.Adapter{
 
                     new AlertDialog.Builder(itemView.getContext(), R.style.OrangeDialog)
                               .setTitle("復原確認")
-                              .setMessage("\n是否要對\n\n「 "+ mName.getText().toString()+" "+mType.getText().toString()+" 」\n\n進行復原 ?\n\n警告:\n　　 復原後將清除該項紀錄且不會另行顯示更動內容 !\n")
+                              .setMessage("\n是否要對\n\n「 " + mNameTextView.getText().toString() +
+                                        " " + mTypeTextView.getText().toString() +
+                                        " 」\n\n進行復原 ?\n\n警告:\n　　 復原後將清除該項紀錄且不會另行顯示更動內容 !\n")
                               .setPositiveButton(R.string.yes, dialogClickListener)
                               .setNegativeButton(R.string.no, dialogClickListener).show();
                 }
@@ -114,7 +116,7 @@ public class UndoHistoryAdapter extends RecyclerView.Adapter{
 
                     new AlertDialog.Builder(itemView.getContext(), R.style.OrangeDialog)
                               .setTitle("操作選單")
-                              .setItems(new String[]{"標記","編輯","刪除"}, new DialogInterface.OnClickListener() {
+                              .setItems(new String[]{"標記", "編輯", "刪除"}, new DialogInterface.OnClickListener() {
                                   @Override
                                   public void onClick(DialogInterface dialog, int which) {
 
@@ -126,12 +128,12 @@ public class UndoHistoryAdapter extends RecyclerView.Adapter{
 
                                           case 1:
 
-                                                new EditDialog(itemView.getContext(), R.style.OrangeDialog, getLayoutPosition()).show();
+                                              new EditDialog(itemView.getContext(), R.style.OrangeDialog, getLayoutPosition()).show();
 
 //                                              new AlertDialog.Builder(itemView.getContext(), R.style.OrangeDialog).setItems(TYPE_CHOICE_STRING, new DialogInterface.OnClickListener() {
 //                                                  @Override
 //                                                  public void onClick(DialogInterface dialog, int which) {
-//                                                      mUndoHistoryPresenter.editAtPosition(getLayoutPosition());
+//                                                      mUndoHistoryPresenter.editUndoAtPosition(getLayoutPosition());
 //                                                  }
 //                                              }).show();
                                               break;
@@ -153,14 +155,14 @@ public class UndoHistoryAdapter extends RecyclerView.Adapter{
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_undohistory,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_undohistory, parent, false);
 
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ((ViewHolder)holder).bind(position);
+        ((ViewHolder) holder).bind(position);
     }
 
     @Override
@@ -169,14 +171,14 @@ public class UndoHistoryAdapter extends RecyclerView.Adapter{
     }
 
 
-    public class EditDialog extends AlertDialog.Builder{
+    public class EditDialog extends AlertDialog.Builder {
 
         private Spinner mTypeSpinner;
         private Spinner mPlayerSpinner;
         private int mType;
         private Player mPlayer;
 
-        public EditDialog(@NonNull Context context, int themeResId, int position) {
+        public EditDialog(@NonNull Context context, int themeResId, final int position) {
             super(context, themeResId);
 
             View view = LayoutInflater.from(context).inflate(R.layout.dialog_undo_edit, null);
@@ -188,7 +190,7 @@ public class UndoHistoryAdapter extends RecyclerView.Adapter{
             mTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    mType = (Integer)parent.getSelectedItem();
+                    mType = (Integer) parent.getSelectedItem();
                     Log.d(TAG, "type = " + mType);
                 }
 
@@ -202,7 +204,7 @@ public class UndoHistoryAdapter extends RecyclerView.Adapter{
             mPlayerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    mPlayer = (Player)parent.getSelectedItem();
+                    mPlayer = (Player) parent.getSelectedItem();
                     Log.d(TAG, "name = " + mPlayer.getName());
                 }
 
@@ -214,13 +216,15 @@ public class UndoHistoryAdapter extends RecyclerView.Adapter{
 
             String number = mUndoList.get(position).getPlayer().getNumber();
             String type = context.getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(mUndoList.get(position).getType()));
+
             setTitle("變更選項");
-            setMessage("\n將　"+number + "號  –  "+ type + "\n\n變更為：");
+            setMessage("\n將　" + number + "號  –  " + type + "\n\n變更為：");
             setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Log.d(TAG, "onClick : type = " + mType);
                     Log.d(TAG, "name = " + mPlayer.getName());
+                    mUndoHistoryPresenter.editUndoAtPosition(position, mPlayer, mType);
                     dialog.cancel();
                 }
             });
