@@ -26,7 +26,7 @@ public class SelectTypeAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return Constants.TITLE_SPARSE_ARRAY.get(Constants.TYPE_CHOICE_INT [position + 1]);
+        return Constants.TYPE_CHOICE_INT [position + 1];
     }
 
     @Override

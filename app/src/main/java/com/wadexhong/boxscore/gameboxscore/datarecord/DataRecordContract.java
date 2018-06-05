@@ -4,6 +4,7 @@ import com.wadexhong.boxscore.gameboxscore.datarecord.playerselect.PlayerSelectD
 import com.wadexhong.boxscore.BasePresenter;
 import com.wadexhong.boxscore.BaseView;
 import com.wadexhong.boxscore.objects.GameInfo;
+import com.wadexhong.boxscore.objects.Player;
 
 /**
  * Created by wade8 on 2018/5/3.
@@ -40,7 +41,7 @@ public interface DataRecordContract {
         GameInfo getGameInfo();
         void updateUiGameBoxActivity();
 
-        void callActivityPresenterEditDataInDb(int position, int type);
+        void callActivityPresenterEditDataInDb(Player player, int type);
     }
 
 }

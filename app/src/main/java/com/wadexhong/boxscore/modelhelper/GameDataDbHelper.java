@@ -54,7 +54,6 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
 
     private GameInfo mGameInfo;
     private SparseIntArray mTeamData;
-    private List<Undo> mUndoList;
 
     public GameDataDbHelper(Context context){
         super(context,DATABASE_NAME, null, DATABASE_VERSION);
@@ -72,8 +71,8 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
 
     }
 
-    public void setUndoList(List<Undo> mUndoList) {
-        this.mUndoList = mUndoList;
+    public void setGameInfo(GameInfo mGameInfo) {
+        this.mGameInfo = mGameInfo;
     }
 
     public void writeInitDataIntoDataBase(){
@@ -106,119 +105,129 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
         }
     }
 
+    @Deprecated
     public void writeGameData(int position, int type){
 
-        increaseData(position, type);
-
+//        plusData(position, type);
+//
 //        if (type < Constants.RecordDataType.JUDGEMENT_NUMBER){
 //        }else {
-//            decreaseData(position, type);
+//            minusData(position, type);
 //        }
     }
 
-    public void undoGameData(int position) {
+    @Deprecated
+    public void undoGameData(int position, int type) {
 
-        int type = mUndoList.get(position).getType();
-        decreaseData(position, type);
-
+//        minusData(position, type);
+//
 //        type < 0x1000代表 原本輸入的指令為 increase, 要undo要decrease
 //        if (type < Constants.RecordDataType.JUDGEMENT_NUMBER){
-//            decreaseData(position, type);
+//            minusData(position, type);
 //        }else {
-//            increaseData(position, type);
+//            plusData(position, type);
 //        }
 
     }
 
-    public void increaseData(int position, int type) {
+    public void plusData(Player player, int type, int quarter) {
 
-        int playerNumber;
-        int quarter;
+        int playerNumber = Integer.valueOf(player.getNumber());
+        quarter = quarter == 0 ? mGameInfo.getTeamData().get(Constants.RecordDataType.QUARTER) : quarter;
 
-        if (type > Constants.RecordDataType.JUDGEMENT_NUMBER){ //代表此type為原始記錄在UndoList裡的項目,號碼須由UndoList的position取出
-
-            playerNumber = Integer.parseInt(mUndoList.get(position).getPlayer().getNumber());
-            quarter = mUndoList.get(position).getQuarter();
-            type -= Constants.RecordDataType.JUDGEMENT_NUMBER; // type減去 0x1000, 讓decrease的undo顯示increase type
-
-        }else { //代表此type為"原本就下令要針對特定球員修正數據",號碼由Dialog顯示場上球員position取出
-
-            playerNumber = Integer.parseInt(mGameInfo.getStartingPlayerList().get(position).getNumber());
-            quarter = mGameInfo.getTeamData().get(Constants.RecordDataType.QUARTER);
-
-        }
-
-        ContentValues cv = new ContentValues();
         int points;
         int FTAttend;
         int FGAttend;
         int TPAttend;
         int teamScore;
+        ContentValues cv = new ContentValues();
+
         switch (type){
+
             case Constants.RecordDataType.FREE_THROW_SHOT_MADE:
+
                 FTAttend = mGameInfo.getDetailData()
                           .get(quarter)
                           .get(playerNumber)
                           .get(Constants.RecordDataType.FREE_THROW_SHOT_MISSED);
+
                 points = mGameInfo.getDetailData()
                           .get(quarter)
                           .get(playerNumber)
                           .get(Constants.RecordDataType.POINTS);
+
                 teamScore = mGameInfo.getTeamData().get(Constants.RecordDataType.YOUR_TEAM_TOTAL_SCORE);
+
                 mGameInfo.getTeamData().put(Constants.RecordDataType.YOUR_TEAM_TOTAL_SCORE,teamScore+1);
                 mGameInfo.getDetailData().get(quarter).get(playerNumber).put(Constants.RecordDataType.FREE_THROW_SHOT_MISSED,FTAttend+1);
                 mGameInfo.getDetailData().get(quarter).get(playerNumber).put(0,points+1); //point key = 0;
+
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(Constants.RecordDataType.FREE_THROW_SHOT_MISSED),FTAttend+1);
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(0),points+1);
+
                 SharedPreferenceHelper.write(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE,SharedPreferenceHelper.read(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE,0)+1);
                 break;
 
             case Constants.RecordDataType.TWO_POINT_SHOT_MADE:
+
                 FGAttend = mGameInfo.getDetailData()
                           .get(quarter)
                           .get(playerNumber)
                           .get(Constants.RecordDataType.TWO_POINT_SHOT_MISSED);
+
                 points = mGameInfo.getDetailData()
                           .get(quarter)
                           .get(playerNumber)
                           .get(Constants.RecordDataType.POINTS);
+
                 teamScore = mGameInfo.getTeamData().get(Constants.RecordDataType.YOUR_TEAM_TOTAL_SCORE);
+
                 mGameInfo.getTeamData().put(Constants.RecordDataType.YOUR_TEAM_TOTAL_SCORE,teamScore+2);
                 mGameInfo.getDetailData().get(quarter).get(playerNumber).put(Constants.RecordDataType.TWO_POINT_SHOT_MISSED,FGAttend+1);
                 mGameInfo.getDetailData().get(quarter).get(playerNumber).put(0,points+2); //point key = 0;
+
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(Constants.RecordDataType.TWO_POINT_SHOT_MISSED),FGAttend+1);
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(0),points+2);
+
                 SharedPreferenceHelper.write(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE,SharedPreferenceHelper.read(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE,0)+2);
                 break;
 
             case Constants.RecordDataType.THREE_POINT_SHOT_MISSED:
+
                 FGAttend = mGameInfo.getDetailData()
                           .get(quarter)
                           .get(playerNumber)
                           .get(Constants.RecordDataType.TWO_POINT_SHOT_MISSED);
+
                 mGameInfo.getDetailData().get(quarter).get(playerNumber).put(Constants.RecordDataType.TWO_POINT_SHOT_MISSED,FGAttend+1);
+
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(Constants.RecordDataType.TWO_POINT_SHOT_MISSED),FGAttend+1);
                 break;
 
-
             case Constants.RecordDataType.THREE_POINT_SHOT_MADE:
+
                 int FGMade = mGameInfo.getDetailData()
                           .get(quarter)
                           .get(playerNumber)
                           .get(Constants.RecordDataType.TWO_POINT_SHOT_MADE);
+
                 TPAttend = mGameInfo.getDetailData()
                           .get(quarter)
                           .get(playerNumber)
                           .get(Constants.RecordDataType.THREE_POINT_SHOT_MISSED);
+
                 FGAttend = mGameInfo.getDetailData()
                           .get(quarter)
                           .get(playerNumber)
                           .get(Constants.RecordDataType.TWO_POINT_SHOT_MISSED);
+
                 points = mGameInfo.getDetailData()
                           .get(quarter)
                           .get(playerNumber)
                           .get(Constants.RecordDataType.POINTS);
+
                 teamScore = mGameInfo.getTeamData().get(Constants.RecordDataType.YOUR_TEAM_TOTAL_SCORE);
+
                 mGameInfo.getTeamData().put(Constants.RecordDataType.YOUR_TEAM_TOTAL_SCORE,teamScore+3);
                 mGameInfo.getDetailData().get(quarter).get(playerNumber).put(Constants.RecordDataType.TWO_POINT_SHOT_MADE,FGMade+1);
                 mGameInfo.getDetailData().get(quarter).get(playerNumber).put(Constants.RecordDataType.TWO_POINT_SHOT_MISSED,FGAttend+1);
@@ -229,6 +238,7 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(Constants.RecordDataType.TWO_POINT_SHOT_MISSED),FGAttend+1);
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(Constants.RecordDataType.THREE_POINT_SHOT_MISSED),TPAttend+1);
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(0),points+3);
+
                 SharedPreferenceHelper.write(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE,SharedPreferenceHelper.read(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE,0)+3);
                 break;
 
@@ -242,104 +252,122 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
                   .get(playerNumber).put(type,value+1);
 
         cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(type),value+1);//TODO value
+
         int result = getWritableDatabase().update(Constants.GameDataDBContract.TABLE_NAME,cv,
                   Constants.GameDataDBContract.COLUMN_NAME_GAME_ID+" = ? AND " +
                             Constants.GameDataDBContract.COLUMN_NAME_QUARTER + " = ? AND " +
                             Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER + " = ?",
-                  new String[] {mGameInfo.getGameId(),String.valueOf(quarter),String.valueOf(playerNumber)});
+                  new String[] {mGameInfo.getGameId(), String.valueOf(quarter), String.valueOf(playerNumber)});
+
         Log.d(TAG,"result = "+result);
     }
 
-    public void decreaseData(int position, int type) {
+    public void minusData(Player player, int type, int quarter) {
 
-        int playerNumber;
-        int quarter;
-
-        if (type < Constants.RecordDataType.JUDGEMENT_NUMBER){ //代表此type為原始記錄在UndoList裡的項目,號碼須由UndoList的position取出
-            playerNumber = Integer.parseInt(mUndoList.get(position).getPlayer().getNumber());
-            quarter = mUndoList.get(position).getQuarter();
-        }else { //代表此type為"原本就下令要針對特定球員修正數據",號碼由Dialog顯示場上球員position取出
-            playerNumber = Integer.parseInt(mGameInfo.getStartingPlayerList().get(position).getNumber());
-            quarter = mGameInfo.getTeamData().get(Constants.RecordDataType.QUARTER);
-            type -= Constants.RecordDataType.JUDGEMENT_NUMBER; // type減去 0x1000, 變為increase type, 再對increaseData中的方法由+改為-就可延用
-        }
-
-        ContentValues cv = new ContentValues();
+        int playerNumber = Integer.valueOf(player.getNumber());
+//        quarter = quarter == 0 ? quarter : mGameInfo.getTeamData().get(Constants.RecordDataType.QUARTER);
         int points;
         int FTAttend;
         int FGAttend;
         int TPAttend;
         int teamScore;
+        ContentValues cv = new ContentValues();
+
         switch (type){
+
             case Constants.RecordDataType.FREE_THROW_SHOT_MADE:
+
                 FTAttend = mGameInfo.getDetailData()
                           .get(quarter)
                           .get(playerNumber)
                           .get(Constants.RecordDataType.FREE_THROW_SHOT_MISSED);
+
                 points = mGameInfo.getDetailData()
                           .get(quarter)
                           .get(playerNumber)
                           .get(Constants.RecordDataType.POINTS);
+
                 teamScore = mGameInfo.getTeamData().get(Constants.RecordDataType.YOUR_TEAM_TOTAL_SCORE);
+
                 if (FTAttend == 0 || points == 0 || teamScore ==0 )return;
+
                 mGameInfo.getTeamData().put(Constants.RecordDataType.YOUR_TEAM_TOTAL_SCORE,teamScore-1);
                 mGameInfo.getDetailData().get(quarter).get(playerNumber).put(Constants.RecordDataType.FREE_THROW_SHOT_MISSED,FTAttend-1);
                 mGameInfo.getDetailData().get(quarter).get(playerNumber).put(0,points-1); //point key = 0;
+
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(Constants.RecordDataType.FREE_THROW_SHOT_MISSED),FTAttend-1);
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(0),points-1);
+
                 SharedPreferenceHelper.write(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE,SharedPreferenceHelper.read(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE,0)-1);
                 break;
 
             case Constants.RecordDataType.TWO_POINT_SHOT_MADE:
+
                 FGAttend = mGameInfo.getDetailData()
                           .get(quarter)
                           .get(playerNumber)
                           .get(Constants.RecordDataType.TWO_POINT_SHOT_MISSED);
+
                 points = mGameInfo.getDetailData()
                           .get(quarter)
                           .get(playerNumber)
                           .get(Constants.RecordDataType.POINTS);
+
                 teamScore = mGameInfo.getTeamData().get(Constants.RecordDataType.YOUR_TEAM_TOTAL_SCORE);
+
                 if (FGAttend == 0 || points == 0 || teamScore ==0 )return;
+
                 mGameInfo.getTeamData().put(Constants.RecordDataType.YOUR_TEAM_TOTAL_SCORE,teamScore-2);
                 mGameInfo.getDetailData().get(quarter).get(playerNumber).put(Constants.RecordDataType.TWO_POINT_SHOT_MISSED,FGAttend-1);
                 mGameInfo.getDetailData().get(quarter).get(playerNumber).put(0,points-2); //point key = 0;
+
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(Constants.RecordDataType.TWO_POINT_SHOT_MISSED),FGAttend-1);
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(0),points-2);
-                SharedPreferenceHelper.write(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE,SharedPreferenceHelper.read(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE,0)-2);
 
+                SharedPreferenceHelper.write(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE,SharedPreferenceHelper.read(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE,0)-2);
                 break;
 
             case Constants.RecordDataType.THREE_POINT_SHOT_MISSED:
+
                 FGAttend = mGameInfo.getDetailData()
                           .get(quarter)
                           .get(playerNumber)
                           .get(Constants.RecordDataType.TWO_POINT_SHOT_MISSED);
+
                 if (FGAttend == 0)return;
+
                 mGameInfo.getDetailData().get(quarter).get(playerNumber).put(Constants.RecordDataType.TWO_POINT_SHOT_MISSED,FGAttend-1);
+
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(Constants.RecordDataType.TWO_POINT_SHOT_MISSED),FGAttend-1);
                 break;
 
 
             case Constants.RecordDataType.THREE_POINT_SHOT_MADE:
+
                 int FGMade = mGameInfo.getDetailData()
                           .get(quarter)
                           .get(playerNumber)
                           .get(Constants.RecordDataType.TWO_POINT_SHOT_MADE);
+
                 TPAttend = mGameInfo.getDetailData()
                           .get(quarter)
                           .get(playerNumber)
                           .get(Constants.RecordDataType.THREE_POINT_SHOT_MISSED);
+
                 FGAttend = mGameInfo.getDetailData()
                           .get(quarter)
                           .get(playerNumber)
                           .get(Constants.RecordDataType.TWO_POINT_SHOT_MISSED);
+
                 points = mGameInfo.getDetailData()
                           .get(quarter)
                           .get(playerNumber)
                           .get(Constants.RecordDataType.POINTS);
+
                 teamScore = mGameInfo.getTeamData().get(Constants.RecordDataType.YOUR_TEAM_TOTAL_SCORE);
+
                 if (FGMade == 0 || TPAttend == 0 || FGAttend == 0 || points == 0 || teamScore == 0 )return;
+
                 mGameInfo.getTeamData().put(Constants.RecordDataType.YOUR_TEAM_TOTAL_SCORE,teamScore-3);
                 mGameInfo.getDetailData().get(quarter).get(playerNumber).put(Constants.RecordDataType.TWO_POINT_SHOT_MADE,FGMade-1);
                 mGameInfo.getDetailData().get(quarter).get(playerNumber).put(Constants.RecordDataType.TWO_POINT_SHOT_MISSED,FGAttend-1);
@@ -350,30 +378,31 @@ public class GameDataDbHelper extends SQLiteOpenHelper{
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(Constants.RecordDataType.TWO_POINT_SHOT_MISSED),FGAttend-1);
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(Constants.RecordDataType.THREE_POINT_SHOT_MISSED),TPAttend-1);
                 cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(0),points-3);
-                SharedPreferenceHelper.write(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE,SharedPreferenceHelper.read(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE,0)-3);
 
+                SharedPreferenceHelper.write(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE,SharedPreferenceHelper.read(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE,0)-3);
                 break;
 
         }//TODO Foul
+
         int value = mGameInfo.getDetailData()
                   .get(quarter)
                   .get(playerNumber).get(type);
+
         if (value == 0)return;
+
         mGameInfo.getDetailData()
                   .get(quarter)
                   .get(playerNumber).put(type,value-1);
 
         cv.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(type),value-1);//TODO value
+
         int result = getWritableDatabase().update(Constants.GameDataDBContract.TABLE_NAME,cv,
                   Constants.GameDataDBContract.COLUMN_NAME_GAME_ID+" = ? AND " +
                             Constants.GameDataDBContract.COLUMN_NAME_QUARTER + " = ? AND " +
                             Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER + " = ?",
                   new String[] {mGameInfo.getGameId(),String.valueOf(quarter),String.valueOf(playerNumber)});
-        Log.d(TAG,"result = "+result);
-    }
 
-    public void setGameInfo(GameInfo mGameInfo) {
-        this.mGameInfo = mGameInfo;
+        Log.d(TAG,"result = "+result);
     }
 
     public ArrayList<Player> setPlayerListFromDb(){

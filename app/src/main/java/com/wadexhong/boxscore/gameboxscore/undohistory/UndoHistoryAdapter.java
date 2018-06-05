@@ -101,20 +101,6 @@ public class UndoHistoryAdapter extends RecyclerView.Adapter {
                 public void onClick(View v) {
 
                     new AlertDialog.Builder(itemView.getContext(), R.style.OrangeDialog)
-                              .setTitle("復原確認")
-                              .setMessage("\n是否要對\n\n「 " + mNameTextView.getText().toString() +
-                                        " " + mTypeTextView.getText().toString() +
-                                        " 」\n\n進行復原 ?\n\n警告:\n　　 復原後將清除該項紀錄且不會另行顯示更動內容 !\n")
-                              .setPositiveButton(R.string.yes, dialogClickListener)
-                              .setNegativeButton(R.string.no, dialogClickListener).show();
-                }
-            });
-
-            mConstraintLayout.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-
-                    new AlertDialog.Builder(itemView.getContext(), R.style.OrangeDialog)
                               .setTitle("操作選單")
                               .setItems(new String[]{"標記", "編輯", "刪除"}, new DialogInterface.OnClickListener() {
                                   @Override
@@ -130,22 +116,21 @@ public class UndoHistoryAdapter extends RecyclerView.Adapter {
 
                                               new EditDialog(itemView.getContext(), R.style.OrangeDialog, getLayoutPosition()).show();
 
-//                                              new AlertDialog.Builder(itemView.getContext(), R.style.OrangeDialog).setItems(TYPE_CHOICE_STRING, new DialogInterface.OnClickListener() {
-//                                                  @Override
-//                                                  public void onClick(DialogInterface dialog, int which) {
-//                                                      mUndoHistoryPresenter.editUndoAtPosition(getLayoutPosition());
-//                                                  }
-//                                              }).show();
                                               break;
 
                                           case 2:
+
+                                              new AlertDialog.Builder(itemView.getContext(), R.style.OrangeDialog)
+                                                        .setTitle("復原確認")
+                                                        .setMessage("\n是否要對\n\n「 " + mNameTextView.getText().toString() +
+                                                                  " " + mTypeTextView.getText().toString() +
+                                                                  " 」\n\n進行復原 ?\n\n警告:\n　　 復原後將清除該項紀錄且不會另行顯示更動內容 !\n")
+                                                        .setPositiveButton(R.string.yes, dialogClickListener)
+                                                        .setNegativeButton(R.string.no, dialogClickListener).show();
                                               break;
                                       }
                                   }
                               }).show();
-
-
-                    return true;
                 }
             });
         }
@@ -190,7 +175,7 @@ public class UndoHistoryAdapter extends RecyclerView.Adapter {
             mTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    mType = (Integer) parent.getSelectedItem();
+                    mType = (int) parent.getSelectedItem();
                     Log.d(TAG, "type = " + mType);
                 }
 

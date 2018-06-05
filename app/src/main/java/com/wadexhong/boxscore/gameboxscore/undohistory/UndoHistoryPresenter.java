@@ -72,4 +72,9 @@ public class UndoHistoryPresenter implements UndoHistoryContract.Presenter{
         mAdapter.notifyItemRemoved(position);
 
     }
+
+    @Override
+    public void notifyEdit(int position) {
+        mAdapter.notifyItemChanged(position);
+    }
 }

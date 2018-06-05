@@ -58,7 +58,7 @@ public interface GameBoxScoreContract {
 
         void updateUi();
 
-        void editDataInDb(int position, int type);
+        void editDataInDb(Player player, int type);
 
         LinkedList<Undo> getUndoList();
 

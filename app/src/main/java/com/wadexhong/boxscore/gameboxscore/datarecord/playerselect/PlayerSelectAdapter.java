@@ -30,7 +30,7 @@ public class PlayerSelectAdapter extends RecyclerView.Adapter {
 
     public PlayerSelectAdapter(PlayerSelectContract.Presenter presenter, int type) {
         mPresenter = presenter;
-        mPlayerArrayList = deepClonePlayerList(mPresenter.getPlayerOnCourt());
+        mPlayerArrayList = mPresenter.getPlayerOnCourt();
         mType = type;
     }
 
@@ -47,7 +47,7 @@ public class PlayerSelectAdapter extends RecyclerView.Adapter {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mPresenter.editDataInDB(getLayoutPosition(),mType);
+                    mPresenter.editDataInDB(mPlayerArrayList.get(getLayoutPosition()), mType);
                 }
             });
         }

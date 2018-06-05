@@ -34,7 +34,7 @@ import java.util.UUID;
  * Created by wade8 on 2018/5/3.
  */
 
-public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
+public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter {
 
     private static final String TAG = GameBoxScorePresenter.class.getSimpleName();
 
@@ -46,7 +46,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     private DataRecordPresenter mDataRecordPresenter;
     private ChangePlayerFragment mChangePlayerFragment;
     private ChangePlayerPresenter mChangePlayerPresenter;
-//    private DataStatisticFragment mDataStatisticFragment;
+    //    private DataStatisticFragment mDataStatisticFragment;
 //    private DataStatisticPresenter mDataStatisticPresenter;
     private UndoHistoryFragment mUndoHistoryFragment;
     private UndoHistoryPresenter mUndoHistoryPresenter;
@@ -80,23 +80,23 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     private void initNewTeamData() {
 
         mTeamData = new SparseIntArray();
-        mTeamData.append(Constants.RecordDataType.YOUR_TEAM_TOTAL_SCORE,0);
-        mTeamData.append(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE,0);
-        mTeamData.append(Constants.RecordDataType.YOUR_TEAM_FOUL,0);
-        mTeamData.append(Constants.RecordDataType.OPPONENT_TEAM_FOUL,0);
-        mTeamData.append(Constants.RecordDataType.QUARTER,1);
+        mTeamData.append(Constants.RecordDataType.YOUR_TEAM_TOTAL_SCORE, 0);
+        mTeamData.append(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE, 0);
+        mTeamData.append(Constants.RecordDataType.YOUR_TEAM_FOUL, 0);
+        mTeamData.append(Constants.RecordDataType.OPPONENT_TEAM_FOUL, 0);
+        mTeamData.append(Constants.RecordDataType.QUARTER, 1);
 
         //TODO 或許可以捨去整個TeamData SparseArray 全部改用SharedPreferences
-        SharedPreferenceHelper.write(SharedPreferenceHelper.YOUR_TEAM_FOUL,0);
-        SharedPreferenceHelper.write(SharedPreferenceHelper.OPPONENT_TEAM_FOUL,0);
-        SharedPreferenceHelper.write(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE,0);
-        SharedPreferenceHelper.write(SharedPreferenceHelper.OPPONENT_TEAM_TOTAL_SCORE,0);
-        SharedPreferenceHelper.write(SharedPreferenceHelper.QUARTER,1);
+        SharedPreferenceHelper.write(SharedPreferenceHelper.YOUR_TEAM_FOUL, 0);
+        SharedPreferenceHelper.write(SharedPreferenceHelper.OPPONENT_TEAM_FOUL, 0);
+        SharedPreferenceHelper.write(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE, 0);
+        SharedPreferenceHelper.write(SharedPreferenceHelper.OPPONENT_TEAM_TOTAL_SCORE, 0);
+        SharedPreferenceHelper.write(SharedPreferenceHelper.QUARTER, 1);
 
     }
 
 
-    private void setViewPager(){
+    private void setViewPager() {
 
         mChangePlayerFragment = ChangePlayerFragment.newInstance();
         mDataRecordFragment = DataRecordFragment.newInstance();
@@ -104,9 +104,9 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
         mUndoHistoryFragment = UndoHistoryFragment.newInstance();
 
         mChangePlayerPresenter = new ChangePlayerPresenter(mChangePlayerFragment, this);
-        mDataRecordPresenter = new DataRecordPresenter(mDataRecordFragment,this);
+        mDataRecordPresenter = new DataRecordPresenter(mDataRecordFragment, this);
 //        mDataStatisticPresenter = new DataStatisticPresenter(mDataStatisticFragment);
-        mUndoHistoryPresenter = new UndoHistoryPresenter(mUndoHistoryFragment,this);
+        mUndoHistoryPresenter = new UndoHistoryPresenter(mUndoHistoryFragment, this);
 
         mFragmentList = new ArrayList<>();
         mFragmentList.add(mChangePlayerFragment);
@@ -114,7 +114,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
 //        mFragmentList.add(mDataStatisticFragment);
         mFragmentList.add(mUndoHistoryFragment);
 
-        mViewPagerFragmentAdapter = new ViewPagerFragmentAdapter(mFragmentManager,mFragmentList);
+        mViewPagerFragmentAdapter = new ViewPagerFragmentAdapter(mFragmentManager, mFragmentList);
         mGameBoxScoreView.setViewPagerAdapter(mViewPagerFragmentAdapter);
     }
 
@@ -126,11 +126,11 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     @Override
     public void checkIsResume(boolean mIsResume) {
 
-        if (mIsResume){
+        if (mIsResume) {
 
             initResumeTeamData();
             mGameBoxScoreView.setGameInfoFromResume();
-            mGameInfo.setGameId(SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME,""));
+            mGameInfo.setGameId(SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME, ""));
 
             //GameInfo
             initGameInfoFromDatabase();
@@ -138,7 +138,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
             //PlayerList and 3D SparseArray
             setPlayerListFromDataBase();
 
-        }else {
+        } else {
             initNewTeamData();
             mGameBoxScoreView.setGameInfoFromInput();
             mGameInfo = mGameBoxScoreView.getGameInfo();
@@ -154,7 +154,6 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     private void setPlayerListFromDataBase() {
         GameDataDbHelper mGameDataDbHelper = BoxScore.getGameDataDbHelper();
         mGameDataDbHelper.setGameInfo(mGameInfo);   //pass GameInfo to DB
-        mGameDataDbHelper.setUndoList(mUndoList);   //pass UndoInfo to DB
         mGameDataDbHelper.setPlayerListFromDb();    //resume ArrayList<Player> in GameInfo
         mGameDataDbHelper.setDetailDataFromDb();    //resume 3D SparseArray
 
@@ -190,10 +189,10 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
         mTeamData = new SparseIntArray();
 
         mTeamData.append(Constants.RecordDataType.YOUR_TEAM_TOTAL_SCORE, SharedPreferenceHelper.read(SharedPreferenceHelper.YOUR_TEAM_TOTAL_SCORE, 0));
-        mTeamData.append(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE,SharedPreferenceHelper.read(SharedPreferenceHelper.OPPONENT_TEAM_TOTAL_SCORE, 0));
-        mTeamData.append(Constants.RecordDataType.YOUR_TEAM_FOUL,SharedPreferenceHelper.read(SharedPreferenceHelper.YOUR_TEAM_FOUL, 0));
-        mTeamData.append(Constants.RecordDataType.OPPONENT_TEAM_FOUL,SharedPreferenceHelper.read(SharedPreferenceHelper.OPPONENT_TEAM_FOUL, 0));
-        mTeamData.append(Constants.RecordDataType.QUARTER,SharedPreferenceHelper.read(SharedPreferenceHelper.QUARTER, 1));
+        mTeamData.append(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE, SharedPreferenceHelper.read(SharedPreferenceHelper.OPPONENT_TEAM_TOTAL_SCORE, 0));
+        mTeamData.append(Constants.RecordDataType.YOUR_TEAM_FOUL, SharedPreferenceHelper.read(SharedPreferenceHelper.YOUR_TEAM_FOUL, 0));
+        mTeamData.append(Constants.RecordDataType.OPPONENT_TEAM_FOUL, SharedPreferenceHelper.read(SharedPreferenceHelper.OPPONENT_TEAM_FOUL, 0));
+        mTeamData.append(Constants.RecordDataType.QUARTER, SharedPreferenceHelper.read(SharedPreferenceHelper.QUARTER, 1));
 
     }
 
@@ -202,8 +201,6 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
         mGameInfo = gameInfo;
         return mGameInfo;
     }
-
-
 
 
     @Override
@@ -219,15 +216,14 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
 
     @Override
     public void removeGameDataInDataBase() {
-        BoxScore.getGameDataDbHelper().removeGameData(SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME,""));
-        BoxScore.getGameInfoDbHelper().removeGameInfo(SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME,""));
+        BoxScore.getGameDataDbHelper().removeGameData(SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME, ""));
+        BoxScore.getGameInfoDbHelper().removeGameInfo(SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME, ""));
     }
 
     @Override
     public void writeInitDataIntoModel() {
         GameDataDbHelper mGameDataDbHelper = BoxScore.getGameDataDbHelper();
         mGameDataDbHelper.setGameInfo(mGameInfo);
-        mGameDataDbHelper.setUndoList(mUndoList);
         mGameDataDbHelper.writeInitDataIntoGameInfo();
         mGameDataDbHelper.writeInitDataIntoDataBase();
 
@@ -239,9 +235,9 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
 
     @Override
     public void pressOpponentTeamScore() {
-        Log.d(TAG,"Opponent Score +1");
-        mTeamData.put(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE,mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE) + 1);
-        SharedPreferenceHelper.write(SharedPreferenceHelper.OPPONENT_TEAM_TOTAL_SCORE,mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE));
+        Log.d(TAG, "Opponent Score +1");
+        mTeamData.put(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE, mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE) + 1);
+        SharedPreferenceHelper.write(SharedPreferenceHelper.OPPONENT_TEAM_TOTAL_SCORE, mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE));
         BoxScore.getGameInfoDbHelper().writeGameData(Constants.RecordDataType.OPPONENT_TEAM_TOTAL_SCORE);
         mGameBoxScoreView.updateUiTeamData();
     }
@@ -267,45 +263,45 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
 
     @Override
     public void pressYourTeamFoul() { //TODO will be deprecated
-        if (mTeamData.get(Constants.RecordDataType.YOUR_TEAM_FOUL) == Integer.parseInt(mGameInfo.getMaxFoul())){
-            Log.d(TAG,"TeamFoul is GG");
-        }else{
-            mTeamData.put(Constants.RecordDataType.YOUR_TEAM_FOUL,mTeamData.get(Constants.RecordDataType.YOUR_TEAM_FOUL)+1);
-            SharedPreferenceHelper.write(SharedPreferenceHelper.YOUR_TEAM_FOUL,mTeamData.get(Constants.RecordDataType.YOUR_TEAM_FOUL));
+        if (mTeamData.get(Constants.RecordDataType.YOUR_TEAM_FOUL) == Integer.parseInt(mGameInfo.getMaxFoul())) {
+            Log.d(TAG, "TeamFoul is GG");
+        } else {
+            mTeamData.put(Constants.RecordDataType.YOUR_TEAM_FOUL, mTeamData.get(Constants.RecordDataType.YOUR_TEAM_FOUL) + 1);
+            SharedPreferenceHelper.write(SharedPreferenceHelper.YOUR_TEAM_FOUL, mTeamData.get(Constants.RecordDataType.YOUR_TEAM_FOUL));
             mGameBoxScoreView.updateUiTeamData();
         }
     }
 
     @Override
     public void pressOpponentTeamFoul() {
-        if (mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_FOUL) == Integer.parseInt(mGameInfo.getMaxFoul())){
-            Log.d(TAG,"TeamFoul is GG");
-        }else{
-            mTeamData.put(Constants.RecordDataType.OPPONENT_TEAM_FOUL,mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_FOUL)+1);
-            SharedPreferenceHelper.write(SharedPreferenceHelper.OPPONENT_TEAM_FOUL,mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_FOUL));
+        if (mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_FOUL) == Integer.parseInt(mGameInfo.getMaxFoul())) {
+            Log.d(TAG, "TeamFoul is GG");
+        } else {
+            mTeamData.put(Constants.RecordDataType.OPPONENT_TEAM_FOUL, mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_FOUL) + 1);
+            SharedPreferenceHelper.write(SharedPreferenceHelper.OPPONENT_TEAM_FOUL, mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_FOUL));
             mGameBoxScoreView.updateUiTeamData();
         }
     }
 
     @Override
     public void longPressOpponentTeamFoul() {
-        if (mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_FOUL) > 0){
-            mTeamData.put(Constants.RecordDataType.OPPONENT_TEAM_FOUL,mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_FOUL)-1);
-            SharedPreferenceHelper.write(SharedPreferenceHelper.OPPONENT_TEAM_FOUL,mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_FOUL));
+        if (mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_FOUL) > 0) {
+            mTeamData.put(Constants.RecordDataType.OPPONENT_TEAM_FOUL, mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_FOUL) - 1);
+            SharedPreferenceHelper.write(SharedPreferenceHelper.OPPONENT_TEAM_FOUL, mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_FOUL));
             mGameBoxScoreView.updateUiTeamData();
         }
     }
 
     @Override
     public void pressQuarter() {
-        if (mTeamData.get(Constants.RecordDataType.QUARTER) == Integer.parseInt(mGameInfo.getTotalQuarter())){
-            Log.d(TAG,"Quarter is already Max");
-        }else{
+        if (mTeamData.get(Constants.RecordDataType.QUARTER) == Integer.parseInt(mGameInfo.getTotalQuarter())) {
+            Log.d(TAG, "Quarter is already Max");
+        } else {
             //TODO TIMEOUTS
-            mTeamData.put(Constants.RecordDataType.QUARTER, mTeamData.get(Constants.RecordDataType.QUARTER)+1);
+            mTeamData.put(Constants.RecordDataType.QUARTER, mTeamData.get(Constants.RecordDataType.QUARTER) + 1);
             mTeamData.put(Constants.RecordDataType.OPPONENT_TEAM_FOUL, 0);
             mTeamData.put(Constants.RecordDataType.YOUR_TEAM_FOUL, 0);
-            SharedPreferenceHelper.write(SharedPreferenceHelper.QUARTER,mTeamData.get(Constants.RecordDataType.QUARTER));
+            SharedPreferenceHelper.write(SharedPreferenceHelper.QUARTER, mTeamData.get(Constants.RecordDataType.QUARTER));
             SharedPreferenceHelper.write(SharedPreferenceHelper.OPPONENT_TEAM_FOUL, mTeamData.get(Constants.RecordDataType.OPPONENT_TEAM_FOUL));
             SharedPreferenceHelper.write(SharedPreferenceHelper.YOUR_TEAM_FOUL, mTeamData.get(Constants.RecordDataType.YOUR_TEAM_FOUL));
 
@@ -315,9 +311,9 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
 
     @Override
     public void longPressQuarter() {
-        if (mTeamData.get(Constants.RecordDataType.QUARTER) > 0){
-            mTeamData.put(Constants.RecordDataType.QUARTER,mTeamData.get(Constants.RecordDataType.QUARTER)-1);
-            SharedPreferenceHelper.write(SharedPreferenceHelper.QUARTER,mTeamData.get(Constants.RecordDataType.QUARTER));
+        if (mTeamData.get(Constants.RecordDataType.QUARTER) > 0) {
+            mTeamData.put(Constants.RecordDataType.QUARTER, mTeamData.get(Constants.RecordDataType.QUARTER) - 1);
+            SharedPreferenceHelper.write(SharedPreferenceHelper.QUARTER, mTeamData.get(Constants.RecordDataType.QUARTER));
             mGameBoxScoreView.updateUiTeamData();
         }
     }
@@ -329,7 +325,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
 
         BoxScore.getTeamDbHelper().updateHistoryAmount(mGameInfo.getYourTeamId(), newHistoryAmount);
 
-        if (FirebaseAuth.getInstance().getCurrentUser() != null){
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             Create.getInstance().CreateGameData(BoxScore.getGameDataDbHelper().getSpecificGameData(mGameInfo.getGameId()));
             Create.getInstance().CreateGameInfo(BoxScore.getGameInfoDbHelper().getSpecificInfo(mGameInfo.getGameId()));
             Create.getInstance().UpdateTeamHistoryAmount(mGameInfo.getYourTeamId(), newHistoryAmount);
@@ -339,10 +335,10 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
 
     @Override
     public void pressUndo() {
-        Log.d(TAG,"pressUndo executed");
+        Log.d(TAG, "pressUndo executed");
         if (mUndoList.size() != 0) {
             undoDataInDb(0);
-        }else {
+        } else {
             mGameBoxScoreView.showToast("undo history is empty !");
         }
     }
@@ -354,24 +350,24 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
     }
 
     @Override
-    public void editDataInDb(int position, int type) {
+    public void editDataInDb(Player player, int type) {
         //write data into DB
-        BoxScore.getGameDataDbHelper().writeGameData(position,type);
+        BoxScore.getGameDataDbHelper().plusData(player, type, 0);
+        BoxScore.getGameInfoDbHelper().writeGameData(type);
         //add to UNDOList
-        mUndoList.addFirst(new Undo(type, mGameInfo.getTeamData().get(Constants.RecordDataType.QUARTER),mGameInfo.getStartingPlayerList().get(position)));
+        mUndoList.addFirst(new Undo(type, mGameInfo.getTeamData().get(Constants.RecordDataType.QUARTER), player));
 
         updateUi();
         mUndoHistoryPresenter.notifyInsert();
 
-        BoxScore.getGameInfoDbHelper().writeGameData(type);
     }
 
 
     @Override
     public void undoDataInDb(int position) {
-
-        BoxScore.getGameDataDbHelper().undoGameData(position);
-        BoxScore.getGameInfoDbHelper().writeGameData(mUndoList.get(position).getType());
+        Undo undo = mUndoList.get(position);
+        BoxScore.getGameDataDbHelper().minusData(undo.getPlayer(), undo.getType(), undo.getQuarter());
+        BoxScore.getGameInfoDbHelper().writeGameData(undo.getType());
 
         mUndoList.remove(position);
         updateUi();
@@ -381,8 +377,21 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
 
     @Override
     public void editAtPosition(int position, Player player, int type) {
-//        BoxScore.getGameDataDbHelper().undoGameData(position);
-//        BoxScore.getGameDataDbHelper().
+        Undo undo = mUndoList.get(position);
+        BoxScore.getGameDataDbHelper().minusData(undo.getPlayer(), undo.getType(), undo.getQuarter());
+        BoxScore.getGameInfoDbHelper().writeGameData(undo.getType());
+
+        BoxScore.getGameDataDbHelper().plusData(player, type, undo.getQuarter());
+        BoxScore.getGameInfoDbHelper().writeGameData(type);
+
+        undo.setMarked(false);
+        undo.setPlayer(player);
+        undo.setType(type);
+        mUndoList.set(position, undo);
+
+        updateUi();
+        mUndoHistoryPresenter.notifyEdit(position);
+
     }
 
     @Override
@@ -390,22 +399,22 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
 
         int value;
 
-        switch (mPointerCount){
+        switch (mPointerCount) {
 
             case 2:
-                value = SharedPreferenceHelper.read(SharedPreferenceHelper.DOUBLE_UP,-1);
-                if (value != -1){
+                value = SharedPreferenceHelper.read(SharedPreferenceHelper.DOUBLE_UP, -1);
+                if (value != -1) {
                     mDataRecordPresenter.popPlayerSelectProcess(value);
                 }
-                Log.d(TAG,"double fingers scrolled UP.");
+                Log.d(TAG, "double fingers scrolled UP.");
                 break;
 
             case 3:
-                value = SharedPreferenceHelper.read(SharedPreferenceHelper.TRIPLE_UP,-1);
-                if (value != -1){
+                value = SharedPreferenceHelper.read(SharedPreferenceHelper.TRIPLE_UP, -1);
+                if (value != -1) {
                     mDataRecordPresenter.popPlayerSelectProcess(value);
                 }
-                Log.d(TAG,"triple fingers scrolled UP.");
+                Log.d(TAG, "triple fingers scrolled UP.");
                 break;
         }
     }
@@ -415,22 +424,22 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
 
         int value;
 
-        switch (mPointerCount){
+        switch (mPointerCount) {
 
             case 2:
-                value = SharedPreferenceHelper.read(SharedPreferenceHelper.DOUBLE_DOWN,-1);
-                if (value != -1){
+                value = SharedPreferenceHelper.read(SharedPreferenceHelper.DOUBLE_DOWN, -1);
+                if (value != -1) {
                     mDataRecordPresenter.popPlayerSelectProcess(value);
                 }
-                Log.d(TAG,"double fingers scrolled DOWN.");
+                Log.d(TAG, "double fingers scrolled DOWN.");
                 break;
 
             case 3:
-                value = SharedPreferenceHelper.read(SharedPreferenceHelper.TRIPLE_DOWN,-1);
-                if (value != -1){
+                value = SharedPreferenceHelper.read(SharedPreferenceHelper.TRIPLE_DOWN, -1);
+                if (value != -1) {
                     mDataRecordPresenter.popPlayerSelectProcess(value);
                 }
-                Log.d(TAG,"triple fingers scrolled DOWN.");
+                Log.d(TAG, "triple fingers scrolled DOWN.");
                 break;
         }
     }
@@ -440,22 +449,22 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
 
         int value;
 
-        switch (mPointerCount){
+        switch (mPointerCount) {
 
             case 2:
-                value = SharedPreferenceHelper.read(SharedPreferenceHelper.DOUBLE_LEFT,-1);
-                if (value != -1){
+                value = SharedPreferenceHelper.read(SharedPreferenceHelper.DOUBLE_LEFT, -1);
+                if (value != -1) {
                     mDataRecordPresenter.popPlayerSelectProcess(value);
                 }
-                Log.d(TAG,"double fingers scrolled LEFT.");
+                Log.d(TAG, "double fingers scrolled LEFT.");
                 break;
 
             case 3:
-                value = SharedPreferenceHelper.read(SharedPreferenceHelper.TRIPLE_LEFT,-1);
-                if (value != -1){
+                value = SharedPreferenceHelper.read(SharedPreferenceHelper.TRIPLE_LEFT, -1);
+                if (value != -1) {
                     mDataRecordPresenter.popPlayerSelectProcess(value);
                 }
-                Log.d(TAG,"triple fingers scrolled LEFT.");
+                Log.d(TAG, "triple fingers scrolled LEFT.");
                 break;
         }
     }
@@ -465,22 +474,22 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter{
 
         int value;
 
-        switch (mPointerCount){
+        switch (mPointerCount) {
 
             case 2:
-                value = SharedPreferenceHelper.read(SharedPreferenceHelper.DOUBLE_RIGHT,-1);
-                if (value != -1){
+                value = SharedPreferenceHelper.read(SharedPreferenceHelper.DOUBLE_RIGHT, -1);
+                if (value != -1) {
                     mDataRecordPresenter.popPlayerSelectProcess(value);
                 }
-                Log.d(TAG,"double fingers scrolled RIGHT.");
+                Log.d(TAG, "double fingers scrolled RIGHT.");
                 break;
 
             case 3:
-                value = SharedPreferenceHelper.read(SharedPreferenceHelper.TRIPLE_RIGHT,-1);
-                if (value != -1){
+                value = SharedPreferenceHelper.read(SharedPreferenceHelper.TRIPLE_RIGHT, -1);
+                if (value != -1) {
                     mDataRecordPresenter.popPlayerSelectProcess(value);
                 }
-                Log.d(TAG,"triple fingers scrolled RIGHT.");
+                Log.d(TAG, "triple fingers scrolled RIGHT.");
                 break;
         }
     }

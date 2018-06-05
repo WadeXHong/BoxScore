@@ -7,6 +7,7 @@ import com.wadexhong.boxscore.gameboxscore.datarecord.playerselect.PlayerSelectD
 import com.wadexhong.boxscore.gameboxscore.datarecord.playerselect.PlayerSelectPresenter;
 import com.wadexhong.boxscore.gameboxscore.GameBoxScoreContract;
 import com.wadexhong.boxscore.objects.GameInfo;
+import com.wadexhong.boxscore.objects.Player;
 
 /**
  * Created by wade8 on 2018/5/3.
@@ -169,7 +170,7 @@ public class DataRecordPresenter implements DataRecordContract.Presenter{
     }
 
     @Override
-    public void callActivityPresenterEditDataInDb(int position, int type) {
-        mGamBoxScorePresenter.editDataInDb(position, type);
+    public void callActivityPresenterEditDataInDb(Player player, int type) {
+        mGamBoxScorePresenter.editDataInDb(player, type);
     }
 }

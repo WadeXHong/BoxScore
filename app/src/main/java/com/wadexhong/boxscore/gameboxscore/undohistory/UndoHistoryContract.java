@@ -28,6 +28,8 @@ public interface UndoHistoryContract {
 
         void notifyRemove(int position);
 
+        void notifyEdit(int position);
+
         void editUndoAtPosition(int position, Player player, int type);
     }
 }

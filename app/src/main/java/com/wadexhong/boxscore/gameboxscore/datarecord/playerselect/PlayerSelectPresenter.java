@@ -19,10 +19,10 @@ public class PlayerSelectPresenter implements PlayerSelectContract.Presenter {
 
     private GameInfo mGameInfo;
 
-    public PlayerSelectPresenter(PlayerSelectContract.View mPlayerSelectView , DataRecordContract.Presenter mDataRecordPresenter) {
-        this.mPlayerSelectView = mPlayerSelectView;
-        mPlayerSelectView.setPresenter(this);
-        this.mDataRecordPresenter = mDataRecordPresenter;
+    public PlayerSelectPresenter(PlayerSelectContract.View playerSelectView , DataRecordContract.Presenter dataRecordPresenter) {
+        mPlayerSelectView = playerSelectView;
+        playerSelectView.setPresenter(this);
+        mDataRecordPresenter = dataRecordPresenter;
     }
 
 
@@ -32,8 +32,8 @@ public class PlayerSelectPresenter implements PlayerSelectContract.Presenter {
     }
 
     @Override
-    public void editDataInDB(int position, int type) {
-        mDataRecordPresenter.callActivityPresenterEditDataInDb(position, type);
+    public void editDataInDB(Player player, int type) {
+        mDataRecordPresenter.callActivityPresenterEditDataInDb(player, type);
         mPlayerSelectView.dismiss();
     }
 

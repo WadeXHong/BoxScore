@@ -18,7 +18,7 @@ public interface PlayerSelectContract {
 
     interface Presenter extends BasePresenter{
 
-        void editDataInDB(int position, int type);
+        void editDataInDB(Player player, int type);
 
         ArrayList<Player> getPlayerOnCourt();
     }
