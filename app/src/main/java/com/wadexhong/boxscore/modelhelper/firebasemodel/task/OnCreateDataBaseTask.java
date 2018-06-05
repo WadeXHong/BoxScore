@@ -35,23 +35,23 @@ public class OnCreateDataBaseTask extends AsyncTask<Void,Void,Void>{
 
 
         //gameinfo & gamedata
-        for (DataSnapshot games : mDataSnapshot.child(Constants.FireBaseConstant.GAME_INFO).getChildren()){
+        for (DataSnapshot games : mDataSnapshot.child(Constants.FireBaseConstant.NODE_NAME_GAME_INFO).getChildren()){
             //other info includes game_data, game_name....
 
             String  gameId =                      games.getKey();
-            String  gameDate =           (String) games.child(Constants.GameInfoDBContract.GAME_DATE).getValue();
-            String  gameName =           (String) games.child(Constants.GameInfoDBContract.GAME_NAME).getValue();
-            Long    isGameOver =         (Long)   games.child(Constants.GameInfoDBContract.IS_GAMEOVER).getValue();
-            Long    maxFoul =            (Long)   games.child(Constants.GameInfoDBContract.MAX_FOUL).getValue();
-            String  opponent =           (String) games.child(Constants.GameInfoDBContract.OPPONENT_NAME).getValue();
-            Long    opponentTeamScore =  (Long)   games.child(Constants.GameInfoDBContract.OPPONENT_TEAM_SCORE).getValue();
-            Long    quarterLength =      (Long)   games.child(Constants.GameInfoDBContract.QUARTER_LENGTH).getValue();
-            Long    timeoutFirstHalf =   (Long)   games.child(Constants.GameInfoDBContract.TIMEOUT_FIRST_HALF).getValue();
-            Long    timeoutSecondHalf =  (Long)   games.child(Constants.GameInfoDBContract.TIMEOUT_SECOND_HALF).getValue();
-            Long    totalQuarter =       (Long)   games.child(Constants.GameInfoDBContract.TOTAL_QUARTER).getValue();
-            String  yourTeam =           (String) games.child(Constants.GameInfoDBContract.YOUR_TEAM).getValue();
-            String  yourTeamId =         (String) games.child(Constants.GameInfoDBContract.YOUR_TEAM_ID).getValue();
-            Long    yourTeamScore =      (Long)   games.child(Constants.GameInfoDBContract.YOUR_TEAM_SCORE).getValue();
+            String  gameDate =           (String) games.child(Constants.GameInfoDBContract.COLUMN_NAME_GAME_DATE).getValue();
+            String  gameName =           (String) games.child(Constants.GameInfoDBContract.COLUMN_NAME_GAME_NAME).getValue();
+            Long    isGameOver =         (Long)   games.child(Constants.GameInfoDBContract.COLUMN_NAME_IS_GAMEOVER).getValue();
+            Long    maxFoul =            (Long)   games.child(Constants.GameInfoDBContract.COLUMN_NAME_MAX_FOUL).getValue();
+            String  opponent =           (String) games.child(Constants.GameInfoDBContract.COLUMN_NAME_OPPONENT_NAME).getValue();
+            Long    opponentTeamScore =  (Long)   games.child(Constants.GameInfoDBContract.COLUMN_NAME_OPPONENT_TEAM_SCORE).getValue();
+            Long    quarterLength =      (Long)   games.child(Constants.GameInfoDBContract.COLUMN_NAME_QUARTER_LENGTH).getValue();
+            Long    timeoutFirstHalf =   (Long)   games.child(Constants.GameInfoDBContract.COLUMN_NAME_TIMEOUT_FIRST_HALF).getValue();
+            Long    timeoutSecondHalf =  (Long)   games.child(Constants.GameInfoDBContract.COLUMN_NAME_TIMEOUT_SECOND_HALF).getValue();
+            Long    totalQuarter =       (Long)   games.child(Constants.GameInfoDBContract.COLUMN_NAME_TOTAL_QUARTER).getValue();
+            String  yourTeam =           (String) games.child(Constants.GameInfoDBContract.COLUMN_NAME_YOUR_TEAM).getValue();
+            String  yourTeamId =         (String) games.child(Constants.GameInfoDBContract.COLUMN_NAME_YOUR_TEAM_ID).getValue();
+            Long    yourTeamScore =      (Long)   games.child(Constants.GameInfoDBContract.COLUMN_NAME_YOUR_TEAM_SCORE).getValue();
 
             Log.d(TAG, "game_info");
             Log.i(TAG, "gameId =           "+gameId            );
@@ -73,27 +73,27 @@ public class OnCreateDataBaseTask extends AsyncTask<Void,Void,Void>{
             //TODO  DO  SOMETHING IN GAMEINFODATABASE
 
             ContentValues cvGameInfo = new ContentValues();
-            cvGameInfo.put(Constants.GameInfoDBContract.GAME_ID, gameId);
-            cvGameInfo.put(Constants.GameInfoDBContract.GAME_DATE, gameDate);
-            cvGameInfo.put(Constants.GameInfoDBContract.GAME_NAME, gameName);
-            cvGameInfo.put(Constants.GameInfoDBContract.IS_GAMEOVER, isGameOver);
-            cvGameInfo.put(Constants.GameInfoDBContract.MAX_FOUL, maxFoul);
-            cvGameInfo.put(Constants.GameInfoDBContract.OPPONENT_NAME, opponent);
-            cvGameInfo.put(Constants.GameInfoDBContract.OPPONENT_TEAM_SCORE, opponentTeamScore);
-            cvGameInfo.put(Constants.GameInfoDBContract.QUARTER_LENGTH, quarterLength);
-            cvGameInfo.put(Constants.GameInfoDBContract.TIMEOUT_FIRST_HALF, timeoutFirstHalf);
-            cvGameInfo.put(Constants.GameInfoDBContract.TIMEOUT_SECOND_HALF, timeoutSecondHalf);
-            cvGameInfo.put(Constants.GameInfoDBContract.TOTAL_QUARTER, totalQuarter);
-            cvGameInfo.put(Constants.GameInfoDBContract.YOUR_TEAM, yourTeam);
-            cvGameInfo.put(Constants.GameInfoDBContract.YOUR_TEAM_ID, yourTeamId);
-            cvGameInfo.put(Constants.GameInfoDBContract.YOUR_TEAM_SCORE, yourTeamScore);
+            cvGameInfo.put(Constants.GameInfoDBContract.COLUMN_NAME_GAME_ID, gameId);
+            cvGameInfo.put(Constants.GameInfoDBContract.COLUMN_NAME_GAME_DATE, gameDate);
+            cvGameInfo.put(Constants.GameInfoDBContract.COLUMN_NAME_GAME_NAME, gameName);
+            cvGameInfo.put(Constants.GameInfoDBContract.COLUMN_NAME_IS_GAMEOVER, isGameOver);
+            cvGameInfo.put(Constants.GameInfoDBContract.COLUMN_NAME_MAX_FOUL, maxFoul);
+            cvGameInfo.put(Constants.GameInfoDBContract.COLUMN_NAME_OPPONENT_NAME, opponent);
+            cvGameInfo.put(Constants.GameInfoDBContract.COLUMN_NAME_OPPONENT_TEAM_SCORE, opponentTeamScore);
+            cvGameInfo.put(Constants.GameInfoDBContract.COLUMN_NAME_QUARTER_LENGTH, quarterLength);
+            cvGameInfo.put(Constants.GameInfoDBContract.COLUMN_NAME_TIMEOUT_FIRST_HALF, timeoutFirstHalf);
+            cvGameInfo.put(Constants.GameInfoDBContract.COLUMN_NAME_TIMEOUT_SECOND_HALF, timeoutSecondHalf);
+            cvGameInfo.put(Constants.GameInfoDBContract.COLUMN_NAME_TOTAL_QUARTER, totalQuarter);
+            cvGameInfo.put(Constants.GameInfoDBContract.COLUMN_NAME_YOUR_TEAM, yourTeam);
+            cvGameInfo.put(Constants.GameInfoDBContract.COLUMN_NAME_YOUR_TEAM_ID, yourTeamId);
+            cvGameInfo.put(Constants.GameInfoDBContract.COLUMN_NAME_YOUR_TEAM_SCORE, yourTeamScore);
 
             dbGameInfo.insert(Constants.GameInfoDBContract.TABLE_NAME, null, cvGameInfo);
 
 
 
             // games = List<gameUUID>
-            for (DataSnapshot players : games.child(Constants.FireBaseConstant.GAME_DATA).getChildren()){
+            for (DataSnapshot players : games.child(Constants.FireBaseConstant.NODE_NAME_GAME_DATA).getChildren()){
                 //other info includes player_name, player_number
 
                 String playerId =              players.getKey();
@@ -108,7 +108,7 @@ public class OnCreateDataBaseTask extends AsyncTask<Void,Void,Void>{
 
 
                 //players = List<playerUUID>
-                for(DataSnapshot quarters:players.child(Constants.FireBaseConstant.QUARTER).getChildren()){
+                for(DataSnapshot quarters:players.child(Constants.FireBaseConstant.NODE_NAME_QUARTER).getChildren()){
 
                     String quarter = quarters.getKey();
 
@@ -174,16 +174,16 @@ public class OnCreateDataBaseTask extends AsyncTask<Void,Void,Void>{
 
         //playerlist
 
-        for (DataSnapshot players: mDataSnapshot.child(Constants.FireBaseConstant.TEAM_PLAYER).getChildren()){
+        for (DataSnapshot players: mDataSnapshot.child(Constants.FireBaseConstant.NODE_NAME_TEAM_PLAYER).getChildren()){
             String playerId =              players.getKey();
-            String teamId =       (String) players.child(Constants.TeamPlayersContract.TEAM_ID).getValue();
-            String playerName =   (String) players.child(Constants.TeamPlayersContract.PLAYER_NAME).getValue();
-            String playerNumber = (String) players.child(Constants.TeamPlayersContract.PLAYER_NUMBER).getValue();
-            Long   playC =        (Long)   players.child(Constants.TeamPlayersContract.PLAY_C).getValue();
-            Long   playPF =       (Long)   players.child(Constants.TeamPlayersContract.PLAY_PF).getValue();
-            Long   playSF =       (Long)   players.child(Constants.TeamPlayersContract.PLAY_SF).getValue();
-            Long   playSG =       (Long)   players.child(Constants.TeamPlayersContract.PLAY_SG).getValue();
-            Long   playPG =       (Long)   players.child(Constants.TeamPlayersContract.PLAY_PG).getValue();
+            String teamId =       (String) players.child(Constants.TeamPlayersContract.COLUMN_NAME_TEAM_ID).getValue();
+            String playerName =   (String) players.child(Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_NAME).getValue();
+            String playerNumber = (String) players.child(Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_NUMBER).getValue();
+            Long   playC =        (Long)   players.child(Constants.TeamPlayersContract.COLUMN_NAME_PLAY_C).getValue();
+            Long   playPF =       (Long)   players.child(Constants.TeamPlayersContract.COLUMN_NAME_PLAY_PF).getValue();
+            Long   playSF =       (Long)   players.child(Constants.TeamPlayersContract.COLUMN_NAME_PLAY_SF).getValue();
+            Long   playSG =       (Long)   players.child(Constants.TeamPlayersContract.COLUMN_NAME_PLAY_SG).getValue();
+            Long   playPG =       (Long)   players.child(Constants.TeamPlayersContract.COLUMN_NAME_PLAY_PG).getValue();
 
             Log.d(TAG, "team_player");
             Log.i(TAG,"playerId    " + playerId    );
@@ -198,26 +198,26 @@ public class OnCreateDataBaseTask extends AsyncTask<Void,Void,Void>{
 
             ContentValues cvTeamPlayers = new ContentValues();
 
-            cvTeamPlayers.put(Constants.TeamPlayersContract.TEAM_ID, teamId);
-            cvTeamPlayers.put(Constants.TeamPlayersContract.PLAYER_ID, playerId);
-            cvTeamPlayers.put(Constants.TeamPlayersContract.PLAYER_NAME, playerName);
-            cvTeamPlayers.put(Constants.TeamPlayersContract.PLAYER_NUMBER, playerNumber);
-            cvTeamPlayers.put(Constants.TeamPlayersContract.PLAY_C, playC);
-            cvTeamPlayers.put(Constants.TeamPlayersContract.PLAY_PF, playPF);
-            cvTeamPlayers.put(Constants.TeamPlayersContract.PLAY_SF, playSF);
-            cvTeamPlayers.put(Constants.TeamPlayersContract.PLAY_SG, playSG);
-            cvTeamPlayers.put(Constants.TeamPlayersContract.PLAY_PG, playPG);
+            cvTeamPlayers.put(Constants.TeamPlayersContract.COLUMN_NAME_TEAM_ID, teamId);
+            cvTeamPlayers.put(Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_ID, playerId);
+            cvTeamPlayers.put(Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_NAME, playerName);
+            cvTeamPlayers.put(Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_NUMBER, playerNumber);
+            cvTeamPlayers.put(Constants.TeamPlayersContract.COLUMN_NAME_PLAY_C, playC);
+            cvTeamPlayers.put(Constants.TeamPlayersContract.COLUMN_NAME_PLAY_PF, playPF);
+            cvTeamPlayers.put(Constants.TeamPlayersContract.COLUMN_NAME_PLAY_SF, playSF);
+            cvTeamPlayers.put(Constants.TeamPlayersContract.COLUMN_NAME_PLAY_SG, playSG);
+            cvTeamPlayers.put(Constants.TeamPlayersContract.COLUMN_NAME_PLAY_PG, playPG);
 
             dbTeam.insert(Constants.TeamPlayersContract.TABLE_NAME, null,cvTeamPlayers);
         }
 
         //teamlist
 
-        for (DataSnapshot teams: mDataSnapshot.child(Constants.FireBaseConstant.TEAM_INFO).getChildren()){
+        for (DataSnapshot teams: mDataSnapshot.child(Constants.FireBaseConstant.NODE_NAME_TEAM_INFO).getChildren()){
             String teamId =                 teams.getKey();
-            String teamName =      (String) teams.child(Constants.TeamInfoDBContract.TEAM_NAME).getValue();
-            Long   historyAmount = (Long)   teams.child(Constants.TeamInfoDBContract.TEAM_HISTORY_AMOUNT).getValue();
-            Long   playersAmount = (Long)   teams.child(Constants.TeamInfoDBContract.TEAM_PLAYERS_AMOUNT).getValue();
+            String teamName =      (String) teams.child(Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_NAME).getValue();
+            Long   historyAmount = (Long)   teams.child(Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_HISTORY_AMOUNT).getValue();
+            Long   playersAmount = (Long)   teams.child(Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_PLAYERS_AMOUNT).getValue();
 
             Log.d(TAG, "team_info");
             Log.i(TAG,"teamId        " + teamId        );
@@ -227,10 +227,10 @@ public class OnCreateDataBaseTask extends AsyncTask<Void,Void,Void>{
 
             ContentValues cvTeamInfo = new ContentValues();
 
-            cvTeamInfo.put(Constants.TeamInfoDBContract.TEAM_ID, teamId);
-            cvTeamInfo.put(Constants.TeamInfoDBContract.TEAM_NAME, teamName);
-            cvTeamInfo.put(Constants.TeamInfoDBContract.TEAM_HISTORY_AMOUNT, historyAmount);
-            cvTeamInfo.put(Constants.TeamInfoDBContract.TEAM_PLAYERS_AMOUNT, playersAmount);
+            cvTeamInfo.put(Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_ID, teamId);
+            cvTeamInfo.put(Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_NAME, teamName);
+            cvTeamInfo.put(Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_HISTORY_AMOUNT, historyAmount);
+            cvTeamInfo.put(Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_PLAYERS_AMOUNT, playersAmount);
 
             dbTeam.insert(Constants.TeamInfoDBContract.TABLE_NAME, null, cvTeamInfo);
         }

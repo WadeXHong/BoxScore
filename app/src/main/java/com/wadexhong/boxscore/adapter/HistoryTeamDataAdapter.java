@@ -130,8 +130,8 @@ public class HistoryTeamDataAdapter extends RecyclerView.Adapter{
         private void bind(){
 
             mCursorInfo.moveToFirst();
-            int yourTeamScore = mCursorInfo.getInt(mCursorInfo.getColumnIndex(Constants.GameInfoDBContract.YOUR_TEAM_SCORE));
-            int opponentTeamScore = mCursorInfo.getInt(mCursorInfo.getColumnIndex(Constants.GameInfoDBContract.OPPONENT_TEAM_SCORE));
+            int yourTeamScore = mCursorInfo.getInt(mCursorInfo.getColumnIndex(Constants.GameInfoDBContract.COLUMN_NAME_YOUR_TEAM_SCORE));
+            int opponentTeamScore = mCursorInfo.getInt(mCursorInfo.getColumnIndex(Constants.GameInfoDBContract.COLUMN_NAME_OPPONENT_TEAM_SCORE));
             mYourTeamScore.setText(String.valueOf(yourTeamScore));
             mOpponentTeamScore.setText(String.valueOf(opponentTeamScore));
             if (yourTeamScore >= opponentTeamScore){

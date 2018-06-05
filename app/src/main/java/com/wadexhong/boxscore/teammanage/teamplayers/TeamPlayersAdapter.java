@@ -94,8 +94,8 @@ public class TeamPlayersAdapter extends RecyclerView.Adapter {
         private void setItem (int position){
 
             mCursor.moveToPosition(position);
-            String playerName =  mCursor.getString(mCursor.getColumnIndex(Constants.TeamPlayersContract.PLAYER_NAME));
-            String playerNumber =  mCursor.getString(mCursor.getColumnIndex(Constants.TeamPlayersContract.PLAYER_NUMBER));
+            String playerName =  mCursor.getString(mCursor.getColumnIndex(Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_NAME));
+            String playerNumber =  mCursor.getString(mCursor.getColumnIndex(Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_NUMBER));
             mPlayerName.setText(playerName);
             mPlayerNumber.setText(playerNumber);
 
@@ -104,7 +104,7 @@ public class TeamPlayersAdapter extends RecyclerView.Adapter {
 
         private void deletePlayer(int layoutPosition){
             mCursor.moveToPosition(layoutPosition);
-            String playerId = mCursor.getString(mCursor.getColumnIndex(Constants.TeamPlayersContract.PLAYER_ID));
+            String playerId = mCursor.getString(mCursor.getColumnIndex(Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_ID));
             refreshCursor();
         }
     }

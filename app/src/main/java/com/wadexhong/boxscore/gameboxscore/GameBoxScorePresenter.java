@@ -170,16 +170,16 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter {
         Cursor cursor = BoxScore.getGameInfoDbHelper().getGameInfo();
         cursor.moveToFirst();
 
-        mGameInfo.setTimeoutFirstHalf(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.TIMEOUT_FIRST_HALF)));
-        mGameInfo.setTimeoutSecondHalf(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.TIMEOUT_SECOND_HALF)));
-        mGameInfo.setMaxFoul(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.MAX_FOUL)));
-        mGameInfo.setTotalQuarter(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.TOTAL_QUARTER)));
-        mGameInfo.setQuarterLength(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.QUARTER_LENGTH)));
-        mGameInfo.setYourTeamId(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.YOUR_TEAM_ID)));
-        mGameInfo.setYourTeam(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.YOUR_TEAM)));
-        mGameInfo.setOpponentName(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.OPPONENT_NAME)));
-        mGameInfo.setGameName(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.GAME_NAME)));
-        mGameInfo.setGameDate(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.GAME_DATE)));
+        mGameInfo.setTimeoutFirstHalf(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.COLUMN_NAME_TIMEOUT_FIRST_HALF)));
+        mGameInfo.setTimeoutSecondHalf(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.COLUMN_NAME_TIMEOUT_SECOND_HALF)));
+        mGameInfo.setMaxFoul(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.COLUMN_NAME_MAX_FOUL)));
+        mGameInfo.setTotalQuarter(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.COLUMN_NAME_TOTAL_QUARTER)));
+        mGameInfo.setQuarterLength(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.COLUMN_NAME_QUARTER_LENGTH)));
+        mGameInfo.setYourTeamId(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.COLUMN_NAME_YOUR_TEAM_ID)));
+        mGameInfo.setYourTeam(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.COLUMN_NAME_YOUR_TEAM)));
+        mGameInfo.setOpponentName(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.COLUMN_NAME_OPPONENT_NAME)));
+        mGameInfo.setGameName(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.COLUMN_NAME_GAME_NAME)));
+        mGameInfo.setGameDate(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.COLUMN_NAME_GAME_DATE)));
 
         cursor.close();
     }

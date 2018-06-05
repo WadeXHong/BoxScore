@@ -43,10 +43,10 @@ import com.wadexhong.boxscore.startgame.StartGameActivity;
 import com.wadexhong.boxscore.teammanage.TeamManageActivity;
 
 public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContract.View {
-    
-    private static final String  TAG = BoxScoreActivity.class.getSimpleName();
 
-    public static final int REQUEST_CODE_SETTING = 0;
+    private final String TAG = BoxScoreActivity.class.getSimpleName();
+
+    public final int REQUEST_CODE_SETTING = 0;
 
     private Context mContext;
 
@@ -68,29 +68,34 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
 
     private ImageView mLogo;
 
-    private boolean mIsLogIn = false; //TODO
     private boolean mIsUserNameLegal = false;
     private boolean mIsPassWordLegal = false;
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-            WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
-            layoutParams.screenBrightness = BoxScore.sBrightness;
-            getWindow().setAttributes(layoutParams);
-    }
-
+    /**
+     * 檢查token，決定首頁顯示畫面種類。
+     */
     @Override
     protected void onStart() {
         super.onStart();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null){
+        if (user != null) {
             showMainUi(View.GONE, View.VISIBLE);
-        }else {
+        } else {
             showMainUi(View.VISIBLE, View.GONE);
         }
     }
+
+    /**
+     * 重新設定亮度，確保設定值更改後有被套用。
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+        layoutParams.screenBrightness = BoxScore.sBrightness;
+        getWindow().setAttributes(layoutParams);
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -99,33 +104,21 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
             mPassWordEditText.setText("");
     }
 
+    /**
+     *  避免singlton的ProgressBarDialog持有同一個context
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
         ProgressBarDialog.setNull();
     }
 
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_box_score);
+
         mContext = this;
-        FirebaseAuth.getInstance();
-        ChangeBounds bounds = new ChangeBounds();
-        bounds.setDuration(750);
-        getWindow().setSharedElementEnterTransition(bounds);
-
-//        ChangeBounds mBounds = new ChangeBounds();
-//        mBounds.setDuration(500);
-//        getWindow().setSharedElementReturnTransition(null);
-
 
         mMainLayout = findViewById(R.id.activity_boxscore_main_layout);
         mStartGameLayout = findViewById(R.id.activity_boxscore_startgame_layout);
@@ -140,37 +133,38 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
         mPassWordEditText = findViewById(R.id.activity_boxscore_password_edittext);
         mLogo = findViewById(R.id.activity_boxscore_logo_imageview);
 
-//        if (mIsLogIn){ //TODO  token判斷
-//            showUi(View.GONE, View.VISIBLE);
-//        }else {
-//            showUi(View.VISIBLE, View.GONE);
-//        }
+        setOnClickListenerToView();
+        addTextChangeListenerToEditText();
 
+        init();
+    }
+
+    private void setOnClickListenerToView() {
         mStartGameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG,"StartGame pressed");
+                Log.i(TAG, "StartGame pressed");
                 mPresenter.pressStartGame();
             }
         });
         mTeamManageLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG,"TeamManage pressed");
+                Log.i(TAG, "TeamManage pressed");
                 startActivity(new Intent(BoxScoreActivity.this, TeamManageActivity.class));
             }
         });
         mGameHistoryLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG,"GmaeHistory pressed");
+                Log.i(TAG, "GmaeHistory pressed");
                 startActivity(new Intent(BoxScoreActivity.this, GameHistoryActivity.class));
             }
         });
         mSettingLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG,"Setting pressed");
+                Log.i(TAG, "Setting pressed");
                 startActivityForResult(new Intent(BoxScoreActivity.this, SettingActivity.class), REQUEST_CODE_SETTING);
             }
         });
@@ -178,7 +172,7 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
             @Override
             public void onClick(View v) {
 
-                showProgressBarDialog("登入中...");
+                showProgressBarDialog(getString(R.string.progressbar_login));
 
                 String userName = mUserNameEditText.getText().toString();
                 String passWord = mPassWordEditText.getText().toString();
@@ -191,30 +185,34 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
                                   public void onComplete(@NonNull Task<AuthResult> task) {
 
                                       if (task.isSuccessful()) {
-                                          showProgressBarDialog("資料同步中");
+
+                                          showProgressBarDialog(getString(R.string.progressbar_loading));
                                           mPresenter.updateDbFromFireBase();
-                                          showToast("登入成功");
+                                          showToast(getString(R.string.login_message_success));
                                           showMainUi(View.GONE, View.VISIBLE);
+
                                       } else {
+
                                           try {
                                               throw task.getException();
-                                          } catch(FirebaseAuthWeakPasswordException e) {
+                                          } catch (FirebaseAuthWeakPasswordException e) {
 
-                                          } catch(FirebaseAuthInvalidCredentialsException e) {
-                                              showToast("密碼錯誤");
+                                          } catch (FirebaseAuthInvalidCredentialsException e) {
+                                              showToast(getString(R.string.login_message_wrong_password));
 
-                                          } catch(FirebaseAuthUserCollisionException e) {
-                                              showToast("其他裝置帳號登入中");
+                                          } catch (FirebaseAuthUserCollisionException e) {
 
-                                          } catch(Exception e) {
-                                              showToast("帳號不存在");
+                                          } catch (Exception e) {
+                                              showToast(getString(R.string.login_message_account_not_exist));
                                           }
+
                                           ProgressBarDialog.hideProgressBarDialog();
+
                                       }
                                   }
                               });
-                }else {
-                    showToast("輸入不符合規定");
+                } else {
+                    showToast(getString(R.string.login_message_invalid));
                     ProgressBarDialog.hideProgressBarDialog();
 
                 }
@@ -226,37 +224,51 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
         mSignUpLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mIsUserNameLegal && mIsPassWordLegal){
-                    showProgressBarDialog("註冊中...");
+
+                if (mIsUserNameLegal && mIsPassWordLegal) {
+
+                    showProgressBarDialog(getString(R.string.progressbar_signup));
                     FirebaseAuth.getInstance().createUserWithEmailAndPassword(mUserNameEditText.getText().toString(), mPassWordEditText.getText().toString())
                               .addOnCompleteListener(BoxScoreActivity.this, new OnCompleteListener<AuthResult>() {
                                   @Override
                                   public void onComplete(@NonNull Task<AuthResult> task) {
+
                                       if (task.isSuccessful()) {
+
                                           mPassWordEditText.setText("");
                                           showMainUi(View.GONE, View.VISIBLE);
-                                          showToast("成功");
+                                          showToast(getString(R.string.success));
+
                                       } else {
+
                                           try {
                                               throw task.getException();
-                                          } catch(FirebaseAuthUserCollisionException e) {
-                                              showToast("此帳號已註冊");
+                                          } catch (FirebaseAuthUserCollisionException e) {
+                                              showToast(getString(R.string.sign_up_account_already_exist));
 
-                                          } catch(Exception e) {
+                                          } catch (Exception e) {
                                               showToast(e.toString());
                                           }
+
                                       }
                                       ProgressBarDialog.hideProgressBarDialog();
                                   }
                               });
-                }else if (!mIsUserNameLegal){
-                    showToast("帳號不符規定");
-                }else {
-                    showToast("密碼長度不得小於6位");
+
+                } else if (!mIsUserNameLegal) {
+
+                    showToast(getString(R.string.sign_up_account_invalid));
+
+                } else {
+
+                    showToast(getString(R.string.sign_up_password_too_short));
+
                 }
             }
         });
+    }
 
+    private void addTextChangeListenerToEditText() {
         mUserNameEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -270,7 +282,8 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.length() > 0 && s.charAt(s.length()-1) == '\u0020') s.delete(s.length()-1, s.length());
+                if (s.length() > 0 && s.charAt(s.length() - 1) == '\u0020')
+                    s.delete(s.length() - 1, s.length());
                 mIsUserNameLegal = Patterns.EMAIL_ADDRESS.matcher(s).matches();
             }
         });
@@ -291,21 +304,37 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
                 mIsPassWordLegal = s.length() >= 6;
             }
         });
-
-        init();
     }
 
-
-    public void showToast(String message) {
-        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
-    }
 
     private void init() {
-        Log.i(TAG,"BoxScoreActivity.init");
+        Log.i(TAG, "BoxScoreActivity.init");
         setStatusBar(this);
+
+        ChangeBounds bounds = new ChangeBounds();
+        bounds.setDuration(750);
+        getWindow().setSharedElementEnterTransition(bounds);
+
         mPresenter = new BoxScorePresenter(this);
 
+        delayForAnimation();
+    }
+
+    private void setStatusBar(Activity activity) {
+        Window window = activity.getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(activity.getResources().getColor(android.R.color.transparent));
+        window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+    }
+
+    /**
+     *  等transition動畫跑完再開始從FireBase 同步資料
+     */
+    private void delayForAnimation() {
+
         new Thread(new Runnable() {
+
             @Override
             public void run() {
                 try {
@@ -313,6 +342,7 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -323,13 +353,8 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
         }).start();
     }
 
-    private void setStatusBar(Activity activity) {
-
-        Window window = activity.getWindow();
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(activity.getResources().getColor(android.R.color.transparent));
-        window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+    public void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -338,7 +363,7 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
     }
 
     @Override
-    public void showMainUi(int logInViewVisibility, int fuctionViewVisibility) {
+    public void showMainUi(int logInViewVisibility, int functionViewVisibility) {
 
         mUserNameLayout.setVisibility(logInViewVisibility);
         mPassWordLayout.setVisibility(logInViewVisibility);
@@ -346,42 +371,52 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
         mSignUpLayout.setVisibility(logInViewVisibility);
 
 
-        mStartGameLayout.setVisibility(fuctionViewVisibility);
-        mTeamManageLayout.setVisibility(fuctionViewVisibility);
-        mGameHistoryLayout.setVisibility(fuctionViewVisibility);
-        mSettingLayout.setVisibility(fuctionViewVisibility);
+        mStartGameLayout.setVisibility(functionViewVisibility);
+        mTeamManageLayout.setVisibility(functionViewVisibility);
+        mGameHistoryLayout.setVisibility(functionViewVisibility);
+        mSettingLayout.setVisibility(functionViewVisibility);
     }
 
+    /**
+     *  點擊開始遊戲後若presenter判斷sharedpreferences內有比賽顯示此詢問訊息
+     *  PositiveButton will let user back to the previous game,
+     *  NeuralButton will save the previous game and  start new one,
+     *  NegativeButton will delete the previous game from database and start new one.
+     * @param opponentName opponentName saved in SharedPreferences
+     */
     @Override
     public void askResumeGame(String opponentName) {
-        new AlertDialog.Builder(this,R.style.OrangeDialog).setTitle("恢復比賽")
-                  .setMessage("上次與\n"+opponentName+" 的比賽記錄尚未結束\n是否恢復比賽？\n\n警告：選擇\n「放棄並開新比賽」\n將刪除紀錄")
-                  .setPositiveButton("恢復比賽", new DialogInterface.OnClickListener() {
+
+        new AlertDialog.Builder(this, R.style.OrangeDialog).setTitle(R.string.ask_resume_game_title)
+                  .setMessage(getString(R.string.ask_resume_game_message, opponentName))
+                  .setPositiveButton(getString(R.string.ask_resume_game_button_resume), new DialogInterface.OnClickListener() {
                       @Override
                       public void onClick(DialogInterface dialog, int which) {
-                          transToGameBoxScore();//TODO ??????????? How to do ?
-                          Log.d(TAG,"pressed Resume");
+                          transToGameBoxScore();
+                          Log.d(TAG, "pressed Resume");
                           dialog.dismiss();
-                      }})
-                  .setNegativeButton("結束並開新比賽", new DialogInterface.OnClickListener() {
+                      }
+                  })
+                  .setNegativeButton(getString(R.string.ask_resume_game_button_save_and_start), new DialogInterface.OnClickListener() {
                       @Override
                       public void onClick(DialogInterface dialog, int which) {
-                          Log.d(TAG,"pressed End and start new");
+                          Log.d(TAG, "pressed End and start new");
                           mPresenter.saveAndEndCurrentGame();
                           transToStartGame();
                           dialog.dismiss();
-                      }})
-                  .setNeutralButton("放棄並開新比賽", new DialogInterface.OnClickListener() {
+                      }
+                  })
+                  .setNeutralButton(getString(R.string.ask_resume_game_button_discard), new DialogInterface.OnClickListener() {
                       @Override
                       public void onClick(DialogInterface dialog, int which) {
-                          Log.d(TAG,"pressed Discard and start new");
+                          Log.d(TAG, "pressed Discard and start new");
                           //ToDo callPresenter to delete previous gameData in DB
                           mPresenter.removeGameDataInDataBase();
                           mPresenter.removeGameDataSharedPreferences();
                           transToStartGame();
                           dialog.dismiss();
-                      }}).show();
-
+                      }
+                  }).show();
     }
 
     @Override
@@ -391,8 +426,7 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
 
     @Override
     public void transToGameBoxScore() {
-        startActivity(new Intent(this, GameBoxScoreActivity.class).putExtra("GameInfo",new GameInfo()).putExtra("isResume",true));
-
+        startActivity(new Intent(this, GameBoxScoreActivity.class).putExtra("GameInfo", new GameInfo()).putExtra("isResume", true));
     }
 
     @Override

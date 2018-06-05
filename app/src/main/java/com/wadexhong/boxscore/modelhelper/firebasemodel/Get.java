@@ -30,7 +30,7 @@ public class Get {
 
 
     public static void onCreate() {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.FireBaseConstant.USERS).child(FirebaseAuth.getInstance().getUid());
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.FireBaseConstant.NODE_NAME_USERS).child(FirebaseAuth.getInstance().getUid());
 
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

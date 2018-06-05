@@ -7,10 +7,7 @@ package com.wadexhong.boxscore;
 
 public interface BoxScoreContract {
 
-    interface View extends BaseView<Presenter>{
-
-        void showMainUi(int logInViewVisibility, int fuctionViewVisibility);
-
+    interface View extends BaseView<Presenter> {
 
         void askResumeGame(String opponentName);
 
@@ -19,9 +16,11 @@ public interface BoxScoreContract {
         void transToGameBoxScore();
 
         void showProgressBarDialog(String message);
+
+        void showMainUi(int logInViewVisibility, int functionViewVisibility);
     }
 
-    interface Presenter extends BasePresenter{
+    interface Presenter extends BasePresenter {
 
         void transToStartGame();
 
@@ -33,17 +32,13 @@ public interface BoxScoreContract {
 
         void pressStartGame();
 
+        void saveAndEndCurrentGame();
+
         void removeGameDataSharedPreferences();
 
         void removeGameDataInDataBase();
 
-        void signUpFireBase(String userName, String password);
-
-        void logInFireBase(String userEmail, String password);
-
         void updateDbFromFireBase();
-
-        void saveAndEndCurrentGame();
     }
 
 }

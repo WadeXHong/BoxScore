@@ -20,15 +20,14 @@ import com.wadexhong.boxscore.modelhelper.SharedPreferenceHelper;
 
 public class BoxScorePresenter implements BoxScoreContract.Presenter {
 
-    private static final String TAG =BoxScorePresenter.class.getSimpleName();
+    private final String TAG = BoxScorePresenter.class.getSimpleName();
 
     private final BoxScoreContract.View mBoxScoreView;
 
     public BoxScorePresenter(BoxScoreContract.View boxScoreView) {
-        this.mBoxScoreView = boxScoreView;
+        mBoxScoreView = boxScoreView;
         mBoxScoreView.setPresenter(this);
     }
-
 
     @Override
     public void start() {
@@ -57,25 +56,34 @@ public class BoxScorePresenter implements BoxScoreContract.Presenter {
 
     @Override
     public void pressStartGame() {
-        if (SharedPreferenceHelper.contains(SharedPreferenceHelper.PLAYING_GAME)){
-            String string = SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME,"87");
+
+        if (SharedPreferenceHelper.contains(SharedPreferenceHelper.PLAYING_GAME)) {
+            // 由 SharedPreferences 拿到的 gameId 對 DataBase 做 query.
             Cursor cursor = BoxScore.getGameInfoDbHelper()
                       .getReadableDatabase()
                       .query(Constants.GameInfoDBContract.TABLE_NAME
-                                ,null
-                                ,Constants.GameInfoDBContract.GAME_ID + " = ?"
-                                ,new String[]{SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME,"")},null,null,null);
+                                , null
+                                , Constants.GameInfoDBContract.COLUMN_NAME_GAME_ID + " = ?"
+                                , new String[]{SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME, "")}, null, null, null);
+
             cursor.moveToFirst();
-            try{
-                mBoxScoreView.askResumeGame(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.OPPONENT_NAME)));
-            }catch (CursorIndexOutOfBoundsException e){
+
+            try {
+                // 若拿的到名稱代表資料存在，將內容傳至View顯示提示訊息。
+                mBoxScoreView.askResumeGame(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.COLUMN_NAME_OPPONENT_NAME)));
+
+            } catch (CursorIndexOutOfBoundsException e) {
+                // 拿不到代表資料損毀或 SharedPreferences 未順利清除，則清除後直接開新遊戲。
                 Log.w(TAG, e.getMessage());
                 removeGameDataSharedPreferences();
+
                 Log.w(TAG, "SharedPreferences have been removed in order to making function executed normally");
                 transToStartGame();
+
             }
             cursor.close();
-        }else {
+
+        } else {
             transToStartGame();
         }
     }
@@ -94,32 +102,15 @@ public class BoxScorePresenter implements BoxScoreContract.Presenter {
 
     @Override
     public void removeGameDataInDataBase() {
-        BoxScore.getGameDataDbHelper().removeGameData(SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME,""));
-        BoxScore.getGameInfoDbHelper().removeGameInfo(SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME,""));
-    }
-
-    @Override
-    public void signUpFireBase(String userEmail, String password) {
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(userEmail, password).addOnCompleteListener((BoxScoreActivity)BoxScore.getAppContext(), new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()){
-                    Log.w("","");
-                }
-            }
-        });
-    }
-
-    @Override
-    public void logInFireBase(String userEmail, String password) {
-
+        BoxScore.getGameDataDbHelper().removeGameData(SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME, ""));
+        BoxScore.getGameInfoDbHelper().removeGameInfo(SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME, ""));
     }
 
     @Override
     public void updateDbFromFireBase() {
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            mBoxScoreView.showProgressBarDialog("同步資料中...");
-            String notEndedGameId = SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME,"");
+            mBoxScoreView.showProgressBarDialog(BoxScore.getAppContext().getString(R.string.progressbar_loading));
+            String notEndedGameId = SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME, "");
             BoxScore.getGameDataDbHelper().deleteAll(notEndedGameId);
             BoxScore.getGameInfoDbHelper().deleteAll(notEndedGameId);
             BoxScore.getTeamDbHelper().deleteAll();
@@ -130,20 +121,20 @@ public class BoxScorePresenter implements BoxScoreContract.Presenter {
     @Override
     public void saveAndEndCurrentGame() {
 
-        String gameId = SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME,"");
-        String teamId = SharedPreferenceHelper.read(SharedPreferenceHelper.YOUR_TEAM_ID,"");
-        if (!gameId.equals("") && !teamId.equals("")){
+        String gameId = SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME, "");
+        String teamId = SharedPreferenceHelper.read(SharedPreferenceHelper.YOUR_TEAM_ID, "");
+
+        if (!gameId.equals("") && !teamId.equals("")) {
 
             int newHistoryAmount = BoxScore.getGameInfoDbHelper().overExpandingGame(gameId, teamId);
 
             BoxScore.getTeamDbHelper().updateHistoryAmount(teamId, newHistoryAmount);
 
-            if (FirebaseAuth.getInstance().getCurrentUser() != null){
+            if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                 Create.getInstance().CreateGameData(BoxScore.getGameDataDbHelper().getSpecificGameData(gameId));
                 Create.getInstance().CreateGameInfo(BoxScore.getGameInfoDbHelper().getSpecificInfo(gameId));
                 Create.getInstance().UpdateTeamHistoryAmount(teamId, newHistoryAmount);
             }
-
         }
         removeGameDataSharedPreferences();
     }

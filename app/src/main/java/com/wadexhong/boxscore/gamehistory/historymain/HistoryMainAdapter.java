@@ -86,14 +86,14 @@ public class HistoryMainAdapter extends RecyclerView.Adapter {
 
             mCursor.moveToPosition(position);
 
-            final String gameId = mCursor.getString(mCursor.getColumnIndex(Constants.GameInfoDBContract.GAME_ID));
-            String date = mCursor.getString(mCursor.getColumnIndex(Constants.GameInfoDBContract.GAME_DATE));
-            String gameTitle = mCursor.getString(mCursor.getColumnIndex(Constants.GameInfoDBContract.GAME_NAME));
-            String yourTeam = itemView.getResources().getString(R.string.yourTeamName, mCursor.getString(mCursor.getColumnIndex(Constants.GameInfoDBContract.YOUR_TEAM)));
-            String opponentTeam = itemView.getResources().getString(R.string.opponentTeamName, mCursor.getString(mCursor.getColumnIndex(Constants.GameInfoDBContract.OPPONENT_NAME)));
+            final String gameId = mCursor.getString(mCursor.getColumnIndex(Constants.GameInfoDBContract.COLUMN_NAME_GAME_ID));
+            String date = mCursor.getString(mCursor.getColumnIndex(Constants.GameInfoDBContract.COLUMN_NAME_GAME_DATE));
+            String gameTitle = mCursor.getString(mCursor.getColumnIndex(Constants.GameInfoDBContract.COLUMN_NAME_GAME_NAME));
+            String yourTeam = itemView.getResources().getString(R.string.yourTeamName, mCursor.getString(mCursor.getColumnIndex(Constants.GameInfoDBContract.COLUMN_NAME_YOUR_TEAM)));
+            String opponentTeam = itemView.getResources().getString(R.string.opponentTeamName, mCursor.getString(mCursor.getColumnIndex(Constants.GameInfoDBContract.COLUMN_NAME_OPPONENT_NAME)));
             String finalScore = itemView.getResources().getString(R.string.finalScore,
-                      mCursor.getInt(mCursor.getColumnIndex(Constants.GameInfoDBContract.YOUR_TEAM_SCORE)),
-                      mCursor.getInt(mCursor.getColumnIndex(Constants.GameInfoDBContract.OPPONENT_TEAM_SCORE)));
+                      mCursor.getInt(mCursor.getColumnIndex(Constants.GameInfoDBContract.COLUMN_NAME_YOUR_TEAM_SCORE)),
+                      mCursor.getInt(mCursor.getColumnIndex(Constants.GameInfoDBContract.COLUMN_NAME_OPPONENT_TEAM_SCORE)));
 
             if (gameTitle.equals("")){
                 mGameTitle.setText("友誼賽");

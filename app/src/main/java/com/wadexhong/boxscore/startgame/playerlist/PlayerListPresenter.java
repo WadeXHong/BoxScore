@@ -45,9 +45,9 @@ public class PlayerListPresenter implements PlayerListContract.Presenter{
         ArrayList<Player> players = new ArrayList<>();
         for (int i=0 ; i<size ; i++){
             cursor.moveToPosition(i);
-            players.add(new Player(cursor.getString(cursor.getColumnIndex(Constants.TeamPlayersContract.PLAYER_NUMBER)),
-                      cursor.getString(cursor.getColumnIndex(Constants.TeamPlayersContract.PLAYER_NAME)),
-                      cursor.getString(cursor.getColumnIndex(Constants.TeamPlayersContract.PLAYER_ID))));
+            players.add(new Player(cursor.getString(cursor.getColumnIndex(Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_NUMBER)),
+                      cursor.getString(cursor.getColumnIndex(Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_NAME)),
+                      cursor.getString(cursor.getColumnIndex(Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_ID))));
         }
 
         mPlayerListView.setDefaultPlayerList(players);

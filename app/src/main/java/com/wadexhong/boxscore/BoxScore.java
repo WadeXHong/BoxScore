@@ -34,27 +34,29 @@ public class BoxScore extends Application {
         mVibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
     }
 
-    public static Context getAppContext(){return mContext;}
+    public static Context getAppContext() {
+        return mContext;
+    }
 
-    public static GameDataDbHelper getGameDataDbHelper(){
-        if (mGameDataDbHelper == null)mGameDataDbHelper = new GameDataDbHelper(getAppContext());
+    public static GameDataDbHelper getGameDataDbHelper() {
+        if (mGameDataDbHelper == null) mGameDataDbHelper = new GameDataDbHelper(getAppContext());
         return mGameDataDbHelper;
     }
 
-    public static GameInfoDbHelper getGameInfoDbHelper(){
-        if (mGameInfoDbHelper == null)mGameInfoDbHelper = new GameInfoDbHelper(getAppContext());
+    public static GameInfoDbHelper getGameInfoDbHelper() {
+        if (mGameInfoDbHelper == null) mGameInfoDbHelper = new GameInfoDbHelper(getAppContext());
         return mGameInfoDbHelper;
     }
 
-    public static TeamDbHelper getTeamDbHelper(){
+    public static TeamDbHelper getTeamDbHelper() {
         if (mTeamDbHelper == null) mTeamDbHelper = new TeamDbHelper(getAppContext());
         return mTeamDbHelper;
     }
 
-    public static void vibrate(){
-        if (Build.VERSION.SDK_INT < 26){
+    public static void vibrate() {
+        if (Build.VERSION.SDK_INT < 26) {
             mVibrator.vibrate(20);
-        }else {
+        } else {
             mVibrator.vibrate(VibrationEffect.createOneShot(20, VibrationEffect.DEFAULT_AMPLITUDE));
         }
     }

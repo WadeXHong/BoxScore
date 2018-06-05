@@ -101,5 +101,21 @@
     <string name="brightness">螢幕亮度</string>
     <string name="finger">%s指</string>
     <string name="none">無</string>
+    <string name="progressbar_login">登入中...</string>
+    <string name="progressbar_loading">資料同步中...</string>
+    <string name="login_message_wrong_password">密碼錯誤</string>
+    <string name="login_message_account_not_exist">帳號不存在</string>
+    <string name="login_message_success">登入成功</string>
+    <string name="login_message_invalid">輸入不符合規定</string>
+    <string name="progressbar_signup">註冊中...</string>
+    <string name="success">成功</string>
+    <string name="sign_up_account_already_exist">此帳號已註冊</string>
+    <string name="sign_up_account_invalid">帳號不符規定</string>
+    <string name="sign_up_password_too_short">密碼長度不得小於6位</string>
+    <string name="ask_resume_game_title">恢復比賽</string>
+    <string name="ask_resume_game_message">"上次與\n%s 的比賽記錄尚未結束\n是否恢復比賽？\n\n警告：選擇\n「放棄並開新比賽」\n將刪除紀錄"</string>
+    <string name="ask_resume_game_button_resume">恢復比賽</string>
+    <string name="ask_resume_game_button_save_and_start">結束並開新比賽</string>
+    <string name="ask_resume_game_button_discard">放棄並開新比賽</string>
 
 </resources>
