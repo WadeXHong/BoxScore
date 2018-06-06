@@ -117,5 +117,22 @@
     <string name="ask_resume_game_button_resume">恢復比賽</string>
     <string name="ask_resume_game_button_save_and_start">結束並開新比賽</string>
     <string name="ask_resume_game_button_discard">放棄並開新比賽</string>
+    <string name="start_game_illegal_title">輸入未完成</string>
+    <string name="start_game_illegal_message">必填項目不符合規定</string>
+    <string name="simple_date_format">yyyy年MM月dd日</string>
+    <string name="quick_game_team_name">快速遊戲</string>
+    <string name="quick_game_team_id">quick_game</string>
+    <string name="starting_players_count">　需求: 5人；目前: %d人</string>
+    <string name="substitute_players_count">　最少: 1人；目前: %d人</string>
+    <string name="max_foul_message">犯規次數最小為%d</string>
+    <string name="min_foul_message">犯規次數最大為%d</string>
+    <string name="max_quarter_length_message">單節時間最大值為%d分鐘</string>
+    <string name="min_quarter_length_message">單節時間最小值為%d分鐘</string>
+    <string name="max_total_quarter_message">總節數最大為%d節</string>
+    <string name="min_total_quarter_message">總節數最小為%d節</string>
+    <string name="max_timeout_first_half">上半場最大暫停次數為%d次</string>
+    <string name="min_timeout_first_half">上半場最小暫停次數為%d次</string>
+    <string name="max_timeout_second_half">下半場最大暫停次數為%d次</string>
+    <string name="min_timeout_second_half">下半場最小暫停次數為%d次</string>
 
 </resources>

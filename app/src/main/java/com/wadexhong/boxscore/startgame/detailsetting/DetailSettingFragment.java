@@ -15,20 +15,20 @@ import com.wadexhong.boxscore.objects.GameInfo;
 
 public class DetailSettingFragment extends Fragment implements DetailSettingContract.View {
 
-    private static final String TAG = DetailSettingFragment.class.getSimpleName();
+    private final String TAG = DetailSettingFragment.class.getSimpleName();
 
     private DetailSettingContract.Presenter mPresenter;
 
-    private Button mQuarterLengthPlus;
-    private Button mQuarterLengthMinus;
-    private Button mTotalQuarterPlus;
-    private Button mTotalQuarterMinus;
-    private Button mMaxFoulPlus;
-    private Button mMaxFoulMinus;
-    private Button mTimeoutsFirstHalfPlus;
-    private Button mTimeoutsFirstHalfMinus;
-    private Button mTimeoutsSecondHalfPlus;
-    private Button mTimeoutsSecondHalfMinus;
+    private Button mQuarterLengthPlusButton;
+    private Button mQuarterLengthMinusButton;
+    private Button mTotalQuarterPlusButton;
+    private Button mTotalQuarterMinusButton;
+    private Button mMaxFoulPlusButton;
+    private Button mMaxFoulMinusButton;
+    private Button mTimeoutsFirstHalfPlusButton;
+    private Button mTimeoutsFirstHalfMinusButton;
+    private Button mTimeoutsSecondHalfPlusButton;
+    private Button mTimeoutsSecondHalfMinusButton;
 
     private TextView mQuarterLengthTextView;
     private TextView mTotalQuarterTextView;
@@ -46,7 +46,7 @@ public class DetailSettingFragment extends Fragment implements DetailSettingCont
         // Required empty public constructor
     }
 
-    public static DetailSettingFragment newInstance(){
+    public static DetailSettingFragment newInstance() {
         return new DetailSettingFragment();
     }
 
@@ -56,16 +56,16 @@ public class DetailSettingFragment extends Fragment implements DetailSettingCont
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail_setting, container, false);
 
-        mQuarterLengthPlus = view.findViewById(R.id.fragment_detailsetting_quarterlength_plus);
-        mQuarterLengthMinus = view.findViewById(R.id.fragment_detailsetting_quarterlength_minus);
-        mTotalQuarterPlus = view.findViewById(R.id.fragment_detailsetting_totalquarter_plus);
-        mTotalQuarterMinus = view.findViewById(R.id.fragment_detailsetting_totalquarter_minus);
-        mMaxFoulPlus = view.findViewById(R.id.fragment_detailsetting_maxfoul_plus);
-        mMaxFoulMinus = view.findViewById(R.id.fragment_detailsetting_maxfoul_minus);
-        mTimeoutsFirstHalfPlus = view.findViewById(R.id.fragment_detailsetting_timeouts_firsthalf_plus);
-        mTimeoutsFirstHalfMinus = view.findViewById(R.id.fragment_detailsetting_timeouts_firsthalf_minus);
-        mTimeoutsSecondHalfPlus = view.findViewById(R.id.fragment_detailsetting_timeouts_secondhalf_plus);
-        mTimeoutsSecondHalfMinus = view.findViewById(R.id.fragment_detailsetting_timeouts_secondhalf_minus);
+        mQuarterLengthPlusButton = view.findViewById(R.id.fragment_detailsetting_quarterlength_plus);
+        mQuarterLengthMinusButton = view.findViewById(R.id.fragment_detailsetting_quarterlength_minus);
+        mTotalQuarterPlusButton = view.findViewById(R.id.fragment_detailsetting_totalquarter_plus);
+        mTotalQuarterMinusButton = view.findViewById(R.id.fragment_detailsetting_totalquarter_minus);
+        mMaxFoulPlusButton = view.findViewById(R.id.fragment_detailsetting_maxfoul_plus);
+        mMaxFoulMinusButton = view.findViewById(R.id.fragment_detailsetting_maxfoul_minus);
+        mTimeoutsFirstHalfPlusButton = view.findViewById(R.id.fragment_detailsetting_timeouts_firsthalf_plus);
+        mTimeoutsFirstHalfMinusButton = view.findViewById(R.id.fragment_detailsetting_timeouts_firsthalf_minus);
+        mTimeoutsSecondHalfPlusButton = view.findViewById(R.id.fragment_detailsetting_timeouts_secondhalf_plus);
+        mTimeoutsSecondHalfMinusButton = view.findViewById(R.id.fragment_detailsetting_timeouts_secondhalf_minus);
 
         mQuarterLengthTextView = view.findViewById(R.id.fragment_detailsetting_quarterlength_textview);
         mTotalQuarterTextView = view.findViewById(R.id.fragment_detailsetting_totalquarter_edittext);
@@ -86,70 +86,70 @@ public class DetailSettingFragment extends Fragment implements DetailSettingCont
 
     private void setOnClickOnButton() {
 
-        mMaxFoulPlus.setOnClickListener(new View.OnClickListener() {
+        mMaxFoulPlusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mPresenter.maxFoulPlus(mMaxFoulTextView.getText().toString());
             }
         });
 
-        mMaxFoulMinus.setOnClickListener(new View.OnClickListener() {
+        mMaxFoulMinusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mPresenter.maxFoulMinus(mMaxFoulTextView.getText().toString());
             }
         });
 
-        mQuarterLengthPlus.setOnClickListener(new View.OnClickListener() {
+        mQuarterLengthPlusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mPresenter.quarterLengthPlus(mQuarterLengthTextView.getText().toString());
             }
         });
 
-        mQuarterLengthMinus.setOnClickListener(new View.OnClickListener() {
+        mQuarterLengthMinusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mPresenter.quarterLengthMinus(mQuarterLengthTextView.getText().toString());
             }
         });
 
-        mTotalQuarterPlus.setOnClickListener(new View.OnClickListener() {
+        mTotalQuarterPlusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mPresenter.totalQuarterPlus(mTotalQuarterTextView.getText().toString());
             }
         });
 
-        mTotalQuarterMinus.setOnClickListener(new View.OnClickListener() {
+        mTotalQuarterMinusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mPresenter.totalQuarterMinus(mTotalQuarterTextView.getText().toString());
             }
         });
 
-        mTimeoutsFirstHalfPlus.setOnClickListener(new View.OnClickListener() {
+        mTimeoutsFirstHalfPlusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mPresenter.timeoutsFirstHalfPlus(mTimeoutsFirstHalfTextView.getText().toString());
             }
         });
 
-        mTimeoutsFirstHalfMinus.setOnClickListener(new View.OnClickListener() {
+        mTimeoutsFirstHalfMinusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mPresenter.timeoutsFirstHalfMinus(mTimeoutsFirstHalfTextView.getText().toString());
             }
         });
 
-        mTimeoutsSecondHalfPlus.setOnClickListener(new View.OnClickListener() {
+        mTimeoutsSecondHalfPlusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mPresenter.timeoutsSecondHalfPlus(mTimeoutsSecondHalfTextView.getText().toString());
             }
         });
 
-        mTimeoutsSecondHalfMinus.setOnClickListener(new View.OnClickListener() {
+        mTimeoutsSecondHalfMinusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mPresenter.timeoutsSecondHalfMinus(mTimeoutsSecondHalfTextView.getText().toString());
@@ -188,18 +188,18 @@ public class DetailSettingFragment extends Fragment implements DetailSettingCont
     }
 
     @Override
-    public void showToast(String message) {
-        if (message != null){
-            Toast.makeText(getContext(),message,Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
     public void getSettingResult(GameInfo gameInfo) {
         gameInfo.setQuarterLength(mQuarterLengthTextView.getText().toString());
         gameInfo.setTotalQuarter(mTotalQuarterTextView.getText().toString());
         gameInfo.setMaxFoul(mMaxFoulTextView.getText().toString());
         gameInfo.setTimeoutFirstHalf(mTimeoutsFirstHalfTextView.getText().toString());
         gameInfo.setTimeoutSecondHalf(mTimeoutsSecondHalfTextView.getText().toString());
+    }
+
+    @Override
+    public void showToast(String message) {
+        if (message != null) {
+            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+        }
     }
 }

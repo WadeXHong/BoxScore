@@ -22,33 +22,34 @@ import com.wadexhong.boxscore.adapter.ViewPagerFragmentAdapter;
 import com.wadexhong.boxscore.customlayout.BSViewPager;
 import com.wadexhong.boxscore.gameboxscore.GameBoxScoreActivity;
 
-public class StartGameActivity extends AppCompatActivity implements StartGameContract.View{
+public class StartGameActivity extends AppCompatActivity implements StartGameContract.View {
 
-    private static final String TAG = StartGameActivity.class.getSimpleName();
+    private final String TAG = StartGameActivity.class.getSimpleName();
 
     private StartGameContract.Presenter mPresenter;
-    private final int PAGE_GAMENAME = 0;
+
+    public static final String EXTRA_GAME_INFO = "GameInfo";
+    private final int PAGE_GAME_NAME = 0;
     private final int PAGE_PLAYER = 1;
     private final int PAGE_DETAIL = 2;
 
-    private GameInfo mGameInfo;
-
     private Toolbar mToolbar;
-    private TextView mStartGame;
-    private ImageView mNextPage;
+    private TextView mStartGameTextView;
+    private ImageView mNextPageImageView;
     private BSViewPager mViewPager;
     private TabLayout mTabLayout;
-    private View.OnClickListener onClickTransToGameNameSetting,onClickTransToPlayerSetting,onClickTransToDetailSetting;
+    private View.OnClickListener onClickTransToGameNameSetting, onClickTransToPlayerSetting, onClickTransToDetailSetting;
 
     private float mInitPositionX;
     private boolean mIsTurnRight = false;
     private boolean mIsChangePageAllowed = false;
 
-    private final int[] mTab = {R.string.gamenamesetting,R.string.playerlist,R.string.detailsetting};
+    private final int[] mTabStringId = {R.string.gamenamesetting, R.string.playerlist, R.string.detailsetting};
 
     @Override
     protected void onResume() {
         super.onResume();
+
         if (BoxScore.sBrightness != -1) {
             WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
             layoutParams.screenBrightness = BoxScore.sBrightness;
@@ -63,7 +64,9 @@ public class StartGameActivity extends AppCompatActivity implements StartGameCon
 
         mViewPager = findViewById(R.id.activity_startgame_viewpager);
         mTabLayout = findViewById(R.id.activity_startgame_tablelayout);
+
         mPresenter = new StartGamePresenter(this, getSupportFragmentManager());
+
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -75,9 +78,9 @@ public class StartGameActivity extends AppCompatActivity implements StartGameCon
                 mPresenter.onPageSelected(position);
 
                 //從頭檢查輸入
-                for (int i=0; i<position; i++){
+                for (int i = 0; i < position; i++) {
                     mPresenter.checkInput(i);
-                    if (!mIsChangePageAllowed){
+                    if (!mIsChangePageAllowed) {
                         mTabLayout.getTabAt(i).select();
 //                        mViewPager.setCurrentItem(i);
                         popInputIllegalDialog();
@@ -88,7 +91,7 @@ public class StartGameActivity extends AppCompatActivity implements StartGameCon
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                if (state == ViewPager.SCROLL_STATE_DRAGGING){
+                if (state == ViewPager.SCROLL_STATE_DRAGGING) {
                     mPresenter.checkInput(mViewPager.getCurrentItem());
                 }
             }
@@ -96,19 +99,90 @@ public class StartGameActivity extends AppCompatActivity implements StartGameCon
 
         setOnClickParameters();
         setToolbar();
+    }
 
-        mGameInfo = new GameInfo();
+    private void setOnClickParameters() {
 
-//        mPresenter.set();
+        onClickTransToGameNameSetting = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mViewPager.setCurrentItem(PAGE_GAME_NAME);
+            }
+        };
 
+        onClickTransToPlayerSetting = new View.OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+                mViewPager.setCurrentItem(PAGE_PLAYER);
+            }
+        };
+
+        onClickTransToDetailSetting = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mViewPager.setCurrentItem(PAGE_DETAIL);
+            }
+        };
+    }
+
+    private void setTabInTabLayout() {
+        for (int i = 0; i < mTabStringId.length; i++) {
+            mTabLayout.getTabAt(i).setText(mTabStringId[i]);
+        }
+    }
+
+    private void setToolbar() {
+
+        mToolbar = findViewById(R.id.activity_startgame_toolbar);
+        mNextPageImageView = mToolbar.findViewById(R.id.activity_boxscore_nextpage);
+        mStartGameTextView = mToolbar.findViewById(R.id.activity_boxscore_startgamebutton);
+        setSupportActionBar(mToolbar);
+
+        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_30dp);
+        mNextPageImageView.setOnClickListener(onClickTransToPlayerSetting);
+        mStartGameTextView.setVisibility(View.GONE);
+
+        mStartGameTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (BoxScore.sIsOnClickAllowed) {
+                    Log.d(TAG, "Game Start");
+                    Intent intent = new Intent(StartGameActivity.this, GameBoxScoreActivity.class);
+                    intent.putExtra(StartGameActivity.EXTRA_GAME_INFO, mPresenter.getSettingResult(new GameInfo()));
+                    startActivity(intent);
+                    StartGameActivity.this.finish();
+                }
+            }
+        });
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     @Override
+    public void setViewPagerAdapter(ViewPagerFragmentAdapter viewPagerFragmentAdapter) {
+        mViewPager.setAdapter(viewPagerFragmentAdapter);
+        mTabLayout.setupWithViewPager(mViewPager);
+        mViewPager.setOffscreenPageLimit(2);
+        setTabInTabLayout();
+    }
+
+    /**
+     * Override dispatchTouchEvent in order to  recognize the scrolling direction is left or right at the very first,
+     * which provided {@link #setViewPagerCurrentItem} judgment about showing IlleagalDialog or not.
+     */
+    @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
+
         int action = ev.getActionMasked();
         float dx = ev.getX(0) - mInitPositionX;
-        switch (action){
+
+        switch (action) {
 
             case MotionEvent.ACTION_DOWN:
                 mInitPositionX = ev.getX(0);
@@ -117,7 +191,7 @@ public class StartGameActivity extends AppCompatActivity implements StartGameCon
             case MotionEvent.ACTION_MOVE:
                 if (dx < 0) {
                     mIsTurnRight = true;
-                }else {
+                } else {
                     mIsTurnRight = false;
                 }
                 break;
@@ -131,60 +205,81 @@ public class StartGameActivity extends AppCompatActivity implements StartGameCon
         return super.dispatchTouchEvent(ev);
     }
 
-    private void setOnClickParameters() {
+    @Override
+    public void setViewPagerCurrentItem(boolean isChangePageAllowed) {
+        mIsChangePageAllowed = isChangePageAllowed;
+        mViewPager.setScrollAllowed(isChangePageAllowed);
 
-        onClickTransToGameNameSetting = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mViewPager.setCurrentItem(PAGE_GAMENAME);
-//                mPresenter.transToGameNameSettingPage();
-            }
-        };
-
-        onClickTransToPlayerSetting = new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                mViewPager.setCurrentItem(PAGE_PLAYER);
-//                mPresenter.transToPlayerSettingPage();
-            }
-        };
-
-        onClickTransToDetailSetting = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mViewPager.setCurrentItem(PAGE_DETAIL);
-//                mPresenter.transToDetailSettingPage();
-            }
-        };
+        if (mIsTurnRight && !isChangePageAllowed) {
+            popInputIllegalDialog();
+            mIsTurnRight = false;
+        }
     }
 
-    private void setToolbar() {
-        mToolbar = findViewById(R.id.activity_startgame_toolbar);
-        mNextPage = mToolbar.findViewById(R.id.activity_boxscore_nextpage);
-        mNextPage.setOnClickListener(onClickTransToPlayerSetting);
-        mStartGame = mToolbar.findViewById(R.id.activity_boxscore_startgamebutton);
-        mStartGame.setOnClickListener(new View.OnClickListener() {
+    private void popInputIllegalDialog() {
+
+        new AlertDialog.Builder(this).setTitle(R.string.start_game_illegal_title)
+                  .setMessage(R.string.start_game_illegal_message)
+                  .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Log.d(TAG,"Game Start");
-                Intent intent = new Intent(StartGameActivity.this, GameBoxScoreActivity.class);
-                intent.putExtra("GameInfo", mPresenter.getSettingResult(new GameInfo()));//TODO GameInfo form real input
-                startActivity(intent);
-//                writeIntoDB();
-                StartGameActivity.this.finish();
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
             }
-        });
-        mStartGame.setVisibility(View.GONE);
-        setSupportActionBar(mToolbar);
+        }).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        new AlertDialog.Builder(this, R.style.OrangeDialog)
+                  .setTitle(R.string.confirmGoBack).setMessage(R.string.goBackConfirmMessage)
+                  .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                      @Override
+                      public void onClick(DialogInterface dialog, int which) {
+                          dialog.cancel();
+                      }
+                  })
+                  .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                      @Override
+                      public void onClick(DialogInterface dialog, int which) {
+                          dialog.dismiss();
+                          StartGameActivity.super.onBackPressed();
+                      }
+                  }).show();
+    }
+
+    @Override
+    public void setGameNameSettingToolBar() {
         mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_30dp);
+        mNextPageImageView.setVisibility(View.VISIBLE);
+        mStartGameTextView.setVisibility(View.GONE);
+
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
+        mNextPageImageView.setOnClickListener(onClickTransToPlayerSetting);
+    }
 
+    @Override
+    public void setPlayerListToolBar() {
+        mToolbar.setNavigationIcon(R.drawable.ic_keyboard_arrow_left_white_30dp);
+        mNextPageImageView.setVisibility(View.VISIBLE);
+        mStartGameTextView.setVisibility(View.GONE);
+
+        mToolbar.setNavigationOnClickListener(onClickTransToGameNameSetting);
+        mNextPageImageView.setOnClickListener(onClickTransToDetailSetting);
+    }
+
+    @Override
+    public void setDetailSettingToolBar() {
+        mToolbar.setNavigationIcon(R.drawable.ic_keyboard_arrow_left_white_30dp);
+        mNextPageImageView.setVisibility(View.GONE);
+        mStartGameTextView.setVisibility(View.VISIBLE);
+
+        mToolbar.setNavigationOnClickListener(onClickTransToPlayerSetting);
     }
 
     @Override
@@ -195,94 +290,5 @@ public class StartGameActivity extends AppCompatActivity implements StartGameCon
     @Override
     public void showMainUi() {
 
-    }
-
-    @Override
-    public void showTeamInSpinner() {
-
-    }
-
-    @Override
-    public void setViewPagerAdapter(ViewPagerFragmentAdapter viewPagerFragmentAdapter) {
-        mViewPager.setAdapter(viewPagerFragmentAdapter);
-        mTabLayout.setupWithViewPager(mViewPager);
-        mViewPager.setOffscreenPageLimit(2);
-        setTabInTabLayout();
-    }
-
-    @Override
-    public void setGameNameSettingToolBar() {
-        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_30dp);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-        mNextPage.setOnClickListener(onClickTransToPlayerSetting);
-        mNextPage.setVisibility(View.VISIBLE);
-        mStartGame.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void setPlayerListToolBar() {
-        mToolbar.setNavigationIcon(R.drawable.ic_keyboard_arrow_left_white_30dp);
-        mToolbar.setNavigationOnClickListener(onClickTransToGameNameSetting);
-        mNextPage.setOnClickListener(onClickTransToDetailSetting);
-        mNextPage.setVisibility(View.VISIBLE);
-        mStartGame.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void setDetailSettingToolBar() {
-        mToolbar.setNavigationIcon(R.drawable.ic_keyboard_arrow_left_white_30dp);
-        mToolbar.setNavigationOnClickListener(onClickTransToPlayerSetting);
-        mNextPage.setVisibility(View.GONE);
-        mStartGame.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void setViewPagerCurrentItem(boolean isChangePageAllowed) {
-        mIsChangePageAllowed = isChangePageAllowed;
-        mViewPager.setScrollAllowed(isChangePageAllowed);
-        if (mIsTurnRight && !isChangePageAllowed) {
-            popInputIllegalDialog();
-            mIsTurnRight = false;
-//        mViewPager.setCurrentItem(position);
-        }
-
-    }
-
-    private void popInputIllegalDialog() {
-        new AlertDialog.Builder(this).setTitle("輸入未完成").setMessage("\n必填項目不符合規定").setPositiveButton("確定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        }).show();
-    }
-
-    private void setTabInTabLayout() {
-        for(int i=0; i<mTab.length;i++){
-            mTabLayout.getTabAt(i).setText(mTab[i]);
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        new AlertDialog.Builder(this,R.style.OrangeDialog)
-                  .setTitle(R.string.confirmGoBack).setMessage(R.string.goBackConfirmMessage)
-                  .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                      @Override
-                      public void onClick(DialogInterface dialog, int which) {
-                          dialog.cancel();
-                      }})
-                  .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                      @Override
-                      public void onClick(DialogInterface dialog, int which) {
-                          dialog.dismiss();
-                          StartGameActivity.super.onBackPressed();
-                      }
-                  }).show();
     }
 }

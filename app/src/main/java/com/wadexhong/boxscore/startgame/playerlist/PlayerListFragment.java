@@ -18,12 +18,12 @@ import java.util.ArrayList;
 
 public class PlayerListFragment extends Fragment implements PlayerListContract.View{
 
-    private static final String TAG = PlayerListFragment.class.getSimpleName();
+    private final String TAG = PlayerListFragment.class.getSimpleName();
 
     private PlayerListContract.Presenter mPresenter;
-    private PlayerListAdapter mAdapter;
+    private PlayerListAdapter mPlayerListAdapter;
 
-    private RecyclerView mRecyclerView;
+    private RecyclerView mPlayerListRecyclerView;
 
     public PlayerListFragment() {
         // Required empty public constructor
@@ -37,7 +37,7 @@ public class PlayerListFragment extends Fragment implements PlayerListContract.V
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapter = new PlayerListAdapter();
+        mPlayerListAdapter = new PlayerListAdapter();
     }
 
     @Override
@@ -45,33 +45,33 @@ public class PlayerListFragment extends Fragment implements PlayerListContract.V
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_playerlist, container, false);
-        mRecyclerView = view.findViewById(R.id.fragment_playerlist_recyclerview);
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecyclerView.setAdapter(mAdapter);
+        mPlayerListRecyclerView = view.findViewById(R.id.fragment_playerlist_recyclerview);
+
+        mPlayerListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mPlayerListRecyclerView.setAdapter(mPlayerListAdapter);
 
         return view;
     }
 
     @Override
-    public void setPresenter(PlayerListContract.Presenter presenter) {
-        mPresenter = presenter;
-    }
-
-    @Override
     public void getSettingResult(GameInfo gameInfo) {
-        gameInfo.setStartingPlayerList(mAdapter.getStartingPlayerList());
-        gameInfo.setSubstitutePlayerList(mAdapter.getSubstitutePlayerList());
+        gameInfo.setStartingPlayerList(mPlayerListAdapter.getStartingPlayerList());
+        gameInfo.setSubstitutePlayerList(mPlayerListAdapter.getSubstitutePlayerList());
     }
 
     @Override
     public int[] getCheckedInput() {
-        return new int[]{mAdapter.getStartingPlayerList().size(),mAdapter.getSubstitutePlayerList().size()};
+        return new int[]{mPlayerListAdapter.getStartingPlayerList().size(), mPlayerListAdapter.getSubstitutePlayerList().size()};
     }
 
     @Override
     public void setDefaultPlayerList(ArrayList<Player> players) {
+        mPlayerListAdapter.setPlayerLists(players);
+    }
 
-        mAdapter.setPlayerLists(players);
+    @Override
+    public void setPresenter(PlayerListContract.Presenter presenter) {
+        mPresenter = presenter;
     }
 }

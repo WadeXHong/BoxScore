@@ -35,6 +35,7 @@ import com.wadexhong.boxscore.BoxScoreContract;
 import com.wadexhong.boxscore.BoxScorePresenter;
 import com.wadexhong.boxscore.R;
 import com.wadexhong.boxscore.dialog.ProgressBarDialog;
+import com.wadexhong.boxscore.dialog.TransparentAlertDialog;
 import com.wadexhong.boxscore.gameboxscore.GameBoxScoreActivity;
 import com.wadexhong.boxscore.gamehistory.GameHistoryActivity;
 import com.wadexhong.boxscore.objects.GameInfo;
@@ -143,126 +144,139 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
         mStartGameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "StartGame pressed");
-                mPresenter.pressStartGame();
+                if (BoxScore.isOnClickAllowedAndSetTimer()) {
+
+                    Log.i(TAG, "StartGame pressed");
+                    mPresenter.pressStartGame();
+                }
             }
         });
         mTeamManageLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "TeamManage pressed");
-                startActivity(new Intent(BoxScoreActivity.this, TeamManageActivity.class));
+                if (BoxScore.isOnClickAllowedAndSetTimer()) {
+
+                    Log.i(TAG, "TeamManage pressed");
+                    startActivity(new Intent(BoxScoreActivity.this, TeamManageActivity.class));
+                }
+
             }
         });
         mGameHistoryLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "GmaeHistory pressed");
-                startActivity(new Intent(BoxScoreActivity.this, GameHistoryActivity.class));
+                if (BoxScore.isOnClickAllowedAndSetTimer()) {
+                    Log.i(TAG, "GmaeHistory pressed");
+                    startActivity(new Intent(BoxScoreActivity.this, GameHistoryActivity.class));
+                }
             }
         });
         mSettingLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "Setting pressed");
-                startActivityForResult(new Intent(BoxScoreActivity.this, SettingActivity.class), REQUEST_CODE_SETTING);
+                if (BoxScore.isOnClickAllowedAndSetTimer()) {
+                    Log.i(TAG, "Setting pressed");
+                    startActivityForResult(new Intent(BoxScoreActivity.this, SettingActivity.class), REQUEST_CODE_SETTING);
+                }
             }
         });
         mLogInLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (BoxScore.isOnClickAllowedAndSetTimer()) {
 
-                showProgressBarDialog(getString(R.string.progressbar_login));
+                    showProgressBarDialog(getString(R.string.progressbar_login));
 
-                String userName = mUserNameEditText.getText().toString();
-                String passWord = mPassWordEditText.getText().toString();
+                    String userName = mUserNameEditText.getText().toString();
+                    String passWord = mPassWordEditText.getText().toString();
 
-                if (!userName.trim().equals("") && !passWord.trim().equals("")) {
+                    if (!userName.trim().equals("") && !passWord.trim().equals("")) {
 
-                    FirebaseAuth.getInstance().signInWithEmailAndPassword(mUserNameEditText.getText().toString(), mPassWordEditText.getText().toString())
-                              .addOnCompleteListener(BoxScoreActivity.this, new OnCompleteListener<AuthResult>() {
-                                  @Override
-                                  public void onComplete(@NonNull Task<AuthResult> task) {
+                        FirebaseAuth.getInstance().signInWithEmailAndPassword(mUserNameEditText.getText().toString(), mPassWordEditText.getText().toString())
+                                  .addOnCompleteListener(BoxScoreActivity.this, new OnCompleteListener<AuthResult>() {
+                                      @Override
+                                      public void onComplete(@NonNull Task<AuthResult> task) {
 
-                                      if (task.isSuccessful()) {
+                                          if (task.isSuccessful()) {
 
-                                          showProgressBarDialog(getString(R.string.progressbar_loading));
-                                          mPresenter.updateDbFromFireBase();
-                                          showToast(getString(R.string.login_message_success));
-                                          showMainUi(View.GONE, View.VISIBLE);
+                                              showProgressBarDialog(getString(R.string.progressbar_loading));
+                                              mPresenter.updateDbFromFireBase();
+                                              showToast(getString(R.string.login_message_success));
+                                              showMainUi(View.GONE, View.VISIBLE);
 
-                                      } else {
+                                          } else {
 
-                                          try {
-                                              throw task.getException();
-                                          } catch (FirebaseAuthWeakPasswordException e) {
+                                              try {
+                                                  throw task.getException();
+                                              } catch (FirebaseAuthWeakPasswordException e) {
 
-                                          } catch (FirebaseAuthInvalidCredentialsException e) {
-                                              showToast(getString(R.string.login_message_wrong_password));
+                                              } catch (FirebaseAuthInvalidCredentialsException e) {
+                                                  showToast(getString(R.string.login_message_wrong_password));
 
-                                          } catch (FirebaseAuthUserCollisionException e) {
+                                              } catch (FirebaseAuthUserCollisionException e) {
 
-                                          } catch (Exception e) {
-                                              showToast(getString(R.string.login_message_account_not_exist));
+                                              } catch (Exception e) {
+                                                  showToast(getString(R.string.login_message_account_not_exist));
+                                              }
+
+                                              ProgressBarDialog.hideProgressBarDialog();
+
                                           }
-
-                                          ProgressBarDialog.hideProgressBarDialog();
-
                                       }
-                                  }
-                              });
-                } else {
-                    showToast(getString(R.string.login_message_invalid));
-                    ProgressBarDialog.hideProgressBarDialog();
+                                  });
+                    } else {
+                        showToast(getString(R.string.login_message_invalid));
+                        ProgressBarDialog.hideProgressBarDialog();
 
+                    }
                 }
-
-
-//                mPresenter.logInFireBase(mUserNameEditText.getText().toString(), mPassWordEditText.getText().toString());
             }
         });
         mSignUpLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (mIsUserNameLegal && mIsPassWordLegal) {
+                if (BoxScore.isOnClickAllowedAndSetTimer()) {
 
-                    showProgressBarDialog(getString(R.string.progressbar_signup));
-                    FirebaseAuth.getInstance().createUserWithEmailAndPassword(mUserNameEditText.getText().toString(), mPassWordEditText.getText().toString())
-                              .addOnCompleteListener(BoxScoreActivity.this, new OnCompleteListener<AuthResult>() {
-                                  @Override
-                                  public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (mIsUserNameLegal && mIsPassWordLegal) {
 
-                                      if (task.isSuccessful()) {
+                        showProgressBarDialog(getString(R.string.progressbar_signup));
+                        FirebaseAuth.getInstance().createUserWithEmailAndPassword(mUserNameEditText.getText().toString(), mPassWordEditText.getText().toString())
+                                  .addOnCompleteListener(BoxScoreActivity.this, new OnCompleteListener<AuthResult>() {
+                                      @Override
+                                      public void onComplete(@NonNull Task<AuthResult> task) {
 
-                                          mPassWordEditText.setText("");
-                                          showMainUi(View.GONE, View.VISIBLE);
-                                          showToast(getString(R.string.success));
+                                          if (task.isSuccessful()) {
 
-                                      } else {
+                                              mPassWordEditText.setText("");
+                                              showMainUi(View.GONE, View.VISIBLE);
+                                              showToast(getString(R.string.success));
 
-                                          try {
-                                              throw task.getException();
-                                          } catch (FirebaseAuthUserCollisionException e) {
-                                              showToast(getString(R.string.sign_up_account_already_exist));
+                                          } else {
 
-                                          } catch (Exception e) {
-                                              showToast(e.toString());
+                                              try {
+                                                  throw task.getException();
+                                              } catch (FirebaseAuthUserCollisionException e) {
+                                                  showToast(getString(R.string.sign_up_account_already_exist));
+
+                                              } catch (Exception e) {
+                                                  showToast(e.toString());
+                                              }
+
                                           }
-
+                                          ProgressBarDialog.hideProgressBarDialog();
                                       }
-                                      ProgressBarDialog.hideProgressBarDialog();
-                                  }
-                              });
+                                  });
 
-                } else if (!mIsUserNameLegal) {
+                    } else if (!mIsUserNameLegal) {
 
-                    showToast(getString(R.string.sign_up_account_invalid));
+                        showToast(getString(R.string.sign_up_account_invalid));
 
-                } else {
+                    } else {
 
-                    showToast(getString(R.string.sign_up_password_too_short));
+                        showToast(getString(R.string.sign_up_password_too_short));
 
+                    }
                 }
             }
         });

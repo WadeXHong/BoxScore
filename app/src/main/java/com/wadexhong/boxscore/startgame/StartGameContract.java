@@ -13,10 +13,6 @@ public interface StartGameContract {
 
     interface View extends BaseView<Presenter>{
 
-        void showMainUi();
-
-        void showTeamInSpinner();
-
         void setViewPagerAdapter(ViewPagerFragmentAdapter viewPagerFragmentAdapter);
 
         void setGameNameSettingToolBar();
@@ -26,24 +22,24 @@ public interface StartGameContract {
         void setDetailSettingToolBar();
 
         void setViewPagerCurrentItem(boolean isChangePageAllowed);
+
+        void showMainUi();
     }
 
     interface Presenter extends BasePresenter{
 
-        void getTeamFromFireBase();
-
         void onPageSelected(int position);
-
-        void transToGameNameSettingPage();
-
-        void transToPlayerSettingPage();
-
-        void transToDetailSettingPage();
 
         GameInfo getSettingResult(GameInfo gameInfo);
 
         void checkInput(int currentItem);
 
         void setDefaultPlayerList(String teamId);
+
+        void transToGameNameSettingPage();
+
+        void transToPlayerSettingPage();
+
+        void transToDetailSettingPage();
     }
 }

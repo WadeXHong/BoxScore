@@ -13,21 +13,18 @@ import java.util.ArrayList;
 
 public class GameNameSettingPresenter implements GameNameSettingContract.Presenter {
 
+    private final String TAG = GameNameSettingPresenter.class.getSimpleName();
+
     private final GameNameSettingContract.View mGameNameSettingView;
     private StartGameContract.Presenter mStartGamePresenter;
 
     private ArrayList<TeamInfo> mTeamInfos;
 
     public GameNameSettingPresenter(GameNameSettingContract.View gameNameSettingView, StartGameContract.Presenter startGamePresenter) {
-        this.mGameNameSettingView = gameNameSettingView;
+        mGameNameSettingView = gameNameSettingView;
         mStartGamePresenter = startGamePresenter;
 
         mGameNameSettingView.setPresenter(this);
-    }
-
-    @Override
-    public void start() {
-        mTeamInfos = BoxScore.getTeamDbHelper().getTeamsForAdapter();
     }
 
     public void getDataFromView(GameInfo gameInfo) {
@@ -35,7 +32,7 @@ public class GameNameSettingPresenter implements GameNameSettingContract.Present
     }
 
     public boolean checkInputIsLegal() {
-        String[] input =mGameNameSettingView.getCheckedInput();
+        String[] input = mGameNameSettingView.getCheckedInput();
         return !input[0].trim().equals("");
     }
 
@@ -47,5 +44,10 @@ public class GameNameSettingPresenter implements GameNameSettingContract.Present
     @Override
     public void setDefaultPlayerList(String teamId) {
         mStartGamePresenter.setDefaultPlayerList(teamId);
+    }
+
+    @Override
+    public void start() {
+        mTeamInfos = BoxScore.getTeamDbHelper().getTeamsForAdapter();
     }
 }

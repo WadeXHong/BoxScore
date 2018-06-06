@@ -13,19 +13,14 @@ import java.util.ArrayList;
  * Created by wade8 on 2018/5/1.
  */
 
-public class PlayerListPresenter implements PlayerListContract.Presenter{
+public class PlayerListPresenter implements PlayerListContract.Presenter {
 
-    private static final String TAG = PlayerListPresenter.class.getSimpleName();
+    private final String TAG = PlayerListPresenter.class.getSimpleName();
 
     private final PlayerListContract.View mPlayerListView;
 
     public PlayerListPresenter(PlayerListContract.View playerListView) {
-        this.mPlayerListView = playerListView;
-    }
-
-    @Override
-    public void start() {
-
+        mPlayerListView = playerListView;
     }
 
     public void getDataFromView(GameInfo gameInfo) {
@@ -34,16 +29,16 @@ public class PlayerListPresenter implements PlayerListContract.Presenter{
 
     public boolean checkInputIsLegal() {
         int[] input = mPlayerListView.getCheckedInput();
-        return input[0] == 5 && input[1]>0;
+        return input[0] == 5 && input[1] > 0;
     }
 
     public void setDefaultPlayerList(String teamId) {
 
+        ArrayList<Player> players = new ArrayList<>();
+
         Cursor cursor = BoxScore.getTeamDbHelper().getPlayersFromDb(teamId);
         int size = cursor.getCount();
-
-        ArrayList<Player> players = new ArrayList<>();
-        for (int i=0 ; i<size ; i++){
+        for (int i = 0; i < size; i++) {
             cursor.moveToPosition(i);
             players.add(new Player(cursor.getString(cursor.getColumnIndex(Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_NUMBER)),
                       cursor.getString(cursor.getColumnIndex(Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_NAME)),
@@ -51,5 +46,10 @@ public class PlayerListPresenter implements PlayerListContract.Presenter{
         }
 
         mPlayerListView.setDefaultPlayerList(players);
+    }
+
+    @Override
+    public void start() {
+
     }
 }
