@@ -132,13 +132,14 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter {
             mGameBoxScoreView.setGameInfoFromResume();
             mGameInfo.setGameId(SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME, ""));
 
-            //GameInfo
+            // GameInfo
             initGameInfoFromDatabase();
 
-            //PlayerList and 3D SparseArray
+            // PlayerList and 3D SparseArray
             setPlayerListFromDataBase();
 
         } else {
+            // New game
             initNewTeamData();
             mGameBoxScoreView.setGameInfoFromInput();
             mGameInfo = mGameBoxScoreView.getGameInfo();
@@ -224,7 +225,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter {
     public void writeInitDataIntoModel() {
         GameDataDbHelper mGameDataDbHelper = BoxScore.getGameDataDbHelper();
         mGameDataDbHelper.setGameInfo(mGameInfo);
-        mGameDataDbHelper.writeInitDataIntoGameInfo();
+        mGameDataDbHelper.writeInitDetailDataIntoGameInfo();
         mGameDataDbHelper.writeInitDataIntoDataBase();
 
         GameInfoDbHelper mGameInfoDbHelper = BoxScore.getGameInfoDbHelper();
@@ -256,7 +257,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter {
 
     @Override
     public void pressDataStatistic() {
-        DataStatisticDialog dialog = DataStatisticDialog.newInstance();
+        DataStatisticDialog dialog = DataStatisticDialog.newInstance(mGameInfo.getGameId());
         DataStatisticDialogPresenter dialogPresenter = new DataStatisticDialogPresenter(dialog);
         mGameBoxScoreView.popDataStatisticDialog(dialog);
     }

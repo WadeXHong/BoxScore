@@ -47,12 +47,12 @@ public class HistoryPlayersDataStatisticAdapter extends LinkedAdaptiveTableAdapt
 
             if (mQuarterFilter != 0) {
                 mCursor = BoxScore.getGameDataDbHelper()
-                          .getHistoryStatisic(Constants.GameDataDBContract.COLUMN_NAME_GAME_ID + " =? AND " + Constants.GameDataDBContract.COLUMN_NAME_QUARTER + " =?",
+                          .getHistoryStatistic(Constants.GameDataDBContract.COLUMN_NAME_GAME_ID + " =? AND " + Constants.GameDataDBContract.COLUMN_NAME_QUARTER + " =?",
                                     new String[]{mGameId, String.valueOf(mQuarterFilter)}, //要playerName, 因為預設隊伍的player沒有id
                                     Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NAME, Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER);
             } else {
                 mCursor = BoxScore.getGameDataDbHelper()
-                          .getHistoryStatisic(Constants.GameDataDBContract.COLUMN_NAME_GAME_ID + " =?",
+                          .getHistoryStatistic(Constants.GameDataDBContract.COLUMN_NAME_GAME_ID + " =?",
                                     new String[]{mGameId},
                                     Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER, Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER);
             }

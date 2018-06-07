@@ -1,4 +1,4 @@
-package com.wadexhong.boxscore.datastatistic;
+package com.wadexhong.boxscore.gameboxscore.datastatistic;
 
 import android.database.Cursor;
 import android.support.annotation.NonNull;
@@ -20,18 +20,25 @@ import com.wadexhong.boxscore.R;
 
 public class DataStatisticAdapter extends LinkedAdaptiveTableAdapter<ViewHolderImpl>{
 
+    private final String TAG = DataStatisticAdapter.class.getSimpleName();
 
+    private final String GAME_ID;
     private Cursor mCursor;
     private int mGameDataStartColumnPosition;
 
-    public DataStatisticAdapter() {
+    public DataStatisticAdapter(String gameId) {
+        GAME_ID = gameId;
         freshCursor();
         mGameDataStartColumnPosition = mCursor.getColumnIndex("SUM(" + Constants.GameDataDBContract.COLUMN_NAME_POINTS + ")");
-        Log.e("幹",mGameDataStartColumnPosition+"");
+        Log.e(TAG,mGameDataStartColumnPosition+"");
     }
 
     private void freshCursor() {
-        mCursor = BoxScore.getGameDataDbHelper().getGameStatisic();
+        mCursor = BoxScore.getGameDataDbHelper()
+                  .getHistoryStatistic(Constants.GameDataDBContract.COLUMN_NAME_GAME_ID + " = ?",
+                            new String[]{GAME_ID},
+                            Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER,
+                            Constants.GameDataDBContract.COLUMN_NAME_POINTS);
         mCursor.moveToFirst();
     }
 

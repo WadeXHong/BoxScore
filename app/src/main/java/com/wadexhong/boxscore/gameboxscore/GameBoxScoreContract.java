@@ -17,6 +17,7 @@ import java.util.LinkedList;
  */
 
 public interface GameBoxScoreContract {
+
     interface View extends BaseView<Presenter> {
 
         void setViewPagerAdapter(ViewPagerFragmentAdapter mViewPagerFragmentAdapter);
@@ -38,27 +39,7 @@ public interface GameBoxScoreContract {
 
     interface Presenter extends BasePresenter {
 
-        void writeInitDataIntoModel();
-
-        void pressYourTeamFoul();
-
-        void pressOpponentTeamFoul();
-
-        void pressQuarter();
-
-        void pressOpponentTeamScore();
-
-        void pressUndo();
-
-        void undoDataInDb(int position);
-
         GameInfo getGameInfo();
-
-        void pressDataStatistic();
-
-        void updateUi();
-
-        void editDataInDb(Player player, int type);
 
         LinkedList<Undo> getUndoList();
 
@@ -70,6 +51,30 @@ public interface GameBoxScoreContract {
 
         void scrollRight(int mPointerCount);
 
+        void pressYourTeamFoul();
+
+        void pressOpponentTeamFoul();
+
+        void pressQuarter();
+
+        void pressOpponentTeamScore();
+
+        void pressUndo();
+
+        void pressDataStatistic();
+
+        void longPressOpponentTeamFoul();
+
+        void longPressOpponentTeamScore();
+
+        void writeInitDataIntoModel();
+
+        void undoDataInDb(int position);
+
+        void updateUi();
+
+        void editDataInDb(Player player, int type);
+
         void checkIsResume(boolean mIsResume);
 
         GameInfo resumeGameInfo(GameInfo mGameInfo);
@@ -77,10 +82,6 @@ public interface GameBoxScoreContract {
         void removeGameDataSharedPreferences();
 
         void removeGameDataInDataBase();
-
-        void longPressOpponentTeamScore();
-
-        void longPressOpponentTeamFoul();
 
         void longPressQuarter();
 

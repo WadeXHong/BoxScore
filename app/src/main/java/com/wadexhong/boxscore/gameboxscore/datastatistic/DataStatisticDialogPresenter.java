@@ -6,7 +6,7 @@ package com.wadexhong.boxscore.gameboxscore.datastatistic;
 
 public class DataStatisticDialogPresenter implements DataStatisticDialogContract.Presenter{
 
-    private static final String TAG = DataStatisticDialogPresenter.class.getSimpleName();
+    private final String TAG = DataStatisticDialogPresenter.class.getSimpleName();
 
     private final DataStatisticDialogContract.View mDataStatisticView;
 

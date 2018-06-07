@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 
 import com.cleveroad.adaptivetablelayout.AdaptiveTableLayout;
 import com.cleveroad.adaptivetablelayout.LinkedAdaptiveTableAdapter;
+import com.wadexhong.boxscore.Constants;
 import com.wadexhong.boxscore.R;
+import com.wadexhong.boxscore.gameboxscore.datastatistic.DataStatisticAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,7 +42,7 @@ public class DataStatisticFragment extends Fragment implements DataStatisticCont
         View view = inflater.inflate(R.layout.fragment_data_statistic, container, false);
 
         mAdaptiveTableLayout = view.findViewById(R.id.fragment_data_statistic_tablelayout);
-        mLinkedAdaptiveTableAdapter = new DataStatisticAdapter();
+        mLinkedAdaptiveTableAdapter = new DataStatisticAdapter(getArguments().getString(Constants.GameDataDBContract.COLUMN_NAME_GAME_ID, ""));
         mAdaptiveTableLayout.setHeaderFixed(false);
         mAdaptiveTableLayout.setSolidRowHeader(false);
 

@@ -8,6 +8,7 @@ import com.wadexhong.boxscore.BaseView;
  */
 
 public interface DataStatisticDialogContract {
+
     interface View extends BaseView<Presenter>{
 
     }
@@ -15,5 +16,4 @@ public interface DataStatisticDialogContract {
     interface Presenter extends BasePresenter{
 
     }
-
 }

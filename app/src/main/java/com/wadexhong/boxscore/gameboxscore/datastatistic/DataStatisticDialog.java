@@ -12,15 +12,15 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.cleveroad.adaptivetablelayout.AdaptiveTableLayout;
+import com.wadexhong.boxscore.Constants;
 import com.wadexhong.boxscore.R;
-import com.wadexhong.boxscore.datastatistic.DataStatisticAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DataStatisticDialog extends DialogFragment implements DataStatisticDialogContract.View{
+public class DataStatisticDialog extends DialogFragment implements DataStatisticDialogContract.View {
 
-    private static final String TAG = DataStatisticDialog.class.getSimpleName();
+    private final String TAG = DataStatisticDialog.class.getSimpleName();
 
     private DataStatisticDialogContract.Presenter mPresenter;
 
@@ -29,8 +29,14 @@ public class DataStatisticDialog extends DialogFragment implements DataStatistic
     private AdaptiveTableLayout mAdaptiveTableLayout;
 
 
-    public static DataStatisticDialog newInstance(){
-        return new DataStatisticDialog();
+    public static DataStatisticDialog newInstance(String gameId) {
+
+        DataStatisticDialog dialog = new DataStatisticDialog();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.GameDataDBContract.COLUMN_NAME_GAME_ID, gameId);
+        dialog.setArguments(bundle);
+
+        return dialog;
     }
 
     public DataStatisticDialog() {
@@ -40,6 +46,7 @@ public class DataStatisticDialog extends DialogFragment implements DataStatistic
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
         mPresenter.start();
     }
@@ -47,7 +54,8 @@ public class DataStatisticDialog extends DialogFragment implements DataStatistic
     @Override
     public void onStart() {
         super.onStart();
-        if (getDialog() == null){
+
+        if (getDialog() == null) {
             return;
         }
         getDialog().getWindow().setWindowAnimations(R.style.dialog_animation_slide);
@@ -56,18 +64,21 @@ public class DataStatisticDialog extends DialogFragment implements DataStatistic
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.dialogfragment_game_statistic, container, false);
+
         mInnerFrameLayout = view.findViewById(R.id.dialogfragment_game_statistic_innerlayout);
         mAdaptiveTableLayout = view.findViewById(R.id.dialogfragment_game_statistic_tablelayout);
+
         mInnerFrameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG,"dismissAllowingStateLoss() executed");
+                Log.d(TAG, "dismissAllowingStateLoss() executed");
                 dismiss();
             }
         });
 
-        mLinkedAdaptiveTableAdapter = new DataStatisticAdapter();
+        mLinkedAdaptiveTableAdapter = new DataStatisticAdapter(getArguments().getString(Constants.GameDataDBContract.COLUMN_NAME_GAME_ID, ""));
         mAdaptiveTableLayout.setAdapter(mLinkedAdaptiveTableAdapter);
         return view;
     }
