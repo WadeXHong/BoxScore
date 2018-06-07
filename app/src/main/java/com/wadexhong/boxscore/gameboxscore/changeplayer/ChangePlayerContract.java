@@ -24,11 +24,11 @@ public interface ChangePlayerContract {
 
     interface Presenter extends BasePresenter{
 
-        void offGamePlayerSelected(int mPositionInOnCourtArray);
+        GameInfo getGameInfo();
 
         void inGamePlayerSelected(int mPositionInBenchArray);
 
-        GameInfo getGameInfo();
+        void offGamePlayerSelected(int mPositionInOnCourtArray);
 
         void updateFragmentUi();
     }

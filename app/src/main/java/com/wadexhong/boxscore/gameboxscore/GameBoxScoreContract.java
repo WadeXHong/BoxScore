@@ -20,21 +20,21 @@ public interface GameBoxScoreContract {
 
     interface View extends BaseView<Presenter> {
 
+        GameInfo getGameInfo();
+
+        void setGameInfoFromResume();
+
+        void setGameInfoFromInput();
+
         void setViewPagerAdapter(ViewPagerFragmentAdapter mViewPagerFragmentAdapter);
 
         void setInitDataOnScreen(SparseIntArray mTeamData);
 
         void updateUiTeamData();
 
-        GameInfo getGameInfo();
-
         void popDataStatisticDialog(DataStatisticDialog dialog);
 
         void showToast(String message);
-
-        void setGameInfoFromResume();
-
-        void setGameInfoFromInput();
     }
 
     interface Presenter extends BasePresenter {
@@ -43,13 +43,23 @@ public interface GameBoxScoreContract {
 
         LinkedList<Undo> getUndoList();
 
-        void scrollUp(int mPointerCount);
+        void writeInitDataIntoModel();
 
-        void scrollDown(int mPointerCount);
+        void checkIsResume(boolean mIsResume);
 
-        void scrollLeft(int mPointerCount);
+        GameInfo resumeGameInfo(GameInfo mGameInfo);
 
-        void scrollRight(int mPointerCount);
+        void removeGameDataSharedPreferences();
+
+        void removeGameDataInDataBase();
+
+        void saveAndEndCurrentGame();
+
+        void undoDataInDb(int position);
+
+        void editDataInDb(Player player, int type);
+
+        void editUndoHistoryAtPosition(int position, Player player, int type);
 
         void pressYourTeamFoul();
 
@@ -67,26 +77,16 @@ public interface GameBoxScoreContract {
 
         void longPressOpponentTeamScore();
 
-        void writeInitDataIntoModel();
-
-        void undoDataInDb(int position);
-
-        void updateUi();
-
-        void editDataInDb(Player player, int type);
-
-        void checkIsResume(boolean mIsResume);
-
-        GameInfo resumeGameInfo(GameInfo mGameInfo);
-
-        void removeGameDataSharedPreferences();
-
-        void removeGameDataInDataBase();
-
         void longPressQuarter();
 
-        void saveAndEndCurrentGame();
+        void scrollUp(int mPointerCount);
 
-        void editAtPosition(int position, Player player, int type);
+        void scrollDown(int mPointerCount);
+
+        void scrollLeft(int mPointerCount);
+
+        void scrollRight(int mPointerCount);
+
+        void updateUi();
     }
 }

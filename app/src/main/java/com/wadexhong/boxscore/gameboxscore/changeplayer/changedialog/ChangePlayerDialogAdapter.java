@@ -35,8 +35,8 @@ public class ChangePlayerDialogAdapter extends RecyclerView.Adapter {
         public DialogPlayerViewHolder(View itemView) {
             super(itemView);
 
-            mPlayerName = itemView.findViewById(R.id.item_dialog_player_name);
-            mPlayerNumber = itemView.findViewById(R.id.item_dialog_player_number);
+            mPlayerName = itemView.findViewById(R.id.item_dialog_player_name_textview);
+            mPlayerNumber = itemView.findViewById(R.id.item_dialog_player_number_textview);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

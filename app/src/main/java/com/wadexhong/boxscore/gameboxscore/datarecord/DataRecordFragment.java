@@ -15,33 +15,32 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.wadexhong.boxscore.BoxScore;
+import com.wadexhong.boxscore.Constants;
 import com.wadexhong.boxscore.R;
 import com.wadexhong.boxscore.gameboxscore.datarecord.playerselect.PlayerSelectDialog;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DataRecordFragment extends Fragment implements DataRecordContract.View{
+public class DataRecordFragment extends Fragment implements DataRecordContract.View {
 
-    private static final String TAG = DataRecordFragment.class.getSimpleName();
-    public static final int REQUEST_PLAYERSELECTDIALOG = 0;
+    private final String TAG = DataRecordFragment.class.getSimpleName();
+    public static final int REQUEST_PLAYER_SELECT_DIALOG = 0;
 
     private DataRecordContract.Presenter mPresenter;
 
-    private Button mTwoPoint;
-    private Button mThreePoint;
-    private Button mFreeThrow;
-    private Button mAssist;
-    private Button mOffensiveRebound;
-    private Button mSteal;
-    private Button mBlock;
-    private Button mFoul;
-    private Button mTurnover;
-    private Button mDefensiveRebound;
+    private Button mTwoPointButton;
+    private Button mThreePointButton;
+    private Button mFreeThrowButton;
+    private Button mAssistButton;
+    private Button mOffensiveReboundButton;
+    private Button mStealButton;
+    private Button mBlockButton;
+    private Button mFoulButton;
+    private Button mTurnoverButton;
+    private Button mDefensiveReboundButton;
 
-
-
-    public static DataRecordFragment newInstance(){
+    public static DataRecordFragment newInstance() {
         return new DataRecordFragment();
     }
 
@@ -49,33 +48,32 @@ public class DataRecordFragment extends Fragment implements DataRecordContract.V
         // Required empty public constructor
     }
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUEST_PLAYERSELECTDIALOG){
+        if (requestCode == REQUEST_PLAYER_SELECT_DIALOG) {
             enableAllButtons(true);
         }
 
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_data_record, container, false);
 
-        mTwoPoint = view.findViewById(R.id.datarecord_twopoint);
-        mThreePoint = view.findViewById(R.id.datarecord_threepoint);
-        mFreeThrow = view.findViewById(R.id.datarecord_freethrow);
-        mAssist = view.findViewById(R.id.datarecord_assist);
-        mOffensiveRebound = view.findViewById(R.id.datarecord_offensiverebound);
-        mSteal = view.findViewById(R.id.datarecord_steal);
-        mBlock = view.findViewById(R.id.datarecord_block);
-        mFoul = view.findViewById(R.id.datarecord_foul);
-        mTurnover = view.findViewById(R.id.datarecord_turnover);
-        mDefensiveRebound = view.findViewById(R.id.datarecord_defensiverebound);
+        mTwoPointButton = view.findViewById(R.id.datarecord_twopoint);
+        mThreePointButton = view.findViewById(R.id.datarecord_threepoint);
+        mFreeThrowButton = view.findViewById(R.id.datarecord_freethrow);
+        mAssistButton = view.findViewById(R.id.datarecord_assist);
+        mOffensiveReboundButton = view.findViewById(R.id.datarecord_offensiverebound);
+        mStealButton = view.findViewById(R.id.datarecord_steal);
+        mBlockButton = view.findViewById(R.id.datarecord_block);
+        mFoulButton = view.findViewById(R.id.datarecord_foul);
+        mTurnoverButton = view.findViewById(R.id.datarecord_turnover);
+        mDefensiveReboundButton = view.findViewById(R.id.datarecord_defensiverebound);
 
         setOnClick();
 
@@ -83,70 +81,70 @@ public class DataRecordFragment extends Fragment implements DataRecordContract.V
     }
 
     private void setOnClick() {
-        mTwoPoint.setOnClickListener(new View.OnClickListener() {
+        mTwoPointButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 BoxScore.vibrate();
                 mPresenter.pressTwoPoint();
             }
         });
-        mThreePoint.setOnClickListener(new View.OnClickListener() {
+        mThreePointButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 BoxScore.vibrate();
                 mPresenter.pressThreePoint();
             }
         });
-        mFreeThrow.setOnClickListener(new View.OnClickListener() {
+        mFreeThrowButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 BoxScore.vibrate();
                 mPresenter.pressFreeThrow();
             }
         });
-        mAssist.setOnClickListener(new View.OnClickListener() {
+        mAssistButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 BoxScore.vibrate();
                 mPresenter.pressAssist();
             }
         });
-        mOffensiveRebound.setOnClickListener(new View.OnClickListener() {
+        mOffensiveReboundButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 BoxScore.vibrate();
                 mPresenter.pressOffensiveRebound();
             }
         });
-        mSteal.setOnClickListener(new View.OnClickListener() {
+        mStealButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 BoxScore.vibrate();
                 mPresenter.pressSteal();
             }
         });
-        mBlock.setOnClickListener(new View.OnClickListener() {
+        mBlockButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 BoxScore.vibrate();
                 mPresenter.pressBlock();
             }
         });
-        mFoul.setOnClickListener(new View.OnClickListener() {
+        mFoulButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 BoxScore.vibrate();
                 mPresenter.pressFoul();
             }
         });
-        mTurnover.setOnClickListener(new View.OnClickListener() {
+        mTurnoverButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 BoxScore.vibrate();
                 mPresenter.pressTurnover();
             }
         });
-        mDefensiveRebound.setOnClickListener(new View.OnClickListener() {
+        mDefensiveReboundButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 BoxScore.vibrate();
@@ -158,61 +156,69 @@ public class DataRecordFragment extends Fragment implements DataRecordContract.V
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         mPresenter.start();
     }
 
     @Override
-    public void setPresenter(DataRecordContract.Presenter presenter) {
-        mPresenter = presenter;
-    }
-
-    @Override
     public void popPlayerSelectDialog(PlayerSelectDialog dialog, int stringId) {
-        dialog.setTargetFragment(this,REQUEST_PLAYERSELECTDIALOG);
-        dialog.show(getFragmentManager(),getResources().getString(stringId));
+
+        dialog.setTargetFragment(this, REQUEST_PLAYER_SELECT_DIALOG);
+        dialog.show(getFragmentManager(), getResources().getString(stringId));
+
     }
 
     @Override
     public void popIsShotMadeDialog(final int type) {
+
         new AlertDialog.Builder(getActivity())
                   .setTitle(R.string.isShotMade)
                   .setItems(new String[]{getString(R.string.yes), getString(R.string.no)}, new DialogInterface.OnClickListener() {
                       @Override
                       public void onClick(DialogInterface dialog, int which) {
-                          switch (which){
+
+                          switch (which) {
+
                               case 0:
-                                  Log.d(TAG,"命中");
-                                  mPresenter.pressShotMade(type+1);
+                                  mPresenter.pressShotMade(type + Constants.RecordDataType.SHIFT_SHOT_MADE);
                                   break;
+
                               case 1:
-                                  Log.d(TAG,"失手");
-                                  mPresenter.pressShotMissed(type+2);
+                                  mPresenter.pressShotMissed(type + Constants.RecordDataType.SHIFT_SHOT_MISSED);
                                   break;
                           }
                       }
-                  }).setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                Log.d(TAG,"取消");
-                enableAllButtons(true);
-            }
-        })
+                  })
+                  .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                      @Override
+                      public void onCancel(DialogInterface dialog) {
+
+                          enableAllButtons(true);
+                      }
+                  })
                   .create().show();
     }
 
     @Override
     public void enableAllButtons(boolean setEnableOrNot) {
-        mTwoPoint.setEnabled(setEnableOrNot);
-        mThreePoint.setEnabled(setEnableOrNot);
-        mFreeThrow.setEnabled(setEnableOrNot);
-        mAssist.setEnabled(setEnableOrNot);
-        mOffensiveRebound.setEnabled(setEnableOrNot);
-        mSteal.setEnabled(setEnableOrNot);
-        mBlock.setEnabled(setEnableOrNot);
-        mFoul.setEnabled(setEnableOrNot);
-        mTurnover.setEnabled(setEnableOrNot);
-        mDefensiveRebound.setEnabled(setEnableOrNot);
-        Log.d(TAG,"All record buttons enable or not : " + setEnableOrNot);
+
+        mTwoPointButton.setEnabled(setEnableOrNot);
+        mThreePointButton.setEnabled(setEnableOrNot);
+        mFreeThrowButton.setEnabled(setEnableOrNot);
+        mAssistButton.setEnabled(setEnableOrNot);
+        mOffensiveReboundButton.setEnabled(setEnableOrNot);
+        mStealButton.setEnabled(setEnableOrNot);
+        mBlockButton.setEnabled(setEnableOrNot);
+        mFoulButton.setEnabled(setEnableOrNot);
+        mTurnoverButton.setEnabled(setEnableOrNot);
+        mDefensiveReboundButton.setEnabled(setEnableOrNot);
+
+        Log.d(TAG, "All record buttons enable or not : " + setEnableOrNot);
+    }
+
+    @Override
+    public void setPresenter(DataRecordContract.Presenter presenter) {
+        mPresenter = presenter;
     }
 
 

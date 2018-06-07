@@ -27,6 +27,7 @@ public class SharedPreferenceHelper {
               YOUR_TEAM_FOUL,
               OPPONENT_TEAM_FOUL,
               QUARTER,
+              DOUBLE_UP,
               DOUBLE_DOWN,
               DOUBLE_LEFT,
               DOUBLE_RIGHT,

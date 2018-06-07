@@ -19,16 +19,16 @@ public class PlayerSelectPresenter implements PlayerSelectContract.Presenter {
 
     private GameInfo mGameInfo;
 
-    public PlayerSelectPresenter(PlayerSelectContract.View playerSelectView , DataRecordContract.Presenter dataRecordPresenter) {
-        mPlayerSelectView = playerSelectView;
-        playerSelectView.setPresenter(this);
-        mDataRecordPresenter = dataRecordPresenter;
+    @Override
+    public ArrayList<Player> getPlayerOnCourt() {
+        return mGameInfo.getStartingPlayerList();
     }
 
 
-    @Override
-    public void start() {
-        mGameInfo = mDataRecordPresenter.getGameInfo();
+    public PlayerSelectPresenter(PlayerSelectContract.View playerSelectView, DataRecordContract.Presenter dataRecordPresenter) {
+        mPlayerSelectView = playerSelectView;
+        playerSelectView.setPresenter(this);
+        mDataRecordPresenter = dataRecordPresenter;
     }
 
     @Override
@@ -38,7 +38,7 @@ public class PlayerSelectPresenter implements PlayerSelectContract.Presenter {
     }
 
     @Override
-    public ArrayList<Player> getPlayerOnCourt() {
-        return mGameInfo.getStartingPlayerList();
+    public void start() {
+        mGameInfo = mDataRecordPresenter.getGameInfo();
     }
 }

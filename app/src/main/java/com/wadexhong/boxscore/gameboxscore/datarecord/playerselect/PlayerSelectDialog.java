@@ -27,22 +27,25 @@ import com.wadexhong.boxscore.gameboxscore.datarecord.DataRecordFragment;
 public class PlayerSelectDialog extends android.support.v4.app.DialogFragment implements PlayerSelectContract.View {
 
     private static final String TAG = PlayerSelectDialog.class.getSimpleName();
+    private static final String BUNDLE_KEY = "TYPE";
 
     private PlayerSelectContract.Presenter mPresenter;
 
     private ConstraintLayout mParentLayout;
     private LinearLayout mInnerLayout;
-    private TextView mTitle;
-    private TextView mCancel;
+    private TextView mTitleTextView;
+    private TextView mCancelTextView;
     private RecyclerView mPlayerRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private int mType;
 
-    public static PlayerSelectDialog newInstance(int type){
+    public static PlayerSelectDialog newInstance(int type) {
+
         PlayerSelectDialog dialog = new PlayerSelectDialog();
         Bundle bdl = new Bundle(1);
-        bdl.putInt("TYPE", type);
+        bdl.putInt(BUNDLE_KEY, type);
         dialog.setArguments(bdl);
+
         return dialog;
     }
 
@@ -50,7 +53,8 @@ public class PlayerSelectDialog extends android.support.v4.app.DialogFragment im
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mType = getArguments().getInt("TYPE",-1);
+
+        mType = getArguments().getInt(BUNDLE_KEY, -1);
         setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Translucent_NoTitleBar);
         mPresenter.start();
     }
@@ -60,44 +64,38 @@ public class PlayerSelectDialog extends android.support.v4.app.DialogFragment im
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.dialogfragment_select_player,container,false);
+        View view = inflater.inflate(R.layout.dialogfragment_select_player, container, false);
 
         mParentLayout = view.findViewById(R.id.dialogfragment_playerselect_parentlayout);
         mInnerLayout = view.findViewById(R.id.dialogfragment_playerselect_innerlayout);
-        mTitle = view.findViewById(R.id.dialogfragment_playerselect_title);
-        mCancel = view.findViewById(R.id.dialogfragment_playerselect_cancel);
+        mTitleTextView = view.findViewById(R.id.dialogfragment_playerselect_title);
+        mCancelTextView = view.findViewById(R.id.dialogfragment_playerselect_cancel);
         mPlayerRecyclerView = view.findViewById(R.id.dialogfragment_playerselect_recyclerview);
-        mTitle.setText(getTag());
-        //FAKEFAKE
-//        ArrayList<Player> mList = new ArrayList<>();
-//        mList.add(new Player("87","洪偉軒"));
-//        mList.add(new Player("89","洪偉軒"));
-//        mList.add(new Player("90","洪偉軒"));
-//        mList.add(new Player("91","洪偉軒"));
-//        mList.add(new Player("92","洪偉軒"));
-        //FAKEFAKE
-        mAdapter = new PlayerSelectAdapter(mPresenter,mType);
+
+        mTitleTextView.setText(getTag());
+
+        mAdapter = new PlayerSelectAdapter(mPresenter, mType);
         mPlayerRecyclerView.setAdapter(mAdapter);
         mPlayerRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mCancel.setOnClickListener(new View.OnClickListener() {
+        mCancelTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG,"Cancel pressed");
+                Log.d(TAG, "Cancel pressed");
                 dismiss();
             }
         });
-        mParentLayout.setOnClickListener(new View.OnClickListener(){
+        mParentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG,"Outside pressed");
+                Log.d(TAG, "Outside pressed");
                 dismiss();
             }
         });
         mInnerLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG,"InnerLayout pressed");
+                Log.d(TAG, "InnerLayout pressed");
 
             }
         });
@@ -106,33 +104,29 @@ public class PlayerSelectDialog extends android.support.v4.app.DialogFragment im
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-
-    @Override
     public void onStart() {
         super.onStart();
-        if (getDialog() == null){
+
+        if (getDialog() == null) {
             return;
         }
-
         getDialog().getWindow().setWindowAnimations(R.style.dialog_animation_fade);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        Log.d(TAG,"onDestroyView");
-        getTargetFragment().onActivityResult(DataRecordFragment.REQUEST_PLAYERSELECTDIALOG, Activity.RESULT_OK,new Intent());
+
+        Log.d(TAG, "onDestroyView");
+        getTargetFragment().onActivityResult(DataRecordFragment.REQUEST_PLAYER_SELECT_DIALOG, Activity.RESULT_OK, new Intent());
     }
 
     @Override
     public void dismiss() {
         super.dismiss();
-        Log.d(TAG,"dismiss");
-//        getTargetFragment().onActivityResult(DataRecordFragment.REQUEST_PLAYERSELECTDIALOG, Activity.RESULT_OK,new Intent());
+
+        Log.d(TAG, "dismiss");
+//        getTargetFragment().onActivityResult(DataRecordFragment.REQUEST_PLAYER_SELECT_DIALOG, Activity.RESULT_OK,new Intent());
     }
 
     @Override

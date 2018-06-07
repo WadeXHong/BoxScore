@@ -49,9 +49,9 @@ public class UndoHistoryPresenter implements UndoHistoryContract.Presenter{
     }
 
     @Override
-    public void editUndoAtPosition(int position, Player player, int type) {
+    public void editUndoHistoryAtPosition(int position, Player player, int type) {
         mUndoPosition = position;
-        mGameBoxScorePresenter.editAtPosition(position, player, type);
+        mGameBoxScorePresenter.editUndoHistoryAtPosition(position, player, type);
     }
 
     @Override

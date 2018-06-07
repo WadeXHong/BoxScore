@@ -23,6 +23,8 @@ import java.util.ArrayList;
 
 public class PlayerSelectAdapter extends RecyclerView.Adapter {
 
+    private static final String TAG = PlayerSelectAdapter.class.getSimpleName();
+
     private PlayerSelectContract.Presenter mPresenter;
     private ArrayList<Player> mPlayerArrayList;
     private int mType;
@@ -34,16 +36,17 @@ public class PlayerSelectAdapter extends RecyclerView.Adapter {
         mType = type;
     }
 
-    public class DialogPlayerViewHolder extends RecyclerView.ViewHolder{
+    public class DialogPlayerViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView mPlayerNumber;
-        private TextView mPlayerName;
+        private TextView mPlayerNumberTextView;
+        private TextView mPlayerNameTextView;
 
         public DialogPlayerViewHolder(View itemView) {
             super(itemView);
 
-            mPlayerName = itemView.findViewById(R.id.item_dialog_player_name);
-            mPlayerNumber = itemView.findViewById(R.id.item_dialog_player_number);
+            mPlayerNameTextView = itemView.findViewById(R.id.item_dialog_player_name_textview);
+            mPlayerNumberTextView = itemView.findViewById(R.id.item_dialog_player_number_textview);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -51,9 +54,10 @@ public class PlayerSelectAdapter extends RecyclerView.Adapter {
                 }
             });
         }
-        private void bind(int position){
-            mPlayerName.setText(mPlayerArrayList.get(position).getName());
-            mPlayerNumber.setText(mPlayerArrayList.get(position).getNumber());
+
+        private void bind(int position) {
+            mPlayerNameTextView.setText(mPlayerArrayList.get(position).getName());
+            mPlayerNumberTextView.setText(mPlayerArrayList.get(position).getNumber());
         }
     }
 
@@ -62,14 +66,14 @@ public class PlayerSelectAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_dialog_player,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_dialog_player, parent, false);
 
         return new DialogPlayerViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ((DialogPlayerViewHolder)holder).bind(position);
+        ((DialogPlayerViewHolder) holder).bind(position);
     }
 
     @Override
@@ -77,10 +81,19 @@ public class PlayerSelectAdapter extends RecyclerView.Adapter {
         return mPlayerArrayList.size();
     }
 
-    private ArrayList<Player> deepClonePlayerList(ArrayList<Player> originList){
+    /**
+     * Deep clone ArrayList<Player>
+     * 預留給未來不希望顯示名單保有 reference type 牽一髮動全身的特性再用
+     *
+     * @param originList input an ArrayList
+     * @return clone ArrayList
+     */
+    private ArrayList<Player> deepClonePlayerList(ArrayList<Player> originList) {
+
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ArrayList<Player> retunPlayerList = originList;
+        ArrayList<Player> returnPlayerList = originList;
         byte[] byteData = null;
+
         try {
             ObjectOutputStream oos = new ObjectOutputStream(bos);
             oos.writeObject(originList);
@@ -89,10 +102,10 @@ public class PlayerSelectAdapter extends RecyclerView.Adapter {
             bos.close();
             byteData = bos.toByteArray();
             ByteArrayInputStream bais = new ByteArrayInputStream(byteData);
-            retunPlayerList = (ArrayList<Player>)new ObjectInputStream(bais).readObject();
+            returnPlayerList = (ArrayList<Player>) new ObjectInputStream(bais).readObject();
         } catch (IOException | ClassNotFoundException mE) {
             mE.printStackTrace();
         }
-        return retunPlayerList;
+        return returnPlayerList;
     }
 }

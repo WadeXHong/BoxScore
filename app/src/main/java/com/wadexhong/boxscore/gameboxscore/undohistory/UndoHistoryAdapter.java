@@ -209,7 +209,7 @@ public class UndoHistoryAdapter extends RecyclerView.Adapter {
                 public void onClick(DialogInterface dialog, int which) {
                     Log.d(TAG, "onClick : type = " + mType);
                     Log.d(TAG, "name = " + mPlayer.getName());
-                    mUndoHistoryPresenter.editUndoAtPosition(position, mPlayer, mType);
+                    mUndoHistoryPresenter.editUndoHistoryAtPosition(position, mPlayer, mType);
                     dialog.cancel();
                 }
             });

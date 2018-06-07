@@ -2,11 +2,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.wade8.boxscore.com.wadexhong.wade8.boxscore.playeroncourt.ChangePlayerFragment">
+    tools:context="com.wadexhong.boxscore.gameboxscore.changeplayer.ChangePlayerFragment">
 
     <android.support.v7.widget.RecyclerView
 
-        android:id="@+id/fragment_playeroncourt_recyclerview"
+        android:id="@+id/fragment_change_player_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

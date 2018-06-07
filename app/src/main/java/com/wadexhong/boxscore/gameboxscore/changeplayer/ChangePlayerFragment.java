@@ -16,15 +16,15 @@ import com.wadexhong.boxscore.gameboxscore.changeplayer.changedialog.ChangePlaye
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ChangePlayerFragment extends Fragment implements ChangePlayerContract.View{
+public class ChangePlayerFragment extends Fragment implements ChangePlayerContract.View {
 
-    private static final String TAG = ChangePlayerFragment.class.getSimpleName();
+    private final String TAG = ChangePlayerFragment.class.getSimpleName();
 
     private ChangePlayerContract.Presenter mPresenter;
 
-    private RecyclerView mRecyclerView;
+    private RecyclerView mPlayerListRecyclerView;
 
-    public static ChangePlayerFragment newInstance(){
+    public static ChangePlayerFragment newInstance() {
         return new ChangePlayerFragment();
     }
 
@@ -41,28 +41,30 @@ public class ChangePlayerFragment extends Fragment implements ChangePlayerContra
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_player_on_court, container, false);
 
-        mRecyclerView = view.findViewById(R.id.fragment_playeroncourt_recyclerview);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        View view = inflater.inflate(R.layout.fragment_change_player, container, false);
+
+        mPlayerListRecyclerView = view.findViewById(R.id.fragment_change_player_recyclerview);
+        mPlayerListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
         mPresenter.start();
 
         return view;
     }
 
     @Override
-    public void setAdapter(ChangePlayerAdapter mAdapter) {
-        mRecyclerView.setAdapter(mAdapter);
+    public void setAdapter(ChangePlayerAdapter adapter) {
+        mPlayerListRecyclerView.setAdapter(adapter);
     }
 
     @Override
     public void popInGamePlayerDialog(ChangePlayerDialog dialog) {
-        dialog.show(getFragmentManager(),"請選擇下場球員");
+        dialog.show(getFragmentManager(), getString(R.string.change_player_off_game));
     }
 
     @Override
     public void popOffGamePlayerDialog(ChangePlayerDialog dialog) {
-        dialog.show(getFragmentManager(),"請選擇上場球員");
+        dialog.show(getFragmentManager(), getString(R.string.change_player_in_game));
     }
 
     @Override
@@ -74,6 +76,4 @@ public class ChangePlayerFragment extends Fragment implements ChangePlayerContra
     public void setPresenter(ChangePlayerContract.Presenter presenter) {
         mPresenter = presenter;
     }
-
-
 }

@@ -12,16 +12,16 @@ import java.util.ArrayList;
  * Created by wade8 on 2018/5/3.
  */
 
-public class ChangePlayerPresenter implements ChangePlayerContract.Presenter{
+public class ChangePlayerPresenter implements ChangePlayerContract.Presenter {
 
-    private static final String TAG = ChangePlayerPresenter.class.getSimpleName();
+    private final String TAG = ChangePlayerPresenter.class.getSimpleName();
 
     private final ChangePlayerContract.View mPlayerOnCourtView;
     private final GameBoxScoreContract.Presenter mGameBoxScorePresenter;
 
     private GameInfo mGameInfo;
-    private ArrayList<Player> mPlayerOnCourtList;
-    private ArrayList<Player> mPlayerOnBenchList;
+    private ArrayList<Player> mPlayerOnCourtArrayList;
+    private ArrayList<Player> mPlayerOnBenchArrayList;
     private ChangePlayerAdapter mAdapter;
 
     public ChangePlayerPresenter(ChangePlayerContract.View playerOnCourtView, GameBoxScoreContract.Presenter gameBoxScorePresenter) {
@@ -30,31 +30,10 @@ public class ChangePlayerPresenter implements ChangePlayerContract.Presenter{
         mPlayerOnCourtView.setPresenter(this);
     }
 
-    @Override
-    public void start() {
-        getPlayerList();
-        mAdapter = new ChangePlayerAdapter(this, mPlayerOnCourtList,mPlayerOnBenchList);
-        mPlayerOnCourtView.setAdapter(mAdapter);
-    }
-
     private void getPlayerList() {
         mGameInfo = mGameBoxScorePresenter.getGameInfo();
-        mPlayerOnCourtList = mGameInfo.getStartingPlayerList();
-        mPlayerOnBenchList = mGameInfo.getSubstitutePlayerList();
-    }
-
-    @Override
-    public void offGamePlayerSelected(int position) {
-        ChangePlayerDialog dialog = ChangePlayerDialog.newInstance(position);
-        ChangePlayerDialogPresenter presenter = new ChangePlayerDialogPresenter(dialog,this, position, true);
-        mPlayerOnCourtView.popInGamePlayerDialog(dialog);
-    }
-
-    @Override
-    public void inGamePlayerSelected(int position) {
-        ChangePlayerDialog dialog = ChangePlayerDialog.newInstance(position);
-        ChangePlayerDialogPresenter presenter = new ChangePlayerDialogPresenter(dialog,this, position, false);
-        mPlayerOnCourtView.popOffGamePlayerDialog(dialog);
+        mPlayerOnCourtArrayList = mGameInfo.getStartingPlayerList();
+        mPlayerOnBenchArrayList = mGameInfo.getSubstitutePlayerList();
     }
 
     @Override
@@ -63,8 +42,29 @@ public class ChangePlayerPresenter implements ChangePlayerContract.Presenter{
     }
 
     @Override
+    public void offGamePlayerSelected(int position) {
+        ChangePlayerDialog dialog = ChangePlayerDialog.newInstance(position);
+        ChangePlayerDialogPresenter presenter = new ChangePlayerDialogPresenter(dialog, this, position, true);
+        mPlayerOnCourtView.popInGamePlayerDialog(dialog);
+    }
+
+    @Override
+    public void inGamePlayerSelected(int position) {
+        ChangePlayerDialog dialog = ChangePlayerDialog.newInstance(position);
+        ChangePlayerDialogPresenter presenter = new ChangePlayerDialogPresenter(dialog, this, position, false);
+        mPlayerOnCourtView.popOffGamePlayerDialog(dialog);
+    }
+
+    @Override
     public void updateFragmentUi() {
         mPlayerOnCourtView.updateUi();
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void start() {
+        getPlayerList();
+        mAdapter = new ChangePlayerAdapter(this, mPlayerOnCourtArrayList, mPlayerOnBenchArrayList);
+        mPlayerOnCourtView.setAdapter(mAdapter);
     }
 }

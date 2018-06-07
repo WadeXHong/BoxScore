@@ -8,11 +8,12 @@ import com.wadexhong.boxscore.BaseView;
  */
 
 public interface ChangePlayerDialogContract {
+
     interface View extends BaseView<Presenter>{
 
-        void dismiss();
-
         void setRecyclerView(ChangePlayerDialogAdapter mAdapter);
+
+        void dismiss();
     }
 
     interface Presenter extends BasePresenter{

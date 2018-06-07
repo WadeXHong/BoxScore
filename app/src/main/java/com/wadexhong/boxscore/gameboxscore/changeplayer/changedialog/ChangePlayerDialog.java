@@ -25,6 +25,7 @@ public class ChangePlayerDialog extends DialogFragment implements ChangePlayerDi
 
     private static final String TAG = ChangePlayerDialog.class.getSimpleName();
     private static final String BUNDLE_KEY = "Position";
+
     private ChangePlayerDialogContract.Presenter mPresenter;
 
     private ConstraintLayout mParentLayout;
@@ -35,7 +36,7 @@ public class ChangePlayerDialog extends DialogFragment implements ChangePlayerDi
 
     private int mPosition;
 
-    public static ChangePlayerDialog newInstance(int position){
+    public static ChangePlayerDialog newInstance(int position) {
         ChangePlayerDialog dialog = new ChangePlayerDialog();
         Bundle bdl = new Bundle(1);
         bdl.putInt(BUNDLE_KEY, position);
@@ -47,7 +48,7 @@ public class ChangePlayerDialog extends DialogFragment implements ChangePlayerDi
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPosition = getArguments().getInt(BUNDLE_KEY,-1);
+        mPosition = getArguments().getInt(BUNDLE_KEY, -1);
         setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Translucent_NoTitleBar);
         mPresenter.start();
     }
@@ -57,7 +58,7 @@ public class ChangePlayerDialog extends DialogFragment implements ChangePlayerDi
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.dialogfragment_select_player,container,false);
+        View view = inflater.inflate(R.layout.dialogfragment_select_player, container, false);
 
         mParentLayout = view.findViewById(R.id.dialogfragment_playerselect_parentlayout);
         mInnerLayout = view.findViewById(R.id.dialogfragment_playerselect_innerlayout);
@@ -74,21 +75,21 @@ public class ChangePlayerDialog extends DialogFragment implements ChangePlayerDi
         mCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG,"Cancel pressed");
+                Log.d(TAG, "Cancel pressed");
                 dismiss();
             }
         });
-        mParentLayout.setOnClickListener(new View.OnClickListener(){
+        mParentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG,"Outside pressed");
+                Log.d(TAG, "Outside pressed");
                 dismiss();
             }
         });
         mInnerLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG,"InnerLayout pressed");
+                Log.d(TAG, "InnerLayout pressed");
 
             }
         });
@@ -105,7 +106,7 @@ public class ChangePlayerDialog extends DialogFragment implements ChangePlayerDi
     @Override
     public void onStart() {
         super.onStart();
-        if (getDialog() == null){
+        if (getDialog() == null) {
             return;
         }
 
@@ -115,7 +116,7 @@ public class ChangePlayerDialog extends DialogFragment implements ChangePlayerDi
     @Override
     public void dismiss() {
         super.dismiss();
-        Log.d(TAG,"dismissAllowingStateLoss");
+        Log.d(TAG, "dismissAllowingStateLoss");
     }
 
     @Override

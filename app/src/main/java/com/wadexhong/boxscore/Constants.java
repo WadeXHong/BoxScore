@@ -71,6 +71,9 @@ public class Constants {
 
     public class RecordDataType {
 
+        public static final int SHIFT_SHOT_MADE = 1;
+        public static final int SHIFT_SHOT_MISSED = 2;
+
         public static final int YOUR_TEAM_TOTAL_SCORE = 0x00a1;
         public static final int OPPONENT_TEAM_TOTAL_SCORE = 0x00b1;
         public static final int YOUR_TEAM_FOUL = 0x00c1;

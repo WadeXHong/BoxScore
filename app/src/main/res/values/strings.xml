@@ -65,6 +65,8 @@
     <string name="confirmGoBack">退出確認</string>
     <string name="goBackConfirmMessage">\n退出將失去目前輸入資料\n確定要退出嗎？</string>
     <string name="confirmExitDataRecord">退出比賽紀錄</string>
+    <string name="discardGame">放棄比賽</string>
+    <string name="save">儲存</string>
     <string name="exitDataRecordMessage">是否要退出比賽？  選擇「儲存」，下次可藉由開始比賽接續紀錄；  選擇「放棄比賽」將清除資料</string>
     <string name="createTeam">新增球隊</string>
     <string name="pleaseInputTeamName">請輸入隊名</string>
@@ -134,5 +136,12 @@
     <string name="min_timeout_first_half">上半場最小暫停次數為%d次</string>
     <string name="max_timeout_second_half">下半場最大暫停次數為%d次</string>
     <string name="min_timeout_second_half">下半場最小暫停次數為%d次</string>
+    <string name="change_player_off_game">請選擇下場球員</string>
+    <string name="change_player_in_game">請選擇上場球員</string>
+    <string name="ask_next_quarter_title">進入下一節</string>
+    <string name="ask_next_quarter_message">進入下一節後若須補登資料，請透過上方補登按鈕操作</string>
+    <string name="ask_save_title">結束比賽</string>
+    <string name="ask_save_message">比賽是否結束並儲存結果？</string>
+
 
 </resources>

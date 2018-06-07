@@ -11,34 +11,57 @@ import com.wadexhong.boxscore.objects.Player;
  */
 
 public interface DataRecordContract {
-    interface View extends BaseView<Presenter>{
+
+    interface View extends BaseView<Presenter> {
 
         void popPlayerSelectDialog(PlayerSelectDialog dialog, int type);
+
         void popIsShotMadeDialog(int type);
+
         void enableAllButtons(boolean setEnableOrNot);
 
     }
 
-    interface Presenter extends BasePresenter{
-        void pressTwoPoint();
-        void pressTwoPointMade();
-        void pressTwoPointMissed();
-        void pressThreePoint();
-        void pressThreePointMade();
-        void pressThreePointMissed();
-        void pressFreeThrow();
-        void pressFreeThrowMade();
-        void pressFreeThrowMissed();
-        void pressAssist();
-        void pressOffensiveRebound();
-        void pressSteal();
-        void pressBlock();
-        void pressFoul();
-        void pressTurnover();
-        void pressDefensiveRebound();
-        void pressShotMade(int type);
-        void pressShotMissed(int type);
+    interface Presenter extends BasePresenter {
+
         GameInfo getGameInfo();
+
+        void pressTwoPoint();
+
+        void pressTwoPointMade();
+
+        void pressTwoPointMissed();
+
+        void pressThreePoint();
+
+        void pressThreePointMade();
+
+        void pressThreePointMissed();
+
+        void pressFreeThrow();
+
+        void pressFreeThrowMade();
+
+        void pressFreeThrowMissed();
+
+        void pressAssist();
+
+        void pressOffensiveRebound();
+
+        void pressSteal();
+
+        void pressBlock();
+
+        void pressFoul();
+
+        void pressTurnover();
+
+        void pressDefensiveRebound();
+
+        void pressShotMade(int type);
+
+        void pressShotMissed(int type);
+
         void updateUiGameBoxActivity();
 
         void callActivityPresenterEditDataInDb(Player player, int type);

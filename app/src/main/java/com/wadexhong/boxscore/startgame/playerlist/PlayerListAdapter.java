@@ -116,16 +116,17 @@ public class PlayerListAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
+
         int sizeStartingPlayers = getArrayListSize(mStartingPlayerList);
         int sizeSubstitutePlayers = getArrayListSize(mSubstitutePlayerList);
-        int returnValue = 1;
-        if (position == 0 | position == sizeStartingPlayers + 1 | position == sizeStartingPlayers + sizeSubstitutePlayers + 2) {
-            returnValue = 0;
-        } else if (position > sizeStartingPlayers + sizeSubstitutePlayers + 2) {
-            returnValue = 2;
-        }
 
-        return returnValue;
+        if (position == 0 | position == sizeStartingPlayers + 1 | position == sizeStartingPlayers + sizeSubstitutePlayers + 2) {
+            return VIEW_TYPE_TITLE;
+        } else if (position > sizeStartingPlayers + sizeSubstitutePlayers + 2) {
+            return VIEW_TYPE_UNREGISTERED_PLAYER;
+        } else {
+            return VIEW_TYPE_PLAYER;
+        }
     }
 
     private int getArrayListSize(ArrayList<Player> arrayList) {
@@ -316,7 +317,7 @@ public class PlayerListAdapter extends RecyclerView.Adapter {
             mAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(BoxScore.isOnClickAllowedAndSetTimer()) {
+                    if (BoxScore.isOnClickAllowedAndSetTimer()) {
 
                         if (getArrayListSize(mSubstitutePlayerList) + getArrayListSize(mStartingPlayerList) < MAX_PLAYERS) {
 

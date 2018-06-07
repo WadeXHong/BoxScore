@@ -11,15 +11,16 @@ import java.util.ArrayList;
  */
 
 public interface PlayerSelectContract {
-    interface View extends BaseView<Presenter>{
+
+    interface View extends BaseView<Presenter> {
 
         void dismiss();
     }
 
-    interface Presenter extends BasePresenter{
-
-        void editDataInDB(Player player, int type);
+    interface Presenter extends BasePresenter {
 
         ArrayList<Player> getPlayerOnCourt();
+
+        void editDataInDB(Player player, int type);
     }
 }
