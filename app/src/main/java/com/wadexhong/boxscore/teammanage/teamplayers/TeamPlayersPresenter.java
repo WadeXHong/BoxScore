@@ -25,13 +25,18 @@ public class TeamPlayersPresenter implements TeamPlayersContract.Presenter{
 
 
     @Override
-    public void start() {
-
+    public Cursor getPlayers(String teamId) {
+        return BoxScore.getTeamDbHelper().getPlayersFromDb(teamId);
     }
 
     @Override
-    public Cursor getPlayers(String teamId) {
-        return BoxScore.getTeamDbHelper().getPlayersFromDb(teamId);
+    public void pressedCreatePlayer(String teamId) {
+        mTeamManagePresenter.transToCreatePlayer(teamId);
+    }
+
+    @Override
+    public void deletePlayer(String teamId, String playerId) {
+        BoxScore.getTeamDbHelper().deletePlayerInDb(teamId, playerId);
     }
 
     @Override
@@ -40,7 +45,7 @@ public class TeamPlayersPresenter implements TeamPlayersContract.Presenter{
     }
 
     @Override
-    public void pressedCreatePlayer(String teamId) {
-        mTeamManagePresenter.transToCreatePlayer(teamId);
+    public void start() {
+
     }
 }

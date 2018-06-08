@@ -183,7 +183,33 @@ public class TeamDbHelper extends SQLiteOpenHelper {
         return size != 0;
     }
 
-    public void deleteTeamInDB(String teamId) {
+    public void deletePlayerInDb(String teamId, String playerId) {
+
+        int result = getWritableDatabase().delete(Constants.TeamPlayersContract.TABLE_NAME, Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_ID + " =?", new String[]{playerId});
+        Log.d(TAG, "deletePlayerInDb result : " + result);
+
+        if (result > 0) {
+
+            Cursor cursor = getReadableDatabase().query(Constants.TeamInfoDBContract.TABLE_NAME,
+                      null,
+                      Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_ID + " =?",
+                      new String[]{teamId},
+                      null, null, null, null);
+
+            if (cursor.getCount() == 1) {
+
+                cursor.moveToFirst();
+                int playerAmount = cursor.getInt(cursor.getColumnIndex(Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_PLAYERS_AMOUNT));
+
+                ContentValues cv = new ContentValues();
+                cv.put(Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_PLAYERS_AMOUNT, playerAmount - 1);
+
+                getWritableDatabase().update(Constants.TeamInfoDBContract.TABLE_NAME, cv, Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_ID + " =?", new String[]{teamId});
+            }
+        }
+    }
+
+    public void deleteTeamInDb(String teamId) {
         getWritableDatabase().delete(Constants.TeamInfoDBContract.TABLE_NAME, Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_ID + " =?", new String[]{teamId});
         getWritableDatabase().delete(Constants.TeamPlayersContract.TABLE_NAME, Constants.TeamPlayersContract.COLUMN_NAME_TEAM_ID + " =?", new String[]{teamId});
     }

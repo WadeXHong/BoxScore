@@ -20,8 +20,10 @@ public interface TeamPlayersContract {
 
         Cursor getPlayers(String teamId);
 
-        void refreshUi();
-
         void pressedCreatePlayer(String teamId);
+
+        void deletePlayer(String teamId, String playerId);
+
+        void refreshUi();
     }
 }

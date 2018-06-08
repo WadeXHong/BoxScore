@@ -36,7 +36,7 @@ public class TeamPlayersAdapter extends RecyclerView.Adapter {
 
     }
 
-    public void setTeamId(String teamId){
+    public void setTeamId(String teamId) {
         mTeamId = teamId;
     }
 
@@ -51,7 +51,7 @@ public class TeamPlayersAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ((ViewHolder)holder).setItem(position);
+        ((ViewHolder) holder).setItem(position);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class TeamPlayersAdapter extends RecyclerView.Adapter {
         return mCursor.getCount();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         private ConstraintLayout mLayout;
         private TextView mPlayerName;
@@ -91,26 +91,29 @@ public class TeamPlayersAdapter extends RecyclerView.Adapter {
 
         }
 
-        private void setItem (int position){
+        private void setItem(int position) {
 
             mCursor.moveToPosition(position);
-            String playerName =  mCursor.getString(mCursor.getColumnIndex(Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_NAME));
-            String playerNumber =  mCursor.getString(mCursor.getColumnIndex(Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_NUMBER));
+            String playerName = mCursor.getString(mCursor.getColumnIndex(Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_NAME));
+            String playerNumber = mCursor.getString(mCursor.getColumnIndex(Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_NUMBER));
             mPlayerName.setText(playerName);
             mPlayerNumber.setText(playerNumber);
 
         }
 
 
-        private void deletePlayer(int layoutPosition){
+        private void deletePlayer(int layoutPosition) {
+            Log.d(TAG, "deletePlayer " + layoutPosition);
             mCursor.moveToPosition(layoutPosition);
             String playerId = mCursor.getString(mCursor.getColumnIndex(Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_ID));
+            String teamId = mCursor.getString(mCursor.getColumnIndex(Constants.TeamPlayersContract.COLUMN_NAME_TEAM_ID));
+            mTeamPlayersPresenter.deletePlayer(teamId, playerId);
             refreshCursor();
         }
     }
 
     public void refreshCursor() {
-        Log.d(TAG,"refreshCursor, teamId = " + mTeamId);
+        Log.d(TAG, "refreshCursor, teamId = " + mTeamId);
         mCursor = mTeamPlayersPresenter.getPlayers(mTeamId);
         notifyDataSetChanged();
     }

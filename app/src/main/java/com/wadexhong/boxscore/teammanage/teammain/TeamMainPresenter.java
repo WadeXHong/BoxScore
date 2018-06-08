@@ -53,7 +53,7 @@ public class TeamMainPresenter implements TeamMainContract.Presenter{
 
     @Override
     public void deleteTeam(String teamId) {
-        BoxScore.getTeamDbHelper().deleteTeamInDB(teamId);
+        BoxScore.getTeamDbHelper().deleteTeamInDb(teamId);
         refreshUi();
     }
 }
