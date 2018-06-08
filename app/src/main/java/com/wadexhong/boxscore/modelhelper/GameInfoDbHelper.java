@@ -15,14 +15,14 @@ import com.wadexhong.boxscore.objects.GameInfo;
  * Created by wade8 on 2018/5/11.
  */
 
-public class GameInfoDbHelper extends SQLiteOpenHelper{
+public class GameInfoDbHelper extends SQLiteOpenHelper {
 
     public static final String TAG = GameInfoDbHelper.class.getSimpleName();
 
     public static final String DATABASE_NAME = "gameInfo.db";
     public static final int DATABASE_VERSION = 1;
     public static final String SQL_CREATE =
-              "CREATE TABLE "+ Constants.GameInfoDBContract.TABLE_NAME + "(" +
+              "CREATE TABLE " + Constants.GameInfoDBContract.TABLE_NAME + "(" +
                         Constants.GameInfoDBContract._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         Constants.GameInfoDBContract.COLUMN_NAME_GAME_ID + " TEXT NOT NULL, " +
                         Constants.GameInfoDBContract.COLUMN_NAME_GAME_NAME + " TEXT DEFAULT '', " +
@@ -41,8 +41,8 @@ public class GameInfoDbHelper extends SQLiteOpenHelper{
 
     private GameInfo mGameInfo;
 
-    public GameInfoDbHelper(Context context){
-        super(context,DATABASE_NAME,null,DATABASE_VERSION);
+    public GameInfoDbHelper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
@@ -60,51 +60,43 @@ public class GameInfoDbHelper extends SQLiteOpenHelper{
         this.mGameInfo = mGameInfo;
     }
 
-    public void writeGameInfoIntoDataBase() {
-        ContentValues cv = new ContentValues();
-        cv.put(Constants.GameInfoDBContract.COLUMN_NAME_GAME_ID,mGameInfo.getGameId());
-        cv.put(Constants.GameInfoDBContract.COLUMN_NAME_GAME_NAME,mGameInfo.getGameName());
-        cv.put(Constants.GameInfoDBContract.COLUMN_NAME_YOUR_TEAM_ID,mGameInfo.getYourTeamId());
-        cv.put(Constants.GameInfoDBContract.COLUMN_NAME_YOUR_TEAM,mGameInfo.getYourTeam());
-        cv.put(Constants.GameInfoDBContract.COLUMN_NAME_OPPONENT_NAME,mGameInfo.getOpponentName());
-        cv.put(Constants.GameInfoDBContract.COLUMN_NAME_QUARTER_LENGTH,mGameInfo.getQuarterLength());
-        cv.put(Constants.GameInfoDBContract.COLUMN_NAME_TOTAL_QUARTER,mGameInfo.getTotalQuarter());
-        cv.put(Constants.GameInfoDBContract.COLUMN_NAME_MAX_FOUL,mGameInfo.getMaxFoul());
-        cv.put(Constants.GameInfoDBContract.COLUMN_NAME_TIMEOUT_FIRST_HALF,mGameInfo.getTimeoutFirstHalf());
-        cv.put(Constants.GameInfoDBContract.COLUMN_NAME_TIMEOUT_SECOND_HALF,mGameInfo.getTimeoutSecondHalf());
-        cv.put(Constants.GameInfoDBContract.COLUMN_NAME_GAME_DATE,mGameInfo.getGameDate());
-
-        getWritableDatabase().insert(Constants.GameInfoDBContract.TABLE_NAME,null,cv);
-        getWritableDatabase().close();
-    }
-
-    public Cursor getGameInfo(){
+    public Cursor getGameInfo() {
         return getReadableDatabase()
                   .query(Constants.GameInfoDBContract.TABLE_NAME,
                             null,
-                            Constants.GameInfoDBContract.COLUMN_NAME_GAME_ID +" =?",
-                            new String[]{SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME,null)},
-                            null,null, null);
+                            Constants.GameInfoDBContract.COLUMN_NAME_GAME_ID + " =?",
+                            new String[]{SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME, null)},
+                            null, null, null);
+    }
+
+    public void writeGameInfoIntoDataBase() {
+
+        ContentValues cv = new ContentValues();
+        cv.put(Constants.GameInfoDBContract.COLUMN_NAME_GAME_ID, mGameInfo.getGameId());
+        cv.put(Constants.GameInfoDBContract.COLUMN_NAME_GAME_NAME, mGameInfo.getGameName());
+        cv.put(Constants.GameInfoDBContract.COLUMN_NAME_YOUR_TEAM_ID, mGameInfo.getYourTeamId());
+        cv.put(Constants.GameInfoDBContract.COLUMN_NAME_YOUR_TEAM, mGameInfo.getYourTeam());
+        cv.put(Constants.GameInfoDBContract.COLUMN_NAME_OPPONENT_NAME, mGameInfo.getOpponentName());
+        cv.put(Constants.GameInfoDBContract.COLUMN_NAME_QUARTER_LENGTH, mGameInfo.getQuarterLength());
+        cv.put(Constants.GameInfoDBContract.COLUMN_NAME_TOTAL_QUARTER, mGameInfo.getTotalQuarter());
+        cv.put(Constants.GameInfoDBContract.COLUMN_NAME_MAX_FOUL, mGameInfo.getMaxFoul());
+        cv.put(Constants.GameInfoDBContract.COLUMN_NAME_TIMEOUT_FIRST_HALF, mGameInfo.getTimeoutFirstHalf());
+        cv.put(Constants.GameInfoDBContract.COLUMN_NAME_TIMEOUT_SECOND_HALF, mGameInfo.getTimeoutSecondHalf());
+        cv.put(Constants.GameInfoDBContract.COLUMN_NAME_GAME_DATE, mGameInfo.getGameDate());
+
+        getWritableDatabase().insert(Constants.GameInfoDBContract.TABLE_NAME, null, cv);
+        getWritableDatabase().close();
     }
 
     public void removeGameInfo(String gameId) {
-        if (!gameId.equals("")){
+        if (!gameId.equals("")) {
             getWritableDatabase().delete(Constants.GameInfoDBContract.TABLE_NAME, Constants.GameInfoDBContract.COLUMN_NAME_GAME_ID + " = ?", new String[]{gameId});
         }
     }
 
-    public Cursor getGameHistory() {
-        return getReadableDatabase()
-                  .query(Constants.GameInfoDBContract.TABLE_NAME,
-                            null,
-                            Constants.GameInfoDBContract.COLUMN_NAME_IS_GAMEOVER + " =?",
-                            new String[]{"1"}
-                            , null, null, Constants.GameInfoDBContract.COLUMN_NAME_GAME_DATE +" DESC");
-    }
-
     public void writeGameData(int type) {
         ContentValues cv = new ContentValues();
-        switch (type){
+        switch (type) {
 
 //            case Constants.RecordDataType.YOUR_TEAM_TOTAL_SCORE:
             case Constants.RecordDataType.FREE_THROW_SHOT_MADE:
@@ -127,9 +119,18 @@ public class GameInfoDbHelper extends SQLiteOpenHelper{
                           cv,
                           Constants.GameInfoDBContract.COLUMN_NAME_GAME_ID + " =?",
                           new String[]{mGameInfo.getGameId()});
-            break;
+                break;
 
         }
+    }
+
+    public Cursor getGameHistory() {
+        return getReadableDatabase()
+                  .query(Constants.GameInfoDBContract.TABLE_NAME,
+                            null,
+                            Constants.GameInfoDBContract.COLUMN_NAME_IS_GAMEOVER + " =?",
+                            new String[]{"1"}
+                            , null, null, Constants.GameInfoDBContract.COLUMN_NAME_GAME_DATE + " DESC");
     }
 
     public Cursor getSpecificInfo(String gameId) {
@@ -139,18 +140,7 @@ public class GameInfoDbHelper extends SQLiteOpenHelper{
     }
 
 
-    public void deleteAll(@Nullable String notEndedGameId){
-
-        if (notEndedGameId == null || notEndedGameId.equals("")) {
-            getWritableDatabase().delete(Constants.GameInfoDBContract.TABLE_NAME, null, null);
-        }else {
-            getWritableDatabase().delete(Constants.GameInfoDBContract.TABLE_NAME,
-                      Constants.GameInfoDBContract.COLUMN_NAME_GAME_ID + " !=?",
-                      new String[]{notEndedGameId});
-        }
-    }
-
-    public int overExpandingGame(String gameId, String teamId){
+    public int overPlayingGame(String gameId, String teamId) {
 
         SQLiteDatabase db = getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -159,10 +149,21 @@ public class GameInfoDbHelper extends SQLiteOpenHelper{
 
         Cursor cursor = getReadableDatabase().query(Constants.GameInfoDBContract.TABLE_NAME,
                   new String[]{Constants.GameInfoDBContract.COLUMN_NAME_GAME_ID},
-                  Constants.GameInfoDBContract.COLUMN_NAME_YOUR_TEAM_ID + " =? AND "+ Constants.GameInfoDBContract.COLUMN_NAME_IS_GAMEOVER + " =?",
-                  new String[]{teamId,"1"},
+                  Constants.GameInfoDBContract.COLUMN_NAME_YOUR_TEAM_ID + " =? AND " + Constants.GameInfoDBContract.COLUMN_NAME_IS_GAMEOVER + " =?",
+                  new String[]{teamId, "1"},
                   null, null, null);
 
         return cursor.getCount();
+    }
+
+    public void deleteAll(@Nullable String notEndedGameId) {
+
+        if (notEndedGameId == null || notEndedGameId.equals("")) {
+            getWritableDatabase().delete(Constants.GameInfoDBContract.TABLE_NAME, null, null);
+        } else {
+            getWritableDatabase().delete(Constants.GameInfoDBContract.TABLE_NAME,
+                      Constants.GameInfoDBContract.COLUMN_NAME_GAME_ID + " !=?",
+                      new String[]{notEndedGameId});
+        }
     }
 }

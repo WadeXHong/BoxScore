@@ -2,14 +2,9 @@ package com.wadexhong.boxscore;
 
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.wadexhong.boxscore.activities.BoxScoreActivity;
 import com.wadexhong.boxscore.modelhelper.firebasemodel.Create;
 import com.wadexhong.boxscore.modelhelper.firebasemodel.Get;
 import com.wadexhong.boxscore.modelhelper.SharedPreferenceHelper;
@@ -114,7 +109,7 @@ public class BoxScorePresenter implements BoxScoreContract.Presenter {
             BoxScore.getGameDataDbHelper().deleteAll(notEndedGameId);
             BoxScore.getGameInfoDbHelper().deleteAll(notEndedGameId);
             BoxScore.getTeamDbHelper().deleteAll();
-            Get.onCreate();
+            Get.getInstance().onCreate();
         }
     }
 
@@ -126,7 +121,7 @@ public class BoxScorePresenter implements BoxScoreContract.Presenter {
 
         if (!gameId.equals("") && !teamId.equals("")) {
 
-            int newHistoryAmount = BoxScore.getGameInfoDbHelper().overExpandingGame(gameId, teamId);
+            int newHistoryAmount = BoxScore.getGameInfoDbHelper().overPlayingGame(gameId, teamId);
 
             BoxScore.getTeamDbHelper().updateHistoryAmount(teamId, newHistoryAmount);
 

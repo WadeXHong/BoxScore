@@ -7,7 +7,7 @@ import com.wadexhong.boxscore.BoxScore;
  * Created by wade8 on 2018/5/25.
  */
 
-public class SettingPresenter implements SettingContract.Presenter{
+public class SettingPresenter implements SettingContract.Presenter {
 
     private static final String TAG = SettingPresenter.class.getSimpleName();
 
@@ -19,11 +19,6 @@ public class SettingPresenter implements SettingContract.Presenter{
         mSettingView.setPresenter(this);
     }
 
-
-    @Override
-    public void start() {
-
-    }
 
     @Override
     public void setBrightness(float brightness) {
@@ -44,5 +39,10 @@ public class SettingPresenter implements SettingContract.Presenter{
         BoxScore.getGameInfoDbHelper().deleteAll(null);
         BoxScore.getTeamDbHelper().deleteAll();
         mSettingView.finishActivity();
+    }
+
+    @Override
+    public void start() {
+
     }
 }

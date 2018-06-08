@@ -11,7 +11,7 @@ public class Undo {
     private int mQuarter;
     private boolean mIsMarked;
 
-    public Undo(int mType,int mQuarter, Player mPlayer) {
+    public Undo(int mType, int mQuarter, Player mPlayer) {
         this.mPlayer = mPlayer;
         this.mType = mType;
         this.mQuarter = mQuarter;
@@ -21,24 +21,24 @@ public class Undo {
         return mQuarter;
     }
 
-    public void setQuarter(int mQuarter) {
-        this.mQuarter = mQuarter;
+    public void setQuarter(int quarter) {
+        mQuarter = quarter;
     }
 
     public Player getPlayer() {
         return mPlayer;
     }
 
-    public void setPlayer(Player mPlayer) {
-        this.mPlayer = mPlayer;
+    public void setPlayer(Player player) {
+        mPlayer = player;
     }
 
     public int getType() {
         return mType;
     }
 
-    public void setType(int mType) {
-        this.mType = mType;
+    public void setType(int type) {
+        mType = type;
     }
 
     public boolean isMarked() {

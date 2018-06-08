@@ -9,14 +9,14 @@ import com.wadexhong.boxscore.BaseView;
 
 public interface SettingContract {
 
-    interface View extends BaseView<Presenter>{
+    interface View extends BaseView<Presenter> {
 
         void setBrightness(float brightness);
 
         void finishActivity();
     }
 
-    interface Presenter extends BasePresenter{
+    interface Presenter extends BasePresenter {
 
         void setBrightness(float brightness);
 

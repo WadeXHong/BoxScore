@@ -12,9 +12,10 @@ import com.wadexhong.boxscore.dialog.ProgressBarDialog;
 
 /**
  * Created by wade8 on 2018/5/31.
+ * Put database synchronize process into this asynctask.
  */
 
-public class OnCreateDataBaseTask extends AsyncTask<Void,Void,Void>{
+public class OnCreateDataBaseTask extends AsyncTask<Void, Void, Void> {
 
     private static final String TAG = OnCreateDataBaseTask.class.getSimpleName();
 
@@ -22,6 +23,7 @@ public class OnCreateDataBaseTask extends AsyncTask<Void,Void,Void>{
 
     public OnCreateDataBaseTask(DataSnapshot dataSnapshot) {
         super();
+
         mDataSnapshot = dataSnapshot;
     }
 
@@ -35,39 +37,39 @@ public class OnCreateDataBaseTask extends AsyncTask<Void,Void,Void>{
 
 
         //gameinfo & gamedata
-        for (DataSnapshot games : mDataSnapshot.child(Constants.FireBaseConstant.NODE_NAME_GAME_INFO).getChildren()){
+        for (DataSnapshot games : mDataSnapshot.child(Constants.FireBaseConstant.NODE_NAME_GAME_INFO).getChildren()) {
             //other info includes game_data, game_name....
 
-            String  gameId =                      games.getKey();
-            String  gameDate =           (String) games.child(Constants.GameInfoDBContract.COLUMN_NAME_GAME_DATE).getValue();
-            String  gameName =           (String) games.child(Constants.GameInfoDBContract.COLUMN_NAME_GAME_NAME).getValue();
-            Long    isGameOver =         (Long)   games.child(Constants.GameInfoDBContract.COLUMN_NAME_IS_GAMEOVER).getValue();
-            Long    maxFoul =            (Long)   games.child(Constants.GameInfoDBContract.COLUMN_NAME_MAX_FOUL).getValue();
-            String  opponent =           (String) games.child(Constants.GameInfoDBContract.COLUMN_NAME_OPPONENT_NAME).getValue();
-            Long    opponentTeamScore =  (Long)   games.child(Constants.GameInfoDBContract.COLUMN_NAME_OPPONENT_TEAM_SCORE).getValue();
-            Long    quarterLength =      (Long)   games.child(Constants.GameInfoDBContract.COLUMN_NAME_QUARTER_LENGTH).getValue();
-            Long    timeoutFirstHalf =   (Long)   games.child(Constants.GameInfoDBContract.COLUMN_NAME_TIMEOUT_FIRST_HALF).getValue();
-            Long    timeoutSecondHalf =  (Long)   games.child(Constants.GameInfoDBContract.COLUMN_NAME_TIMEOUT_SECOND_HALF).getValue();
-            Long    totalQuarter =       (Long)   games.child(Constants.GameInfoDBContract.COLUMN_NAME_TOTAL_QUARTER).getValue();
-            String  yourTeam =           (String) games.child(Constants.GameInfoDBContract.COLUMN_NAME_YOUR_TEAM).getValue();
-            String  yourTeamId =         (String) games.child(Constants.GameInfoDBContract.COLUMN_NAME_YOUR_TEAM_ID).getValue();
-            Long    yourTeamScore =      (Long)   games.child(Constants.GameInfoDBContract.COLUMN_NAME_YOUR_TEAM_SCORE).getValue();
+            String gameId = games.getKey();
+            String gameDate = (String) games.child(Constants.GameInfoDBContract.COLUMN_NAME_GAME_DATE).getValue();
+            String gameName = (String) games.child(Constants.GameInfoDBContract.COLUMN_NAME_GAME_NAME).getValue();
+            Long isGameOver = (Long) games.child(Constants.GameInfoDBContract.COLUMN_NAME_IS_GAMEOVER).getValue();
+            Long maxFoul = (Long) games.child(Constants.GameInfoDBContract.COLUMN_NAME_MAX_FOUL).getValue();
+            String opponent = (String) games.child(Constants.GameInfoDBContract.COLUMN_NAME_OPPONENT_NAME).getValue();
+            Long opponentTeamScore = (Long) games.child(Constants.GameInfoDBContract.COLUMN_NAME_OPPONENT_TEAM_SCORE).getValue();
+            Long quarterLength = (Long) games.child(Constants.GameInfoDBContract.COLUMN_NAME_QUARTER_LENGTH).getValue();
+            Long timeoutFirstHalf = (Long) games.child(Constants.GameInfoDBContract.COLUMN_NAME_TIMEOUT_FIRST_HALF).getValue();
+            Long timeoutSecondHalf = (Long) games.child(Constants.GameInfoDBContract.COLUMN_NAME_TIMEOUT_SECOND_HALF).getValue();
+            Long totalQuarter = (Long) games.child(Constants.GameInfoDBContract.COLUMN_NAME_TOTAL_QUARTER).getValue();
+            String yourTeam = (String) games.child(Constants.GameInfoDBContract.COLUMN_NAME_YOUR_TEAM).getValue();
+            String yourTeamId = (String) games.child(Constants.GameInfoDBContract.COLUMN_NAME_YOUR_TEAM_ID).getValue();
+            Long yourTeamScore = (Long) games.child(Constants.GameInfoDBContract.COLUMN_NAME_YOUR_TEAM_SCORE).getValue();
 
             Log.d(TAG, "game_info");
-            Log.i(TAG, "gameId =           "+gameId            );
-            Log.i(TAG, "gameDate =         "+gameDate          );
-            Log.i(TAG, "gameName =         "+gameName          );
-            Log.i(TAG, "isGameOver =       "+isGameOver        );
-            Log.i(TAG, "maxFoul =          "+maxFoul           );
-            Log.i(TAG, "opponent =         "+opponent          );
-            Log.i(TAG, "opponentTeamScore ="+opponentTeamScore );
-            Log.i(TAG, "quarterLength =    "+quarterLength     );
-            Log.i(TAG, "timeoutFirstHalf = "+timeoutFirstHalf  );
-            Log.i(TAG, "timeoutSecondHalf ="+timeoutSecondHalf );
-            Log.i(TAG, "totalQuarter =     "+totalQuarter      );
-            Log.i(TAG, "yourTeam =         "+yourTeam          );
-            Log.i(TAG, "yourTeamId =       "+yourTeamId        );
-            Log.i(TAG, "yourTeamScore =    "+yourTeamScore     );
+            Log.i(TAG, "gameId =           " + gameId);
+            Log.i(TAG, "gameDate =         " + gameDate);
+            Log.i(TAG, "gameName =         " + gameName);
+            Log.i(TAG, "isGameOver =       " + isGameOver);
+            Log.i(TAG, "maxFoul =          " + maxFoul);
+            Log.i(TAG, "opponent =         " + opponent);
+            Log.i(TAG, "opponentTeamScore =" + opponentTeamScore);
+            Log.i(TAG, "quarterLength =    " + quarterLength);
+            Log.i(TAG, "timeoutFirstHalf = " + timeoutFirstHalf);
+            Log.i(TAG, "timeoutSecondHalf =" + timeoutSecondHalf);
+            Log.i(TAG, "totalQuarter =     " + totalQuarter);
+            Log.i(TAG, "yourTeam =         " + yourTeam);
+            Log.i(TAG, "yourTeamId =       " + yourTeamId);
+            Log.i(TAG, "yourTeamScore =    " + yourTeamScore);
 
 
             //TODO  DO  SOMETHING IN GAMEINFODATABASE
@@ -91,57 +93,55 @@ public class OnCreateDataBaseTask extends AsyncTask<Void,Void,Void>{
             dbGameInfo.insert(Constants.GameInfoDBContract.TABLE_NAME, null, cvGameInfo);
 
 
-
             // games = List<gameUUID>
-            for (DataSnapshot players : games.child(Constants.FireBaseConstant.NODE_NAME_GAME_DATA).getChildren()){
+            for (DataSnapshot players : games.child(Constants.FireBaseConstant.NODE_NAME_GAME_DATA).getChildren()) {
                 //other info includes player_name, player_number
 
-                String playerId =              players.getKey();
-                String playerName =   (String) players.child(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NAME).getValue();
+                String playerId = players.getKey();
+                String playerName = (String) players.child(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NAME).getValue();
                 String playerNumber = (String) players.child(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER).getValue();
 
                 Log.d(TAG, "game_data");
-                Log.i(TAG, "playerId "+playerId);
-                Log.i(TAG, "playerName "+playerName);
-                Log.i(TAG, "playerNumber "+playerNumber);
-
+                Log.i(TAG, "playerId " + playerId);
+                Log.i(TAG, "playerName " + playerName);
+                Log.i(TAG, "playerNumber " + playerNumber);
 
 
                 //players = List<playerUUID>
-                for(DataSnapshot quarters:players.child(Constants.FireBaseConstant.NODE_NAME_QUARTER).getChildren()){
+                for (DataSnapshot quarters : players.child(Constants.FireBaseConstant.NODE_NAME_QUARTER).getChildren()) {
 
                     String quarter = quarters.getKey();
 
-                    Long PTS =  (Long) quarters.child(Constants.GameDataDBContract.COLUMN_NAME_POINTS).getValue();
-                    Long FGM =  (Long) quarters.child(Constants.GameDataDBContract.COLUMN_NAME_FIELD_GOALS_MADE).getValue();
-                    Long FGA =  (Long) quarters.child(Constants.GameDataDBContract.COLUMN_NAME_FIELD_GOALS_ATTEMPTED).getValue();
-                    Long TPM =  (Long) quarters.child(Constants.GameDataDBContract.COLUMN_NAME_THREE_POINT_MADE).getValue();
-                    Long TPA =  (Long) quarters.child(Constants.GameDataDBContract.COLUMN_NAME_THREE_POINT_ATTEMPTED).getValue();
-                    Long FTM =  (Long) quarters.child(Constants.GameDataDBContract.COLUMN_NAME_FREE_THROW_MADE).getValue();
-                    Long FTA =  (Long) quarters.child(Constants.GameDataDBContract.COLUMN_NAME_FREE_THROW_ATTEMPTED).getValue();
-                    Long OREB = (Long) quarters.child(Constants.GameDataDBContract.COLUMN_NAME_OFFENSIVE_REBOUND ).getValue();
-                    Long DREB = (Long) quarters.child(Constants.GameDataDBContract.COLUMN_NAME_DEFENSIVE_REBOUND ).getValue();
-                    Long AST =  (Long) quarters.child(Constants.GameDataDBContract.COLUMN_NAME_ASSIST).getValue();
-                    Long STL =  (Long) quarters.child(Constants.GameDataDBContract.COLUMN_NAME_STEAL).getValue();
-                    Long BLK =  (Long) quarters.child(Constants.GameDataDBContract.COLUMN_NAME_BLOCK).getValue();
-                    Long PF =   (Long) quarters.child(Constants.GameDataDBContract.COLUMN_NAME_PERSONAL_FOUL).getValue();
-                    Long TOV =  (Long) quarters.child(Constants.GameDataDBContract.COLUMN_NAME_TURNOVER).getValue();
+                    Long PTS = (Long) quarters.child(Constants.GameDataDBContract.COLUMN_NAME_POINTS).getValue();
+                    Long FGM = (Long) quarters.child(Constants.GameDataDBContract.COLUMN_NAME_FIELD_GOALS_MADE).getValue();
+                    Long FGA = (Long) quarters.child(Constants.GameDataDBContract.COLUMN_NAME_FIELD_GOALS_ATTEMPTED).getValue();
+                    Long TPM = (Long) quarters.child(Constants.GameDataDBContract.COLUMN_NAME_THREE_POINT_MADE).getValue();
+                    Long TPA = (Long) quarters.child(Constants.GameDataDBContract.COLUMN_NAME_THREE_POINT_ATTEMPTED).getValue();
+                    Long FTM = (Long) quarters.child(Constants.GameDataDBContract.COLUMN_NAME_FREE_THROW_MADE).getValue();
+                    Long FTA = (Long) quarters.child(Constants.GameDataDBContract.COLUMN_NAME_FREE_THROW_ATTEMPTED).getValue();
+                    Long OREB = (Long) quarters.child(Constants.GameDataDBContract.COLUMN_NAME_OFFENSIVE_REBOUND).getValue();
+                    Long DREB = (Long) quarters.child(Constants.GameDataDBContract.COLUMN_NAME_DEFENSIVE_REBOUND).getValue();
+                    Long AST = (Long) quarters.child(Constants.GameDataDBContract.COLUMN_NAME_ASSIST).getValue();
+                    Long STL = (Long) quarters.child(Constants.GameDataDBContract.COLUMN_NAME_STEAL).getValue();
+                    Long BLK = (Long) quarters.child(Constants.GameDataDBContract.COLUMN_NAME_BLOCK).getValue();
+                    Long PF = (Long) quarters.child(Constants.GameDataDBContract.COLUMN_NAME_PERSONAL_FOUL).getValue();
+                    Long TOV = (Long) quarters.child(Constants.GameDataDBContract.COLUMN_NAME_TURNOVER).getValue();
 
-                    Log.i(TAG, "quarter "+quarter);
-                    Log.i(TAG, "PTS = " + PTS );
-                    Log.i(TAG, "FGM = " + FGM );
-                    Log.i(TAG, "FGA = " + FGA );
-                    Log.i(TAG, "TPM = " + TPM );
-                    Log.i(TAG, "TPA = " + TPA );
-                    Log.i(TAG, "FTM = " + FTM );
-                    Log.i(TAG, "FTA = " + FTA );
+                    Log.i(TAG, "quarter " + quarter);
+                    Log.i(TAG, "PTS = " + PTS);
+                    Log.i(TAG, "FGM = " + FGM);
+                    Log.i(TAG, "FGA = " + FGA);
+                    Log.i(TAG, "TPM = " + TPM);
+                    Log.i(TAG, "TPA = " + TPA);
+                    Log.i(TAG, "FTM = " + FTM);
+                    Log.i(TAG, "FTA = " + FTA);
                     Log.i(TAG, "OREB = " + OREB);
                     Log.i(TAG, "DREB = " + DREB);
-                    Log.i(TAG, "AST = " + AST );
-                    Log.i(TAG, "STL = " + STL );
-                    Log.i(TAG, "BLK = " + BLK );
+                    Log.i(TAG, "AST = " + AST);
+                    Log.i(TAG, "STL = " + STL);
+                    Log.i(TAG, "BLK = " + BLK);
                     Log.i(TAG, "PF = " + PF);
-                    Log.i(TAG, "TOV = " + TOV );
+                    Log.i(TAG, "TOV = " + TOV);
 
                     ContentValues cvGameData = new ContentValues();
 
@@ -171,30 +171,29 @@ public class OnCreateDataBaseTask extends AsyncTask<Void,Void,Void>{
         }
 
 
-
         //playerlist
 
-        for (DataSnapshot players: mDataSnapshot.child(Constants.FireBaseConstant.NODE_NAME_TEAM_PLAYER).getChildren()){
-            String playerId =              players.getKey();
-            String teamId =       (String) players.child(Constants.TeamPlayersContract.COLUMN_NAME_TEAM_ID).getValue();
-            String playerName =   (String) players.child(Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_NAME).getValue();
+        for (DataSnapshot players : mDataSnapshot.child(Constants.FireBaseConstant.NODE_NAME_TEAM_PLAYER).getChildren()) {
+            String playerId = players.getKey();
+            String teamId = (String) players.child(Constants.TeamPlayersContract.COLUMN_NAME_TEAM_ID).getValue();
+            String playerName = (String) players.child(Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_NAME).getValue();
             String playerNumber = (String) players.child(Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_NUMBER).getValue();
-            Long   playC =        (Long)   players.child(Constants.TeamPlayersContract.COLUMN_NAME_PLAY_C).getValue();
-            Long   playPF =       (Long)   players.child(Constants.TeamPlayersContract.COLUMN_NAME_PLAY_PF).getValue();
-            Long   playSF =       (Long)   players.child(Constants.TeamPlayersContract.COLUMN_NAME_PLAY_SF).getValue();
-            Long   playSG =       (Long)   players.child(Constants.TeamPlayersContract.COLUMN_NAME_PLAY_SG).getValue();
-            Long   playPG =       (Long)   players.child(Constants.TeamPlayersContract.COLUMN_NAME_PLAY_PG).getValue();
+            Long playC = (Long) players.child(Constants.TeamPlayersContract.COLUMN_NAME_PLAY_C).getValue();
+            Long playPF = (Long) players.child(Constants.TeamPlayersContract.COLUMN_NAME_PLAY_PF).getValue();
+            Long playSF = (Long) players.child(Constants.TeamPlayersContract.COLUMN_NAME_PLAY_SF).getValue();
+            Long playSG = (Long) players.child(Constants.TeamPlayersContract.COLUMN_NAME_PLAY_SG).getValue();
+            Long playPG = (Long) players.child(Constants.TeamPlayersContract.COLUMN_NAME_PLAY_PG).getValue();
 
             Log.d(TAG, "team_player");
-            Log.i(TAG,"playerId    " + playerId    );
-            Log.i(TAG,"teamId      " + teamId      );
-            Log.i(TAG,"playerName  " + playerName  );
-            Log.i(TAG,"playerNumber" + playerNumber);
-            Log.i(TAG,"playC =     " + playC       );
-            Log.i(TAG,"playPF =    " + playPF      );
-            Log.i(TAG,"playSF =    " + playSF      );
-            Log.i(TAG,"playSG =    " + playSG      );
-            Log.i(TAG,"playPG =    " + playPG      );
+            Log.i(TAG, "playerId    " + playerId);
+            Log.i(TAG, "teamId      " + teamId);
+            Log.i(TAG, "playerName  " + playerName);
+            Log.i(TAG, "playerNumber" + playerNumber);
+            Log.i(TAG, "playC =     " + playC);
+            Log.i(TAG, "playPF =    " + playPF);
+            Log.i(TAG, "playSF =    " + playSF);
+            Log.i(TAG, "playSG =    " + playSG);
+            Log.i(TAG, "playPG =    " + playPG);
 
             ContentValues cvTeamPlayers = new ContentValues();
 
@@ -208,22 +207,22 @@ public class OnCreateDataBaseTask extends AsyncTask<Void,Void,Void>{
             cvTeamPlayers.put(Constants.TeamPlayersContract.COLUMN_NAME_PLAY_SG, playSG);
             cvTeamPlayers.put(Constants.TeamPlayersContract.COLUMN_NAME_PLAY_PG, playPG);
 
-            dbTeam.insert(Constants.TeamPlayersContract.TABLE_NAME, null,cvTeamPlayers);
+            dbTeam.insert(Constants.TeamPlayersContract.TABLE_NAME, null, cvTeamPlayers);
         }
 
         //teamlist
 
-        for (DataSnapshot teams: mDataSnapshot.child(Constants.FireBaseConstant.NODE_NAME_TEAM_INFO).getChildren()){
-            String teamId =                 teams.getKey();
-            String teamName =      (String) teams.child(Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_NAME).getValue();
-            Long   historyAmount = (Long)   teams.child(Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_HISTORY_AMOUNT).getValue();
-            Long   playersAmount = (Long)   teams.child(Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_PLAYERS_AMOUNT).getValue();
+        for (DataSnapshot teams : mDataSnapshot.child(Constants.FireBaseConstant.NODE_NAME_TEAM_INFO).getChildren()) {
+            String teamId = teams.getKey();
+            String teamName = (String) teams.child(Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_NAME).getValue();
+            Long historyAmount = (Long) teams.child(Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_HISTORY_AMOUNT).getValue();
+            Long playersAmount = (Long) teams.child(Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_PLAYERS_AMOUNT).getValue();
 
             Log.d(TAG, "team_info");
-            Log.i(TAG,"teamId        " + teamId        );
-            Log.i(TAG,"teamName      " + teamName      );
-            Log.i(TAG,"historyAmount " + historyAmount );
-            Log.i(TAG,"playersAmount " + playersAmount );
+            Log.i(TAG, "teamId        " + teamId);
+            Log.i(TAG, "teamName      " + teamName);
+            Log.i(TAG, "historyAmount " + historyAmount);
+            Log.i(TAG, "playersAmount " + playersAmount);
 
             ContentValues cvTeamInfo = new ContentValues();
 

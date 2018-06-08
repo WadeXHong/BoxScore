@@ -9,7 +9,7 @@ import java.util.List;
  * Created by wade8 on 2018/5/2.
  */
 
-public class TeamInfo extends ExpandableGroup<TeamDetail>{
+public class TeamInfo extends ExpandableGroup<TeamDetail> {
 
     public static final int TEAM_NAME = 0;
     public static final int TEAM_ID = 1;
@@ -20,14 +20,14 @@ public class TeamInfo extends ExpandableGroup<TeamDetail>{
     private String mTeamId;
     private ArrayList<Player> mPlayers;
 
-    public TeamInfo(String teamName, String teamId, List<TeamDetail> items){
-        this(teamName, items);
-        mTeamId = teamId;
-    }
-
     public TeamInfo(String teamName, List<TeamDetail> items) {
         super(teamName, items);
         mTeamName = teamName;
+    }
+
+    public TeamInfo(String teamName, String teamId, List<TeamDetail> items) {
+        this(teamName, items);
+        mTeamId = teamId;
     }
 
 
@@ -35,8 +35,8 @@ public class TeamInfo extends ExpandableGroup<TeamDetail>{
         return mPlayers;
     }
 
-    public void setmPlayers(ArrayList<Player> mPlayers) {
-        this.mPlayers = mPlayers;
+    public void setmPlayers(ArrayList<Player> players) {
+        mPlayers = players;
     }
 
 

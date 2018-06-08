@@ -12,7 +12,7 @@ import java.text.DecimalFormat;
  * Created by wade8 on 2018/5/24.
  */
 
-public class PercentFormatter implements IValueFormatter, IAxisValueFormatter{
+public class PercentFormatter implements IValueFormatter, IAxisValueFormatter {
 
     protected DecimalFormat mFormat;
 
@@ -26,7 +26,7 @@ public class PercentFormatter implements IValueFormatter, IAxisValueFormatter{
      * @param format
      */
     public PercentFormatter(DecimalFormat format) {
-        this.mFormat = format;
+        mFormat = format;
     }
 
     // IValueFormatter

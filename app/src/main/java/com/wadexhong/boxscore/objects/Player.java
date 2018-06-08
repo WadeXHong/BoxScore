@@ -19,18 +19,19 @@ public class Player implements Serializable {
     private String mName;
     private int[] mPosition;
 
-    public Player(String number, String name, String playerId){
-        this(number,name);
-        mPlayerId = playerId;
-    }
 
     public Player(String number, String name) {
         this.mNumber = number;
         this.mName = name;
     }
 
-    public Player(String number, String name, int[] position){
-        this(number,name);
+    public Player(String number, String name, String playerId) {
+        this(number, name);
+        mPlayerId = playerId;
+    }
+
+    public Player(String number, String name, int[] position) {
+        this(number, name);
         mPosition = position;
     }
 
@@ -38,16 +39,16 @@ public class Player implements Serializable {
         return mNumber;
     }
 
-    public void setNumber(String mNumber) {
-        this.mNumber = mNumber;
+    public void setNumber(String number) {
+        mNumber = number;
     }
 
     public String getName() {
         return mName;
     }
 
-    public void setName(String mName) {
-        this.mName = mName;
+    public void setName(String name) {
+        mName = name;
     }
 
     public int[] getPosition() {

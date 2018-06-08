@@ -30,15 +30,15 @@ public class TeamDbHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "teamInfo.db";
     public static final int DATABASE_VERSION = 1;
     public static final String SQL_CREATE_TEAMINFO =
-              "CREATE TABLE "+ Constants.TeamInfoDBContract.TABLE_NAME + "(" +
+              "CREATE TABLE " + Constants.TeamInfoDBContract.TABLE_NAME + "(" +
                         Constants.TeamInfoDBContract._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_NAME + " TEXT NOT NULL, " +
                         Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_ID + " TEXT, " +
                         Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_PLAYERS_AMOUNT + " INTEGER DEFAULT 0, " +
-                        Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_HISTORY_AMOUNT + " INTEGER DEFAULT 0" +");";
+                        Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_HISTORY_AMOUNT + " INTEGER DEFAULT 0" + ");";
 
     public static final String SQL_CREATE_TEAMPLAYER =
-              "CREATE TABLE "+ Constants.TeamPlayersContract.TABLE_NAME + "(" +
+              "CREATE TABLE " + Constants.TeamPlayersContract.TABLE_NAME + "(" +
                         Constants.TeamPlayersContract._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         Constants.TeamPlayersContract.COLUMN_NAME_TEAM_ID + " TEXT NOT NULL, " +
                         Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_ID + " TEXT NOT NULL, " +
@@ -51,7 +51,7 @@ public class TeamDbHelper extends SQLiteOpenHelper {
                         Constants.TeamPlayersContract.COLUMN_NAME_PLAY_PG + " BOOLEAN DEFAULT 0" + ");";
 
 
-    public TeamDbHelper(Context context){
+    public TeamDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -67,17 +67,19 @@ public class TeamDbHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean createTeamInDB(String teamName){
+    public boolean createTeamInDB(String teamName) {
+
         Cursor cursor = getReadableDatabase().query(Constants.TeamInfoDBContract.TABLE_NAME,
                   new String[]{Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_NAME},
-                  Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_NAME +" =?",
-                  new String[]{teamName},null,null,null);
+                  Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_NAME + " =?",
+                  new String[]{teamName}, null, null, null);
 
-        if (cursor.getCount() == 0){
+        if (cursor.getCount() == 0) {
+
             String teamUuid = UUID.randomUUID().toString();
             //Local SQLite
             ContentValues contentValues = new ContentValues();
-            contentValues.put(Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_NAME,teamName);
+            contentValues.put(Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_NAME, teamName);
             contentValues.put(Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_ID, teamUuid);
             // TODO 未來新增球隊的輸入資料放在這
 
@@ -88,53 +90,11 @@ public class TeamDbHelper extends SQLiteOpenHelper {
             if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                 Create.getInstance().CreateTeam(teamUuid, teamName);
             }
-
             return true;
-        }else {
+
+        } else {
             return false;
         }
-    }
-
-    public ArrayList<TeamInfo> getTeamsForAdapter(){
-        Cursor cursor = getReadableDatabase().query(Constants.TeamInfoDBContract.TABLE_NAME, null, null, null, null, null, null);
-        int size = cursor.getCount();
-        ArrayList<TeamInfo> teamInfoList = new ArrayList<>();
-
-        for(int i=0; i<size; i++){
-
-            cursor.moveToPosition(i);
-            String teamName = cursor.getString(cursor.getColumnIndex(Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_NAME));
-            String teamId = cursor.getString(cursor.getColumnIndex(Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_ID));
-            int teamPlayerAmount = cursor.getInt(cursor.getColumnIndex(Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_PLAYERS_AMOUNT));
-            int teamHistoryAmount = cursor.getInt(cursor.getColumnIndex(Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_HISTORY_AMOUNT));
-
-            List<TeamDetail> teamDetails = new ArrayList<>();
-            teamDetails.add(new TeamDetail(teamName, teamId, teamPlayerAmount, teamHistoryAmount));
-
-            teamInfoList.add(new TeamInfo(teamName, teamId, teamDetails));
-        }
-
-        return teamInfoList;
-    }
-
-    public void deleteTeamInDB(String teamId) {
-        getWritableDatabase().delete(Constants.TeamInfoDBContract.TABLE_NAME, Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_ID +" =?", new String[]{teamId});
-        getWritableDatabase().delete(Constants.TeamPlayersContract.TABLE_NAME, Constants.TeamPlayersContract.COLUMN_NAME_TEAM_ID +" =?", new String[]{teamId});
-    }
-
-    public Cursor getPlayersFromDb(String teamId) {
-        Log.d(TAG,"getPlayersFromDb executed, teamId = "+ teamId);
-        return getWritableDatabase().query(Constants.TeamPlayersContract.TABLE_NAME, null,
-                  Constants.TeamPlayersContract.COLUMN_NAME_TEAM_ID + " =?", new String[]{teamId}, null, null, null);
-    }
-
-    public boolean checkNumberIsExistInDb(String teamId, String playerNumber) {
-        Log.d(TAG,"checkNumberIsExistInDb executed, teamId = "+ teamId);
-        int size = getReadableDatabase().query(Constants.TeamPlayersContract.TABLE_NAME, null,
-                  Constants.TeamPlayersContract.COLUMN_NAME_TEAM_ID + " =? AND " + Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_NUMBER + " =?",
-                  new String[]{teamId, playerNumber}, null, null, null).getCount();
-
-            return size != 0;
     }
 
     public void createPlayerInDb(String teamId, Player player) {
@@ -170,11 +130,40 @@ public class TeamDbHelper extends SQLiteOpenHelper {
         getWritableDatabase().update(Constants.TeamInfoDBContract.TABLE_NAME, cvInfo, Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_ID + " =?", new String[]{teamId});
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            Create.getInstance().CreatePlayer(teamId, player, teamPlayerAmount +1);
+            Create.getInstance().CreatePlayer(teamId, player, teamPlayerAmount + 1);
         }
     }
 
-    public void updateHistoryAmount(String teamId, int amount){
+    public ArrayList<TeamInfo> getTeamsForAdapter() {
+
+        Cursor cursor = getReadableDatabase().query(Constants.TeamInfoDBContract.TABLE_NAME, null, null, null, null, null, null);
+        int size = cursor.getCount();
+        ArrayList<TeamInfo> teamInfoList = new ArrayList<>();
+
+        for (int i = 0; i < size; i++) {
+
+            cursor.moveToPosition(i);
+            String teamName = cursor.getString(cursor.getColumnIndex(Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_NAME));
+            String teamId = cursor.getString(cursor.getColumnIndex(Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_ID));
+            int teamPlayerAmount = cursor.getInt(cursor.getColumnIndex(Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_PLAYERS_AMOUNT));
+            int teamHistoryAmount = cursor.getInt(cursor.getColumnIndex(Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_HISTORY_AMOUNT));
+
+            List<TeamDetail> teamDetails = new ArrayList<>();
+            teamDetails.add(new TeamDetail(teamName, teamId, teamPlayerAmount, teamHistoryAmount));
+
+            teamInfoList.add(new TeamInfo(teamName, teamId, teamDetails));
+        }
+
+        return teamInfoList;
+    }
+
+    public Cursor getPlayersFromDb(String teamId) {
+        Log.d(TAG, "getPlayersFromDb executed, teamId = " + teamId);
+        return getWritableDatabase().query(Constants.TeamPlayersContract.TABLE_NAME, null,
+                  Constants.TeamPlayersContract.COLUMN_NAME_TEAM_ID + " =?", new String[]{teamId}, null, null, null);
+    }
+
+    public void updateHistoryAmount(String teamId, int amount) {
 
         ContentValues cv = new ContentValues();
         cv.put(Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_HISTORY_AMOUNT, amount);
@@ -185,7 +174,21 @@ public class TeamDbHelper extends SQLiteOpenHelper {
                   new String[]{teamId});
     }
 
-    public void deleteAll(){
+    public boolean checkNumberIsExistInDb(String teamId, String playerNumber) {
+        Log.d(TAG, "checkNumberIsExistInDb executed, teamId = " + teamId);
+        int size = getReadableDatabase().query(Constants.TeamPlayersContract.TABLE_NAME, null,
+                  Constants.TeamPlayersContract.COLUMN_NAME_TEAM_ID + " =? AND " + Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_NUMBER + " =?",
+                  new String[]{teamId, playerNumber}, null, null, null).getCount();
+
+        return size != 0;
+    }
+
+    public void deleteTeamInDB(String teamId) {
+        getWritableDatabase().delete(Constants.TeamInfoDBContract.TABLE_NAME, Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_ID + " =?", new String[]{teamId});
+        getWritableDatabase().delete(Constants.TeamPlayersContract.TABLE_NAME, Constants.TeamPlayersContract.COLUMN_NAME_TEAM_ID + " =?", new String[]{teamId});
+    }
+
+    public void deleteAll() {
         getWritableDatabase().delete(Constants.TeamInfoDBContract.TABLE_NAME, null, null);
         getWritableDatabase().delete(Constants.TeamPlayersContract.TABLE_NAME, null, null);
     }

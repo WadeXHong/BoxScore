@@ -38,7 +38,9 @@ public class SharedPreferenceHelper {
               BRIGHTNESS
     })
 
-    public @interface PrefKey {}
+    public @interface PrefKey {
+    }
+
     public static final String PLAYING_GAME = "PLAYING_GAME";
     public static final String YOUR_TEAM_ID = "YOUR_TEAM_ID";
     public static final String YOUR_TEAM_TOTAL_SCORE = "YOUR_TEAM_TOTAL_SCORE";

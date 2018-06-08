@@ -33,6 +33,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.wadexhong.boxscore.BoxScore;
 import com.wadexhong.boxscore.BoxScoreContract;
 import com.wadexhong.boxscore.BoxScorePresenter;
+import com.wadexhong.boxscore.Constants;
 import com.wadexhong.boxscore.R;
 import com.wadexhong.boxscore.dialog.ProgressBarDialog;
 import com.wadexhong.boxscore.dialog.TransparentAlertDialog;
@@ -176,7 +177,11 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
             public void onClick(View v) {
                 if (BoxScore.isOnClickAllowedAndSetTimer()) {
                     Log.i(TAG, "Setting pressed");
-                    startActivityForResult(new Intent(BoxScoreActivity.this, SettingActivity.class), REQUEST_CODE_SETTING);
+
+                    startActivityForResult(
+                              new Intent(BoxScoreActivity.this, SettingActivity.class)
+                                        .putExtra(Constants.ExtraNames.SETTING_BOOLEAN_IS_SHOW_LOGOUT, true)
+                              , REQUEST_CODE_SETTING);
                 }
             }
         });

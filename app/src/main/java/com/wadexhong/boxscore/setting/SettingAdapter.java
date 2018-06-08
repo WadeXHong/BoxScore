@@ -25,9 +25,9 @@ import com.wadexhong.boxscore.R;
 
 public class SettingAdapter extends RecyclerView.Adapter {
 
-    private static final int VIEWTYPE_HEADER = 0;
-    private static final int VIEWTYPE_GESTURE = 1;
-    private static final int VIEWTYPE_OTHERS = 2;
+    private static final int VIEW_TYPE_HEADER = 0;
+    private static final int VIEW_TYPE_GESTURE = 1;
+    private static final int VIEW_TYPE_OTHERS = 2;
     private static final String[] GESTURE_TYPE_ARRAY
               = new String[]{
               SharedPreferenceHelper.DOUBLE_UP,
@@ -42,12 +42,12 @@ public class SettingAdapter extends RecyclerView.Adapter {
 
     private SettingContract.Presenter mSettingPresenter;
 
+    private boolean mIsShowLogout;
     private String[] TYPE_CHOICE_STRING;
     private String[] GESTURE_SETTING;
 
 
-
-    public SettingAdapter(SettingContract.Presenter presenter) {
+    public SettingAdapter(SettingContract.Presenter presenter, boolean isShowLogout) {
         mSettingPresenter = presenter;
 
         TYPE_CHOICE_STRING = new String[]{
@@ -66,44 +66,47 @@ public class SettingAdapter extends RecyclerView.Adapter {
                   BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(Constants.TYPE_CHOICE_INT[12])),
                   BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(Constants.TYPE_CHOICE_INT[13]))
         };
+
+        mIsShowLogout = isShowLogout;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0)return 0;
-        if (position == getItemCount()-1)return 2;
-        return 1;
+        if (position == 0) return VIEW_TYPE_HEADER;
+        if (position == getItemCount() - 1) return VIEW_TYPE_OTHERS;
+        return VIEW_TYPE_GESTURE;
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == VIEWTYPE_HEADER){
+
+        if (viewType == VIEW_TYPE_HEADER) {
             return new HeaderViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_setting_header, parent, false));
-        }else if (viewType == VIEWTYPE_OTHERS) {
+        } else if (viewType == VIEW_TYPE_OTHERS) {
             return new OtherViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_setting_others, parent, false));
-        }else {
+        } else {
             return new GestureViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_setting_gesture_child, parent, false));
         }
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (position == 0){
-            ((HeaderViewHolder)holder).bind();
-        }else if (position == getItemCount()-1){
-            ((OtherViewHolder)holder).bind();
-        }else {
-            ((GestureViewHolder)holder).bind(position-1);
+        if (position == 0) {
+            ((HeaderViewHolder) holder).bind();
+        } else if (position == getItemCount() - 1) {
+            ((OtherViewHolder) holder).bind();
+        } else {
+            ((GestureViewHolder) holder).bind(position - 1);
         }
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return GESTURE_TYPE_ARRAY.length + 2;
     }
 
-    public class HeaderViewHolder extends RecyclerView.ViewHolder{
+    public class HeaderViewHolder extends RecyclerView.ViewHolder {
 
         private SeekBar mSeekBar;
         private Switch mSwitch;
@@ -115,32 +118,32 @@ public class SettingAdapter extends RecyclerView.Adapter {
             mSwitch = itemView.findViewById(R.id.item_setting_header_switch);
             mSeekBar = itemView.findViewById(R.id.item_setting_header_seekbar);
 
-            if (BoxScore.sBrightness == -1){
+            if (BoxScore.sBrightness == -1) {
                 mSwitch.setChecked(false);
                 mSeekBar.setEnabled(false);
-            }else {
+            } else {
                 mSwitch.setChecked(true);
-                mSeekBar.setProgress((int)BoxScore.sBrightness*100);
+                mSeekBar.setProgress((int) BoxScore.sBrightness * 100);
             }
 
             mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked){
+                    if (isChecked) {
                         mSeekBar.setEnabled(true);
                         mSeekBar.setProgress(50);
                         mSettingPresenter.setBrightness(50);
-                    }else {
+                    } else {
                         mSeekBar.setEnabled(false);
                         mSettingPresenter.setBrightness(-1f);
                     }
                 }
             });
 
-            int brightness = (int)(SharedPreferenceHelper.read(SharedPreferenceHelper.BRIGHTNESS, -0.01f)*100);
+            int brightness = (int) (SharedPreferenceHelper.read(SharedPreferenceHelper.BRIGHTNESS, -0.01f) * 100);
             if (brightness == -1) {
                 mSeekBar.setProgress(50);
-            }else {
+            } else {
                 mSeekBar.setProgress(brightness);
             }
 
@@ -148,9 +151,9 @@ public class SettingAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
-                    float brightness = (float)progress/100;
-                    SharedPreferenceHelper.write(SharedPreferenceHelper.BRIGHTNESS,brightness);
-                    if (SharedPreferenceHelper.read(SharedPreferenceHelper.BRIGHTNESS,-1f) != -1f)
+                    float brightness = (float) progress / 100;
+                    SharedPreferenceHelper.write(SharedPreferenceHelper.BRIGHTNESS, brightness);
+                    if (SharedPreferenceHelper.read(SharedPreferenceHelper.BRIGHTNESS, -1f) != -1f)
                         mSettingPresenter.setBrightness(brightness);
 
                 }
@@ -171,7 +174,7 @@ public class SettingAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public class GestureViewHolder extends RecyclerView.ViewHolder{
+    public class GestureViewHolder extends RecyclerView.ViewHolder {
 
         private ConstraintLayout mLayout;
         private TextView mGestureDirection;
@@ -188,13 +191,14 @@ public class SettingAdapter extends RecyclerView.Adapter {
             mLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new AlertDialog.Builder(v.getContext(),R.style.OrangeDialog)
-                              .setTitle(GESTURE_SETTING[getLayoutPosition()-1])
+
+                    new AlertDialog.Builder(v.getContext(), R.style.OrangeDialog)
+                              .setTitle(GESTURE_SETTING[getLayoutPosition() - 1])
                               .setItems(TYPE_CHOICE_STRING, new DialogInterface.OnClickListener() {
                                   @Override
                                   public void onClick(DialogInterface dialog, int which) {
-                                      mGestureDataType.setText(BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(Constants.TYPE_CHOICE_INT[which],R.string.none)));
-                                      SharedPreferenceHelper.write(GESTURE_TYPE_ARRAY[getLayoutPosition()-1], Constants.TYPE_CHOICE_INT[which]);
+                                      mGestureDataType.setText(BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(Constants.TYPE_CHOICE_INT[which], R.string.none)));
+                                      SharedPreferenceHelper.write(GESTURE_TYPE_ARRAY[getLayoutPosition() - 1], Constants.TYPE_CHOICE_INT[which]);
                                   }
                               }).show();
                 }
@@ -202,11 +206,13 @@ public class SettingAdapter extends RecyclerView.Adapter {
         }
 
         private void bind(int position) {
+
             mGestureDirection.setText(GESTURE_SETTING[position]);
-            int value = SharedPreferenceHelper.read(GESTURE_TYPE_ARRAY[position],-1);
-            if (value == -1){
+            int value = SharedPreferenceHelper.read(GESTURE_TYPE_ARRAY[position], -1);
+
+            if (value == -1) {
                 mGestureDataType.setText(R.string.none);
-            }else {
+            } else {
                 mGestureDataType.setText(Constants.TITLE_SPARSE_ARRAY.get(value));
             }
 
@@ -214,15 +220,24 @@ public class SettingAdapter extends RecyclerView.Adapter {
     }
 
 
-    public class OtherViewHolder extends RecyclerView.ViewHolder{
+    public class OtherViewHolder extends RecyclerView.ViewHolder {
 
-        private ConstraintLayout mConstraintLayout;
+        private ConstraintLayout mLogOutConstraintLayout;
+        private ConstraintLayout mAccountLayout;
 
         public OtherViewHolder(View itemView) {
             super(itemView);
 
-            mConstraintLayout = itemView.findViewById(R.id.item_setting_account_logout);
-            mConstraintLayout.setOnClickListener(new View.OnClickListener() {
+            mAccountLayout = itemView.findViewById(R.id.item_setting_account_layout);
+            mLogOutConstraintLayout = itemView.findViewById(R.id.item_setting_account_logout);
+
+            if (mIsShowLogout) {
+                mAccountLayout.setVisibility(View.VISIBLE);
+            } else {
+                mAccountLayout.setVisibility(View.GONE);
+            }
+
+            mLogOutConstraintLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mSettingPresenter.signOut();

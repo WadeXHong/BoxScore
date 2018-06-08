@@ -8,17 +8,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.WindowManager;
 
 import com.wadexhong.boxscore.BoxScore;
+import com.wadexhong.boxscore.Constants;
 import com.wadexhong.boxscore.R;
 
-public class SettingActivity extends AppCompatActivity implements SettingContract.View{
+public class SettingActivity extends AppCompatActivity implements SettingContract.View {
 
-    private static final String TAG = SettingActivity.class.getSimpleName();
+    private final String TAG = SettingActivity.class.getSimpleName();
 
     private SettingContract.Presenter mPresenter;
 
     private RecyclerView mRecyclerView;
 
-    private SettingAdapter mAdapter;
+    private SettingAdapter mSettingAdapter;
 
     @Override
     protected void onResume() {
@@ -35,11 +36,10 @@ public class SettingActivity extends AppCompatActivity implements SettingContrac
 
         mPresenter = new SettingPresenter(this);
 
-        mAdapter = new SettingAdapter(mPresenter);
+        mSettingAdapter = new SettingAdapter(mPresenter, getIntent().getBooleanExtra(Constants.ExtraNames.SETTING_BOOLEAN_IS_SHOW_LOGOUT, false));
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setAdapter(mAdapter);
-
+        mRecyclerView.setAdapter(mSettingAdapter);
 
     }
 

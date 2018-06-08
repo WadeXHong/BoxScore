@@ -207,4 +207,10 @@ public class Constants {
         public static final String NODE_NAME_QUARTER = "quarter";
 
     }
+
+    public class ExtraNames {
+
+        public static final String SETTING_BOOLEAN_IS_SHOW_LOGOUT = "isShowLogout";
+
+    }
 }

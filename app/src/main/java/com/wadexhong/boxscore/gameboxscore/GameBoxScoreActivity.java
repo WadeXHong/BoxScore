@@ -215,7 +215,8 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
             public void onClick(View v) {
                 BoxScore.vibrate();
                 Log.d(TAG, "mSettingImageView onClick");
-                startActivity(new Intent(GameBoxScoreActivity.this, SettingActivity.class));
+                startActivity(new Intent(GameBoxScoreActivity.this, SettingActivity.class)
+                          .putExtra(Constants.ExtraNames.SETTING_BOOLEAN_IS_SHOW_LOGOUT, false));
             }
         });
         mOpponentTeamScorePlusImageView.setOnClickListener(new View.OnClickListener() {

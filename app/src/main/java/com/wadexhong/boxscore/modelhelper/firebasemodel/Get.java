@@ -14,22 +14,24 @@ import com.wadexhong.boxscore.modelhelper.firebasemodel.task.OnCreateDataBaseTas
 
 /**
  * Created by wade8 on 2018/5/29.
+ * Singleton object with functions about getting data synchronized on FireBase.
  */
 
 public class Get {
-    private static final String TAG = Get.class.getSimpleName();
 
+    private final String TAG = Get.class.getSimpleName();
     private static Get mInstance;
 
-    private Get(){}
+    private Get() {
+    }
 
-    public static Get getInstance(){
+    public static Get getInstance() {
         if (mInstance == null) mInstance = new Get();
-            return mInstance;
+        return mInstance;
     }
 
 
-    public static void onCreate() {
+    public void onCreate() {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.FireBaseConstant.NODE_NAME_USERS).child(FirebaseAuth.getInstance().getUid());
 
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -50,7 +52,6 @@ public class Get {
 }
 
 
-
 //
 //            DatabaseReference refTest = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getUid()).child("teamList");
 //            refTest.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -67,7 +68,6 @@ public class Get {
 //
 //                }
 //            });
-
 
 
 //            DatabaseReference refTest = FirebaseDatabase.getInstance().getReference("teams").child(FirebaseAuth.getInstance().getUid());

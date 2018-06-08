@@ -14,14 +14,14 @@ public class TeamDetail implements Parcelable {
     private int mTeamPlayersAmount;
     private int mTeamHistoryAmount;
 
-    public TeamDetail(String teamName, String teamId, int teamPlayersAmountAmount, int teamHistoryAmount){
+    protected TeamDetail(Parcel in) {
+    }
+
+    public TeamDetail(String teamName, String teamId, int teamPlayersAmountAmount, int teamHistoryAmount) {
         mTeamName = teamName;
         mTeamId = teamId;
         mTeamPlayersAmount = teamPlayersAmountAmount;
         mTeamHistoryAmount = teamHistoryAmount;
-    }
-
-    protected TeamDetail(Parcel in) {
     }
 
     public static final Creator<TeamDetail> CREATOR = new Creator<TeamDetail>() {
@@ -76,8 +76,6 @@ public class TeamDetail implements Parcelable {
     public void setTeamHistoryAmount(int teamHistoryAmount) {
         mTeamHistoryAmount = teamHistoryAmount;
     }
-
-
 
 
 }

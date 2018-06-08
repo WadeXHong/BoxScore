@@ -238,7 +238,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter {
     @Override
     public void saveAndEndCurrentGame() {
 
-        int newHistoryAmount = BoxScore.getGameInfoDbHelper().overExpandingGame(mGameInfo.getGameId(), mGameInfo.getYourTeamId());
+        int newHistoryAmount = BoxScore.getGameInfoDbHelper().overPlayingGame(mGameInfo.getGameId(), mGameInfo.getYourTeamId());
 
         BoxScore.getTeamDbHelper().updateHistoryAmount(mGameInfo.getYourTeamId(), newHistoryAmount);
 
