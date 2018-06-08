@@ -10,6 +10,7 @@ import android.util.Log;
 import com.google.firebase.auth.FirebaseAuth;
 import com.wadexhong.boxscore.Constants;
 import com.wadexhong.boxscore.modelhelper.firebasemodel.Create;
+import com.wadexhong.boxscore.modelhelper.firebasemodel.Remove;
 import com.wadexhong.boxscore.objects.Player;
 import com.wadexhong.boxscore.objects.TeamInfo;
 import com.wadexhong.boxscore.teammanage.teamplayers.createplayer.CreatePlayerFragment;
@@ -88,7 +89,7 @@ public class TeamDbHelper extends SQLiteOpenHelper {
 
             //add to firebase;
             if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-                Create.getInstance().CreateTeam(teamUuid, teamName);
+                Create.getInstance().createTeam(teamUuid, teamName);
             }
             return true;
 
@@ -130,7 +131,7 @@ public class TeamDbHelper extends SQLiteOpenHelper {
         getWritableDatabase().update(Constants.TeamInfoDBContract.TABLE_NAME, cvInfo, Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_ID + " =?", new String[]{teamId});
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            Create.getInstance().CreatePlayer(teamId, player, teamPlayerAmount + 1);
+            Create.getInstance().createPlayer(teamId, player, teamPlayerAmount + 1);
         }
     }
 
@@ -205,6 +206,7 @@ public class TeamDbHelper extends SQLiteOpenHelper {
                 cv.put(Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_PLAYERS_AMOUNT, playerAmount - 1);
 
                 getWritableDatabase().update(Constants.TeamInfoDBContract.TABLE_NAME, cv, Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_ID + " =?", new String[]{teamId});
+                Remove.getInstance().removePlayer(teamId, playerId, playerAmount - 1);
             }
         }
     }

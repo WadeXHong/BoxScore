@@ -31,14 +31,14 @@ public class Create {
     }
 
 
-    public void CreateTeam(String teamId, String teamName) {
+    public void createTeam(String teamId, String teamName) {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.FireBaseConstant.NODE_NAME_USERS).child(FirebaseAuth.getInstance().getUid()).child(Constants.FireBaseConstant.NODE_NAME_TEAM_INFO).child(teamId);
         ref.child(Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_NAME).setValue(teamName);
         ref.child(Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_PLAYERS_AMOUNT).setValue(0);
         ref.child(Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_HISTORY_AMOUNT).setValue(0);
     }
 
-    public void CreateGameData(Cursor cursor) {
+    public void createGameData(Cursor cursor) {
 
         cursor.moveToFirst();
         int size = cursor.getCount();
@@ -96,7 +96,7 @@ public class Create {
         }
     }
 
-    public void CreateGameInfo(Cursor cursor) {
+    public void createGameInfo(Cursor cursor) {
 
         cursor.moveToFirst();
         String gameId = cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.COLUMN_NAME_GAME_ID));
@@ -132,7 +132,7 @@ public class Create {
         ref.child(Constants.GameInfoDBContract.COLUMN_NAME_YOUR_TEAM_ID).setValue(teamId);
     }
 
-    public void CreatePlayer(String teamId, Player player, int newPlayerAmount) {
+    public void createPlayer(String teamId, Player player, int newPlayerAmount) {
 
         DatabaseReference refPlayer = FirebaseDatabase.getInstance().getReference().child(Constants.FireBaseConstant.NODE_NAME_USERS).child(FirebaseAuth.getInstance().getUid()).child(Constants.FireBaseConstant.NODE_NAME_TEAM_PLAYER).child(player.getPlayerId());
         refPlayer.child(Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_NAME).setValue(player.getName());
@@ -144,15 +144,15 @@ public class Create {
         refPlayer.child(Constants.TeamPlayersContract.COLUMN_NAME_PLAY_PG).setValue(player.getPosition()[Player.POSITION_PG]);
         refPlayer.child(Constants.TeamPlayersContract.COLUMN_NAME_TEAM_ID).setValue(teamId);
 
-        UpdateTeamPlayersAmount(teamId, newPlayerAmount);
+        updateTeamPlayersAmount(teamId, newPlayerAmount);
     }
 
-    public void UpdateTeamPlayersAmount(String teamId, int newPlayerAmount) {
+    public void updateTeamPlayersAmount(String teamId, int newPlayerAmount) {
         DatabaseReference refTeamInfo = FirebaseDatabase.getInstance().getReference().child(Constants.FireBaseConstant.NODE_NAME_USERS).child(FirebaseAuth.getInstance().getUid()).child(Constants.FireBaseConstant.NODE_NAME_TEAM_INFO).child(teamId).child(Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_PLAYERS_AMOUNT);
         refTeamInfo.setValue(newPlayerAmount);
     }
 
-    public void UpdateTeamHistoryAmount(String teamId, int newHistoryAmount) {
+    public void updateTeamHistoryAmount(String teamId, int newHistoryAmount) {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(Constants.FireBaseConstant.NODE_NAME_USERS).child(FirebaseAuth.getInstance().getUid()).child(Constants.FireBaseConstant.NODE_NAME_TEAM_INFO).child(teamId).child(Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_HISTORY_AMOUNT);
         ref.setValue(newHistoryAmount);
     }

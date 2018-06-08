@@ -105,8 +105,10 @@ public class TeamPlayersAdapter extends RecyclerView.Adapter {
         private void deletePlayer(int layoutPosition) {
             Log.d(TAG, "deletePlayer " + layoutPosition);
             mCursor.moveToPosition(layoutPosition);
+
             String playerId = mCursor.getString(mCursor.getColumnIndex(Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_ID));
             String teamId = mCursor.getString(mCursor.getColumnIndex(Constants.TeamPlayersContract.COLUMN_NAME_TEAM_ID));
+
             mTeamPlayersPresenter.deletePlayer(teamId, playerId);
             refreshCursor();
         }

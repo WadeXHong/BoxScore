@@ -126,9 +126,9 @@ public class BoxScorePresenter implements BoxScoreContract.Presenter {
             BoxScore.getTeamDbHelper().updateHistoryAmount(teamId, newHistoryAmount);
 
             if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-                Create.getInstance().CreateGameData(BoxScore.getGameDataDbHelper().getSpecificGameData(gameId));
-                Create.getInstance().CreateGameInfo(BoxScore.getGameInfoDbHelper().getSpecificInfo(gameId));
-                Create.getInstance().UpdateTeamHistoryAmount(teamId, newHistoryAmount);
+                Create.getInstance().createGameData(BoxScore.getGameDataDbHelper().getSpecificGameData(gameId));
+                Create.getInstance().createGameInfo(BoxScore.getGameInfoDbHelper().getSpecificInfo(gameId));
+                Create.getInstance().updateTeamHistoryAmount(teamId, newHistoryAmount);
             }
         }
         removeGameDataSharedPreferences();
