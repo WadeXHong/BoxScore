@@ -10,9 +10,9 @@ import android.view.WindowManager;
 import com.wadexhong.boxscore.BoxScore;
 import com.wadexhong.boxscore.R;
 
-public class GameHistoryActivity extends AppCompatActivity implements GameHistoryContract.View{
+public class GameHistoryActivity extends AppCompatActivity implements GameHistoryContract.View {
 
-    private static final String TAG = GameHistoryActivity.class.getSimpleName();
+    private final String TAG = GameHistoryActivity.class.getSimpleName();
 
     private GameHistoryContract.Presenter mPresenter;
 
@@ -21,19 +21,27 @@ public class GameHistoryActivity extends AppCompatActivity implements GameHistor
     @Override
     protected void onResume() {
         super.onResume();
-            WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
-            layoutParams.screenBrightness = BoxScore.sBrightness;
-            getWindow().setAttributes(layoutParams);
+
+        WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+        layoutParams.screenBrightness = BoxScore.sBrightness;
+        getWindow().setAttributes(layoutParams);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_history);
-        mToolbar = findViewById(R.id.activity_gamehistory_toolbar);
-        setGameHistoryToolBar();
 
+        mToolbar = findViewById(R.id.activity_gamehistory_toolbar);
         init();
+    }
+
+    private void init() {
+        Log.i(TAG, "GameHistoryActivity.init");
+        setGameHistoryToolBar();
+        mPresenter = new GameHistoryPresenter(this, getSupportFragmentManager());
+        mPresenter.start();
+
     }
 
     @Override
@@ -59,15 +67,6 @@ public class GameHistoryActivity extends AppCompatActivity implements GameHistor
             }
         });
     }
-
-    private void init() {
-        Log.i(TAG,"GameHistoryActivity.init");
-        mPresenter = new GameHistoryPresenter(this, getSupportFragmentManager());
-        mPresenter.start();
-
-    }
-
-
 
 
     @Override

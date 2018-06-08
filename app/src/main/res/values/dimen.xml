@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="statistic_adapter_header_column_height">75px</dimen>
+    <dimen name="statistic_adapter_header_row_width">200px</dimen>
+    <dimen name="statistic_adapter_column_width">125px</dimen>
+    <dimen name="statistic_adapter_row_height">100px</dimen>
+</resources>

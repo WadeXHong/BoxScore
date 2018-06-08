@@ -14,21 +14,21 @@ import com.wadexhong.boxscore.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HistoryMainFragment extends Fragment implements HistoryMainContract.View{
+public class HistoryMainFragment extends Fragment implements HistoryMainContract.View {
 
     private static final String TAG = HistoryMainFragment.class.getSimpleName();
 
     private HistoryMainContract.Presenter mPresenter;
 
-    private RecyclerView mRecyclerView;
-    private HistoryMainAdapter mAdapter;
-
-    public static HistoryMainFragment newInstance(){
-        return new HistoryMainFragment();
-    }
+    private RecyclerView mGameHistoryRecyclerView;
+    private HistoryMainAdapter mHistoryMainAdapter;
 
     public HistoryMainFragment() {
         // Required empty public constructor
+    }
+
+    public static HistoryMainFragment newInstance() {
+        return new HistoryMainFragment();
     }
 
 
@@ -44,10 +44,10 @@ public class HistoryMainFragment extends Fragment implements HistoryMainContract
 
         View view = inflater.inflate(R.layout.fragment_history_main, container, false);
 
-        mRecyclerView = view.findViewById(R.id.fragment_historymain_recyclerview);
-        mAdapter = new HistoryMainAdapter(mPresenter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecyclerView.setAdapter(mAdapter);
+        mGameHistoryRecyclerView = view.findViewById(R.id.fragment_historymain_recyclerview);
+        mHistoryMainAdapter = new HistoryMainAdapter(mPresenter);
+        mGameHistoryRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mGameHistoryRecyclerView.setAdapter(mHistoryMainAdapter);
 
         return view;
     }

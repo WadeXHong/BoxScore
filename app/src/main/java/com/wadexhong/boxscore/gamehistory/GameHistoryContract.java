@@ -9,14 +9,14 @@ import com.wadexhong.boxscore.BaseView;
 
 public interface GameHistoryContract {
 
-    interface View extends BaseView<Presenter>{
+    interface View extends BaseView<Presenter> {
 
         void setGameHistoryToolBar();
 
         void setHistoryDetailToolBar();
     }
 
-    interface Presenter extends BasePresenter{
+    interface Presenter extends BasePresenter {
 
         void transToDetail(String gameId);
 

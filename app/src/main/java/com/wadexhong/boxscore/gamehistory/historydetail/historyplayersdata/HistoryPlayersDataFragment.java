@@ -16,7 +16,7 @@ import com.wadexhong.boxscore.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HistoryPlayersDataFragment extends Fragment implements HistoryPlayersDataContract.View{
+public class HistoryPlayersDataFragment extends Fragment implements HistoryPlayersDataContract.View {
 
     private static final String TAG = HistoryPlayersDataFragment.class.getSimpleName();
 
@@ -25,13 +25,12 @@ public class HistoryPlayersDataFragment extends Fragment implements HistoryPlaye
     private AdaptiveTableLayout mAdaptiveTableLayout;
 
 
-
-    public static HistoryPlayersDataFragment newInstance(){
-        return new  HistoryPlayersDataFragment();
-    }
-
     public HistoryPlayersDataFragment() {
         // Required empty public constructor
+    }
+
+    public static HistoryPlayersDataFragment newInstance() {
+        return new HistoryPlayersDataFragment();
     }
 
 
@@ -40,16 +39,11 @@ public class HistoryPlayersDataFragment extends Fragment implements HistoryPlaye
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_history_players_data, container, false);
-        mAdaptiveTableLayout = view.findViewById(R.id.fragment_history_playersdata_tablelayout);
 
+        mAdaptiveTableLayout = view.findViewById(R.id.fragment_history_playersdata_tablelayout);
         mPresenter.setAdapter();
 
         return view;
-    }
-
-    @Override
-    public void setPresenter(HistoryPlayersDataContract.Presenter presenter) {
-        mPresenter = presenter;
     }
 
     @Override
@@ -77,19 +71,22 @@ public class HistoryPlayersDataFragment extends Fragment implements HistoryPlaye
                           getResources().getString(R.string.secondQuarter),
                           getResources().getString(R.string.thirdQuarter),
                           getResources().getString(R.string.forthQuarter)};
+
                 new AlertDialog.Builder(getContext())
                           .setTitle(R.string.quarterFilter)
                           .setItems(charSequences, new DialogInterface.OnClickListener() {
                               @Override
                               public void onClick(DialogInterface dialog, int which) {
                                   adapter.chooseFilter(which);
-//                                  mQuarterFilter = which;
-//                                  refreshCursor(mGameId);
-//                                  mTextView.setText(charSequences[which]);
                               }
                           }).show();
             }
         });
         mAdaptiveTableLayout.setAdapter(adapter);
+    }
+
+    @Override
+    public void setPresenter(HistoryPlayersDataContract.Presenter presenter) {
+        mPresenter = presenter;
     }
 }

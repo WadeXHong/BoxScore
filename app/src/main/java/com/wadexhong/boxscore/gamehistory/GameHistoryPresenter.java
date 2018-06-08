@@ -13,13 +13,12 @@ import com.wadexhong.boxscore.gamehistory.historymain.HistoryMainPresenter;
  * Created by wade8 on 2018/5/22.
  */
 
-public class GameHistoryPresenter implements GameHistoryContract.Presenter{
+public class GameHistoryPresenter implements GameHistoryContract.Presenter {
 
-    private static final String TAG = GameHistoryPresenter.class.getSimpleName();
+    private final String TAG = GameHistoryPresenter.class.getSimpleName();
 
-    public static final String HISTORY_MAIN = "HISTORY_MAIN";
-    public static final String HISTORY_DETAIL = "HISTORY_DETAIL";
-
+    private static final String HISTORY_MAIN = "HISTORY_MAIN";
+    private static final String HISTORY_DETAIL = "HISTORY_DETAIL";
 
     private final GameHistoryContract.View mGameHistoryView;
 
@@ -38,17 +37,14 @@ public class GameHistoryPresenter implements GameHistoryContract.Presenter{
     }
 
 
-    @Override
-    public void start() {
-        fragmentsInit();
-    }
-
     private void fragmentsInit() {
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
+
         mHistoryDetailFragment = HistoryDetailFragment.newInstance();
         mHistoryDetailPresenter = new HistoryDetailPresenter(mHistoryDetailFragment, mFragmentManager);
         mHistoryMainFragment = HistoryMainFragment.newInstance();
         mHistoryMainPresenter = new HistoryMainPresenter(mHistoryMainFragment, this);
+
         transaction.add(R.id.activity_gamehistory_framelayout, mHistoryDetailFragment, HISTORY_DETAIL);
         transaction.add(R.id.activity_gamehistory_framelayout, mHistoryMainFragment, HISTORY_MAIN);
         transaction.hide(mHistoryDetailFragment);
@@ -90,5 +86,10 @@ public class GameHistoryPresenter implements GameHistoryContract.Presenter{
     @Override
     public void setHistoryDetailToolBar() {
         mGameHistoryView.setGameHistoryToolBar();
+    }
+
+    @Override
+    public void start() {
+        fragmentsInit();
     }
 }

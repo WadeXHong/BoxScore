@@ -16,11 +16,11 @@ public interface HistoryPlayersDataContract {
 
     interface Presenter extends BasePresenter {
 
-        void refreshUi(String gameId);
-
         void setGameIdToAdapter(String gameId);
 
         void setAdapter();
+
+        void refreshUi(String gameId);
     }
 
 }

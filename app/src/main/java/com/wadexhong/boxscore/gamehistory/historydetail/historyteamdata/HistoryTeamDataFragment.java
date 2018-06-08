@@ -17,18 +17,17 @@ import com.wadexhong.boxscore.adapter.HistoryTeamDataAdapter;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HistoryTeamDataFragment extends Fragment implements HistoryTeamDataContract.View{
+public class HistoryTeamDataFragment extends Fragment implements HistoryTeamDataContract.View {
 
     private static final String TAG = HistoryTeamDataFragment.class.getSimpleName();
 
     private HistoryTeamDataContract.Presenter mPresenter;
 
-    private RecyclerView mRecyclerView;
+    private RecyclerView mTeamDataRecyclerView;
     private String mGameId;
 
-    public static HistoryTeamDataFragment newInstance(){
-        HistoryTeamDataFragment fragment = new HistoryTeamDataFragment();
-        return fragment;
+    public static HistoryTeamDataFragment newInstance() {
+        return new HistoryTeamDataFragment();
     }
 
     public HistoryTeamDataFragment() {
@@ -46,8 +45,8 @@ public class HistoryTeamDataFragment extends Fragment implements HistoryTeamData
 
         View view = inflater.inflate(R.layout.fragment_history_team_data, container, false);
 
-        mRecyclerView = view.findViewById(R.id.fragment_history_teamdata_recyclerview);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mTeamDataRecyclerView = view.findViewById(R.id.fragment_history_teamdata_recyclerview);
+        mTeamDataRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         mPresenter.setAdapter();
 
@@ -61,19 +60,19 @@ public class HistoryTeamDataFragment extends Fragment implements HistoryTeamData
 
 
     @Override
-    public void setPresenter(HistoryTeamDataContract.Presenter presenter) {
-        mPresenter = presenter;
-    }
-
-
-    @Override
     public void setAdapter(HistoryTeamDataAdapter adapter) {
-        mRecyclerView.setAdapter(adapter);
+        mTeamDataRecyclerView.setAdapter(adapter);
     }
+
 
     @Override
     public void scrollToTop() {
-        if (mRecyclerView != null)
-        mRecyclerView.getLayoutManager().scrollToPosition(0);
+        if (mTeamDataRecyclerView != null)
+            mTeamDataRecyclerView.getLayoutManager().scrollToPosition(0);
+    }
+
+    @Override
+    public void setPresenter(HistoryTeamDataContract.Presenter presenter) {
+        mPresenter = presenter;
     }
 }

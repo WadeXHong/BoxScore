@@ -14,7 +14,7 @@ import com.wadexhong.boxscore.customlayout.NonSwipeableViewPager;
 import com.wadexhong.boxscore.adapter.ViewPagerFragmentAdapter;
 
 
-public class HistoryDetailFragment extends Fragment implements HistoryDetailContract.View{
+public class HistoryDetailFragment extends Fragment implements HistoryDetailContract.View {
 
     private static final String TAG = HistoryDetailFragment.class.getSimpleName();
 
@@ -22,7 +22,7 @@ public class HistoryDetailFragment extends Fragment implements HistoryDetailCont
 
     private NonSwipeableViewPager mViewPager;
     private TabLayout mTabLayout;
-    private final int[] mTab = {R.string.teamBoxScore,R.string.playersBoxscore};
+    private final int[] mTab = {R.string.teamBoxScore, R.string.playersBoxscore};
 
     public HistoryDetailFragment() {
     }
@@ -48,9 +48,9 @@ public class HistoryDetailFragment extends Fragment implements HistoryDetailCont
 
             @Override
             public void onPageSelected(int position) {
-                if (mViewPager.getCurrentItem() == 0){
+                if (mViewPager.getCurrentItem() == 0) {
                     mViewPager.setSwipeable(true);
-                }else {
+                } else {
                     mViewPager.setSwipeable(false);
                 }
             }
@@ -77,7 +77,7 @@ public class HistoryDetailFragment extends Fragment implements HistoryDetailCont
         mTabLayout.setupWithViewPager(mViewPager);
 
         //set tab in tab layout
-        for(int i=0; i<mTab.length;i++){
+        for (int i = 0; i < mTab.length; i++) {
             mTabLayout.getTabAt(i).setText(mTab[i]);
         }
     }

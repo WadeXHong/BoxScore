@@ -9,7 +9,7 @@ import com.wadexhong.boxscore.BoxScore;
  * Created by wade8 on 2018/5/22.
  */
 
-public class HistoryMainPresenter implements HistoryMainContract.Presenter{
+public class HistoryMainPresenter implements HistoryMainContract.Presenter {
 
     private static final String TAG = HistoryMainPresenter.class.getSimpleName();
 
@@ -24,13 +24,13 @@ public class HistoryMainPresenter implements HistoryMainContract.Presenter{
     }
 
     @Override
-    public void start() {
-
+    public Cursor getGameHistory() {
+        return BoxScore.getGameInfoDbHelper().getGameHistory();
     }
 
     @Override
-    public Cursor getGameHistory() {
-        return BoxScore.getGameInfoDbHelper().getGameHistory();
+    public void setGameHistoryToolBar() {
+        mGameHistoryPresenter.setGameHistoryToolBar();
     }
 
     @Override
@@ -39,7 +39,7 @@ public class HistoryMainPresenter implements HistoryMainContract.Presenter{
     }
 
     @Override
-    public void setGameHistoryToolBar() {
-        mGameHistoryPresenter.setGameHistoryToolBar();
+    public void start() {
+
     }
 }

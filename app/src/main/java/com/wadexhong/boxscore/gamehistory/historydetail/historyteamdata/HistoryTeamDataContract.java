@@ -14,7 +14,6 @@ public interface HistoryTeamDataContract {
 
     interface View extends BaseView<Presenter> {
 
-
         void setAdapter(HistoryTeamDataAdapter adapter);
 
         void scrollToTop();
@@ -24,9 +23,9 @@ public interface HistoryTeamDataContract {
 
         Cursor getHistoryStatistic(String gameId);
 
-        void setAdapter();
-
         Cursor getHistoryInfo(String gameId);
+
+        void setAdapter();
     }
 
 }

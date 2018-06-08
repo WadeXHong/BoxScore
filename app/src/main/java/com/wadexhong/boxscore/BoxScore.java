@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.support.annotation.ColorRes;
+import android.support.annotation.DimenRes;
 import android.support.annotation.StringRes;
 
 import com.wadexhong.boxscore.modelhelper.GameDataDbHelper;
@@ -74,6 +75,10 @@ public class BoxScore extends Application {
 
     public static int getColorEasy(@ColorRes int colorId){
         return mContext.getResources().getColor(colorId);
+    }
+
+    public static float getDimensionEasy(@DimenRes int dimenId){
+        return mContext.getResources().getDimension(dimenId);
     }
 
     public static boolean isOnClickAllowedAndSetTimer(){

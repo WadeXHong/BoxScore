@@ -10,45 +10,45 @@ import com.wadexhong.boxscore.adapter.HistoryTeamDataAdapter;
  * Created by wade8 on 2018/5/22.
  */
 
-public class HistoryTeamDataPresenter implements HistoryTeamDataContract.Presenter{
+public class HistoryTeamDataPresenter implements HistoryTeamDataContract.Presenter {
 
     private static final String TAG = HistoryTeamDataPresenter.class.getSimpleName();
 
     private final HistoryTeamDataContract.View mHistoryTeamDataView;
-    private HistoryTeamDataAdapter mAdapter;
+    private HistoryTeamDataAdapter mHistoryTeamDataAdapter;
 
     public HistoryTeamDataPresenter(HistoryTeamDataContract.View historyTeamDataView) {
         mHistoryTeamDataView = historyTeamDataView;
-
         mHistoryTeamDataView.setPresenter(this);
-        mAdapter = new HistoryTeamDataAdapter(this);
+        mHistoryTeamDataAdapter = new HistoryTeamDataAdapter(this);
     }
 
-    public void setGameIdToAdapter(String gameId){
-        mAdapter.refreshCursor(gameId);
+    public void setGameIdToAdapter(String gameId) {
+        mHistoryTeamDataAdapter.refreshCursor(gameId);
         mHistoryTeamDataView.scrollToTop();
-    }
-
-    @Override
-    public void start() {
-
     }
 
     @Override
     public Cursor getHistoryStatistic(String gameId) {
         return BoxScore.getGameDataDbHelper()
                   .getHistoryStatistic(Constants.GameDataDBContract.COLUMN_NAME_GAME_ID + " =?",
-                            new String[]{gameId}, Constants.GameDataDBContract.COLUMN_NAME_QUARTER, Constants.GameDataDBContract.COLUMN_NAME_QUARTER);
+                            new String[]{gameId}, Constants.GameDataDBContract.COLUMN_NAME_QUARTER,
+                            Constants.GameDataDBContract.COLUMN_NAME_QUARTER);
     }
 
     @Override
     public void setAdapter() {
-        mHistoryTeamDataView.setAdapter(mAdapter);
+        mHistoryTeamDataView.setAdapter(mHistoryTeamDataAdapter);
     }
 
     @Override
     public Cursor getHistoryInfo(String gameId) {
         return BoxScore.getGameInfoDbHelper().getSpecificInfo(gameId);
+    }
+
+    @Override
+    public void start() {
+
     }
 
 }
