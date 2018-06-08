@@ -11,6 +11,7 @@ import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.wadexhong.boxscore.BoxScore;
 import com.wadexhong.boxscore.R;
 import com.wadexhong.boxscore.objects.TeamInfo;
 import com.wadexhong.boxscore.objects.TeamDetail;
@@ -61,25 +62,30 @@ public class TeamAdapter extends ExpandableRecyclerViewAdapter<TeamAdapter.TeamV
 
     public class TeamViewHolder extends GroupViewHolder{
 
-        private ImageView mDelete;
-        private ImageView mArrow;
-        private TextView mTeamName;
+        private ImageView mDeleteImageView;
+        private ImageView mArrowImageView;
+        private TextView mTeamNameTextView;
 
         public TeamViewHolder(View itemView) {
             super(itemView);
-            mDelete = itemView.findViewById(R.id.item_team_teamname_delete);
-            mArrow = itemView.findViewById(R.id.item_team_teamname_icon);
-            mTeamName = itemView.findViewById(R.id.item_team_teamname_teamname);
+            mDeleteImageView = itemView.findViewById(R.id.item_team_teamname_delete);
+            mArrowImageView = itemView.findViewById(R.id.item_team_teamname_icon);
+            mTeamNameTextView = itemView.findViewById(R.id.item_team_teamname_teamname);
         }
 
         public void setTitle(ExpandableGroup group){
+
             final String teamName = group.getTitle();
             final String teamId = ((TeamInfo)group).getItems().get(0).getTeamId();
-            mTeamName.setText(teamName);
-            mDelete.setOnClickListener(new View.OnClickListener() {
+
+            mTeamNameTextView.setText(teamName);
+            mDeleteImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new AlertDialog.Builder(v.getContext(), R.style.OrangeDialog).setTitle("刪除確認").setMessage("確認刪除"+teamName+"的所有資料?")
+
+                    new AlertDialog.Builder(v.getContext(), R.style.OrangeDialog)
+                              .setTitle(R.string.dialog_delete_team_title)
+                              .setMessage(BoxScore.getStringEasy(R.string.dialog_delete_team_message, teamName))
                               .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
                                   @Override
                                   public void onClick(DialogInterface dialog, int which) {
@@ -112,7 +118,7 @@ public class TeamAdapter extends ExpandableRecyclerViewAdapter<TeamAdapter.TeamV
                       new RotateAnimation(0, 90, RELATIVE_TO_SELF, 0.5f, RELATIVE_TO_SELF, 0.5f);
             rotate.setDuration(150);
             rotate.setFillAfter(true);
-            mArrow.setAnimation(rotate);
+            mArrowImageView.setAnimation(rotate);
         }
 
         private void animateCollapse() {
@@ -120,7 +126,7 @@ public class TeamAdapter extends ExpandableRecyclerViewAdapter<TeamAdapter.TeamV
                       new RotateAnimation(90, 0, RELATIVE_TO_SELF, 0.5f, RELATIVE_TO_SELF, 0.5f);
             rotate.setDuration(150);
             rotate.setFillAfter(true);
-            mArrow.setAnimation(rotate);
+            mArrowImageView.setAnimation(rotate);
         }
     }
 
@@ -129,20 +135,24 @@ public class TeamAdapter extends ExpandableRecyclerViewAdapter<TeamAdapter.TeamV
 
         private ConstraintLayout mPlayersLayout;
         private ConstraintLayout mHistoryLayout;
-        private TextView mPlayersAmount;
-        private TextView mHistoryAmount;
+        private TextView mPlayersAmountTextView;
+        private TextView mHistoryAmountTextView;
 
         public DetailViewHolder(View itemView) {
             super(itemView);
+
             mPlayersLayout = itemView.findViewById(R.id.item_team_teamdetail_players_layout);
             mHistoryLayout = itemView.findViewById(R.id.item_team_teamdetail_history_layout);
-            mPlayersAmount = itemView.findViewById(R.id.item_team_teamdetail_players_textview);
-            mHistoryAmount = itemView.findViewById(R.id.item_team_teamdetail_history_textview);
+            mPlayersAmountTextView = itemView.findViewById(R.id.item_team_teamdetail_players_textview);
+            mHistoryAmountTextView = itemView.findViewById(R.id.item_team_teamdetail_history_textview);
         }
         public void setView(TeamDetail detail){
+
             final String teamId = detail.getTeamId();
-            mHistoryAmount.setText(String.format(itemView.getContext().getResources().getString(R.string.historyAmount),detail.getTeamHistoryAmount()));
-            mPlayersAmount.setText(String.format(itemView.getContext().getResources().getString(R.string.playersAmount),detail.getTeamPlayersAmount()));
+
+            mHistoryAmountTextView.setText(String.format(itemView.getContext().getResources().getString(R.string.historyAmount),detail.getTeamHistoryAmount()));
+            mPlayersAmountTextView.setText(String.format(itemView.getContext().getResources().getString(R.string.playersAmount),detail.getTeamPlayersAmount()));
+
             mHistoryLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

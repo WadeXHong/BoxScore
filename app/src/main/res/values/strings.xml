@@ -142,6 +142,10 @@
     <string name="ask_next_quarter_message">進入下一節後若須補登資料，請透過上方補登按鈕操作</string>
     <string name="ask_save_title">結束比賽</string>
     <string name="ask_save_message">比賽是否結束並儲存結果？</string>
+    <string name="dialog_delete_player_title">刪除確認</string>
+    <string name="dialog_delete_player_message">確認從球隊移除 %s 的資料？</string>
+    <string name="dialog_delete_team_title">刪除確認</string>
+    <string name="dialog_delete_team_message">確認刪除 %s 的所有資料？</string>
 
 
 </resources>

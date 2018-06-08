@@ -1,8 +1,10 @@
 package com.wadexhong.boxscore.teammanage.teamplayers;
 
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.wadexhong.boxscore.BoxScore;
 import com.wadexhong.boxscore.Constants;
 import com.wadexhong.boxscore.R;
 
@@ -75,6 +78,18 @@ public class TeamPlayersAdapter extends RecyclerView.Adapter {
             mPlayerNumber = itemView.findViewById(R.id.item_teamplayers_playernumber);
             mEdit = itemView.findViewById(R.id.item_teamplayers_edit);
             mDelete = itemView.findViewById(R.id.item_teamplayers_delete);
+
+        }
+
+        private void setItem(int position) {
+
+            mCursor.moveToPosition(position);
+            final String playerName = mCursor.getString(mCursor.getColumnIndex(Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_NAME));
+            String playerNumber = mCursor.getString(mCursor.getColumnIndex(Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_NUMBER));
+
+            mPlayerName.setText(playerName);
+            mPlayerNumber.setText(playerNumber);
+
             mEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -85,19 +100,24 @@ public class TeamPlayersAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onClick(View v) {
                     Log.d(TAG, "delete pressed");
-                    deletePlayer(getLayoutPosition());
+
+                    new AlertDialog.Builder(v.getContext(), R.style.OrangeDialog)
+                              .setTitle(R.string.dialog_delete_player_title)
+                              .setMessage(BoxScore.getStringEasy(R.string.dialog_delete_player_message, playerName))
+                              .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                                  @Override
+                                  public void onClick(DialogInterface dialog, int which) {
+                                      deletePlayer(getLayoutPosition());
+                                  }
+                              })
+                              .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                                  @Override
+                                  public void onClick(DialogInterface dialog, int which) {
+                                      dialog.cancel();
+                                  }
+                              }).show();
                 }
             });
-
-        }
-
-        private void setItem(int position) {
-
-            mCursor.moveToPosition(position);
-            String playerName = mCursor.getString(mCursor.getColumnIndex(Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_NAME));
-            String playerNumber = mCursor.getString(mCursor.getColumnIndex(Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_NUMBER));
-            mPlayerName.setText(playerName);
-            mPlayerNumber.setText(playerNumber);
 
         }
 

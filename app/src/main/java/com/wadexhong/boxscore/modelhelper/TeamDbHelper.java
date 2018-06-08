@@ -212,8 +212,13 @@ public class TeamDbHelper extends SQLiteOpenHelper {
     }
 
     public void deleteTeamInDb(String teamId) {
-        getWritableDatabase().delete(Constants.TeamInfoDBContract.TABLE_NAME, Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_ID + " =?", new String[]{teamId});
-        getWritableDatabase().delete(Constants.TeamPlayersContract.TABLE_NAME, Constants.TeamPlayersContract.COLUMN_NAME_TEAM_ID + " =?", new String[]{teamId});
+
+        int resultDeleteInfo = getWritableDatabase().delete(Constants.TeamInfoDBContract.TABLE_NAME, Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_ID + " =?", new String[]{teamId});
+        int resultDeletePlayer = getWritableDatabase().delete(Constants.TeamPlayersContract.TABLE_NAME, Constants.TeamPlayersContract.COLUMN_NAME_TEAM_ID + " =?", new String[]{teamId});
+
+        if (resultDeleteInfo > 0 && resultDeletePlayer > 0){
+            Remove.getInstance().removeTeam(teamId);
+        }
     }
 
     public void deleteAll() {
