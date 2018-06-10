@@ -11,12 +11,12 @@ import com.wadexhong.boxscore.BaseView;
 
 public interface TeamPlayersContract {
 
-    interface View extends BaseView<Presenter>{
+    interface View extends BaseView<Presenter> {
 
         void refreshUi();
     }
 
-    interface Presenter extends BasePresenter{
+    interface Presenter extends BasePresenter {
 
         Cursor getPlayers(String teamId);
 
@@ -25,5 +25,7 @@ public interface TeamPlayersContract {
         void deletePlayer(String teamId, String playerId);
 
         void refreshUi();
+
+        void transToPlayerDetail(String playerId);
     }
 }

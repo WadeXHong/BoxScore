@@ -40,6 +40,11 @@ public class TeamPlayersPresenter implements TeamPlayersContract.Presenter{
     }
 
     @Override
+    public void transToPlayerDetail(String playerId) {
+
+    }
+
+    @Override
     public void refreshUi() {
         mCreatePlayerView.refreshUi();
     }

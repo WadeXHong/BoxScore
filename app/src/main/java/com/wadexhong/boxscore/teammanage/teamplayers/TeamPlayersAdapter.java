@@ -85,11 +85,19 @@ public class TeamPlayersAdapter extends RecyclerView.Adapter {
 
             mCursor.moveToPosition(position);
             final String playerName = mCursor.getString(mCursor.getColumnIndex(Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_NAME));
-            String playerNumber = mCursor.getString(mCursor.getColumnIndex(Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_NUMBER));
+            final String playerNumber = mCursor.getString(mCursor.getColumnIndex(Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_NUMBER));
+            final String playerId = mCursor.getString(mCursor.getColumnIndexOrThrow(Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_ID));
 
             mPlayerName.setText(playerName);
             mPlayerNumber.setText(playerNumber);
 
+            mLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d(TAG, "layout pressed");
+                    mTeamPlayersPresenter.transToPlayerDetail(playerId);
+                }
+            });
             mEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
