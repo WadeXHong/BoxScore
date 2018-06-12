@@ -59,10 +59,10 @@ An application for basketball teams to easily record their game data.<br />
   * 新增修改紀錄功能。
  
 * 1.0.2 - 2018/06/02
-  * 改為FireBase登入制，可處存資料至雲端，增加點擊震動並修正多項bug。
+  * 改為FireBase登入制，可處存資料至雲端，增加點擊震動並修正多項 bug。
  
 * 1.0.1 - 2018/05/28
-  * 修正預設球員名單進入比賽crash問題，行距對齊等。
+  * 修正預設球員名單進入比賽 crash 問題，行距對齊等。
  
 * 1.0.0 - 2018/05/27
   * 基本球隊、球員、比賽紀錄、歷史回顧功能。
