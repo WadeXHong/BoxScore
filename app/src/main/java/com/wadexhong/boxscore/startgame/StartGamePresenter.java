@@ -85,6 +85,11 @@ public class StartGamePresenter implements StartGameContract.Presenter {
     }
 
     @Override
+    public void noLegalTeam() {
+        mStartGameView.noLegalTeam();
+    }
+
+    @Override
     public void checkInput(int currentItem) {
 
         switch (currentItem) {

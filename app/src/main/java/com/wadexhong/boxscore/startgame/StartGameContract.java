@@ -24,6 +24,8 @@ public interface StartGameContract {
         void setViewPagerCurrentItem(boolean isChangePageAllowed);
 
         void showMainUi();
+
+        void noLegalTeam();
     }
 
     interface Presenter extends BasePresenter{
@@ -41,5 +43,7 @@ public interface StartGameContract {
         void transToPlayerSettingPage();
 
         void transToDetailSettingPage();
+
+        void noLegalTeam();
     }
 }

@@ -21,6 +21,7 @@ import com.wadexhong.boxscore.R;
 import com.wadexhong.boxscore.adapter.ViewPagerFragmentAdapter;
 import com.wadexhong.boxscore.customlayout.BSViewPager;
 import com.wadexhong.boxscore.gameboxscore.GameBoxScoreActivity;
+import com.wadexhong.boxscore.teammanage.TeamManageActivity;
 
 public class StartGameActivity extends AppCompatActivity implements StartGameContract.View {
 
@@ -218,7 +219,8 @@ public class StartGameActivity extends AppCompatActivity implements StartGameCon
 
     private void popInputIllegalDialog() {
 
-        new AlertDialog.Builder(this).setTitle(R.string.start_game_illegal_title)
+        new AlertDialog.Builder(this, R.style.OrangeDialog)
+                  .setTitle(R.string.start_game_illegal_title)
                   .setMessage(R.string.start_game_illegal_message)
                   .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
             @Override
@@ -229,10 +231,35 @@ public class StartGameActivity extends AppCompatActivity implements StartGameCon
     }
 
     @Override
+    public void noLegalTeam() {
+
+        new AlertDialog.Builder(this, R.style.OrangeDialog)
+                  .setTitle(R.string.no_legal_team_title)
+                  .setMessage(R.string.no_legal_team_message)
+                  .setCancelable(false)
+                  .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                      @Override
+                      public void onClick(DialogInterface dialog, int which) {
+                          startActivity(new Intent(StartGameActivity.this, TeamManageActivity.class));
+                          finish();
+                          dialog.cancel();
+                      }
+                  })
+                  .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                      @Override
+                      public void onClick(DialogInterface dialog, int which) {
+                          finish();
+                          dialog.cancel();
+                      }
+                  }).show();
+    }
+
+    @Override
     public void onBackPressed() {
 
         new AlertDialog.Builder(this, R.style.OrangeDialog)
-                  .setTitle(R.string.confirmGoBack).setMessage(R.string.goBackConfirmMessage)
+                  .setTitle(R.string.confirmGoBack)
+                  .setMessage(R.string.goBackConfirmMessage)
                   .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                       @Override
                       public void onClick(DialogInterface dialog, int which) {

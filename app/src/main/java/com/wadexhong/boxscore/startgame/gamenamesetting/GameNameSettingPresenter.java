@@ -48,6 +48,9 @@ public class GameNameSettingPresenter implements GameNameSettingContract.Present
 
     @Override
     public void start() {
-        mTeamInfos = BoxScore.getTeamDbHelper().getTeamsForAdapter();
+        mTeamInfos = BoxScore.getTeamDbHelper().getTeamsForAdapter(6);
+        if (mTeamInfos.size() == 0){
+            mStartGamePresenter.noLegalTeam();
+        }
     }
 }

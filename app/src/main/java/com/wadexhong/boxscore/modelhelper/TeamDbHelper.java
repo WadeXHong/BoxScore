@@ -135,9 +135,19 @@ public class TeamDbHelper extends SQLiteOpenHelper {
         }
     }
 
-    public ArrayList<TeamInfo> getTeamsForAdapter() {
+    /**
+     * Called by GameNameSettingPresenter, which needs to pass teamInfos into the adapter of spinner.
+     *
+     * @return If their is no team data in database, it retruns an zero size ArrayList.
+     * @param filterPlayerAmount
+     */
+    public ArrayList<TeamInfo> getTeamsForAdapter(int filterPlayerAmount) {
 
-        Cursor cursor = getReadableDatabase().query(Constants.TeamInfoDBContract.TABLE_NAME, null, null, null, null, null, null);
+        Cursor cursor = getReadableDatabase().query(Constants.TeamInfoDBContract.TABLE_NAME,
+                  null,
+                  Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_PLAYERS_AMOUNT + " >=?",
+                  new String[]{String.valueOf(filterPlayerAmount)},
+                  null, null, null);
         int size = cursor.getCount();
         ArrayList<TeamInfo> teamInfoList = new ArrayList<>();
 
@@ -216,7 +226,7 @@ public class TeamDbHelper extends SQLiteOpenHelper {
         int resultDeleteInfo = getWritableDatabase().delete(Constants.TeamInfoDBContract.TABLE_NAME, Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_ID + " =?", new String[]{teamId});
         int resultDeletePlayer = getWritableDatabase().delete(Constants.TeamPlayersContract.TABLE_NAME, Constants.TeamPlayersContract.COLUMN_NAME_TEAM_ID + " =?", new String[]{teamId});
 
-        if (resultDeleteInfo > 0 && resultDeletePlayer > 0){
+        if (resultDeleteInfo > 0 && resultDeletePlayer > 0) {
             Remove.getInstance().removeTeam(teamId);
         }
     }
