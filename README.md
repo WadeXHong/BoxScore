@@ -1,36 +1,41 @@
 # BoxScore ( 球經救星 )
-An pplication for basketball teams to easilly record their game data.<br />
-球經救星是一款讓球隊可以透過手機紀錄球賽數據的 App，<br />
-讓你不需要在畫正字記號與漏記之間失望落寞， <br />
+An application for basketball teams to easily record their game data.<br />
+球經救星是一款讓球隊可以輕鬆利用手機優雅紀錄球賽數據的 App，<br />
+讓你不需要在畫正字記號與塗塗改改之間失望落寞， <br />
 讓我們放下紙跟筆，say sure that's go！<br />
 
 [<img src="https://github.com/WadeXHong/BoxScore/blob/master/ScreenShot/google_player_icon.png" width="200" height="77.5">](https://play.google.com/store/apps/details?id=com.wadexhong.boxscore)
 
 # Featrue
 * 主選單
-  * 以 email 註冊、登入。
-  * 點擊球隊管理新增球隊和至少六名球員。
-  * 點擊開始比賽，依照提示輸入對手名稱、建置上場球員名單等內容，即可開始比賽。
-  * 歷史紀錄供使用者查閱已儲存並結束的比賽統計內容。
-  * 個人設定可調節螢幕亮度、設定操作手勢以及登出。
+  * 以 email 註冊、登入 Firebase。
  
 * 開始遊戲
-  * 查看是否有未結束比賽，可進行復原或刪除。
-  * 名稱設定必填選項為對手名稱及所屬球隊；日期由月曆選取，預設為當日。
-  * 球員名單顯示所屬球隊的所有球員，先發名單必須為 5 人、替補球員接受範圍為 1 ~ 10 人。
-  * 操作設定可藉由調整鈕自由調整。
+  * 詢問是否恢復中斷的比賽。
+  * 顏色變化提示輸入是否合法。
+  * 輸入若不符規定，中斷單向 ViewPager 滑動、TabLayout切換。
+  * 所屬球隊連動改變球員名單。
 
 * 比賽紀錄畫面
-  * 右上角齒輪圖示可進入個人設定頁面，調整亮度及手勢。
-  * 透過直接點擊數據紀錄內的按鈕或是操作手勢，依照視窗選取紀錄對象。
-  * 對方團隊數據以及節數，可藉由直接點選數字或是旁邊的操作按鈕調整。
-  * 我方團隊數據將依據球員的個人數據紀錄改變。
-  * 點選操作紀錄內容可操作刪除及變更選項，修正錯誤紀錄內容。
-  * 更換球員藉由點擊任意球員，進行一對一球員交換。
-  * 數據統計按鈕顯示目前的詳細記錄內容。
-  * 返回鍵防呆選項視窗及非預期關閉遊戲皆可保留目前記錄狀態。
-  * 左上角儲存鍵結束並同步完整比賽至Firebase。
-
+  * 透過多點手勢簡化純按鈕點擊操作。
+  * 可自定義手勢對應記錄內容。
+  * 以震動回饋使用者觸發事件。
+  * 儲存操作紀錄並提供刪除，修改功能。
+  * 更換場上球員功能。
+  * 即時數據統計查看。
+  * 返回鍵防呆、同步儲存確認、中斷恢復機制。
+  
+* 歷史紀錄
+  * 比賽列表。
+  * 簡易統計圖表。
+  * 團隊數據總和。
+  * 個人數據總表、時間篩選。
+  
+* 個人設定
+  * 亮度調整。
+  * 手勢設定。
+  * 儲存設定值。
+  * 登出。
 
 # Library
 * Firebase
@@ -63,5 +68,7 @@ An pplication for basketball teams to easilly record their game data.<br />
   * 基本球隊、球員、比賽紀錄、歷史回顧功能。
 
 # Contacts
-洪偉軒 <br />
+有發現任何 bug，或是有任何使用者體驗優化建議、新功能期許或 idea，都歡迎透過下方資訊聯絡我！
+
+Wade Hong <br />
 wadexhong@gmail.com
