@@ -151,6 +151,7 @@
     <string name="no_legal_team_title">請先建立球隊</string>
     <string name="no_legal_team_message">請先至少建立一個六人以上的球隊！ 是否轉跳至球隊管理？</string>
     <string name="foul_type_title">犯規類型</string>
+    <string name="toast_cannot_create_excel">無法產生Excel檔</string>
 
 
 </resources>

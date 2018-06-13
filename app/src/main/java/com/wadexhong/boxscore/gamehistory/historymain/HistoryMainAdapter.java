@@ -108,7 +108,7 @@ public class HistoryMainAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onClick(View v) {
                     Log.d(TAG, "mShareImageView onClick, gameId = " + gameId);
-//                    mHistoryMainPresenter.share(gameId);
+                    mHistoryMainPresenter.confirmShareGameHistory(gameId);
                 }
             });
             mLayout.setOnClickListener(new View.OnClickListener() {

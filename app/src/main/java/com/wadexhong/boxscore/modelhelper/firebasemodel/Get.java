@@ -10,7 +10,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.wadexhong.boxscore.Constants;
 import com.wadexhong.boxscore.dialog.ProgressBarDialog;
-import com.wadexhong.boxscore.modelhelper.firebasemodel.task.OnCreateDataBaseTask;
+import com.wadexhong.boxscore.modelhelper.task.OnCreateDataBaseTask;
 
 /**
  * Created by wade8 on 2018/5/29.

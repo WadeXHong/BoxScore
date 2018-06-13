@@ -1,4 +1,4 @@
-package com.wadexhong.boxscore.modelhelper.firebasemodel.task;
+package com.wadexhong.boxscore.modelhelper.task;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;

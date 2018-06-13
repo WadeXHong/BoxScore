@@ -13,6 +13,9 @@ public interface HistoryMainContract {
 
     interface View extends BaseView<Presenter> {
 
+        void confirmShareGameHistory(String gameId);
+
+        void showToast(String message);
     }
 
     interface Presenter extends BasePresenter {
@@ -22,5 +25,9 @@ public interface HistoryMainContract {
         void transToDetail(String gameId);
 
         void setGameHistoryToolBar();
+
+        void confirmShareGameHistory(String gameId);
+
+        void createAndShareGameHistoryXls(String gameId);
     }
 }
