@@ -215,10 +215,12 @@ public class Constants {
         public static final String NODE_NAME_GAME_INFO = "game_info";
         public static final String NODE_NAME_QUARTER = "quarter";
 
+        public static final String NODE_NAME_XLS_FILES = "xls_files";
+
     }
 
     public class ExtraNames {
-
+        //Todo 把所有Intent, Bundle Argument的名稱寫來這
         public static final String SETTING_BOOLEAN_IS_SHOW_LOGOUT = "isShowLogout";
 
     }

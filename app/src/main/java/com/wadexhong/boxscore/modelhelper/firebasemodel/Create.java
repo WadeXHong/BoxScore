@@ -1,15 +1,23 @@
 package com.wadexhong.boxscore.modelhelper.firebasemodel;
 
 import android.database.Cursor;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.wadexhong.boxscore.Constants;
 import com.wadexhong.boxscore.objects.Player;
 
@@ -155,6 +163,33 @@ public class Create {
     public void updateTeamHistoryAmount(String teamId, int newHistoryAmount) {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(Constants.FireBaseConstant.NODE_NAME_USERS).child(FirebaseAuth.getInstance().getUid()).child(Constants.FireBaseConstant.NODE_NAME_TEAM_INFO).child(teamId).child(Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_HISTORY_AMOUNT);
         ref.setValue(newHistoryAmount);
+    }
+
+    public void uploadExcelFile(String gameId, Uri uri, final UploadExcelFileCallBack uploadExcelFileCallBack) {
+
+        final StorageReference storageReference = FirebaseStorage.getInstance().getReference()
+                  .child(Constants.FireBaseConstant.NODE_NAME_USERS)
+                  .child(FirebaseAuth.getInstance().getUid())
+                  .child(Constants.FireBaseConstant.NODE_NAME_XLS_FILES)
+                  .child(gameId + ".xls");
+
+        UploadTask uploadTask = storageReference.putFile(uri);
+        uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        uploadExcelFileCallBack.onSuccess(uri);
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                uploadExcelFileCallBack.onFailure(e.getMessage());
+            }
+        });
     }
 
     @Deprecated

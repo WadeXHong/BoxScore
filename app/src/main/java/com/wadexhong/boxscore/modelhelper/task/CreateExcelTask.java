@@ -1,6 +1,7 @@
 package com.wadexhong.boxscore.modelhelper.task;
 
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 
@@ -27,6 +28,7 @@ public class CreateExcelTask extends AsyncTask<Void, Void, Void> {
     private boolean mIsTaskSuccess = false;
     private String mGameId;
     private CreateExcelCallBack mCreateExcelCallBack;
+    private Uri mUri;
 
     public CreateExcelTask(String gameId, CreateExcelCallBack createExcelCallBack) {
         super();
@@ -48,8 +50,9 @@ public class CreateExcelTask extends AsyncTask<Void, Void, Void> {
 
                 File directory = new File(Environment.getExternalStorageDirectory().getAbsoluteFile() + "/BoxScore/");
                 if (!directory.isDirectory()) directory.mkdirs();
-                
+
                 File file = new File(directory, fileName);
+                mUri = Uri.fromFile(file);
                 WorkbookSettings workbookSettings = new WorkbookSettings();
                 workbookSettings.setLocale(new Locale("en", "EN"));
                 WritableWorkbook workbook = Workbook.createWorkbook(file, workbookSettings);
@@ -127,9 +130,9 @@ public class CreateExcelTask extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
 
-        if (mIsTaskSuccess){
-            mCreateExcelCallBack.onComplete();
-        }else {
+        if (mIsTaskSuccess) {
+            mCreateExcelCallBack.onSuccess(mUri);
+        } else {
             mCreateExcelCallBack.onError();
         }
     }

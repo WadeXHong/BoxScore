@@ -1,26 +1,17 @@
 package com.wadexhong.boxscore.gamehistory.historymain;
 
 import android.database.Cursor;
-import android.os.Environment;
+import android.net.Uri;
+import android.util.Log;
 
-import com.wadexhong.boxscore.Constants;
 import com.wadexhong.boxscore.R;
 import com.wadexhong.boxscore.gamehistory.GameHistoryContract;
 import com.wadexhong.boxscore.BoxScore;
+import com.wadexhong.boxscore.modelhelper.firebasemodel.Create;
+import com.wadexhong.boxscore.modelhelper.firebasemodel.UploadExcelFileCallBack;
 import com.wadexhong.boxscore.modelhelper.task.CreateExcelCallBack;
 import com.wadexhong.boxscore.modelhelper.task.CreateExcelTask;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.WriteAbortedException;
-import java.util.Locale;
-
-import jxl.Workbook;
-import jxl.WorkbookSettings;
-import jxl.write.Label;
-import jxl.write.WritableSheet;
-import jxl.write.WritableWorkbook;
-import jxl.write.WriteException;
 
 /**
  * Created by wade8 on 2018/5/22.
@@ -61,12 +52,24 @@ public class HistoryMainPresenter implements HistoryMainContract.Presenter {
     }
 
     @Override
-    public void createAndShareGameHistoryXls(String gameId) {
+    public void createAndShareGameHistoryXls(final String gameId) {
 
         new CreateExcelTask(gameId, new CreateExcelCallBack() {
             @Override
-            public void onComplete() {
+            public void onSuccess(Uri uri) {
                 //FireBase Storage
+                Create.getInstance().uploadExcelFile(gameId, uri, new UploadExcelFileCallBack() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Log.d(TAG, "createAndShareGameHistoryXls success : " + uri.toString());
+                        mHistoryMainView.saveUrlInClipboard(uri.toString());
+                    }
+
+                    @Override
+                    public void onFailure(String message) {
+                        Log.d(TAG, "createAndShareGameHistoryXls fail : " + message);
+                    }
+                });
             }
 
             @Override

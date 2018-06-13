@@ -15,6 +15,8 @@ public interface HistoryMainContract {
 
         void confirmShareGameHistory(String gameId);
 
+        void saveUrlInClipboard(String string);
+
         void showToast(String message);
     }
 

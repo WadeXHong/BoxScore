@@ -2,6 +2,9 @@ package com.wadexhong.boxscore.gamehistory.historymain;
 
 
 import android.Manifest;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -68,6 +71,15 @@ public class HistoryMainFragment extends Fragment implements HistoryMainContract
     public void confirmShareGameHistory(String gameId) {
         mGameId = gameId;
         HistoryMainFragmentPermissionsDispatcher.requestPermissionWithPermissionCheck(this);
+    }
+
+    @Override
+    public void saveUrlInClipboard(String string) {
+        ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("xls file url", string);
+        clipboard.setPrimaryClip(clip);
+
+        showToast(getString(R.string.toast_url_in_clipboard));
     }
 
     @Override
