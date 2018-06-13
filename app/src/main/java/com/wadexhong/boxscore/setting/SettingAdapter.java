@@ -64,7 +64,8 @@ public class SettingAdapter extends RecyclerView.Adapter {
                   BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(Constants.TYPE_CHOICE_INT[10])),
                   BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(Constants.TYPE_CHOICE_INT[11])),
                   BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(Constants.TYPE_CHOICE_INT[12])),
-                  BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(Constants.TYPE_CHOICE_INT[13]))
+                  BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(Constants.TYPE_CHOICE_INT[13])),
+                  BoxScore.getAppContext().getResources().getString(Constants.TITLE_SPARSE_ARRAY.get(Constants.TYPE_CHOICE_INT[14]))
         };
 
         mIsShowLogout = isShowLogout;

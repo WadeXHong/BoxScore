@@ -141,13 +141,26 @@ public class DataRecordPresenter implements DataRecordContract.Presenter {
         popPlayerSelectProcess(type);
     }
 
+    @Override
+    public void pressOffensiveFoul(int type) {
+        Log.d(TAG, "pressOffensiveFoul executed");
+        popPlayerSelectProcess(type);
+    }
+
+    @Override
+    public void pressDefensiveFoul(int type) {
+        Log.d(TAG, "pressDefensiveFoul executed");
+        popPlayerSelectProcess(type);
+    }
+
     private void createPlayerSelectDialog(int type) {
         //TODO Foul
         mDataRecordView.enableAllButtons(false);
 
         if (type == Constants.RecordDataType.TWO_POINT_SHOT || type == Constants.RecordDataType.THREE_POINT_SHOT || type == Constants.RecordDataType.FREE_THROW_SHOT) {
             mDataRecordView.popIsShotMadeDialog(type);
-
+        } else if (type == Constants.RecordDataType.FOUL) {
+            mDataRecordView.popFoulTypeDialog(type);
         } else {
             popPlayerSelectProcess(type);
         }

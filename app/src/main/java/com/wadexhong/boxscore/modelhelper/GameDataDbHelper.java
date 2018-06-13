@@ -482,7 +482,34 @@ public class GameDataDbHelper extends SQLiteOpenHelper {
 
                 break;
 
-        }//TODO Foul
+            case Constants.RecordDataType.OFFENSIVE_FOUL:
+
+                int turnover = mGameInfo.getDetailData()
+                          .get(quarter)
+                          .get(playerNumber)
+                          .get(Constants.RecordDataType.TURNOVER);
+
+                mGameInfo.getDetailData().get(quarter).get(playerNumber).put(Constants.RecordDataType.TURNOVER, turnover + 1);
+                contentValues.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(Constants.RecordDataType.TURNOVER), turnover + 1);
+                //type轉回FOUL，後續記錄至Db裡
+                type = Constants.RecordDataType.FOUL;
+
+                break;
+
+            case Constants.RecordDataType.DEFENSIVE_FOUL:
+                // 不是此節代表為歷史紀錄，已無關團犯。
+                if (quarter == mGameInfo.getTeamData().get(Constants.RecordDataType.QUARTER)) {
+
+                    int teamFoul = mGameInfo.getTeamData().get(Constants.RecordDataType.YOUR_TEAM_FOUL);
+
+                    mGameInfo.getTeamData().put(Constants.RecordDataType.YOUR_TEAM_FOUL, teamFoul + 1);
+                    SharedPreferenceHelper.write(SharedPreferenceHelper.YOUR_TEAM_FOUL, teamFoul + 1);
+                }
+                //type轉回FOUL，後續記錄至Db裡
+                type = Constants.RecordDataType.FOUL;
+
+                break;
+        }//TODO 犯滿畢業
         int dataValue = mGameInfo.getDetailData()
                   .get(quarter)
                   .get(playerNumber).get(type);
@@ -643,7 +670,38 @@ public class GameDataDbHelper extends SQLiteOpenHelper {
 
                 break;
 
-        }//TODO Foul
+            case Constants.RecordDataType.OFFENSIVE_FOUL:
+
+                int turnover = mGameInfo.getDetailData()
+                          .get(quarter)
+                          .get(playerNumber)
+                          .get(Constants.RecordDataType.TURNOVER);
+
+                if (turnover == 0) return;
+
+                mGameInfo.getDetailData().get(quarter).get(playerNumber).put(Constants.RecordDataType.TURNOVER, turnover - 1);
+                contentValues.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(Constants.RecordDataType.TURNOVER), turnover - 1);
+                //type轉回FOUL，後續記錄至Db裡
+                type = Constants.RecordDataType.FOUL;
+
+                break;
+
+            case Constants.RecordDataType.DEFENSIVE_FOUL:
+                // 不是此節代表為歷史紀錄，已無關團犯。
+                if (quarter == mGameInfo.getTeamData().get(Constants.RecordDataType.QUARTER)) {
+
+                    int teamFoul = mGameInfo.getTeamData().get(Constants.RecordDataType.YOUR_TEAM_FOUL);
+                    if (teamFoul == 0) return;
+
+                    mGameInfo.getTeamData().put(Constants.RecordDataType.YOUR_TEAM_FOUL, teamFoul - 1);
+                    SharedPreferenceHelper.write(SharedPreferenceHelper.YOUR_TEAM_FOUL, teamFoul - 1);
+                }
+                //type轉回FOUL，後續記錄至Db裡
+                type = Constants.RecordDataType.FOUL;
+
+                break;
+        }//TODO 犯滿畢業
+
 
         int dataValue = mGameInfo.getDetailData()
                   .get(quarter)
@@ -655,7 +713,7 @@ public class GameDataDbHelper extends SQLiteOpenHelper {
                   .get(quarter)
                   .get(playerNumber).put(type, dataValue - 1);
 
-        contentValues.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(type), dataValue - 1);//TODO value
+        contentValues.put(Constants.COLUMN_NAME_SPARSE_ARRAY.get(type), dataValue - 1);
 
         int result = getWritableDatabase()
                   .update(Constants.GameDataDBContract.TABLE_NAME,

@@ -52,6 +52,8 @@
     <string name="steal">抄截</string>
     <string name="block">火鍋</string>
     <string name="foul">犯規</string>
+    <string name="offensive_foul">進攻犯規</string>
+    <string name="defensive_foul">防守犯規</string>
     <string name="turnover">失誤</string>
     <string name="cancel">取消</string>
     <string name="isShotMade">是否命中</string>
@@ -148,6 +150,7 @@
     <string name="dialog_delete_team_message">確認刪除 %s 的所有資料？</string>
     <string name="no_legal_team_title">請先建立球隊</string>
     <string name="no_legal_team_message">請先至少建立一個六人以上的球隊！ 是否轉跳至球隊管理？</string>
+    <string name="foul_type_title">犯規類型</string>
 
 
 </resources>

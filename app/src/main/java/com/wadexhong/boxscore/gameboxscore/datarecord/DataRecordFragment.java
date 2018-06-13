@@ -169,6 +169,37 @@ public class DataRecordFragment extends Fragment implements DataRecordContract.V
     }
 
     @Override
+    public void popFoulTypeDialog(final int type) {
+
+        new AlertDialog.Builder(getActivity())
+                  .setTitle(R.string.foul_type_title)
+                  .setItems(new String[]{BoxScore.getStringEasy(R.string.offensive_foul), BoxScore.getStringEasy(R.string.defensive_foul)}, new DialogInterface.OnClickListener() {
+                      @Override
+                      public void onClick(DialogInterface dialog, int which) {
+
+                          switch (which) {
+
+                              case 0:
+                                  mPresenter.pressOffensiveFoul(type + Constants.RecordDataType.SHIFT_OFFENSIVE_FOUL);
+                                  break;
+
+                              case 1:
+                                  mPresenter.pressDefensiveFoul(type + Constants.RecordDataType.SHIFT_DEFENSIVE_FOUL);
+                                  break;
+                          }
+                      }
+                  })
+                  .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                      @Override
+                      public void onCancel(DialogInterface dialog) {
+
+                          enableAllButtons(true);
+                      }
+                  })
+                  .create().show();
+    }
+
+    @Override
     public void popIsShotMadeDialog(final int type) {
 
         new AlertDialog.Builder(getActivity())

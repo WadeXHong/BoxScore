@@ -29,6 +29,8 @@ public class Constants {
             append(RecordDataType.STEAL, R.string.steal);
             append(RecordDataType.BLOCK, R.string.block);
             append(RecordDataType.FOUL, R.string.foul);
+            append(RecordDataType.OFFENSIVE_FOUL, R.string.offensive_foul);
+            append(RecordDataType.DEFENSIVE_FOUL, R.string.defensive_foul);
             append(RecordDataType.TURNOVER, R.string.turnover);
         }
     };
@@ -65,7 +67,8 @@ public class Constants {
               Constants.RecordDataType.ASSIST,
               Constants.RecordDataType.STEAL,
               Constants.RecordDataType.BLOCK,
-              Constants.RecordDataType.FOUL,
+              Constants.RecordDataType.OFFENSIVE_FOUL,
+              RecordDataType.DEFENSIVE_FOUL,
               Constants.RecordDataType.TURNOVER
     };
 
@@ -73,6 +76,8 @@ public class Constants {
 
         public static final int SHIFT_SHOT_MADE = 1;
         public static final int SHIFT_SHOT_MISSED = 2;
+        public static final int SHIFT_OFFENSIVE_FOUL = 1;
+        public static final int SHIFT_DEFENSIVE_FOUL = 2;
 
         public static final int YOUR_TEAM_TOTAL_SCORE = 0x00a1;
         public static final int OPPONENT_TEAM_TOTAL_SCORE = 0x00b1;
@@ -102,6 +107,8 @@ public class Constants {
         public static final int STEAL = 0x0061;
         public static final int BLOCK = 0x0071;
         public static final int FOUL = 0x0081;
+        public static final int OFFENSIVE_FOUL = 0x0082;
+        public static final int DEFENSIVE_FOUL = 0x0083;
         public static final int TURNOVER = 0x0091;
 
         public static final int JUDGEMENT_NUMBER = 0x1000; //if type > 0x1000 -> recovery type
@@ -118,6 +125,8 @@ public class Constants {
         public static final int MINUS_STEAL = 0x1061;
         public static final int MINUS_BLOCK = 0x1071;
         public static final int MINUS_FOUL = 0x1081;
+        public static final int MINUS_OFFENSIVE_FOUL = 0x1082;
+        public static final int MINUS_DEFENSIVE_FOUL = 0x1083;
         public static final int MINUS_TURNOVER = 0x1091;
 
     }

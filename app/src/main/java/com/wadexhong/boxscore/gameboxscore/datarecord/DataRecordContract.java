@@ -20,6 +20,7 @@ public interface DataRecordContract {
 
         void enableAllButtons(boolean setEnableOrNot);
 
+        void popFoulTypeDialog(int type);
     }
 
     interface Presenter extends BasePresenter {
@@ -62,9 +63,14 @@ public interface DataRecordContract {
 
         void pressShotMissed(int type);
 
+        void pressOffensiveFoul(int type);
+
+        void pressDefensiveFoul(int type);
+
         void updateUiGameBoxActivity();
 
         void callActivityPresenterEditDataInDb(Player player, int type);
+
     }
 
 }
