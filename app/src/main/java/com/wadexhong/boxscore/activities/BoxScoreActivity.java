@@ -36,7 +36,6 @@ import com.wadexhong.boxscore.BoxScorePresenter;
 import com.wadexhong.boxscore.Constants;
 import com.wadexhong.boxscore.R;
 import com.wadexhong.boxscore.dialog.ProgressBarDialog;
-import com.wadexhong.boxscore.dialog.TransparentAlertDialog;
 import com.wadexhong.boxscore.gameboxscore.GameBoxScoreActivity;
 import com.wadexhong.boxscore.gamehistory.GameHistoryActivity;
 import com.wadexhong.boxscore.objects.GameInfo;
@@ -79,6 +78,7 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
     @Override
     protected void onStart() {
         super.onStart();
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             showMainUi(View.GONE, View.VISIBLE);
@@ -107,7 +107,7 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
     }
 
     /**
-     *  避免singlton的ProgressBarDialog持有同一個context
+     * 避免singlton的ProgressBarDialog持有同一個context
      */
     @Override
     protected void onDestroy() {
@@ -119,6 +119,7 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_box_score);
+        BoxScore.sIsOnClickAllowed = false;
 
         mContext = this;
 
@@ -348,7 +349,7 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
     }
 
     /**
-     *  等transition動畫跑完再開始從FireBase 同步資料
+     * 等transition動畫跑完再開始從FireBase 同步資料
      */
     private void delayForAnimation() {
 
@@ -397,10 +398,11 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
     }
 
     /**
-     *  點擊開始遊戲後若presenter判斷sharedpreferences內有比賽顯示此詢問訊息
-     *  PositiveButton will let user back to the previous game,
-     *  NeuralButton will save the previous game and  start new one,
-     *  NegativeButton will delete the previous game from database and start new one.
+     * 點擊開始遊戲後若presenter判斷sharedpreferences內有比賽顯示此詢問訊息
+     * PositiveButton will let user back to the previous game,
+     * NeuralButton will save the previous game and  start new one,
+     * NegativeButton will delete the previous game from database and start new one.
+     *
      * @param opponentName opponentName saved in SharedPreferences
      */
     @Override

@@ -7,6 +7,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.TextView;
 
+import com.wadexhong.boxscore.BoxScore;
 import com.wadexhong.boxscore.R;
 
 /**
@@ -42,6 +43,7 @@ public class ProgressBarDialog extends Dialog {
     public static void hideProgressBarDialog(){
         if (mInstance != null && mInstance.isShowing()){
             mInstance.dismiss();
+            BoxScore.sIsOnClickAllowed = true;
         }
     }
 
