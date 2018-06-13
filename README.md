@@ -1,5 +1,5 @@
 # BoxScore ( 球經救星 )
-An application for basketball teams to easily record their game data.<br />
+An application for basketball teams to easily record their game .<br />
 球經救星是一款讓球隊可以輕鬆利用手機優雅紀錄球賽數據的 App，<br />
 讓你不需要在畫正字記號與塗塗改改之間失望落寞， <br />
 讓我們放下紙跟筆，say sure that's go！<br />
@@ -13,7 +13,7 @@ An application for basketball teams to easily record their game data.<br />
 * 開始遊戲
   * 詢問是否恢復中斷的比賽。
   * 顏色變化提示輸入是否合法。
-  * 輸入若不符規定，中斷單向 ViewPager 滑動、TabLayout切換。
+  * 輸入若不符規定，中斷單向 ViewPager 滑動、TabLayout 切換。
   * 所屬球隊連動改變球員名單。
 
 * 比賽紀錄畫面
@@ -50,6 +50,7 @@ An application for basketball teams to easily record their game data.<br />
 
 # Requirement
 * Android 5.1+
+* Android Studio / Gradle 3.0.1
 
 # Version
 * 1.0.4 - 2018/06/06
