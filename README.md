@@ -27,6 +27,7 @@ An application for basketball teams to easily record their game .<br />
   
 * 歷史紀錄
   * 比賽列表。
+  * 單場比賽匯出為活頁簿、分享功能。
   * 簡易統計圖表。
   * 團隊數據總和。
   * 個人數據總表、時間篩選。
@@ -42,6 +43,7 @@ An application for basketball teams to easily record their game .<br />
 * MPAndroidChart
 * AdaptiveTableLayout
 * PermissionsDispatcher
+* JAVA Excel Library
 
 
 # Screenshot
@@ -53,6 +55,9 @@ An application for basketball teams to easily record their game .<br />
 * Android Studio / Gradle 3.0.1
 
 # Version
+* 1.0.7 - 2018/06/14
+  * 新增歷史紀錄匯出為 .xls 功能，並可上傳至 Firebase Storage 分享並自動存取連結至剪貼簿。
+
 * 1.0.6 - 2018/06/13
   * 犯規分為進攻犯規和防守犯規、並分別額外紀錄失誤及當節團犯。
 
