@@ -53,6 +53,12 @@ An application for basketball teams to easily record their game .<br />
 * Android Studio / Gradle 3.0.1
 
 # Version
+* 1.0.6 - 2018/06/13
+  * 犯規分為進攻犯規和防守犯規、並分別額外紀錄失誤及當節團犯。
+
+* 1.0.5 - 2018/06/13
+  * UI 微調、開始遊戲時若沒有球隊將提示使用者並轉跳至球隊管理頁面。
+
 * 1.0.4 - 2018/06/06
   * 刪除球員功能。
 
@@ -60,7 +66,7 @@ An application for basketball teams to easily record their game .<br />
   * 新增修改紀錄功能。
  
 * 1.0.2 - 2018/06/02
-  * 改為FireBase登入制，可處存資料至雲端，增加點擊震動並修正多項 bug。
+  * 改為 Firebase 登入制，可處存資料至雲端，增加點擊震動並修正多項 bug。
  
 * 1.0.1 - 2018/05/28
   * 修正預設球員名單進入比賽 crash 問題，行距對齊等。
