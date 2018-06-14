@@ -42,8 +42,8 @@ public class ProgressBarDialog extends Dialog {
 
     public static void hideProgressBarDialog(){
         if (mInstance != null && mInstance.isShowing()){
-            mInstance.dismiss();
             BoxScore.sIsOnClickAllowed = true;
+            mInstance.dismiss();
         }
     }
 

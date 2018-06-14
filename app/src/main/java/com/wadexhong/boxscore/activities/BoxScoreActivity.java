@@ -84,6 +84,7 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
             showMainUi(View.GONE, View.VISIBLE);
         } else {
             showMainUi(View.VISIBLE, View.GONE);
+                    BoxScore.sIsOnClickAllowed = true;
         }
     }
 
