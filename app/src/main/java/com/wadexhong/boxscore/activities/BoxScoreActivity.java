@@ -119,7 +119,7 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_box_score);
-        BoxScore.sIsOnClickAllowed = false;
+//        BoxScore.sIsOnClickAllowed = false;
 
         mContext = this;
 
