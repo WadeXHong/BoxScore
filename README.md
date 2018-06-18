@@ -55,6 +55,9 @@ An application for basketball teams to easily record their game .<br />
 * Android Studio / Gradle 3.0.1
 
 # Version
+* 1.0.8 - 2018/06/18
+  * 開啟時同步邏輯修改，大量減少非首次登入時的同步時間。
+  
 * 1.0.7 - 2018/06/14
   * 新增歷史紀錄匯出為 .xls 功能，並可上傳至 Firebase Storage 分享並自動存取連結至剪貼簿。
 
