@@ -106,9 +106,10 @@ public class BoxScorePresenter implements BoxScoreContract.Presenter {
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             mBoxScoreView.showProgressBarDialog(BoxScore.getAppContext().getString(R.string.progressbar_loading));
             String notEndedGameId = SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME, "");
-            BoxScore.getGameDataDbHelper().deleteAll(notEndedGameId);
-            BoxScore.getGameInfoDbHelper().deleteAll(notEndedGameId);
-            BoxScore.getTeamDbHelper().deleteAll();
+            // 改用檢查取代每次都清空
+//            BoxScore.getGameDataDbHelper().deleteAll(notEndedGameId);
+//            BoxScore.getGameInfoDbHelper().deleteAll(notEndedGameId);
+//            BoxScore.getTeamDbHelper().deleteAll();
             Get.getInstance().onCreate();
         }
     }

@@ -138,8 +138,8 @@ public class TeamDbHelper extends SQLiteOpenHelper {
     /**
      * Called by GameNameSettingPresenter, which needs to pass teamInfos into the adapter of spinner.
      *
-     * @return If their is no team data in database, it retruns an zero size ArrayList.
      * @param filterPlayerAmount
+     * @return If their is no team data in database, it retruns an zero size ArrayList.
      */
     public ArrayList<TeamInfo> getTeamsForAdapter(int filterPlayerAmount) {
 
@@ -172,6 +172,16 @@ public class TeamDbHelper extends SQLiteOpenHelper {
         Log.d(TAG, "getPlayersFromDb executed, teamId = " + teamId);
         return getWritableDatabase().query(Constants.TeamPlayersContract.TABLE_NAME, null,
                   Constants.TeamPlayersContract.COLUMN_NAME_TEAM_ID + " =?", new String[]{teamId}, null, null, null);
+    }
+
+    public Cursor getSpecificPlayer(String playerId) {
+        return getWritableDatabase().query(Constants.TeamPlayersContract.TABLE_NAME, null,
+                  Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_ID + " =?", new String[]{playerId}, null, null, null);
+    }
+
+    public Cursor getSpecificTeamInfo(String teamId){
+        return getWritableDatabase().query(Constants.TeamInfoDBContract.TABLE_NAME, null,
+                  Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_ID + " =?", new String[]{teamId}, null, null, null);
     }
 
     public void updateHistoryAmount(String teamId, int amount) {
