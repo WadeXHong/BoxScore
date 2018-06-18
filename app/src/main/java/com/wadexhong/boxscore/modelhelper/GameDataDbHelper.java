@@ -195,10 +195,12 @@ public class GameDataDbHelper extends SQLiteOpenHelper {
      * Insert players' initial data in database when new game starting.
      * Every player have four rows of  data.
      */
-    public void writeInitDataIntoDataBase() {
+    public long writeInitDataIntoDataBase() {
 
 //        int totalQuarter = Integer.parseInt(mGameInfo.getTotalQuarter());
 
+        long resultStartingPlayer = 0;
+        long resultSubstitutePlayer = 0;
         SQLiteDatabase db = getWritableDatabase();
 
         for (Player mPlayer : mGameInfo.getStartingPlayerList()) {
@@ -211,7 +213,8 @@ public class GameDataDbHelper extends SQLiteOpenHelper {
                 contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_QUARTER, i + 1);
                 contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER, mPlayer.getNumber());
                 contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NAME, mPlayer.getName());
-                db.insert(Constants.GameDataDBContract.TABLE_NAME, null, contentValues);
+                if (db.insert(Constants.GameDataDBContract.TABLE_NAME, null, contentValues) == -1)
+                    resultStartingPlayer = -1;
             }
         }
 
@@ -225,9 +228,11 @@ public class GameDataDbHelper extends SQLiteOpenHelper {
                 contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_QUARTER, i + 1);
                 contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NUMBER, mPlayer.getNumber());
                 contentValues.put(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NAME, mPlayer.getName());
-                db.insert(Constants.GameDataDBContract.TABLE_NAME, null, contentValues);
+                if (db.insert(Constants.GameDataDBContract.TABLE_NAME, null, contentValues) == -1)
+                    resultSubstitutePlayer = -1;
             }
         }
+        return resultStartingPlayer == -1 || resultSubstitutePlayer == -1 ? -1 : 0;
     }
 
     /**

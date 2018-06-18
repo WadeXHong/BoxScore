@@ -3,10 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.wadexhong.boxscore">
 
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".BoxScore"
@@ -16,9 +15,7 @@
         android:roundIcon="@drawable/mipmap"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:replace="android:allowBackup"
-        >
-
+        tools:replace="android:allowBackup">
         <activity
             android:name=".activities.LogoTransitionActivity"
             android:screenOrientation="portrait"
@@ -53,7 +50,7 @@
         </activity>
         <activity
             android:name=".gamehistory.GameHistoryActivity"
-            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/StartGame">
         </activity>
         <activity
@@ -61,6 +58,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/StartGame">
         </activity>
+
     </application>
 
 </manifest>

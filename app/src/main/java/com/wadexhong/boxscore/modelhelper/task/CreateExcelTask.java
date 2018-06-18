@@ -23,15 +23,15 @@ import jxl.write.WriteException;
  * Created by wade8 on 2018/6/13.
  */
 
-public class CreateExcelTask extends AsyncTask<Void, Void, Void> {
+        public class CreateExcelTask extends AsyncTask<Void, Void, Void> {
 
-    private boolean mIsTaskSuccess = false;
-    private String mGameId;
-    private CreateExcelCallBack mCreateExcelCallBack;
-    private Uri mUri;
+            private boolean mIsTaskSuccess = false;
+            private String mGameId;
+            private CreateExcelCallBack mCreateExcelCallBack;
+            private Uri mUri;
 
-    public CreateExcelTask(String gameId, CreateExcelCallBack createExcelCallBack) {
-        super();
+            public CreateExcelTask(String gameId, CreateExcelCallBack createExcelCallBack) {
+                super();
 
         mGameId = gameId;
         mCreateExcelCallBack = createExcelCallBack;
