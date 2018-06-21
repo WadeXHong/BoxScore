@@ -79,7 +79,7 @@ public class HistoryPlayersDataStatisticAdapter extends LinkedAdaptiveTableAdapt
         if (mGameId == null) {
             return 0;
         } else {
-            return mCursor.getCount() + 1;
+            return 15 + 1;
         }
     }
 
@@ -170,8 +170,11 @@ public class HistoryPlayersDataStatisticAdapter extends LinkedAdaptiveTableAdapt
         private void bind(int row, int column) {
             //mCursor 包含 gameID , quarter等不需顯示的資料, 因此第一欄改為由"PTS"顯示
             int columnGameDataOnly = column + mGameDataStartColumnPosition;
-            mCursor.moveToPosition(row);
-            mTextView.setText(String.valueOf(mCursor.getInt(columnGameDataOnly)));
+            if(mCursor.moveToPosition(row)) {
+                mTextView.setText(String.valueOf(mCursor.getInt(columnGameDataOnly)));
+            }else {
+                mTextView.setText("");
+            }
 
 
         }
@@ -210,10 +213,13 @@ public class HistoryPlayersDataStatisticAdapter extends LinkedAdaptiveTableAdapt
 
         private void bind(int row) {
 
-            mCursor.moveToPosition(row);
-            String name = mCursor.getString(mCursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NAME));
-            mRowHeaderTextView.setText(name);
-            Log.d(TAG, "bind name at row = " + (row));
+            if (mCursor.moveToPosition(row)) {
+                String name = mCursor.getString(mCursor.getColumnIndex(Constants.GameDataDBContract.COLUMN_NAME_PLAYER_NAME));
+                mRowHeaderTextView.setText(name);
+                Log.d(TAG, "bind name at row = " + (row));
+            }else {
+                mRowHeaderTextView.setText("");
+            }
         }
     }
 
