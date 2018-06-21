@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.wadexhong.boxscore.R;
+import com.wadexhong.boxscore.dialog.ProgressBarDialog;
 
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnPermissionDenied;
@@ -101,6 +102,7 @@ public class HistoryMainFragment extends Fragment implements HistoryMainContract
                   .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                       @Override
                       public void onClick(DialogInterface dialog, int which) {
+                          ProgressBarDialog.getInstance(getContext()).showProgressBarDialog("上傳中...");
                           mPresenter.createAndShareGameHistoryXls(mGameId);
                       }
                   })

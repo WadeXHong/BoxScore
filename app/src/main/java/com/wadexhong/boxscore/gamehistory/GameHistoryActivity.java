@@ -9,6 +9,7 @@ import android.view.WindowManager;
 
 import com.wadexhong.boxscore.BoxScore;
 import com.wadexhong.boxscore.R;
+import com.wadexhong.boxscore.dialog.ProgressBarDialog;
 
 public class GameHistoryActivity extends AppCompatActivity implements GameHistoryContract.View {
 
@@ -34,6 +35,12 @@ public class GameHistoryActivity extends AppCompatActivity implements GameHistor
 
         mToolbar = findViewById(R.id.activity_gamehistory_toolbar);
         init();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ProgressBarDialog.setNull();
     }
 
     private void init() {

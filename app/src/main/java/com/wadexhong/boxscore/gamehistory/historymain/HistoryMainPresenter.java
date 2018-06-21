@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.wadexhong.boxscore.R;
+import com.wadexhong.boxscore.dialog.ProgressBarDialog;
 import com.wadexhong.boxscore.gamehistory.GameHistoryContract;
 import com.wadexhong.boxscore.BoxScore;
 import com.wadexhong.boxscore.modelhelper.firebasemodel.Create;
@@ -63,11 +64,13 @@ public class HistoryMainPresenter implements HistoryMainContract.Presenter {
                     public void onSuccess(Uri uri) {
                         Log.d(TAG, "createAndShareGameHistoryXls success : " + uri.toString());
                         mHistoryMainView.saveUrlInClipboard(uri.toString());
+                        ProgressBarDialog.hideProgressBarDialog();
                     }
 
                     @Override
                     public void onFailure(String message) {
                         Log.d(TAG, "createAndShareGameHistoryXls fail : " + message);
+                        ProgressBarDialog.hideProgressBarDialog();
                     }
                 });
             }
@@ -75,6 +78,7 @@ public class HistoryMainPresenter implements HistoryMainContract.Presenter {
             @Override
             public void onError() {
                 mHistoryMainView.showToast(BoxScore.getStringEasy(R.string.toast_cannot_create_excel));
+                ProgressBarDialog.hideProgressBarDialog();
             }
         }).execute();
     }

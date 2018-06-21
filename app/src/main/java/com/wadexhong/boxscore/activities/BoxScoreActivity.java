@@ -453,7 +453,7 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
 
     @Override
     public void showProgressBarDialog(String message) {
-        ProgressBarDialog.showProgressBarDialog(this, message);
+        ProgressBarDialog.getInstance(this).showProgressBarDialog(message);
     }
 
     @Override

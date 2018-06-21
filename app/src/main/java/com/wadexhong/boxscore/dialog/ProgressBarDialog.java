@@ -17,18 +17,25 @@ import com.wadexhong.boxscore.R;
 public class ProgressBarDialog extends Dialog {
 
     private static ProgressBarDialog mInstance;
-    private static TextView mTextView;
+    private TextView mTextView;
+    private Context mContext;
 
     private ProgressBarDialog(@NonNull Context context) {
         super(context,R.style.ProgressBarDialog);
         setContentView(R.layout.view_progressbar);
+
+        mContext = context;
         mTextView = (TextView) findViewById(R.id.dialog_progress_bar_message);
         setCancelable(false);
     }
 
-    public static void showProgressBarDialog(Context context, String message){
-        if (mInstance == null && context == null)return;
+    public static ProgressBarDialog getInstance(Context context){
         if (mInstance == null) mInstance = new ProgressBarDialog(context);
+        return mInstance;
+    }
+
+    public void showProgressBarDialog(String message){
+        if (mInstance == null && mContext == null)return;
         mInstance.getWindow().setWindowAnimations(R.style.dialog_animation_fade);
         mTextView.setText(message);
         Animation anim = new AlphaAnimation(0.0f, 1.0f);
@@ -44,6 +51,7 @@ public class ProgressBarDialog extends Dialog {
         if (mInstance != null && mInstance.isShowing()){
             BoxScore.sIsOnClickAllowed = true;
             mInstance.dismiss();
+            setNull();
         }
     }
 
