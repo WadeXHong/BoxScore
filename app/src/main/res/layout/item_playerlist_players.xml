@@ -52,16 +52,19 @@
         app:layout_constraintEnd_toStartOf="@+id/item_playerlist_star"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
+    <Button
         android:id="@+id/item_playerlist_star"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="60dp"
+        android:layout_height="28dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
-        android:scaleType="centerInside"
-
-        android:src="@drawable/ic_star_gray_24dp"
+        android:gravity="center"
+        android:text="替補"
+        android:textColor="@color/colorTextInMainButton"
+        android:textSize="15sp"
+        android:includeFontPadding="false"
+        android:background="@drawable/ripple_btn_datarecord"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

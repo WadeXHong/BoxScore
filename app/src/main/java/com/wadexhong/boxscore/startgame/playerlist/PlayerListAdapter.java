@@ -1,14 +1,13 @@
 package com.wadexhong.boxscore.startgame.playerlist;
 
 
-import android.content.Context;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,7 +15,6 @@ import android.widget.Toast;
 import com.wadexhong.boxscore.BoxScore;
 import com.wadexhong.boxscore.R;
 import com.wadexhong.boxscore.objects.Player;
-import com.wadexhong.boxscore.dialog.TransparentAlertDialog;
 
 import java.util.ArrayList;
 
@@ -200,7 +198,7 @@ public class PlayerListAdapter extends RecyclerView.Adapter {
         private TextView mPlayerNumberTextView;
         private TextView mPlayerNameTextView;
         private ImageView mRemoveImageView;
-        private ImageView mStartingImageView;
+        private Button mStartingButton;
 
         public PlayersViewHolder(View itemView) {
             super(itemView);
@@ -208,9 +206,9 @@ public class PlayerListAdapter extends RecyclerView.Adapter {
             mPlayerNameTextView = itemView.findViewById(R.id.item_playerlist_playername);
             mPlayerNumberTextView = itemView.findViewById(R.id.item_playerlist_playernumber);
             mRemoveImageView = itemView.findViewById(R.id.item_playerlist_remove);
-            mStartingImageView = itemView.findViewById(R.id.item_playerlist_star);
+            mStartingButton = itemView.findViewById(R.id.item_playerlist_star);
 
-            mStartingImageView.setOnClickListener(new View.OnClickListener() {
+            mStartingButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (BoxScore.isOnClickAllowedAndSetTimer()) {
@@ -279,7 +277,7 @@ public class PlayerListAdapter extends RecyclerView.Adapter {
 
                     mPlayerNumberTextView.setText(mSubstitutePlayerList.get(positionInSubstituteArray).getNumber());
                     mPlayerNameTextView.setText(mSubstitutePlayerList.get(positionInSubstituteArray).getName());
-                    mStartingImageView.setImageResource(R.drawable.ic_star_gray_24dp);
+                    mStartingButton.setText("先發");
 
                 } else {
                     Log.w(TAG, "mSubstitutePlayerList is null or empty !");
@@ -292,7 +290,7 @@ public class PlayerListAdapter extends RecyclerView.Adapter {
 
                     mPlayerNameTextView.setText(mStartingPlayerList.get(positionInStartingArray).getName());
                     mPlayerNumberTextView.setText(mStartingPlayerList.get(positionInStartingArray).getNumber());
-                    mStartingImageView.setImageResource(R.drawable.ic_star_yellow_24dp);
+                    mStartingButton.setText("替補");
 
                 } else {
                     Log.w(TAG, "mStartingPlayerList is null or empty !");
@@ -305,7 +303,7 @@ public class PlayerListAdapter extends RecyclerView.Adapter {
 
         private TextView mPlayerNumber;
         private TextView mPlayerName;
-        private ImageView mAdd;
+        private Button mAdd;
 
         public UnregisteredPlayersViewHolder(View itemView) {
             super(itemView);
@@ -323,9 +321,15 @@ public class PlayerListAdapter extends RecyclerView.Adapter {
 
                             int position = getLayoutPosition() - getArrayListSize(mStartingPlayerList) - getArrayListSize(mSubstitutePlayerList) - 3;
 
-                            mSubstitutePlayerList.add(mUnregisteredPlayerList.get(position));
-                            mUnregisteredPlayerList.remove(position);
-                            notifyItemRangeChanged(0, getArrayListSize(mStartingPlayerList) + getArrayListSize(mSubstitutePlayerList) + getArrayListSize(mUnregisteredPlayerList) + 3);
+                            if (getArrayListSize(mStartingPlayerList) < MAX_STARTING_PLAYERS) {
+                                mStartingPlayerList.add(mUnregisteredPlayerList.get(position));
+                                mUnregisteredPlayerList.remove(position);
+                                notifyItemRangeChanged(0, getArrayListSize(mStartingPlayerList) + getArrayListSize(mSubstitutePlayerList) + getArrayListSize(mUnregisteredPlayerList) + 3);
+                            } else {
+                                mSubstitutePlayerList.add(mUnregisteredPlayerList.get(position));
+                                mUnregisteredPlayerList.remove(position);
+                                notifyItemRangeChanged(0, getArrayListSize(mStartingPlayerList) + getArrayListSize(mSubstitutePlayerList) + getArrayListSize(mUnregisteredPlayerList) + 3);
+                            }
 
                         } else {
                             Toast.makeText(v.getContext(), R.string.playerLimitToast, Toast.LENGTH_SHORT).show();
@@ -343,6 +347,17 @@ public class PlayerListAdapter extends RecyclerView.Adapter {
 
                 mPlayerName.setText(mUnregisteredPlayerList.get(positionInUnregiseteredArray).getName());
                 mPlayerNumber.setText(mUnregisteredPlayerList.get(positionInUnregiseteredArray).getNumber());
+
+                if (getArrayListSize(mSubstitutePlayerList) + getArrayListSize(mStartingPlayerList) < MAX_PLAYERS) {
+                    mAdd.setEnabled(true);
+                } else {
+                    mAdd.setEnabled(false);
+                }
+                if (getArrayListSize(mStartingPlayerList) < MAX_STARTING_PLAYERS) {
+                    mAdd.setText("先發");
+                } else {
+                    mAdd.setText("替補");
+                }
 
             } else {
                 Log.w(TAG, "mSubstitutePlayerList is null or empty !");
