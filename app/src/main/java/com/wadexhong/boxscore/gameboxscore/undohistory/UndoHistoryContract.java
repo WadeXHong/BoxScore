@@ -14,6 +14,8 @@ public interface UndoHistoryContract {
         void setAdapter(UndoHistoryAdapter mAdapter);
 
         void updateUi();
+
+        void scrollToPosition(int position);
     }
 
     interface Presenter extends BasePresenter {

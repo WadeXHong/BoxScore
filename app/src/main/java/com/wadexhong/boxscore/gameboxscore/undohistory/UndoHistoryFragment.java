@@ -79,6 +79,11 @@ public class UndoHistoryFragment extends Fragment implements UndoHistoryContract
     }
 
     @Override
+    public void scrollToPosition(int position) {
+        mRecyclerView.scrollToPosition(position);
+    }
+
+    @Override
     public void updateUi() {
 
     }

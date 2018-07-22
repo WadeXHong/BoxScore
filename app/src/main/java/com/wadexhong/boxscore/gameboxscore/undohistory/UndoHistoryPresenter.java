@@ -64,6 +64,7 @@ public class UndoHistoryPresenter implements UndoHistoryContract.Presenter{
 
     @Override
     public void notifyInsert() {
+        mUndoHistoryView.scrollToPosition(0);
         mAdapter.notifyItemInserted(0);
     }
 
