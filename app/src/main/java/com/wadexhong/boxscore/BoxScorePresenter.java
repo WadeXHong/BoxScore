@@ -97,8 +97,8 @@ public class BoxScorePresenter implements BoxScoreContract.Presenter {
 
     @Override
     public void removeGameDataInDataBase() {
-        BoxScore.getGameDataDbHelper().removeGameData(SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME, ""));
-        BoxScore.getGameInfoDbHelper().removeGameInfo(SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME, ""));
+        BoxScore.getGameInfoDbHelper().deleteGameInfo(null, SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME, ""));
+        BoxScore.getGameDataDbHelper().deleteGameData(SharedPreferenceHelper.read(SharedPreferenceHelper.PLAYING_GAME, ""));
     }
 
     @Override

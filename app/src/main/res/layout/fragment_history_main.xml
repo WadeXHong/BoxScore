@@ -91,7 +91,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="10dp"
-            android:text="分享"
+            android:text="更多"
             android:textSize="12sp"
             android:textColor="@color/colorButtonInMain"
             android:gravity="center"

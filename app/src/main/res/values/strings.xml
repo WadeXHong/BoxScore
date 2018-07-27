@@ -8,7 +8,7 @@
     <string name="playerlist">球員名單</string>
     <string name="detailsetting">操作設定</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+    <!-- TODeletemove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="gameTitle">比賽名稱</string>
     <string name="gameTitleHint">Ex:新生盃、友誼賽</string>
@@ -153,6 +153,8 @@
     <string name="foul_type_title">犯規類型</string>
     <string name="toast_cannot_create_excel">無法產生Excel檔</string>
     <string name="toast_url_in_clipboard">網址已複製至剪貼簿</string>
+    <string name="share">分享</string>
+    <string name="delete">刪除</string>
 
 
 </resources>

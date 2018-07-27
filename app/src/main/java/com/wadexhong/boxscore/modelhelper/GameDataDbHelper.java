@@ -11,6 +11,7 @@ import android.util.SparseArray;
 import android.util.SparseIntArray;
 
 import com.wadexhong.boxscore.Constants;
+import com.wadexhong.boxscore.modelhelper.firebasemodel.Delete;
 import com.wadexhong.boxscore.objects.GameInfo;
 import com.wadexhong.boxscore.objects.Player;
 import com.wadexhong.boxscore.objects.Undo;
@@ -731,10 +732,9 @@ public class GameDataDbHelper extends SQLiteOpenHelper {
      *
      * @param gameId Id of specific game wants to be remove
      */
-    public void removeGameData(String gameId) {
+    public void deleteGameData(String gameId) {
 
         if (!gameId.equals("")) {
-
             getWritableDatabase().delete(Constants.GameDataDBContract.TABLE_NAME,
                       Constants.GameDataDBContract.COLUMN_NAME_GAME_ID + " = ?",
                       new String[]{gameId});

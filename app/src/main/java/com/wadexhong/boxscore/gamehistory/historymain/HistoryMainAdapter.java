@@ -1,8 +1,10 @@
 package com.wadexhong.boxscore.gamehistory.historymain;
 
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -86,6 +88,7 @@ public class HistoryMainAdapter extends RecyclerView.Adapter {
             mCursor.moveToPosition(position);
 
             final String gameId = mCursor.getString(mCursor.getColumnIndex(Constants.GameInfoDBContract.COLUMN_NAME_GAME_ID));
+            final String teamId = mCursor.getString(mCursor.getColumnIndex(Constants.GameInfoDBContract.COLUMN_NAME_YOUR_TEAM_ID));
             String date = mCursor.getString(mCursor.getColumnIndex(Constants.GameInfoDBContract.COLUMN_NAME_GAME_DATE));
             String gameTitle = mCursor.getString(mCursor.getColumnIndex(Constants.GameInfoDBContract.COLUMN_NAME_GAME_NAME));
             String yourTeam = BoxScore.getStringEasy(R.string.yourTeamName, mCursor.getString(mCursor.getColumnIndex(Constants.GameInfoDBContract.COLUMN_NAME_YOUR_TEAM)));
@@ -108,7 +111,46 @@ public class HistoryMainAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onClick(View v) {
                     Log.d(TAG, "mShareImageView onClick, gameId = " + gameId);
-                    mHistoryMainPresenter.confirmShareGameHistory(gameId);
+                    new AlertDialog.Builder(itemView.getContext())
+                              .setTitle("更多選項")
+                              .setItems(new CharSequence[]{BoxScore.getStringEasy(R.string.share), BoxScore.getStringEasy(R.string.delete)},
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+
+                                                switch (which) {
+                                                    case 0:
+                                                        mHistoryMainPresenter.confirmShareGameHistory(gameId);
+                                                        break;
+
+                                                    case 1:
+                                                        confirmDeleteGameHistory(teamId, gameId);
+                                                        break;
+                                                }
+                                            }
+                                        })
+                              .show();
+                }
+
+                private void confirmDeleteGameHistory(final String teamId, final String gameId) {
+                    new AlertDialog.Builder(itemView.getContext(), R.style.OrangeDialog)
+                              .setTitle("刪除確認")
+                              .setMessage("是否將本場比賽永久刪除？")
+                              .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                                  @Override
+                                  public void onClick(DialogInterface dialog, int which) {
+                                      mHistoryMainPresenter.deleteGameHistory(teamId, gameId);
+                                      refreshCursor();
+                                      Log.d(TAG, "delete game confirmed");
+                                  }
+                              })
+                              .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                                  @Override
+                                  public void onClick(DialogInterface dialog, int which) {
+                                      dialog.cancel();
+                                  }
+                              })
+                              .show();
                 }
             });
             mLayout.setOnClickListener(new View.OnClickListener() {

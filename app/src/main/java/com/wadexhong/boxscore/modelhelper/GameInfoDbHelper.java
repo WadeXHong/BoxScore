@@ -88,10 +88,22 @@ public class GameInfoDbHelper extends SQLiteOpenHelper {
         getWritableDatabase().close();
     }
 
-    public void removeGameInfo(String gameId) {
+    public int deleteGameInfo(String teamId, String gameId) {
         if (!gameId.equals("")) {
-            getWritableDatabase().delete(Constants.GameInfoDBContract.TABLE_NAME, Constants.GameInfoDBContract.COLUMN_NAME_GAME_ID + " = ?", new String[]{gameId});
+            getWritableDatabase()
+                      .delete(Constants.GameInfoDBContract.TABLE_NAME, Constants.GameInfoDBContract.COLUMN_NAME_GAME_ID + " = ?", new String[]{gameId});
+
+            if (teamId != null) {
+                Cursor cursor = getReadableDatabase().query(Constants.GameInfoDBContract.TABLE_NAME,
+                          null,
+                          Constants.GameInfoDBContract.COLUMN_NAME_YOUR_TEAM_ID + " =?",
+                          new String[]{teamId},
+                          null, null, null);
+
+                return cursor.getCount();
+            }
         }
+        return -1;
     }
 
     public void writeGameData(int type) {

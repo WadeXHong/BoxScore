@@ -30,6 +30,8 @@ public interface HistoryMainContract {
 
         void confirmShareGameHistory(String gameId);
 
+        void deleteGameHistory(String teamId, String gameId);
+
         void createAndShareGameHistoryXls(String gameId);
     }
 }
