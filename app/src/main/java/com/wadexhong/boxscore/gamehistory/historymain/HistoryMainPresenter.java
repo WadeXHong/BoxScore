@@ -56,10 +56,10 @@ public class HistoryMainPresenter implements HistoryMainContract.Presenter {
     @Override
     public void deleteGameHistory(String teamId, String gameId) {
         int count = BoxScore.getGameInfoDbHelper().deleteGameInfo(teamId, gameId);
-        if (count > 0) { // if count = 0 or -1 means there is no game in team can be delete
-            BoxScore.getTeamDbHelper().updateHistoryAmount(teamId, count - 1);
+        if (count != -1) { // if -1 means there is no game in team can be delete
+            BoxScore.getTeamDbHelper().updateHistoryAmount(teamId, count);
             BoxScore.getGameDataDbHelper().deleteGameData(gameId);
-            Delete.getInstance().deleteGame(teamId, gameId, count - 1);
+            Delete.getInstance().deleteGame(teamId, gameId, count);
         }
     }
 

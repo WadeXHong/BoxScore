@@ -11,6 +11,9 @@ import android.util.Log;
 import com.wadexhong.boxscore.Constants;
 import com.wadexhong.boxscore.objects.GameInfo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by wade8 on 2018/5/11.
  */
@@ -143,6 +146,18 @@ public class GameInfoDbHelper extends SQLiteOpenHelper {
                             Constants.GameInfoDBContract.COLUMN_NAME_IS_GAMEOVER + " =?",
                             new String[]{"1"}
                             , null, null, Constants.GameInfoDBContract.COLUMN_NAME_GAME_DATE + " DESC");
+    }
+
+    public ArrayList<String> getGameHistoryList() {
+
+        Cursor cursor = getGameHistory();
+        ArrayList<String> gameHistoryList = new ArrayList<>();
+        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+            gameHistoryList.add(cursor.getString(cursor.getColumnIndex(Constants.GameInfoDBContract.COLUMN_NAME_GAME_ID)));
+        }
+        cursor.close();
+
+        return gameHistoryList;
     }
 
     public Cursor getSpecificInfo(String gameId) {
