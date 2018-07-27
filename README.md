@@ -55,6 +55,9 @@ An application for basketball teams to easily record their game .<br />
 * Android Studio / Gradle 3.0.1
 
 # Version
+* 1.0.9 - 2018/07/27
+  * 新增歷史記錄刪除功能。開起 App 同步過程將會刪除已從其他裝置移除的遊戲。
+
 * 1.0.8 - 2018/06/18
   * 開啟時同步邏輯修改，大量減少非首次登入時的同步時間。
   
