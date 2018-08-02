@@ -110,16 +110,19 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.6" />
 
-        <ImageView
-            android:id="@+id/activity_gameboxscore_undo"
+        <TextView
+            android:id="@+id/activity_gameboxscore_makeup"
             android:layout_width="50dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="25dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="15dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_replay_black_50dp"
+            android:layout_marginTop="25dp"
+            android:text="補登"
+            android:textColor="@color/colorButtonInMain"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:background="@drawable/shape_edittext_gamename"
             app:layout_constraintBottom_toTopOf="@+id/activity_gameboxscore_quartertitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.501"

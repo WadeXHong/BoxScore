@@ -2,25 +2,35 @@ package com.wadexhong.boxscore.gameboxscore;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseIntArray;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wadexhong.boxscore.Constants;
+import com.wadexhong.boxscore.adapter.spinner.SelectPlayerAdapter;
+import com.wadexhong.boxscore.adapter.spinner.SelectQuarterAdapter;
+import com.wadexhong.boxscore.adapter.spinner.SelectTypeAdapter;
 import com.wadexhong.boxscore.customlayout.BSLinearLayout;
+import com.wadexhong.boxscore.gameboxscore.undohistory.UndoHistoryAdapter;
 import com.wadexhong.boxscore.gesturelistener.OnScrollGestureListener;
 import com.wadexhong.boxscore.objects.GameInfo;
+import com.wadexhong.boxscore.objects.Player;
 import com.wadexhong.boxscore.setting.SettingActivity;
 import com.wadexhong.boxscore.BoxScore;
 import com.wadexhong.boxscore.R;
@@ -51,7 +61,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
     private TextView mYourTeamFoulTextView;
     private TextView mOpponentTeamfoulTextView;
     private TextView mQuarterTextView;
-    private ImageView mUndoImageView;
+    private TextView mMakeUpTextView;
     private ImageView mDataStatisticImageView;
     private ImageView mSaveImageView;
     private ImageView mSettingImageView;
@@ -86,7 +96,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
         mYourTeamFoulTextView = findViewById(R.id.activity_gameboxscore_yourteamfoul);
         mOpponentTeamfoulTextView = findViewById(R.id.activity_gameboxscore_opponentteamfoul);
         mQuarterTextView = findViewById(R.id.activity_gameboxscore_quarter);
-        mUndoImageView = findViewById(R.id.activity_gameboxscore_undo);
+        mMakeUpTextView = findViewById(R.id.activity_gameboxscore_makeup);
         mDataStatisticImageView = findViewById(R.id.activity_gameboxscore_datastatistic);
         mSaveImageView = findViewById(R.id.activity_gameboxscore_save);
         mSettingImageView = findViewById(R.id.activity_gameboxscore_setting);
@@ -171,12 +181,17 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
                           }).show();
             }
         });
-        mUndoImageView.setOnClickListener(new View.OnClickListener() {
+        mMakeUpTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "mUndoImageView onClick");
+                Log.d(TAG, "mMakeUpTextView onClick");
                 BoxScore.vibrate();
-                mPresenter.pressUndo();
+                if (mGameInfo.getTeamData().get(Constants.RecordDataType.QUARTER) != 1) {
+                    new MakeUpDialog(GameBoxScoreActivity.this, R.style.OrangeDialog).show();
+                } else {
+                    showToast("第一節不須補登");
+                }
+//                mPresenter.pressMakeUp();
             }
         });
         mDataStatisticImageView.setOnClickListener(new View.OnClickListener() {
@@ -411,5 +426,85 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
     @Override
     public void setPresenter(GameBoxScoreContract.Presenter presenter) {
         mPresenter = presenter;
+    }
+
+
+    public class MakeUpDialog extends AlertDialog.Builder {
+
+        private Spinner mQuarterSpinner;
+        private Spinner mTypeSpinner;
+        private Spinner mPlayerSpinner;
+        private int mQuarter;
+        private int mType;
+        private Player mPlayer;
+
+        public MakeUpDialog(@NonNull Context context, int themeResId) {
+            super(context, themeResId);
+
+            View view = LayoutInflater.from(context).inflate(R.layout.dialog_makeup, null);
+
+            mQuarterSpinner = view.findViewById(R.id.dialog_makeup_quarter_spinner);
+            mTypeSpinner = view.findViewById(R.id.dialog_makeup_type_spinner);
+            mPlayerSpinner = view.findViewById(R.id.dialog_makeup_player_spinner);
+
+            mQuarterSpinner.setAdapter(new SelectQuarterAdapter(mGameInfo.getTeamData().get(Constants.RecordDataType.QUARTER)));
+            mQuarterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    mQuarter = (int) parent.getItemAtPosition(position);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
+            mTypeSpinner.setAdapter(new SelectTypeAdapter());
+            mTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    mType = (int) parent.getItemAtPosition(position);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
+            mPlayerSpinner.setAdapter(new SelectPlayerAdapter(mGameInfo.getStartingPlayerList(), mGameInfo.getSubstitutePlayerList()));
+            mPlayerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    mPlayer = (Player) parent.getItemAtPosition(position);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
+            setTitle("補登數據");
+            setMessage("請選擇補登內容");
+            setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Log.d(TAG, "quarter = " + mQuarter);
+                    Log.d(TAG, "type = " + mType);
+                    Log.d(TAG, "name = " + mPlayer.getName());
+                    mPresenter.pressMakeUp(mPlayer, mType, mQuarter);
+                    dialog.cancel();
+                }
+            });
+            setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            setView(view);
+        }
     }
 }

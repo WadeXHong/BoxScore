@@ -18,6 +18,7 @@ import com.wadexhong.boxscore.BoxScore;
 import com.wadexhong.boxscore.Constants;
 import com.wadexhong.boxscore.R;
 import com.wadexhong.boxscore.adapter.spinner.SelectPlayerAdapter;
+import com.wadexhong.boxscore.adapter.spinner.SelectQuarterAdapter;
 import com.wadexhong.boxscore.adapter.spinner.SelectTypeAdapter;
 import com.wadexhong.boxscore.objects.GameInfo;
 import com.wadexhong.boxscore.objects.Player;
@@ -159,12 +160,12 @@ public class UndoHistoryAdapter extends RecyclerView.Adapter {
 
     public class EditDialog extends AlertDialog.Builder {
 
-        private Spinner mTypeSpinner;
-        private Spinner mPlayerSpinner;
-        private int mType;
-        private Player mPlayer;
+        Spinner mTypeSpinner;
+        Spinner mPlayerSpinner;
+        int mType;
+        Player mPlayer;
 
-        public EditDialog(@NonNull Context context, int themeResId, final int position) {
+        EditDialog(@NonNull Context context, int themeResId, final int position) {
             super(context, themeResId);
 
             View view = LayoutInflater.from(context).inflate(R.layout.dialog_undo_edit, null);

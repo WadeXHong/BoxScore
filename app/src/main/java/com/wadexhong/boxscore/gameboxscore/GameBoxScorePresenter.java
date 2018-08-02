@@ -380,6 +380,18 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter {
         }
     }
 
+    @Override
+    public void pressMakeUp(Player player, int type, int quarter) {
+        Log.d(TAG, "pressMakeUp executed");
+        int result = BoxScore.getGameDataDbHelper().plusData(player, type, quarter);
+        if (result > 0){
+            mUndoList.addFirst(new Undo(type, quarter, player));
+
+            updateUi();
+            mUndoHistoryPresenter.notifyInsert();
+        }
+    }
+
     //TODO deprecate
     @Override
     public void longPressOpponentTeamScore() {

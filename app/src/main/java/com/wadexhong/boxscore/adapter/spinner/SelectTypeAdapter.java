@@ -26,12 +26,12 @@ public class SelectTypeAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return Constants.TYPE_CHOICE_INT [position + 1];
+        return Constants.TYPE_CHOICE_INT[position + 1];
     }
 
     @Override
     public long getItemId(int position) {
-        return Constants.TYPE_CHOICE_INT [position + 1];
+        return Constants.TYPE_CHOICE_INT[position + 1];
     }
 
     @Override
@@ -39,7 +39,7 @@ public class SelectTypeAdapter extends BaseAdapter {
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_select_type, parent, false);
         TextView mTextView = view.findViewById(R.id.item_select_type_textview);
-        mTextView.setText(Constants.TITLE_SPARSE_ARRAY.get(Constants.TYPE_CHOICE_INT[position+1]));
+        mTextView.setText(Constants.TITLE_SPARSE_ARRAY.get(Constants.TYPE_CHOICE_INT[position + 1]));
 
         return view;
     }
@@ -49,7 +49,7 @@ public class SelectTypeAdapter extends BaseAdapter {
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_select_type_dropdown, parent, false);
         TextView mTextView = view.findViewById(R.id.item_select_type_textview);
-        mTextView.setText(Constants.TITLE_SPARSE_ARRAY.get(Constants.TYPE_CHOICE_INT[position+1]));
+        mTextView.setText(Constants.TITLE_SPARSE_ARRAY.get(Constants.TYPE_CHOICE_INT[position + 1]));
 
         return view;
     }

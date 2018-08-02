@@ -71,6 +71,8 @@ public interface GameBoxScoreContract {
 
         void pressUndo();
 
+        void pressMakeUp(Player player, int type, int quarter);
+
         void pressDataStatistic();
 
         void longPressOpponentTeamFoul();

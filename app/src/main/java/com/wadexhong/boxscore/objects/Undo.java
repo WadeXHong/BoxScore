@@ -11,10 +11,10 @@ public class Undo {
     private int mQuarter;
     private boolean mIsMarked;
 
-    public Undo(int mType, int mQuarter, Player mPlayer) {
-        this.mPlayer = mPlayer;
-        this.mType = mType;
-        this.mQuarter = mQuarter;
+    public Undo(int type, int quarter, Player player) {
+        mPlayer = player;
+        mType = type;
+        mQuarter = quarter;
     }
 
     public int getQuarter() {

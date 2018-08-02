@@ -361,7 +361,7 @@ public class GameDataDbHelper extends SQLiteOpenHelper {
      * @param type    for what
      * @param quarter for when
      */
-    public void plusData(Player player, int type, int quarter) {
+    public int plusData(Player player, int type, int quarter) {
 
         int playerNumber = Integer.valueOf(player.getNumber());
         // quarter  = 0 代表為一般紀錄, 由 mGameInfo 取得當節節數
@@ -529,6 +529,7 @@ public class GameDataDbHelper extends SQLiteOpenHelper {
                   new String[]{mGameInfo.getGameId(), String.valueOf(quarter), String.valueOf(playerNumber)});
 
         Log.d(TAG, "result = " + result);
+        return result;
     }
 
     /**
