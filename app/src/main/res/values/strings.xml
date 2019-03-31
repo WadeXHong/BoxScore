@@ -9,11 +9,11 @@
     <string name="detailsetting">操作設定</string>
 
     <!-- TODeletemove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="gameTitle">比賽名稱</string>
-    <string name="gameTitleHint">Ex:新生盃、友誼賽</string>
+    <string name="gameTitleHint" translatable="false">Ex:新生盃、友誼賽</string>
     <string name="opponentName">對手名稱 (必填)</string>
-    <string name="opponentNameHint">Ex: 電機A、環工系</string>
+    <string name="opponentNameHint" translatable="false">Ex: 電機A、環工系</string>
     <string name="gameDate">比賽日期</string>
     <string name="gameDateHint">點擊選擇日期</string>
     <string name="startingPlayers">先發球員</string>
@@ -69,7 +69,6 @@
     <string name="confirmExitDataRecord">退出比賽紀錄</string>
     <string name="discardGame">放棄比賽</string>
     <string name="save">儲存</string>
-    <string name="exitDataRecordMessage">是否要退出比賽？  選擇「儲存」，下次可藉由開始比賽接續紀錄；  選擇「放棄比賽」將清除資料</string>
     <string name="createTeam">新增球隊</string>
     <string name="pleaseInputTeamName">請輸入隊名</string>
     <string name="confirm">確定</string>
@@ -87,8 +86,8 @@
     <string name="pointGuard">控球後衛</string>
     <string name="yourTeamName">%s隊</string>
     <string name="opponentTeamName">%s隊</string>
-    <string name="finalScore">%d：%d</string>
-    <string name="dateExample">2018年3月25日</string>
+    <string name="finalScore" translatable="false">%d：%d</string>
+    <string name="dateExample" translatable="false">2018年3月25日</string>
     <string name="gametitleDefault">友誼賽</string>
     <string name="teamBoxScore">球隊數據</string>
     <string name="playersBoxscore">球員數據</string>
@@ -100,10 +99,10 @@
     <string name="forthQuarter">第四節</string>
     <string name="total">總和</string>
     <string name="quarterFilter">節數篩選</string>
-    <string name="threePointInPie">三分球\n%1$s</string>
-    <string name="fieldGoalInPie">出手\n%1$s</string>
+    <string name="threePointInPie">三分球 %1$s</string>
+    <string name="fieldGoalInPie">出手 %1$s</string>
     <string name="brightness">螢幕亮度</string>
-    <string name="finger">%s指</string>
+    <string name="finger" translatable="false">%s指</string>
     <string name="none">無</string>
     <string name="progressbar_login">登入中...</string>
     <string name="progressbar_loading">資料同步中...</string>
@@ -155,6 +154,7 @@
     <string name="toast_url_in_clipboard">網址已複製至剪貼簿</string>
     <string name="share">分享</string>
     <string name="delete">刪除</string>
+    <string name="exitDataRecordMessage">是否要退出比賽？  選擇「儲存」，下次可藉由開始比賽接續紀錄；  選擇「放棄比賽」將清除資料</string>
 
 
 </resources>
