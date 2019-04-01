@@ -8,7 +8,7 @@
     android:paddingEnd="20dp"
     android:paddingTop="40dp"
     android:background="@color/colorDarkBackground"
-    tools:context="com.wadexhong.boxscore.setting.SettingActivity">
+    tools:context="com.bardxhong.boxscore.setting.SettingActivity">
 
     <!--<android.support.constraint.ConstraintLayout-->
         <!--android:layout_width="match_parent"-->

@@ -9,7 +9,7 @@
     android:transitionName="layout"
     android:paddingTop="30dp"
     android:paddingBottom="20dp"
-    tools:context="com.wadexhong.boxscore.activities.BoxScoreActivity">
+    tools:context="com.bardxhong.boxscore.activities.BoxScoreActivity">
 
     <ImageView
         android:id="@+id/activity_boxscore_logo_imageview"

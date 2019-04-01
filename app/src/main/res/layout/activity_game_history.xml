@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.wadexhong.boxscore.gamehistory.GameHistoryActivity">
+    tools:context="com.bardxhong.boxscore.gamehistory.GameHistoryActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/activity_gamehistory_toolbar"

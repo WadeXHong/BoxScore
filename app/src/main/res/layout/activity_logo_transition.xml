@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/blue"
     android:transitionName="layout"
-    tools:context="com.wadexhong.boxscore.activities.LogoTransitionActivity">
+    tools:context="com.bardxhong.boxscore.activities.LogoTransitionActivity">
 
     <ImageView
         android:id="@+id/activity_logo_transition_imageview"
