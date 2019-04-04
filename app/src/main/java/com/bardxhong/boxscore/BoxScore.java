@@ -13,6 +13,7 @@ import com.bardxhong.boxscore.modelhelper.GameDataDbHelper;
 import com.bardxhong.boxscore.modelhelper.GameInfoDbHelper;
 import com.bardxhong.boxscore.modelhelper.SharedPreferenceHelper;
 import com.bardxhong.boxscore.modelhelper.TeamDbHelper;
+import com.bardxhong.boxscore.modelhelper.TeamInfoDatabase;
 
 /**
  * Created by wade8 on 2018/5/6.
@@ -34,6 +35,7 @@ public class BoxScore extends Application {
         mContext = this;
         mGameDataDbHelper = null;
         SharedPreferenceHelper.init(this);
+        TeamInfoDatabase.init(this);
         sBrightness = SharedPreferenceHelper.read(SharedPreferenceHelper.BRIGHTNESS, -1f);
         mVibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
     }

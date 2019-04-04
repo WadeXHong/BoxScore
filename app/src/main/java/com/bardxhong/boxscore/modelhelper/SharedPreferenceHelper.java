@@ -88,31 +88,31 @@ public class SharedPreferenceHelper {
     public static void write(@PrefKey String key, String value) {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString(key, value);
-        editor.apply();
+        editor.commit();
     }
 
     public static void write(@PrefKey String key, int value) {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putInt(key, value);
-        editor.apply();
+        editor.commit();
     }
 
     public static void write(@PrefKey String key, float value) {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putFloat(key, value);
-        editor.apply();
+        editor.commit();
     }
 
     public static void clear() {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.clear();
-        editor.apply();
+        editor.commit();
     }
 
     public static void remove(@PrefKey String key) {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.remove(key);
-        editor.apply();
+        editor.commit();
     }
 
     public static boolean contains(@PrefKey String key) {
