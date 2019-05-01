@@ -4,7 +4,7 @@ An application for basketball teams to easily record their game .<br />
 讓你不需要在畫正字記號與塗塗改改之間失望落寞， <br />
 讓我們放下紙跟筆，say sure that's go！<br />
 
-[<img src="https://github.com/WadeXHong/BoxScore/blob/master/ScreenShot/google_player_icon.png" width="200" height="77.5">](https://play.google.com/store/apps/details?id=com.wadexhong.boxscore)
+[<img src="https://github.com/WadeXHong/BoxScore/blob/master/ScreenShot/google_player_icon.png" width="200" height="77.5">](https://play.google.com/store/apps/details?id=com.bardxhong.boxscore)
 
 # Featrue
 * 主選單
