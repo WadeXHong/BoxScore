@@ -5,8 +5,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -20,10 +22,22 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bardxhong.boxscore.BuildConfig;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.play.core.appupdate.AppUpdateInfo;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.InstallState;
+import com.google.android.play.core.install.InstallStateUpdatedListener;
+import com.google.android.play.core.install.model.AppUpdateType;
+import com.google.android.play.core.install.model.InstallStatus;
+import com.google.android.play.core.install.model.UpdateAvailability;
+import com.google.android.play.core.tasks.OnFailureListener;
+import com.google.android.play.core.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
@@ -48,6 +62,7 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
     private final String TAG = BoxScoreActivity.class.getSimpleName();
 
     public final int REQUEST_CODE_SETTING = 0;
+    public final int REQUEST_CODE_INAPPUPDATE = 87;
 
     private Context mContext;
 
@@ -69,8 +84,47 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
 
     private ImageView mLogo;
 
+    private TextView mVersionText;
+
+    private AppUpdateManager appUpdateManager;
+    private InstallStateUpdatedListener installStateUpdatedListener = new InstallStateUpdatedListener() {
+        @Override
+        public void onStateUpdate(InstallState installState) {
+            switch (installState.installStatus()) {
+                case InstallStatus.DOWNLOADING:
+                    Toast.makeText(BoxScoreActivity.this, "DOWNLOADING", Toast.LENGTH_SHORT).show();
+                    break;
+                case InstallStatus.DOWNLOADED:
+                    Toast.makeText(BoxScoreActivity.this, "DOWNLOADED", Toast.LENGTH_SHORT).show();
+                    popupSnackbarForCompleteUpdate();
+                    break;
+                case InstallStatus.PENDING:
+                    Toast.makeText(BoxScoreActivity.this, "PENDING", Toast.LENGTH_SHORT).show();
+                    break;
+                case InstallStatus.INSTALLING:
+                    Toast.makeText(BoxScoreActivity.this, "INSTALLING", Toast.LENGTH_SHORT).show();
+                    break;
+                case InstallStatus.INSTALLED:
+                    Toast.makeText(BoxScoreActivity.this, "INSTALLED", Toast.LENGTH_SHORT).show();
+                    break;
+                case InstallStatus.CANCELED:
+                    Toast.makeText(BoxScoreActivity.this, "CANCELED", Toast.LENGTH_SHORT).show();
+                    break;
+                case InstallStatus.FAILED:
+                    Toast.makeText(BoxScoreActivity.this, "FAILED", Toast.LENGTH_SHORT).show();
+                    break;
+                case InstallStatus.UNKNOWN:
+                    Toast.makeText(BoxScoreActivity.this, "UNKNOWN", Toast.LENGTH_SHORT).show();
+                    break;
+
+            }
+        }
+    };
+
+
     private boolean mIsUserNameLegal = false;
     private boolean mIsPassWordLegal = false;
+    private boolean isTestDialogShow = false;
 
     /**
      * 檢查token，決定首頁顯示畫面種類。
@@ -97,8 +151,122 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
         WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
         layoutParams.screenBrightness = BoxScore.sBrightness;
         getWindow().setAttributes(layoutParams);
+        handleInAppUpdate(-1d);
     }
 
+    private void handleInAppUpdate(double updateType) {
+        appUpdateManager.registerListener(installStateUpdatedListener);
+        appUpdateManager.getAppUpdateInfo().addOnSuccessListener(new OnSuccessListener<AppUpdateInfo>() {
+            @Override
+            public void onSuccess(AppUpdateInfo appUpdateInfo) {
+                Log.i(TAG,
+                        "[AppUpdateInfo] onSuccess: called, updateAvailability: " + appUpdateInfo.updateAvailability());
+                Log.i(TAG, "[AppUpdateInfo] onSuccess: called, packageName: " + appUpdateInfo.packageName());
+                Log.i(TAG, "[AppUpdateInfo] onSuccess: called, availableVersionCode: "
+                        + appUpdateInfo.availableVersionCode());
+                Log.i(TAG, "[AppUpdateInfo] onSuccess: called, installStatus: " + appUpdateInfo.installStatus());
+                Log.i(TAG, "[AppUpdateInfo] onSuccess: called, isUpdateTypeAllowed IMMEDIATE: "
+                        + appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE));
+                Log.i(TAG, "[AppUpdateInfo] onSuccess: called, isUpdateTypeAllowed FLEXIBLE: "
+                        + appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE));
+
+                if (updateType == -1d) {
+                    if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                            && !isTestDialogShow) {
+                        isTestDialogShow = true;
+                        new AlertDialog.Builder(BoxScoreActivity.this)
+                                .setMessage("請選擇你要更新的種類")
+                                .setPositiveButton("IMMEDIATE",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                                                    startUpdateFlowForResult(appUpdateManager, appUpdateInfo, AppUpdateType.IMMEDIATE);
+                                                } else {
+                                                    throw new RuntimeException("wtf");
+                                                }
+                                            }
+                                        })
+                                .setNeutralButton("FLEXIBLE", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
+                                            startUpdateFlowForResult(appUpdateManager, appUpdateInfo, AppUpdateType.FLEXIBLE);
+                                        } else {
+                                            throw new RuntimeException("wtf");
+                                        }
+                                    }
+                                })
+                                .setCancelable(false)
+                                .show();
+                    } else if (appUpdateInfo.updateAvailability()
+                            == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
+                        if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADING) {
+                            Log.i(TAG, "[AppUpdateInfo]: resume downloading");
+                            if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
+                                startUpdateFlowForResult(appUpdateManager, appUpdateInfo, AppUpdateType.FLEXIBLE);
+                            } else if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                                startUpdateFlowForResult(appUpdateManager, appUpdateInfo, AppUpdateType.IMMEDIATE);
+                            } else {
+                                throw new RuntimeException("wtf");
+                            }
+                        } else if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
+                            Log.i(TAG, "[AppUpdateInfo]: resume to install");
+                            popupSnackbarForCompleteUpdate();
+                        }
+
+                    }
+                } else if (updateType == 1d) {
+                    if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                        startUpdateFlowForResult(appUpdateManager, appUpdateInfo, AppUpdateType.IMMEDIATE);
+                    } else {
+                        throw new RuntimeException("wtf");
+                    }
+                } else if (updateType == 0d) {
+                    if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE) && !isTestDialogShow) {
+                        isTestDialogShow = true;
+                        startUpdateFlowForResult(appUpdateManager, appUpdateInfo, AppUpdateType.FLEXIBLE);
+                    }
+                } else {
+                    throw new RuntimeException("wtf");
+                }
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(Exception e) {
+                Log.e(TAG, "[AppUpdateInfo] onFailure: called, " + e.getMessage());
+            }
+        });
+    }
+
+    private void startUpdateFlowForResult(AppUpdateManager manager, AppUpdateInfo info, int type) {
+        try {
+            manager.startUpdateFlowForResult(
+                    info,
+                    type,
+                    BoxScoreActivity.this,
+                    REQUEST_CODE_INAPPUPDATE);
+        } catch (IntentSender.SendIntentException e) {
+            e.printStackTrace();
+            Log.e(TAG, "[AppUpdateInfo] onSuccess: error", e);
+        }
+    }
+
+    private void popupSnackbarForCompleteUpdate() {
+        Snackbar snackbar =
+                Snackbar.make(
+                        findViewById(R.id.activity_boxscore_main_layout),
+                        "An update has just been downloaded.",
+                        Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction("RESTART", view -> appUpdateManager.completeUpdate()
+                .addOnSuccessListener(aVoid -> Log.i(TAG, "onStateUpdate: success"))
+                .addOnFailureListener(aVoid -> Log.e(TAG, "onStateUpdate: error"))
+                .addOnCompleteListener(aVoid -> Log.i(TAG, "onStateUpdate: complete")));
+        snackbar.setActionTextColor(
+                getResources().getColor(R.color.blue));
+        snackbar.show();
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -124,6 +292,9 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
 
         mContext = this;
 
+        appUpdateManager = AppUpdateManagerFactory.create(this);
+
+
         mMainLayout = findViewById(R.id.activity_boxscore_main_layout);
         mStartGameLayout = findViewById(R.id.activity_boxscore_startgame_layout);
         mTeamManageLayout = findViewById(R.id.activity_boxscore_teammanage_layout);
@@ -136,6 +307,9 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
         mUserNameEditText = findViewById(R.id.activity_boxscore_username_edittext);
         mPassWordEditText = findViewById(R.id.activity_boxscore_password_edittext);
         mLogo = findViewById(R.id.activity_boxscore_logo_imageview);
+        mVersionText = findViewById(R.id.activity_boxscore_version);
+
+        mVersionText.setText(String.valueOf(BuildConfig.VERSION_CODE));
 
         setOnClickListenerToView();
         addTextChangeListenerToEditText();
