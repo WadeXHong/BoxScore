@@ -96,7 +96,7 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
                     break;
                 case InstallStatus.DOWNLOADED:
                     Toast.makeText(BoxScoreActivity.this, "DOWNLOADED", Toast.LENGTH_SHORT).show();
-                    popupSnackbarForCompleteUpdate();
+                    popupSnackBarForCompleteUpdate();
                     break;
                 case InstallStatus.PENDING:
                     Toast.makeText(BoxScoreActivity.this, "PENDING", Toast.LENGTH_SHORT).show();
@@ -151,86 +151,50 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
         WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
         layoutParams.screenBrightness = BoxScore.sBrightness;
         getWindow().setAttributes(layoutParams);
-        handleInAppUpdate(-1d);
+        handleInAppUpdate();
     }
 
-    private void handleInAppUpdate(double updateType) {
+    private void handleInAppUpdate() {
         appUpdateManager.registerListener(installStateUpdatedListener);
         appUpdateManager.getAppUpdateInfo().addOnSuccessListener(new OnSuccessListener<AppUpdateInfo>() {
             @Override
             public void onSuccess(AppUpdateInfo appUpdateInfo) {
-                Log.i(TAG,
-                        "[AppUpdateInfo] onSuccess: called, updateAvailability: " + appUpdateInfo.updateAvailability());
-                Log.i(TAG, "[AppUpdateInfo] onSuccess: called, packageName: " + appUpdateInfo.packageName());
-                Log.i(TAG, "[AppUpdateInfo] onSuccess: called, availableVersionCode: "
-                        + appUpdateInfo.availableVersionCode());
-                Log.i(TAG, "[AppUpdateInfo] onSuccess: called, installStatus: " + appUpdateInfo.installStatus());
-                Log.i(TAG, "[AppUpdateInfo] onSuccess: called, isUpdateTypeAllowed IMMEDIATE: "
-                        + appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE));
-                Log.i(TAG, "[AppUpdateInfo] onSuccess: called, isUpdateTypeAllowed FLEXIBLE: "
-                        + appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE));
-
-                if (updateType == -1d) {
-                    if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
-                            && !isTestDialogShow) {
-                        isTestDialogShow = true;
-                        new AlertDialog.Builder(BoxScoreActivity.this)
-                                .setMessage("請選擇你要更新的種類")
-                                .setPositiveButton("IMMEDIATE",
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
-                                                    startUpdateFlowForResult(appUpdateManager, appUpdateInfo, AppUpdateType.IMMEDIATE);
-                                                } else {
-                                                    throw new RuntimeException("wtf");
-                                                }
-                                            }
-                                        })
-                                .setNeutralButton("FLEXIBLE", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
-                                            startUpdateFlowForResult(appUpdateManager, appUpdateInfo, AppUpdateType.FLEXIBLE);
-                                        } else {
-                                            throw new RuntimeException("wtf");
-                                        }
-                                    }
-                                })
-                                .setCancelable(false)
-                                .show();
-                    } else if (appUpdateInfo.updateAvailability()
-                            == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
-                        if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADING) {
-                            Log.i(TAG, "[AppUpdateInfo]: resume downloading");
-                            if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
-                                startUpdateFlowForResult(appUpdateManager, appUpdateInfo, AppUpdateType.FLEXIBLE);
-                            } else if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
-                                startUpdateFlowForResult(appUpdateManager, appUpdateInfo, AppUpdateType.IMMEDIATE);
-                            } else {
-                                throw new RuntimeException("wtf");
-                            }
-                        } else if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
-                            Log.i(TAG, "[AppUpdateInfo]: resume to install");
-                            popupSnackbarForCompleteUpdate();
+                logAppUpdateInfo(appUpdateInfo);
+                if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                        && !isTestDialogShow) {
+                    isTestDialogShow = true;
+                    showSampleOptionDialog(
+                            appUpdateInfo,
+                            (dialog, which) -> {
+                                if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                                    startUpdateFlowForResult(appUpdateManager, appUpdateInfo, AppUpdateType.IMMEDIATE);
+                                } else {
+                                    throw new RuntimeException("wtf");
+                                }
+                            },
+                            (dialog, which) -> {
+                                if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
+                                    startUpdateFlowForResult(appUpdateManager, appUpdateInfo, AppUpdateType.FLEXIBLE);
+                                } else {
+                                    throw new RuntimeException("wtf");
+                                }
+                            });
+                } else if (appUpdateInfo.updateAvailability()
+                        == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
+                    if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADING) {
+                        Log.i(TAG, "[AppUpdateInfo]: resume downloading");
+                        if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
+                            startUpdateFlowForResult(appUpdateManager, appUpdateInfo, AppUpdateType.FLEXIBLE);
+                        } else if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                            startUpdateFlowForResult(appUpdateManager, appUpdateInfo, AppUpdateType.IMMEDIATE);
+                        } else {
+                            throw new RuntimeException("wtf");
                         }
-
+                    } else if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
+                        Log.i(TAG, "[AppUpdateInfo]: resume to install");
+                        popupSnackBarForCompleteUpdate();
                     }
-                } else if (updateType == 1d) {
-                    if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
-                        startUpdateFlowForResult(appUpdateManager, appUpdateInfo, AppUpdateType.IMMEDIATE);
-                    } else {
-                        throw new RuntimeException("wtf");
-                    }
-                } else if (updateType == 0d) {
-                    if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE) && !isTestDialogShow) {
-                        isTestDialogShow = true;
-                        startUpdateFlowForResult(appUpdateManager, appUpdateInfo, AppUpdateType.FLEXIBLE);
-                    }
-                } else {
-                    throw new RuntimeException("wtf");
                 }
-
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -238,6 +202,32 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
                 Log.e(TAG, "[AppUpdateInfo] onFailure: called, " + e.getMessage());
             }
         });
+    }
+
+    private void showSampleOptionDialog(
+            AppUpdateInfo appUpdateInfo,
+            DialogInterface.OnClickListener immediate,
+            DialogInterface.OnClickListener flexible
+    ) {
+        new AlertDialog.Builder(BoxScoreActivity.this)
+                .setMessage("請選擇你要更新的種類")
+                .setPositiveButton("IMMEDIATE", immediate)
+                .setNeutralButton("FLEXIBLE", flexible)
+                .setCancelable(false)
+                .show();
+    }
+
+    private void logAppUpdateInfo(AppUpdateInfo appUpdateInfo) {
+        Log.i(TAG,
+                "[AppUpdateInfo] onSuccess: called, updateAvailability: " + appUpdateInfo.updateAvailability());
+        Log.i(TAG, "[AppUpdateInfo] onSuccess: called, packageName: " + appUpdateInfo.packageName());
+        Log.i(TAG, "[AppUpdateInfo] onSuccess: called, availableVersionCode: "
+                + appUpdateInfo.availableVersionCode());
+        Log.i(TAG, "[AppUpdateInfo] onSuccess: called, installStatus: " + appUpdateInfo.installStatus());
+        Log.i(TAG, "[AppUpdateInfo] onSuccess: called, isUpdateTypeAllowed IMMEDIATE: "
+                + appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE));
+        Log.i(TAG, "[AppUpdateInfo] onSuccess: called, isUpdateTypeAllowed FLEXIBLE: "
+                + appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE));
     }
 
     private void startUpdateFlowForResult(AppUpdateManager manager, AppUpdateInfo info, int type) {
@@ -253,7 +243,7 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
         }
     }
 
-    private void popupSnackbarForCompleteUpdate() {
+    private void popupSnackBarForCompleteUpdate() {
         Snackbar snackbar =
                 Snackbar.make(
                         findViewById(R.id.activity_boxscore_main_layout),
