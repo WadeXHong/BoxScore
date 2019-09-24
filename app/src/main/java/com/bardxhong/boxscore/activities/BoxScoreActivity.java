@@ -132,6 +132,7 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
     @Override
     protected void onStart() {
         super.onStart();
+        Log.d(TAG, "[Lifecycle] onStart");
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
@@ -148,11 +149,26 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d(TAG, "[Lifecycle] onResume");
         WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
         layoutParams.screenBrightness = BoxScore.sBrightness;
         getWindow().setAttributes(layoutParams);
         handleInAppUpdate();
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "[Lifecycle] onPause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "[Lifecycle] onStop");
+    }
+
+
 
     private void handleInAppUpdate() {
         appUpdateManager.registerListener(installStateUpdatedListener);
@@ -271,12 +287,14 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.d(TAG, "[Lifecycle] onDestroy");
         ProgressBarDialog.setNull();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "[Lifecycle] onCreate");
         setContentView(R.layout.activity_box_score);
         BoxScore.sIsOnClickAllowed = false;
 
