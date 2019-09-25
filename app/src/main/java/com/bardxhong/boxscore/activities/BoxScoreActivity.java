@@ -86,34 +86,53 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
 
     private TextView mVersionText;
 
+    private boolean mIsUserNameLegal = false;
+    private boolean mIsPassWordLegal = false;
+    private boolean isTestDialogShow = false;
+
+    /**
+     * 可從 api 或 remoteConfig 之類的東西動態決定
+     */
+    private int mockServerResponseAppUpdateType = AppUpdateType.FLEXIBLE;
+
     private AppUpdateManager appUpdateManager;
     private InstallStateUpdatedListener installStateUpdatedListener = new InstallStateUpdatedListener() {
         @Override
         public void onStateUpdate(InstallState installState) {
             switch (installState.installStatus()) {
                 case InstallStatus.DOWNLOADING:
+                    Log.i(TAG, "[onStateUpdate] DOWNLOADING");
                     Toast.makeText(BoxScoreActivity.this, "DOWNLOADING", Toast.LENGTH_SHORT).show();
                     break;
                 case InstallStatus.DOWNLOADED:
+                    Log.i(TAG, "[onStateUpdate] DOWNLOADED");
                     Toast.makeText(BoxScoreActivity.this, "DOWNLOADED", Toast.LENGTH_SHORT).show();
+
                     popupSnackBarForCompleteUpdate();
+
                     break;
                 case InstallStatus.PENDING:
+                    Log.i(TAG, "[onStateUpdate] PENDING");
                     Toast.makeText(BoxScoreActivity.this, "PENDING", Toast.LENGTH_SHORT).show();
                     break;
                 case InstallStatus.INSTALLING:
+                    Log.i(TAG, "[onStateUpdate] INSTALLING");
                     Toast.makeText(BoxScoreActivity.this, "INSTALLING", Toast.LENGTH_SHORT).show();
                     break;
                 case InstallStatus.INSTALLED:
+                    Log.i(TAG, "[onStateUpdate] INSTALLED");
                     Toast.makeText(BoxScoreActivity.this, "INSTALLED", Toast.LENGTH_SHORT).show();
                     break;
                 case InstallStatus.CANCELED:
+                    Log.i(TAG, "[onStateUpdate] CANCELED");
                     Toast.makeText(BoxScoreActivity.this, "CANCELED", Toast.LENGTH_SHORT).show();
                     break;
                 case InstallStatus.FAILED:
+                    Log.i(TAG, "[onStateUpdate] FAILED");
                     Toast.makeText(BoxScoreActivity.this, "FAILED", Toast.LENGTH_SHORT).show();
                     break;
                 case InstallStatus.UNKNOWN:
+                    Log.i(TAG, "[onStateUpdate] UNKNOWN");
                     Toast.makeText(BoxScoreActivity.this, "UNKNOWN", Toast.LENGTH_SHORT).show();
                     break;
 
@@ -122,9 +141,42 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
     };
 
 
-    private boolean mIsUserNameLegal = false;
-    private boolean mIsPassWordLegal = false;
-    private boolean isTestDialogShow = false;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.d(TAG, "[Lifecycle] onCreate");
+        setContentView(R.layout.activity_box_score);
+        BoxScore.sIsOnClickAllowed = false;
+
+        mContext = this;
+
+        appUpdateManager = AppUpdateManagerFactory.create(this);
+        if (mockServerResponseAppUpdateType == AppUpdateType.FLEXIBLE) {
+            handleInAppUpdate(mockServerResponseAppUpdateType);
+        }
+
+        mMainLayout = findViewById(R.id.activity_boxscore_main_layout);
+        mStartGameLayout = findViewById(R.id.activity_boxscore_startgame_layout);
+        mTeamManageLayout = findViewById(R.id.activity_boxscore_teammanage_layout);
+        mGameHistoryLayout = findViewById(R.id.activity_boxscore_gamehistory_layout);
+        mSettingLayout = findViewById(R.id.activity_boxscore_setting_layout);
+        mUserNameLayout = findViewById(R.id.activity_boxscore_username_layout);
+        mPassWordLayout = findViewById(R.id.activity_boxscore_password_layout);
+        mLogInLayout = findViewById(R.id.activity_boxscore_login_layout);
+        mSignUpLayout = findViewById(R.id.activity_boxscore_signup_layout);
+        mUserNameEditText = findViewById(R.id.activity_boxscore_username_edittext);
+        mPassWordEditText = findViewById(R.id.activity_boxscore_password_edittext);
+        mLogo = findViewById(R.id.activity_boxscore_logo_imageview);
+        mVersionText = findViewById(R.id.activity_boxscore_version);
+
+        mVersionText.setText(String.valueOf(BuildConfig.VERSION_CODE));
+
+        setOnClickListenerToView();
+        addTextChangeListenerToEditText();
+
+        init();
+    }
 
     /**
      * 檢查token，決定首頁顯示畫面種類。
@@ -139,8 +191,9 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
             showMainUi(View.GONE, View.VISIBLE);
         } else {
             showMainUi(View.VISIBLE, View.GONE);
-                    BoxScore.sIsOnClickAllowed = true;
+            BoxScore.sIsOnClickAllowed = true;
         }
+
     }
 
     /**
@@ -153,13 +206,19 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
         WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
         layoutParams.screenBrightness = BoxScore.sBrightness;
         getWindow().setAttributes(layoutParams);
-        handleInAppUpdate();
+
+        if (mockServerResponseAppUpdateType == AppUpdateType.IMMEDIATE) {
+            handleInAppUpdate(mockServerResponseAppUpdateType);
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         Log.d(TAG, "[Lifecycle] onPause");
+        if (mockServerResponseAppUpdateType == AppUpdateType.IMMEDIATE) {
+            appUpdateManager.unregisterListener(installStateUpdatedListener);
+        }
     }
 
     @Override
@@ -168,47 +227,64 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
         Log.d(TAG, "[Lifecycle] onStop");
     }
 
+    /**
+     * 避免singlton的ProgressBarDialog持有同一個context
+     */
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "[Lifecycle] onDestroy");
+        ProgressBarDialog.setNull();
+        if (mockServerResponseAppUpdateType == AppUpdateType.FLEXIBLE) {
+            appUpdateManager.unregisterListener(installStateUpdatedListener);
+        }
+    }
 
 
-    private void handleInAppUpdate() {
+    private void handleInAppUpdate(int updateType) {
         appUpdateManager.registerListener(installStateUpdatedListener);
         appUpdateManager.getAppUpdateInfo().addOnSuccessListener(new OnSuccessListener<AppUpdateInfo>() {
             @Override
             public void onSuccess(AppUpdateInfo appUpdateInfo) {
                 logAppUpdateInfo(appUpdateInfo);
-                if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
-                        && !isTestDialogShow) {
-                    isTestDialogShow = true;
-                    showSampleOptionDialog(
-                            appUpdateInfo,
-                            (dialog, which) -> {
-                                if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
-                                    startUpdateFlowForResult(appUpdateManager, appUpdateInfo, AppUpdateType.IMMEDIATE);
-                                } else {
-                                    throw new RuntimeException("wtf");
-                                }
-                            },
-                            (dialog, which) -> {
-                                if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
-                                    startUpdateFlowForResult(appUpdateManager, appUpdateInfo, AppUpdateType.FLEXIBLE);
-                                } else {
-                                    throw new RuntimeException("wtf");
-                                }
-                            });
-                } else if (appUpdateInfo.updateAvailability()
-                        == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
-                    if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADING) {
+
+                int availability = appUpdateInfo.updateAvailability();
+                int status = appUpdateInfo.installStatus();
+
+                if (availability == UpdateAvailability.UPDATE_AVAILABLE
+                        && appUpdateInfo.isUpdateTypeAllowed(updateType)) {
+
+                    startUpdateFlowForResult(appUpdateManager, appUpdateInfo, updateType);
+
+                } else if (availability == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
+
+                    if (status == InstallStatus.DOWNLOADING
+                            || status == InstallStatus.PENDING) {
+
                         Log.i(TAG, "[AppUpdateInfo]: resume downloading");
+
                         if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
-                            startUpdateFlowForResult(appUpdateManager, appUpdateInfo, AppUpdateType.FLEXIBLE);
+                            // 視是否需要讓下載中重起 app 的使用者看到更新狀態
+//                            startUpdateFlowForResult(appUpdateManager, appUpdateInfo, AppUpdateType.FLEXIBLE);
                         } else if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                            // 是否要阻擋下載中可以繼續使用 app 的行為
                             startUpdateFlowForResult(appUpdateManager, appUpdateInfo, AppUpdateType.IMMEDIATE);
                         } else {
-                            throw new RuntimeException("wtf");
+                            throw new RuntimeException("你484忘記開網路ㄌ");
                         }
-                    } else if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
+
+                    /*
+                    * 理論上這個狀態只有 flexible 重啟 app 會踩到,
+                    * 因為 immediate 在 onPause unregister listener, download 玩會自動安裝
+                    * flexible 除非刷掉, 重啟, 或不保留, 原則上不會重新走到 onCreate
+                    * */
+                    } else if (status == InstallStatus.DOWNLOADED) {
                         Log.i(TAG, "[AppUpdateInfo]: resume to install");
-                        popupSnackBarForCompleteUpdate();
+                        if (updateType == AppUpdateType.FLEXIBLE) {
+                            // 鷹派 or 鴿派
+//                            appUpdateManager.completeUpdate();
+                            popupSnackBarForCompleteUpdate();
+                        }
                     }
                 }
             }
@@ -277,52 +353,17 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_SETTING)
+        if (requestCode == REQUEST_CODE_SETTING) {
             mPassWordEditText.setText("");
-    }
-
-    /**
-     * 避免singlton的ProgressBarDialog持有同一個context
-     */
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d(TAG, "[Lifecycle] onDestroy");
-        ProgressBarDialog.setNull();
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.d(TAG, "[Lifecycle] onCreate");
-        setContentView(R.layout.activity_box_score);
-        BoxScore.sIsOnClickAllowed = false;
-
-        mContext = this;
-
-        appUpdateManager = AppUpdateManagerFactory.create(this);
-
-
-        mMainLayout = findViewById(R.id.activity_boxscore_main_layout);
-        mStartGameLayout = findViewById(R.id.activity_boxscore_startgame_layout);
-        mTeamManageLayout = findViewById(R.id.activity_boxscore_teammanage_layout);
-        mGameHistoryLayout = findViewById(R.id.activity_boxscore_gamehistory_layout);
-        mSettingLayout = findViewById(R.id.activity_boxscore_setting_layout);
-        mUserNameLayout = findViewById(R.id.activity_boxscore_username_layout);
-        mPassWordLayout = findViewById(R.id.activity_boxscore_password_layout);
-        mLogInLayout = findViewById(R.id.activity_boxscore_login_layout);
-        mSignUpLayout = findViewById(R.id.activity_boxscore_signup_layout);
-        mUserNameEditText = findViewById(R.id.activity_boxscore_username_edittext);
-        mPassWordEditText = findViewById(R.id.activity_boxscore_password_edittext);
-        mLogo = findViewById(R.id.activity_boxscore_logo_imageview);
-        mVersionText = findViewById(R.id.activity_boxscore_version);
-
-        mVersionText.setText(String.valueOf(BuildConfig.VERSION_CODE));
-
-        setOnClickListenerToView();
-        addTextChangeListenerToEditText();
-
-        init();
+        } else if (requestCode == REQUEST_CODE_INAPPUPDATE) {
+            if (resultCode == RESULT_OK) {
+                Log.d(TAG, "[onActivityResult] success");
+            } else if (resultCode == RESULT_CANCELED){
+                Log.d(TAG, "[onActivityResult] canceled");
+            } else {
+                Log.d(TAG, "[onActivityResult] wtf");
+            }
+        }
     }
 
     private void setOnClickListenerToView() {
