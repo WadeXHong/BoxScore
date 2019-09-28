@@ -170,7 +170,7 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
         mLogo = findViewById(R.id.activity_boxscore_logo_imageview);
         mVersionText = findViewById(R.id.activity_boxscore_version);
 
-        mVersionText.setText(String.valueOf(BuildConfig.VERSION_CODE));
+        mVersionText.setText("version: " + String.valueOf(BuildConfig.VERSION_CODE));
 
         setOnClickListenerToView();
         addTextChangeListenerToEditText();
@@ -235,8 +235,10 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
         super.onDestroy();
         Log.d(TAG, "[Lifecycle] onDestroy");
         ProgressBarDialog.setNull();
+        // 正常關閉 app 時觸發背景安裝, 但是刷掉可能不會經過 onDestroy
         if (mockServerResponseAppUpdateType == AppUpdateType.FLEXIBLE) {
             appUpdateManager.unregisterListener(installStateUpdatedListener);
+            appUpdateManager.completeUpdate();
         }
     }
 
@@ -280,9 +282,12 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
                     * */
                     } else if (status == InstallStatus.DOWNLOADED) {
                         Log.i(TAG, "[AppUpdateInfo]: resume to install");
+                        // 下載好的狀況下使用者重開
                         if (updateType == AppUpdateType.FLEXIBLE) {
-                            // 鷹派 or 鴿派
-//                            appUpdateManager.completeUpdate();
+                            // 直接強迫她先安裝
+                            // appUpdateManager.completeUpdate();
+
+                            // 透過 snackbar 讓使用者自己決定
                             popupSnackBarForCompleteUpdate();
                         }
                     }
@@ -294,19 +299,6 @@ public class BoxScoreActivity extends AppCompatActivity implements BoxScoreContr
                 Log.e(TAG, "[AppUpdateInfo] onFailure: called, " + e.getMessage());
             }
         });
-    }
-
-    private void showSampleOptionDialog(
-            AppUpdateInfo appUpdateInfo,
-            DialogInterface.OnClickListener immediate,
-            DialogInterface.OnClickListener flexible
-    ) {
-        new AlertDialog.Builder(BoxScoreActivity.this)
-                .setMessage("請選擇你要更新的種類")
-                .setPositiveButton("IMMEDIATE", immediate)
-                .setNeutralButton("FLEXIBLE", flexible)
-                .setCancelable(false)
-                .show();
     }
 
     private void logAppUpdateInfo(AppUpdateInfo appUpdateInfo) {
