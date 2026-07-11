@@ -1,5 +1,7 @@
 # BoxScore Refactoring Plan
 
+> **Migration Progress**: To view the real-time completion status of these phases across all pages, always refer to the [Migration_Progress_Tracker.md](docs/Migration_Progress_Tracker.md).
+
 ## 1. Current Project Status & Architecture Analysis
 
 Based on the review of the current `BoxScore` repository, here is the assessment of the existing architecture and structure:
