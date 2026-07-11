@@ -16,6 +16,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        jcenter() // Added back temporarily for legacy dependencies like com.thoughtbot
         // In Groovy: maven { url "https://jitpack.io" }
         // In Kotlin: We must use string quotes and wrap the url in uri()
         maven { url = uri("https://jitpack.io") }
