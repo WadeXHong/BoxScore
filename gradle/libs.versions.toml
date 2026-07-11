@@ -36,3 +36,4 @@ expandablerecyclerview = { group = "com.github.thoughtbot.expandable-recycler-vi
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version = "3.0.1" }
