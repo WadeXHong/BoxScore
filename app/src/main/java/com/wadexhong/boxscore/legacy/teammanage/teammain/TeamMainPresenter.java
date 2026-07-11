@@ -1,4 +1,4 @@
-package com.wadexhong.boxscore.teammanage.teammain;
+package com.wadexhong.boxscore.legacy.teammanage.teammain;
 
 import com.wadexhong.boxscore.BoxScore;
 import com.wadexhong.boxscore.teammanage.TeamManageContract;

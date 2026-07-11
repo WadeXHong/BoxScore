@@ -1,4 +1,4 @@
-package com.wadexhong.boxscore.objects;
+package com.wadexhong.boxscore.legacy.objects;
 
 import android.os.Parcel;
 import android.os.Parcelable;
