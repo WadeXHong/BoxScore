@@ -7,6 +7,8 @@ plugins {
     alias(libs.plugins.kotlin.android) // Applied Kotlin for Android
     alias(libs.plugins.google.services)
     alias(libs.plugins.firebase.crashlytics)
+    alias(libs.plugins.ksp)
+    id("kotlin-parcelize")
 }
 
 android {
@@ -87,6 +89,11 @@ dependencies {
     // In Kotlin: annotationProcessor() requires parentheses
     annotationProcessor(libs.permissionsdispatcher.processor)
     implementation(libs.expandablerecyclerview)
+    
+    // Room
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
     
     // Using string dependency directly in Kotlin (also valid in KTS)
     implementation("com.cleveroad:adaptivetablelayout:1.1.1")
