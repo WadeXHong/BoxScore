@@ -1,7 +1,7 @@
 package com.wadexhong.boxscore.gameboxscore;
 
 import android.database.Cursor;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.util.SparseIntArray;
 
@@ -40,7 +40,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter {
 
     private final GameBoxScoreContract.View mGameBoxScoreView;
 
-    private android.support.v4.app.FragmentManager mFragmentManager;
+    private androidx.fragment.app.FragmentManager mFragmentManager;
     private ViewPagerFragmentAdapter mViewPagerFragmentAdapter;
     private DataRecordFragment mDataRecordFragment;
     private DataRecordPresenter mDataRecordPresenter;
@@ -55,7 +55,7 @@ public class GameBoxScorePresenter implements GameBoxScoreContract.Presenter {
     private LinkedList<Undo> mUndoList;
 
 
-    public GameBoxScorePresenter(GameBoxScoreContract.View gameBoxScoreView, android.support.v4.app.FragmentManager manager) {
+    public GameBoxScorePresenter(GameBoxScoreContract.View gameBoxScoreView, androidx.fragment.app.FragmentManager manager) {
 
         mGameBoxScoreView = gameBoxScoreView;
         mFragmentManager = manager;

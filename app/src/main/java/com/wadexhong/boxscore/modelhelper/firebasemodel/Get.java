@@ -1,6 +1,6 @@
 package com.wadexhong.boxscore.modelhelper.firebasemodel;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;

@@ -2,7 +2,7 @@ package com.wadexhong.boxscore.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.TextView;

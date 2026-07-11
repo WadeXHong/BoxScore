@@ -1,7 +1,7 @@
 package com.wadexhong.boxscore.teammanage;
 
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.wadexhong.boxscore.R;
 import com.wadexhong.boxscore.teammanage.teamplayers.createplayer.CreatePlayerFragment;

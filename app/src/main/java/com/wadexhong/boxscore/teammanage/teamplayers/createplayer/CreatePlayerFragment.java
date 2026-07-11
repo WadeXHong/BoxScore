@@ -1,8 +1,8 @@
 package com.wadexhong.boxscore.teammanage.teamplayers.createplayer;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.res.ResourcesCompat;
+import androidx.fragment.app.Fragment;
+import androidx.core.content.res.ResourcesCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -186,22 +186,17 @@ public class CreatePlayerFragment extends Fragment implements CreatePlayerContra
         Log.d(TAG,"mOnCheckboxClickedListener executed");
         boolean checked = ((CheckBox) view).isChecked();
 
-        switch (view.getId()){
-            case R.id.fragment_createplayer_position_c:
-                mCheckBoxStatus[POSITION_C] = checked ? 1 : 0 ;
-                break;
-            case R.id.fragment_createplayer_position_pf:
-                mCheckBoxStatus[POSITION_PF] = checked ? 1 : 0 ;
-                break;
-            case R.id.fragment_createplayer_position_sf:
-                mCheckBoxStatus[POSITION_SF] = checked ? 1 : 0 ;
-                break;
-            case R.id.fragment_createplayer_position_sg:
-                mCheckBoxStatus[POSITION_SG] = checked ? 1 : 0 ;
-                break;
-            case R.id.fragment_createplayer_position_pg:
-                mCheckBoxStatus[POSITION_PG] = checked ? 1 : 0 ;
-                break;
+        int id = view.getId();
+        if (id == R.id.fragment_createplayer_position_c) {
+            mCheckBoxStatus[POSITION_C] = checked ? 1 : 0 ;
+        } else if (id == R.id.fragment_createplayer_position_pf) {
+            mCheckBoxStatus[POSITION_PF] = checked ? 1 : 0 ;
+        } else if (id == R.id.fragment_createplayer_position_sf) {
+            mCheckBoxStatus[POSITION_SF] = checked ? 1 : 0 ;
+        } else if (id == R.id.fragment_createplayer_position_sg) {
+            mCheckBoxStatus[POSITION_SG] = checked ? 1 : 0 ;
+        } else if (id == R.id.fragment_createplayer_position_pg) {
+            mCheckBoxStatus[POSITION_PG] = checked ? 1 : 0 ;
         }
     }
 

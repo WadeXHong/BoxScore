@@ -1,7 +1,7 @@
 package com.wadexhong.boxscore.startgame;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.wadexhong.boxscore.adapter.ViewPagerFragmentAdapter;
 import com.wadexhong.boxscore.startgame.detailsetting.DetailSettingFragment;

@@ -3,8 +3,8 @@ package com.wadexhong.boxscore.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v7.app.AppCompatActivity;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.transition.ChangeBounds;
 import android.transition.Fade;
@@ -65,7 +65,7 @@ public class LogoTransitionActivity extends AppCompatActivity {
                     public void run() {
 
                         Intent intent = new Intent(LogoTransitionActivity.this, BoxScoreActivity.class);
-                        android.support.v4.util.Pair<View, String> pair = android.support.v4.util.Pair.create(findViewById(R.id.activity_logo_transition_imageview), TRANSITION_NAME);
+                        androidx.core.util.Pair<View, String> pair = androidx.core.util.Pair.create(findViewById(R.id.activity_logo_transition_imageview), TRANSITION_NAME);
                         ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(LogoTransitionActivity.this, pair);
                         startActivity(intent, optionsCompat.toBundle());
                     }

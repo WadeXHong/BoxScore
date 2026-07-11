@@ -1,8 +1,8 @@
 package com.wadexhong.boxscore.adapter;
 
 import android.os.Parcelable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -10,7 +10,7 @@ import android.view.ViewGroup;
  * Created by wade8 on 2018/5/23.
  */
 
-public class FragmentStatePagerAdapter extends android.support.v4.app.FragmentStatePagerAdapter {
+public class FragmentStatePagerAdapter extends androidx.fragment.app.FragmentStatePagerAdapter {
 
     public FragmentStatePagerAdapter(FragmentManager fm) {
         super(fm);

@@ -2,7 +2,7 @@ package com.wadexhong.boxscore.modelhelper.firebasemodel;
 
 import android.database.Cursor;
 import android.net.Uri;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;

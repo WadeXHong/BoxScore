@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context="com.example.wade8.boxscore.com.wadexhong.wade8.boxscore.startgame.StartGameActivity">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/activity_startgame_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,9 +33,9 @@
             android:layout_marginEnd="15dp"
             android:src="@drawable/ic_keyboard_arrow_right_white_30dp" />
 
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
-    <android.support.design.widget.TabLayout
+    <com.google.android.material.tabs.TabLayout
         android:id="@+id/activity_startgame_tablelayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

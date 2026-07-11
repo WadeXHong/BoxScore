@@ -5,9 +5,9 @@ import android.content.Context;
 import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.support.annotation.ColorRes;
-import android.support.annotation.DimenRes;
-import android.support.annotation.StringRes;
+import androidx.annotation.ColorRes;
+import androidx.annotation.DimenRes;
+import androidx.annotation.StringRes;
 
 import com.wadexhong.boxscore.modelhelper.GameDataDbHelper;
 import com.wadexhong.boxscore.modelhelper.GameInfoDbHelper;

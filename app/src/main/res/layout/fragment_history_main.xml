@@ -6,7 +6,7 @@
     android:orientation="vertical"
     tools:context="com.wadexhong.boxscore.gamehistory.historymain.HistoryMainFragment">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="40dp">
 
@@ -116,15 +116,15 @@
             <!--app:layout_constraintStart_toStartOf="@+id/item_game_history_date"-->
             <!--app:layout_constraintTop_toBottomOf="@+id/item_game_history_date" />-->
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fragment_historymain_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
 
-    </android.support.v7.widget.RecyclerView>
+    </androidx.recyclerview.widget.RecyclerView>
 
 
 </LinearLayout>
