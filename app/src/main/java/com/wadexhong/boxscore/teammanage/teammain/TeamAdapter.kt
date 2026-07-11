@@ -25,6 +25,7 @@ import com.wadexhong.boxscore.teammanage.teammain.TeamAdapter.TeamViewHolder
 /**
  * Created by wade8 on 2018/5/20.
  */
+@Deprecated("Replaced by TeamMainViewModel and TeamMainScreen Compose UI in Phase 6/7")
 class TeamAdapter(
     groups: List<out ExpandableGroup<*>>,
     private val mTeamMainPresenter: TeamMainContract.Presenter

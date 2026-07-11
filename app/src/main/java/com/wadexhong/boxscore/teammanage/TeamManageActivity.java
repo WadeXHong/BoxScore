@@ -12,7 +12,7 @@ import com.wadexhong.boxscore.R;
 public class TeamManageActivity extends AppCompatActivity implements TeamManageContract.View{
     private static final String TAG = TeamManageActivity.class.getSimpleName();
 
-    private TeamManageContract.Presenter mPresenter;
+    public TeamManageContract.Presenter mPresenter;
 
     private Toolbar mToolbar;
 

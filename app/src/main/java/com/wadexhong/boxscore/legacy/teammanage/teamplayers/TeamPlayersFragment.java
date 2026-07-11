@@ -1,4 +1,4 @@
-package com.wadexhong.boxscore.teammanage.teamplayers;
+package com.wadexhong.boxscore.legacy.teammanage.teamplayers;
 
 
 import android.os.Bundle;

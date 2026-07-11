@@ -1,4 +1,4 @@
-package com.wadexhong.boxscore.teammanage.createteam;
+package com.wadexhong.boxscore.legacy.teammanage.createteam;
 
 import com.wadexhong.boxscore.BasePresenter;
 import com.wadexhong.boxscore.BaseView;

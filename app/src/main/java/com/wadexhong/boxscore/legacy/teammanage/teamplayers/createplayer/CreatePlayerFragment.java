@@ -1,4 +1,4 @@
-package com.wadexhong.boxscore.teammanage.teamplayers.createplayer;
+package com.wadexhong.boxscore.legacy.teammanage.teamplayers.createplayer;
 
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;

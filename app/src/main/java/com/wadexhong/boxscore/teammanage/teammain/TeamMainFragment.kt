@@ -4,63 +4,59 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.lifecycle.ViewModelProvider
 import com.wadexhong.boxscore.BoxScore
-import com.wadexhong.boxscore.R
+import com.wadexhong.boxscore.database.BoxScoreDatabase
+import com.wadexhong.boxscore.teammanage.TeamManageActivity
 
+class TeamMainFragment : Fragment() {
 
-/**
- * A simple [Fragment] subclass.
- */
-class TeamMainFragment : Fragment(), TeamMainContract.View {
-    private var mPresenter: TeamMainContract.Presenter? = null
+    private lateinit var viewModel: TeamMainViewModel
 
-    private var mCreateTeamLayout: ConstraintLayout? = null
-    private var mRecyclerView: RecyclerView? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val factory = TeamMainViewModelFactory(BoxScoreDatabase.getDatabase(BoxScore.getAppContext()).teamDao())
+        viewModel = ViewModelProvider(this, factory)[TeamMainViewModel::class.java]
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val view = inflater.inflate(R.layout.fragment_team_main, container, false)
+        return ComposeView(requireContext()).apply {
+            setContent {
+                val uiState by viewModel.uiState.collectAsState()
 
-        mRecyclerView = view.findViewById<RecyclerView>(R.id.fragment_teammain_recyclerview)
-        mCreateTeamLayout =
-            view.findViewById<ConstraintLayout>(R.id.fragment_teamplayer_createplayer_layout)
-        mCreateTeamLayout!!.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                mPresenter!!.pressedCreateTeam()
+                TeamMainScreen(
+                    uiState = uiState,
+                    onCreateTeamClick = {
+                        // Forward to TeamManageActivity which implements TeamManageContract.View
+                        (activity as? TeamManageActivity)?.mPresenter?.transToCreateTeam()
+                    },
+                    onTeamPlayersClick = { teamId ->
+                        (activity as? TeamManageActivity)?.mPresenter?.transToTeamPlayers(teamId)
+                    },
+                    onDeleteTeamClick = { teamId ->
+                        viewModel.deleteTeam(teamId)
+                    }
+                )
             }
-        })
-
-        // Adapter will be set when showTeams is called by Presenter
-        mRecyclerView!!.setLayoutManager(LinearLayoutManager(getContext()))
-
-        return view
+        }
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         if (!hidden) {
-            mPresenter!!.refreshToolBar()
+            // Update Toolbar when fragment becomes visible
+            (activity as? TeamManageActivity)?.mPresenter?.setTeamMainToolbar()
         }
     }
 
-
-    override fun setPresenter(presenter: TeamMainContract.Presenter) {
-        mPresenter = presenter
-    }
-
-    override fun showTeams(teams: List<com.wadexhong.boxscore.objects.TeamInfo>) {
-        mRecyclerView!!.adapter = TeamAdapter(teams, mPresenter!!)
-    }
-
     companion object {
-        private val TAG: String = TeamMainFragment::class.java.getSimpleName()
-
         @JvmStatic
         fun newInstance(): TeamMainFragment {
             return TeamMainFragment()

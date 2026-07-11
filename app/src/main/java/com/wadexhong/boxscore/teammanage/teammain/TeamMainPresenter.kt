@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 /**
  * Created by wade8 on 2018/5/18.
  */
+@Deprecated("Replaced by TeamMainViewModel and TeamMainScreen Compose UI in Phase 6/7")
 class TeamMainPresenter(
     private val mTeamMainView: TeamMainContract.View,
     private val mTeamManagePresenter: TeamManageContract.Presenter

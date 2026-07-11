@@ -1,4 +1,4 @@
-package com.wadexhong.boxscore.teammanage.createteam;
+package com.wadexhong.boxscore.legacy.teammanage.createteam;
 
 import android.os.Bundle;
 import androidx.annotation.NonNull;
