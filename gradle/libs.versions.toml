@@ -30,7 +30,7 @@ firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashly
 mpandroidchart = { group = "com.github.PhilJay", name = "MPAndroidChart", version = "v3.0.3" }
 permissionsdispatcher = { group = "com.github.permissions-dispatcher", name = "permissionsdispatcher", version = "4.9.2" }
 permissionsdispatcher-processor = { group = "com.github.permissions-dispatcher", name = "permissionsdispatcher-processor", version = "4.9.2" }
-expandablerecyclerview = { group = "com.thoughtbot", name = "expandablerecyclerview", version = "1.4" }
+expandablerecyclerview = { group = "com.github.thoughtbot.expandable-recycler-view", name = "expandablerecyclerview", version = "1.4" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

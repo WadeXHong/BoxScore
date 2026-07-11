@@ -87,7 +87,7 @@
     <string name="pointGuard">控球後衛</string>
     <string name="yourTeamName">%s隊</string>
     <string name="opponentTeamName">%s隊</string>
-    <string name="finalScore">%d：%d</string>
+    <string name="finalScore">%1$d：%2$d</string>
     <string name="dateExample">2018年3月25日</string>
     <string name="gametitleDefault">友誼賽</string>
     <string name="teamBoxScore">球隊數據</string>
