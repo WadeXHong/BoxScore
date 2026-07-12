@@ -36,6 +36,9 @@ public class BoxScore extends Application {
         SharedPreferenceHelper.init(this);
         sBrightness = SharedPreferenceHelper.read(SharedPreferenceHelper.BRIGHTNESS, -1f);
         mVibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        
+        // Trigger migration of old SQLite data into Room
+        com.wadexhong.boxscore.database.LegacyDataMigrator.INSTANCE.migrateIfNeeded(this);
     }
 
     public static Context getAppContext() {
