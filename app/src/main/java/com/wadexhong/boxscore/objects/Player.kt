@@ -5,18 +5,12 @@ import java.io.Serializable
 /**
  * Created by wade8 on 2018/5/2.
  */
-class Player(var number: String?, var name: String?) : Serializable {
-    var playerId: String? = null
-    var position: IntArray? = null
-
-
-    constructor(number: String?, name: String?, playerId: String?) : this(number, name) {
-        this.playerId = playerId
-    }
-
-    constructor(number: String?, name: String?, position: IntArray?) : this(number, name) {
-        this.position = position
-    }
+data class Player @JvmOverloads constructor(
+    val number: String? = null,
+    val name: String? = null,
+    val playerId: String? = null,
+    val position: IntArray? = null
+) : Serializable {
 
     companion object {
         const val POSITION_C: Int = 0

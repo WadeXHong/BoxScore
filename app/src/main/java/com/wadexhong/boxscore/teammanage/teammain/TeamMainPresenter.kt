@@ -36,7 +36,11 @@ class TeamMainPresenter(
                         teamPlayersAmount = entity.playersAmount,
                         teamHistoryAmount = entity.historyAmount
                     )
-                    TeamInfo(entity.teamName, listOf(detail))
+                    TeamInfo(
+                        teamId = entity.teamId,
+                        teamName = entity.teamName,
+                        teamDetails = listOf(detail)
+                    )
                 }
                 mTeamMainView.showTeams(teamInfos)
             }

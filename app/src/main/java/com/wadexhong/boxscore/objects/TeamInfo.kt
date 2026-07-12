@@ -5,29 +5,12 @@ import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup
 /**
  * Created by wade8 on 2018/5/2.
  */
-class TeamInfo(var teamName: String?, items: List<TeamDetail>?) :
-    ExpandableGroup<TeamDetail>(
-        teamName, items
-    ) {
-    var teamId: String? = null
-    private var mPlayers: ArrayList<Player?>? = null
-
-    constructor(teamName: String?, teamId: String?, items: List<TeamDetail>?) : this(
-        teamName,
-        items
-    ) {
-        this.teamId = teamId
-    }
-
-
-    fun getmPlayers(): ArrayList<Player?>? {
-        return mPlayers
-    }
-
-    fun setmPlayers(players: ArrayList<Player?>?) {
-        mPlayers = players
-    }
-
+data class TeamInfo @JvmOverloads constructor(
+    val teamName: String,
+    val teamId: String,
+    val teamDetails: List<TeamDetail>? = null,
+    val players: ArrayList<Player?>? = null
+) : ExpandableGroup<TeamDetail>(teamName, teamDetails) {
 
     companion object {
         const val TEAM_NAME: Int = 0

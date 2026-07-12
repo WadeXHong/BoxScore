@@ -158,7 +158,7 @@ public class CreatePlayerFragment extends Fragment implements CreatePlayerContra
                     mPlayerName.setText("");
                     mPlayerNumber.setText("");
                     isNumberLegal = isNameLegal = false;
-                    mPresenter.createPlayer(mTeamId, new Player(playerNumber, playerName, mCheckBoxStatus));
+                    mPresenter.createPlayer(mTeamId, new Player(playerNumber, playerName, null, mCheckBoxStatus));
 
                 }
 

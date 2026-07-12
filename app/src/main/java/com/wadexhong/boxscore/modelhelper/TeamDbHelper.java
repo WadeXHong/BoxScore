@@ -101,18 +101,18 @@ public class TeamDbHelper extends SQLiteOpenHelper {
     public void createPlayerInDb(String teamId, Player player) {
 
         String playerId = UUID.randomUUID().toString();
-        player.setPlayerId(playerId);
+        Player updatedPlayer = player.copy(player.getNumber(), player.getName(), playerId, player.getPosition());
 
         ContentValues cvPlayers = new ContentValues();
 
         cvPlayers.put(Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_ID, playerId);
-        cvPlayers.put(Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_NUMBER, player.getNumber());
-        cvPlayers.put(Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_NAME, player.getName());
-        cvPlayers.put(Constants.TeamPlayersContract.COLUMN_NAME_PLAY_C, player.getPosition()[CreatePlayerFragment.POSITION_C]);
-        cvPlayers.put(Constants.TeamPlayersContract.COLUMN_NAME_PLAY_PF, player.getPosition()[CreatePlayerFragment.POSITION_PF]);
-        cvPlayers.put(Constants.TeamPlayersContract.COLUMN_NAME_PLAY_SF, player.getPosition()[CreatePlayerFragment.POSITION_SF]);
-        cvPlayers.put(Constants.TeamPlayersContract.COLUMN_NAME_PLAY_SG, player.getPosition()[CreatePlayerFragment.POSITION_SG]);
-        cvPlayers.put(Constants.TeamPlayersContract.COLUMN_NAME_PLAY_PG, player.getPosition()[CreatePlayerFragment.POSITION_PG]);
+        cvPlayers.put(Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_NUMBER, updatedPlayer.getNumber());
+        cvPlayers.put(Constants.TeamPlayersContract.COLUMN_NAME_PLAYER_NAME, updatedPlayer.getName());
+        cvPlayers.put(Constants.TeamPlayersContract.COLUMN_NAME_PLAY_C, updatedPlayer.getPosition()[CreatePlayerFragment.POSITION_C]);
+        cvPlayers.put(Constants.TeamPlayersContract.COLUMN_NAME_PLAY_PF, updatedPlayer.getPosition()[CreatePlayerFragment.POSITION_PF]);
+        cvPlayers.put(Constants.TeamPlayersContract.COLUMN_NAME_PLAY_SF, updatedPlayer.getPosition()[CreatePlayerFragment.POSITION_SF]);
+        cvPlayers.put(Constants.TeamPlayersContract.COLUMN_NAME_PLAY_SG, updatedPlayer.getPosition()[CreatePlayerFragment.POSITION_SG]);
+        cvPlayers.put(Constants.TeamPlayersContract.COLUMN_NAME_PLAY_PG, updatedPlayer.getPosition()[CreatePlayerFragment.POSITION_PG]);
         cvPlayers.put(Constants.TeamPlayersContract.COLUMN_NAME_TEAM_ID, teamId);
 
         getWritableDatabase().insert(Constants.TeamPlayersContract.TABLE_NAME, null, cvPlayers);
@@ -131,7 +131,7 @@ public class TeamDbHelper extends SQLiteOpenHelper {
         getWritableDatabase().update(Constants.TeamInfoDBContract.TABLE_NAME, cvInfo, Constants.TeamInfoDBContract.COLUMN_NAME_TEAM_ID + " =?", new String[]{teamId});
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            Create.getInstance().createPlayer(teamId, player, teamPlayerAmount + 1);
+            Create.getInstance().createPlayer(teamId, updatedPlayer, teamPlayerAmount + 1);
         }
     }
 
