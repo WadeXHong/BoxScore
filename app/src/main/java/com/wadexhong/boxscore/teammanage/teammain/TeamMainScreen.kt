@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import com.wadexhong.boxscore.R
 import com.wadexhong.boxscore.objects.TeamDetail
 import com.wadexhong.boxscore.objects.TeamInfo
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun TeamMainScreen(
@@ -177,4 +178,31 @@ fun TeamDetailItem(
             Text(text = stringResource(id = R.string.historyAmount, detail.teamHistoryAmount), color = Color.White, fontSize = 24.sp)
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun TeamMainScreenPreview() {
+    val sampleTeams = listOf(
+        TeamInfo(
+            teamName = "Lakers",
+            teamId = "1",
+            teamDetails = listOf(TeamDetail(teamName = "Lakers", teamId = "1", teamPlayersAmount = 15, teamHistoryAmount = 82))
+        ),
+        TeamInfo(
+            teamName = "Warriors",
+            teamId = "2",
+            teamDetails = listOf(TeamDetail(teamName = "Warriors", teamId = "2", teamPlayersAmount = 14, teamHistoryAmount = 78))
+        )
+    )
+    val uiState = TeamMainUiState(
+        teams = sampleTeams,
+        isLoading = false
+    )
+    TeamMainScreen(
+        uiState = uiState,
+        onCreateTeamClick = {},
+        onTeamPlayersClick = {},
+        onDeleteTeamClick = {}
+    )
 }

@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wadexhong.boxscore.R
 import com.wadexhong.boxscore.database.entity.TeamPlayerEntity
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun TeamPlayersScreen(
@@ -130,4 +131,28 @@ fun TeamPlayerListItem(
         )
         Spacer(modifier = Modifier.width(18.dp))
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun TeamPlayersScreenPreview() {
+    val samplePlayers = listOf(
+        TeamPlayerEntity(
+            teamId = "1", playerId = "p1", playerName = "LeBron James", playerNumber = "23",
+            center = 0, powerForward = 1, smallForward = 1, shootingGuard = 0, pointGuard = 1
+        ),
+        TeamPlayerEntity(
+            teamId = "1", playerId = "p2", playerName = "Anthony Davis", playerNumber = "3",
+            center = 1, powerForward = 1, smallForward = 0, shootingGuard = 0, pointGuard = 0
+        )
+    )
+    val uiState = TeamPlayersUiState(
+        players = samplePlayers,
+        isLoading = false
+    )
+    TeamPlayersScreen(
+        uiState = uiState,
+        onCreatePlayerClick = {},
+        onDeletePlayerClick = {}
+    )
 }
