@@ -8,13 +8,14 @@ plugins {
     alias(libs.plugins.google.services)
     alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.compose.compiler)
     id("kotlin-parcelize")
 }
 
 android {
     // In Groovy: compileSdkVersion 27
     // In Kotlin: Property assignment requires `=`
-    compileSdk = 34
+    compileSdk = 35
     
     // In modern AGP (8.x+), the namespace is required here instead of AndroidManifest.xml
     namespace = "com.wadexhong.boxscore"
@@ -26,7 +27,7 @@ android {
         
         // Bumped minSdk from 22 to 24 (minimum recommended for Jetpack Compose)
         minSdk = 24 
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 17
         versionName = "1.0.10"
         
@@ -64,7 +65,6 @@ android {
     }
     
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
 }
 
@@ -109,6 +109,8 @@ dependencies {
     implementation(libs.compose.ui.graphics)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.material)
+    implementation(libs.compose.material.icons.core)
+    implementation(libs.compose.material.icons.extended)
     implementation(libs.activity.compose)
     implementation(libs.lifecycle.viewmodel.compose)
     implementation(libs.lifecycle.runtime.compose)
