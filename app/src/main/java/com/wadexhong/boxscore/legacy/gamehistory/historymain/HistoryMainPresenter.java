@@ -1,4 +1,4 @@
-package com.wadexhong.boxscore.gamehistory.historymain;
+package com.wadexhong.boxscore.legacy.gamehistory.historymain;
 
 import android.database.Cursor;
 import android.net.Uri;
@@ -6,7 +6,7 @@ import android.util.Log;
 
 import com.wadexhong.boxscore.R;
 import com.wadexhong.boxscore.dialog.ProgressBarDialog;
-import com.wadexhong.boxscore.gamehistory.GameHistoryContract;
+import com.wadexhong.boxscore.legacy.gamehistory.GameHistoryContract;
 import com.wadexhong.boxscore.BoxScore;
 import com.wadexhong.boxscore.modelhelper.firebasemodel.Create;
 import com.wadexhong.boxscore.modelhelper.firebasemodel.Delete;

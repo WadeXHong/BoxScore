@@ -1,4 +1,4 @@
-package com.wadexhong.boxscore.gamehistory.historydetail;
+package com.wadexhong.boxscore.legacy.gamehistory.historydetail;
 
 import com.wadexhong.boxscore.BasePresenter;
 import com.wadexhong.boxscore.BaseView;

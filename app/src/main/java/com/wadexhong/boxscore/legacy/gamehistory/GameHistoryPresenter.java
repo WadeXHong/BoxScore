@@ -1,13 +1,13 @@
-package com.wadexhong.boxscore.gamehistory;
+package com.wadexhong.boxscore.legacy.gamehistory;
 
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.wadexhong.boxscore.R;
-import com.wadexhong.boxscore.gamehistory.historydetail.HistoryDetailPresenter;
-import com.wadexhong.boxscore.gamehistory.historymain.HistoryMainFragment;
-import com.wadexhong.boxscore.gamehistory.historydetail.HistoryDetailFragment;
-import com.wadexhong.boxscore.gamehistory.historymain.HistoryMainPresenter;
+import com.wadexhong.boxscore.legacy.gamehistory.historydetail.HistoryDetailPresenter;
+import com.wadexhong.boxscore.legacy.gamehistory.historymain.HistoryMainFragment;
+import com.wadexhong.boxscore.legacy.gamehistory.historydetail.HistoryDetailFragment;
+import com.wadexhong.boxscore.legacy.gamehistory.historymain.HistoryMainPresenter;
 
 /**
  * Created by wade8 on 2018/5/22.
