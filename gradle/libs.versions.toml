@@ -16,6 +16,7 @@ composeBom = "2026.06.01"
 composeCompiler = "1.5.11"
 lifecycle = "2.7.0"
 activityCompose = "1.9.0"
+datastore = "1.1.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -47,6 +48,7 @@ compose-material-icons-extended = { group = "androidx.compose.material", name = 
 activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycle" }
 lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycle" }
+datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 
 # Legacy/Third-party
 mpandroidchart = { group = "com.github.PhilJay", name = "MPAndroidChart", version = "v3.0.3" }

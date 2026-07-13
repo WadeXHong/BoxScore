@@ -1,4 +1,4 @@
-package com.wadexhong.boxscore.setting;
+package com.wadexhong.boxscore.legacy.setting;
 
 import com.wadexhong.boxscore.BasePresenter;
 import com.wadexhong.boxscore.BaseView;
