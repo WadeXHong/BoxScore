@@ -1,4 +1,4 @@
-package com.wadexhong.boxscore.setting;
+package com.wadexhong.boxscore.legacy.setting;
 
 import android.app.Activity;
 import androidx.appcompat.app.AppCompatActivity;
