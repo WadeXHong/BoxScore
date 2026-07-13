@@ -9,6 +9,8 @@ import com.wadexhong.boxscore.database.dao.PlayerDao
 import com.wadexhong.boxscore.database.dao.TeamDao
 import com.wadexhong.boxscore.database.entity.GameDataEntity
 import com.wadexhong.boxscore.database.entity.GameInfoEntity
+import com.wadexhong.boxscore.database.dao.GameEventDao
+import com.wadexhong.boxscore.database.entity.GameEventEntity
 import com.wadexhong.boxscore.database.entity.TeamInfoEntity
 import com.wadexhong.boxscore.database.entity.TeamPlayerEntity
 
@@ -17,7 +19,8 @@ import com.wadexhong.boxscore.database.entity.TeamPlayerEntity
         GameInfoEntity::class,
         GameDataEntity::class,
         TeamInfoEntity::class,
-        TeamPlayerEntity::class
+        TeamPlayerEntity::class,
+        GameEventEntity::class
     ],
     version = 1,
     exportSchema = false
@@ -27,6 +30,7 @@ abstract class BoxScoreDatabase : RoomDatabase() {
     abstract fun gameDao(): GameDao
     abstract fun teamDao(): TeamDao
     abstract fun playerDao(): PlayerDao
+    abstract fun gameEventDao(): GameEventDao
 
     companion object {
         @Volatile
