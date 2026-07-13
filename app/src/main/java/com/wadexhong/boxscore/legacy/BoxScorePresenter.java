@@ -1,4 +1,4 @@
-package com.wadexhong.boxscore;
+package com.wadexhong.boxscore.legacy;
 
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
@@ -8,6 +8,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.wadexhong.boxscore.modelhelper.firebasemodel.Create;
 import com.wadexhong.boxscore.modelhelper.firebasemodel.Get;
 import com.wadexhong.boxscore.modelhelper.SharedPreferenceHelper;
+import com.wadexhong.boxscore.Constants;
+import com.wadexhong.boxscore.BoxScore;
+import com.wadexhong.boxscore.R;
 
 /**
  * Created by wade8 on 2018/5/1.

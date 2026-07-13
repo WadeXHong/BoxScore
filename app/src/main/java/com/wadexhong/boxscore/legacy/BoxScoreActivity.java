@@ -1,4 +1,4 @@
-package com.wadexhong.boxscore.activities;
+package com.wadexhong.boxscore.legacy;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -31,8 +31,8 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.wadexhong.boxscore.BoxScore;
-import com.wadexhong.boxscore.BoxScoreContract;
-import com.wadexhong.boxscore.BoxScorePresenter;
+
+import com.wadexhong.boxscore.legacy.BoxScorePresenter;
 import com.wadexhong.boxscore.Constants;
 import com.wadexhong.boxscore.R;
 import com.wadexhong.boxscore.dialog.ProgressBarDialog;
