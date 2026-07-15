@@ -1,4 +1,4 @@
-package com.wadexhong.boxscore.startgame.gamenamesetting;
+package com.wadexhong.boxscore.legacy.startgame.gamenamesetting;
 
 import com.wadexhong.boxscore.BaseView;
 import com.wadexhong.boxscore.objects.GameInfo;

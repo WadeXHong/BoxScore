@@ -1,6 +1,6 @@
-package com.wadexhong.boxscore;
-
-
+package com.wadexhong.boxscore.legacy;
+import com.wadexhong.boxscore.BaseView;
+import com.wadexhong.boxscore.BasePresenter;
 /**
  * Created by wade8 on 2018/5/1.
  */
