@@ -26,7 +26,8 @@ data class GameInfoBuilder(
     val gameDate: String = java.text.SimpleDateFormat("yyyy年MM月dd日", java.util.Locale.getDefault()).format(java.util.Calendar.getInstance().time),
     
     val players: List<TeamPlayerEntity> = emptyList(),
-    val selectedPlayerIds: Set<String> = emptySet(),
+    val startingPlayerIds: List<String> = emptyList(),
+    val substitutePlayerIds: List<String> = emptyList(),
     
     val quarterLength: Int = 10,
     val totalQuarters: Int = 4,
@@ -34,7 +35,7 @@ data class GameInfoBuilder(
     val timeoutsFirstHalf: Int = 5,
     val timeoutsSecondHalf: Int = 5,
     
-    val isStep1Valid: Boolean = true,
+    val isStep1Valid: Boolean = false,
     val isStep2Valid: Boolean = true,
     val isStep1Error: Boolean = false,
     val isStep2Error: Boolean = false
@@ -62,7 +63,7 @@ class StartGameViewModel(
     }
 
     fun onTeamSelected(team: TeamInfoEntity) {
-        _uiState.update { it.copy(selectedTeam = team, selectedPlayerIds = emptySet()) }
+        _uiState.update { it.copy(selectedTeam = team, startingPlayerIds = emptyList(), substitutePlayerIds = emptyList()) }
         fetchPlayers(team.teamId)
     }
 
@@ -90,14 +91,31 @@ class StartGameViewModel(
         _uiState.update { it.copy(gameDate = date) }
     }
 
-    fun onPlayerSelected(playerId: String, isSelected: Boolean) {
+    fun moveToStarting(playerId: String) {
         _uiState.update { state ->
-            val newSelection = if (isSelected) {
-                state.selectedPlayerIds + playerId
-            } else {
-                state.selectedPlayerIds - playerId
-            }
-            state.copy(selectedPlayerIds = newSelection, isStep2Error = false)
+            if (state.startingPlayerIds.size >= 5) return@update state
+            val newStarters = state.startingPlayerIds + playerId
+            val newSubs = state.substitutePlayerIds - playerId
+            state.copy(startingPlayerIds = newStarters, substitutePlayerIds = newSubs, isStep2Error = false)
+        }
+    }
+
+    fun moveToSubstitute(playerId: String) {
+        _uiState.update { state ->
+            if (state.startingPlayerIds.size + state.substitutePlayerIds.size >= 15) return@update state
+            val newSubs = state.substitutePlayerIds + playerId
+            val newStarters = state.startingPlayerIds - playerId
+            state.copy(startingPlayerIds = newStarters, substitutePlayerIds = newSubs, isStep2Error = false)
+        }
+    }
+
+    fun removeFromRoster(playerId: String) {
+        _uiState.update { state ->
+            state.copy(
+                startingPlayerIds = state.startingPlayerIds - playerId,
+                substitutePlayerIds = state.substitutePlayerIds - playerId,
+                isStep2Error = false
+            )
         }
     }
 
@@ -128,7 +146,7 @@ class StartGameViewModel(
     }
 
     fun validateStep2(): Boolean {
-        val isValid = _uiState.value.selectedPlayerIds.size >= 6
+        val isValid = _uiState.value.startingPlayerIds.size == 5 && _uiState.value.substitutePlayerIds.isNotEmpty()
         _uiState.update { it.copy(isStep2Valid = isValid, isStep2Error = !isValid) }
         return isValid
     }
@@ -149,14 +167,14 @@ class StartGameViewModel(
         gameInfo.timeoutFirstHalf = state.timeoutsFirstHalf.toString()
         gameInfo.timeoutSecondHalf = state.timeoutsSecondHalf.toString()
         
-        val selectedPlayers = state.players.filter { state.selectedPlayerIds.contains(it.playerId) }
-            .map { Player(it.playerNumber, it.playerName, it.playerId) }
-        
-        val starters = ArrayList(selectedPlayers.take(5))
-        val subs = ArrayList(selectedPlayers.drop(5))
-        
-        gameInfo.startingPlayerList = starters
-        gameInfo.substitutePlayerList = subs
+        val starters = state.players.filter { state.startingPlayerIds.contains(it.playerId) }.map {
+            com.wadexhong.boxscore.objects.Player(it.playerNumber, it.playerName, it.playerId)
+        }
+        val subs = state.players.filter { state.substitutePlayerIds.contains(it.playerId) }.map {
+            com.wadexhong.boxscore.objects.Player(it.playerNumber, it.playerName, it.playerId)
+        }
+        gameInfo.startingPlayerList = java.util.ArrayList(starters)
+        gameInfo.substitutePlayerList = java.util.ArrayList(subs)
         
         return gameInfo
     }
