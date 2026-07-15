@@ -23,7 +23,7 @@ data class GameInfoBuilder(
     val selectedTeam: TeamInfoEntity? = null,
     val gameTitle: String = "",
     val opponentName: String = "",
-    val gameDate: String = "",
+    val gameDate: String = java.text.SimpleDateFormat("yyyy年MM月dd日", java.util.Locale.getDefault()).format(java.util.Calendar.getInstance().time),
     
     val players: List<TeamPlayerEntity> = emptyList(),
     val selectedPlayerIds: Set<String> = emptySet(),

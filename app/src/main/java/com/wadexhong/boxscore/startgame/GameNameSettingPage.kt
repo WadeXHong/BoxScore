@@ -5,6 +5,7 @@ import android.widget.DatePicker
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -30,8 +31,13 @@ fun GameNameSettingPage(viewModel: StartGameViewModel) {
                 value = uiState.selectedTeam?.teamName ?: "Select a team",
                 onValueChange = {},
                 readOnly = true,
-                modifier = Modifier.fillMaxWidth().clickable { teamDropdownExpanded = true },
+                modifier = Modifier.fillMaxWidth(),
                 trailingIcon = { Icon(Icons.Default.ArrowDropDown, "dropdown") }
+            )
+            Box(
+                modifier = Modifier
+                    .matchParentSize()
+                    .clickable { teamDropdownExpanded = true }
             )
             DropdownMenu(
                 expanded = teamDropdownExpanded,
@@ -80,22 +86,30 @@ fun GameNameSettingPage(viewModel: StartGameViewModel) {
         Spacer(modifier = Modifier.height(16.dp))
         
         Text("Date")
-        OutlinedTextField(
-            value = uiState.gameDate.ifEmpty { "Select Date" },
-            onValueChange = {},
-            readOnly = true,
-            modifier = Modifier.fillMaxWidth().clickable {
-                val calendar = Calendar.getInstance()
-                DatePickerDialog(
-                    context,
-                    { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
-                        viewModel.onGameDateChanged("$year-${month + 1}-$dayOfMonth")
-                    },
-                    calendar.get(Calendar.YEAR),
-                    calendar.get(Calendar.MONTH),
-                    calendar.get(Calendar.DAY_OF_MONTH)
-                ).show()
-            }
-        )
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .border(1.dp, MaterialTheme.colors.onSurface.copy(alpha = 0.5f), RoundedCornerShape(4.dp))
+                .clickable {
+                    val calendar = Calendar.getInstance()
+                    DatePickerDialog(
+                        context,
+                        { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
+                            val selected = Calendar.getInstance().apply { set(year, month, dayOfMonth) }
+                            val sdf = java.text.SimpleDateFormat("yyyy年MM月dd日", java.util.Locale.getDefault())
+                            viewModel.onGameDateChanged(sdf.format(selected.time))
+                        },
+                        calendar.get(Calendar.YEAR),
+                        calendar.get(Calendar.MONTH),
+                        calendar.get(Calendar.DAY_OF_MONTH)
+                    ).show()
+                }
+                .padding(16.dp)
+        ) {
+            Text(
+                text = uiState.gameDate.ifEmpty { "Select Date" },
+                color = if (uiState.gameDate.isEmpty()) Color.Gray else MaterialTheme.colors.onSurface
+            )
+        }
     }
 }

@@ -79,17 +79,56 @@ fun StartGameScreen(
             )
         }
     ) { padding ->
-        HorizontalPager(
-            state = pagerState,
+        Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding),
-            userScrollEnabled = false
-        ) { page ->
-            when (page) {
-                0 -> GameNameSettingPage(viewModel)
-                1 -> PlayerListPage(viewModel)
-                2 -> DetailSettingPage(viewModel)
+                .padding(padding)
+        ) {
+            val tabs = listOf("Game Name", "Player List", "Detail")
+            TabRow(
+                selectedTabIndex = pagerState.currentPage,
+                backgroundColor = MaterialTheme.colors.surface
+            ) {
+                tabs.forEachIndexed { index, title ->
+                    Tab(
+                        selected = pagerState.currentPage == index,
+                        onClick = {
+                            if (index < pagerState.currentPage) {
+                                coroutineScope.launch { pagerState.animateScrollToPage(index) }
+                            } else if (index > pagerState.currentPage) {
+                                // Validate all steps between current and target
+                                var canAdvance = true
+                                for (i in pagerState.currentPage until index) {
+                                    val isValid = when (i) {
+                                        0 -> viewModel.validateStep1()
+                                        1 -> viewModel.validateStep2()
+                                        else -> true
+                                    }
+                                    if (!isValid) {
+                                        canAdvance = false
+                                        break
+                                    }
+                                }
+                                if (canAdvance) {
+                                    coroutineScope.launch { pagerState.animateScrollToPage(index) }
+                                }
+                            }
+                        },
+                        text = { Text(title) }
+                    )
+                }
+            }
+            
+            HorizontalPager(
+                state = pagerState,
+                modifier = Modifier.fillMaxSize(),
+                userScrollEnabled = false
+            ) { page ->
+                when (page) {
+                    0 -> GameNameSettingPage(viewModel)
+                    1 -> PlayerListPage(viewModel)
+                    2 -> DetailSettingPage(viewModel)
+                }
             }
         }
     }
