@@ -18,6 +18,7 @@ import kotlinx.coroutines.launch
 import java.util.UUID
 
 data class GameInfoBuilder(
+    val isLoading: Boolean = true,
     val teams: List<TeamInfoEntity> = emptyList(),
     val selectedTeam: TeamInfoEntity? = null,
     val gameTitle: String = "",
@@ -52,7 +53,8 @@ class StartGameViewModel(
             teamDao.getAllTeams().collectLatest { teamList ->
                 _uiState.update { it.copy(
                     teams = teamList, 
-                    selectedTeam = it.selectedTeam ?: teamList.firstOrNull()
+                    selectedTeam = it.selectedTeam ?: teamList.firstOrNull(),
+                    isLoading = false
                 ) }
                 teamList.firstOrNull()?.let { fetchPlayers(it.teamId) }
             }

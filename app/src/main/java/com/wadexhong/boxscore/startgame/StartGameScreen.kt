@@ -24,8 +24,8 @@ fun StartGameScreen(
     val pagerState = rememberPagerState(pageCount = { 3 })
     val coroutineScope = rememberCoroutineScope()
 
-    LaunchedEffect(uiState.teams) {
-        if (uiState.teams.isEmpty()) {
+    LaunchedEffect(uiState.teams, uiState.isLoading) {
+        if (!uiState.isLoading && uiState.teams.isEmpty()) {
             onNoTeams()
         }
     }
