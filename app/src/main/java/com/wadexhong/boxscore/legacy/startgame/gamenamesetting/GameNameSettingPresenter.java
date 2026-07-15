@@ -1,8 +1,8 @@
-package com.wadexhong.boxscore.startgame.gamenamesetting;
+package com.wadexhong.boxscore.legacy.startgame.gamenamesetting;
 
 import com.wadexhong.boxscore.objects.GameInfo;
 import com.wadexhong.boxscore.objects.TeamInfo;
-import com.wadexhong.boxscore.startgame.StartGameContract;
+import com.wadexhong.boxscore.legacy.startgame.StartGameContract;
 import com.wadexhong.boxscore.BoxScore;
 
 import java.util.ArrayList;
