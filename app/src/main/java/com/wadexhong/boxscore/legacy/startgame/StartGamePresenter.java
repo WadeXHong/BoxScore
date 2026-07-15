@@ -1,16 +1,16 @@
-package com.wadexhong.boxscore.startgame;
+package com.wadexhong.boxscore.legacy.startgame;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.wadexhong.boxscore.adapter.ViewPagerFragmentAdapter;
-import com.wadexhong.boxscore.startgame.detailsetting.DetailSettingFragment;
-import com.wadexhong.boxscore.startgame.detailsetting.DetailSettingPresenter;
-import com.wadexhong.boxscore.startgame.gamenamesetting.GameNameSettingFragment;
-import com.wadexhong.boxscore.startgame.gamenamesetting.GameNameSettingPresenter;
+import com.wadexhong.boxscore.legacy.startgame.detailsetting.DetailSettingFragment;
+import com.wadexhong.boxscore.legacy.startgame.detailsetting.DetailSettingPresenter;
+import com.wadexhong.boxscore.legacy.startgame.gamenamesetting.GameNameSettingFragment;
+import com.wadexhong.boxscore.legacy.startgame.gamenamesetting.GameNameSettingPresenter;
 import com.wadexhong.boxscore.objects.GameInfo;
-import com.wadexhong.boxscore.startgame.playerlist.PlayerListFragment;
-import com.wadexhong.boxscore.startgame.playerlist.PlayerListPresenter;
+import com.wadexhong.boxscore.legacy.startgame.playerlist.PlayerListFragment;
+import com.wadexhong.boxscore.legacy.startgame.playerlist.PlayerListPresenter;
 
 import java.util.ArrayList;
 import java.util.List;

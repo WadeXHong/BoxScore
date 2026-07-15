@@ -1,4 +1,4 @@
-package com.wadexhong.boxscore.startgame;
+package com.wadexhong.boxscore.legacy.startgame;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;

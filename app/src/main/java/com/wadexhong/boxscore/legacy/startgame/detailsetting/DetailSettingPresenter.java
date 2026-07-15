@@ -1,4 +1,4 @@
-package com.wadexhong.boxscore.startgame.detailsetting;
+package com.wadexhong.boxscore.legacy.startgame.detailsetting;
 
 import android.text.TextUtils;
 

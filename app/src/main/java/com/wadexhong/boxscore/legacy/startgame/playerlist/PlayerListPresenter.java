@@ -1,4 +1,4 @@
-package com.wadexhong.boxscore.startgame.playerlist;
+package com.wadexhong.boxscore.legacy.startgame.playerlist;
 
 import android.database.Cursor;
 

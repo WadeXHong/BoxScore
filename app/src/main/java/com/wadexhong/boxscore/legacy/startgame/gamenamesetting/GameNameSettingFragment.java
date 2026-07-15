@@ -1,4 +1,4 @@
-package com.wadexhong.boxscore.startgame.gamenamesetting;
+package com.wadexhong.boxscore.legacy.startgame.gamenamesetting;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
