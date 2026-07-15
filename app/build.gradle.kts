@@ -116,6 +116,7 @@ dependencies {
     implementation(libs.lifecycle.runtime.compose)
     implementation(libs.navigation.compose)
     implementation(libs.kotlinx.coroutines.play.services)
+    implementation(libs.datastore.preferences)
     debugImplementation(libs.compose.ui.tooling)
     
     // Using string dependency directly in Kotlin (also valid in KTS)
