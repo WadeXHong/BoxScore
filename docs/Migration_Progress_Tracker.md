@@ -9,56 +9,62 @@
 
 | 模組 (Pages) | 1. 轉為 Kotlin | 2. Data Layer (Room/Flow) | 3. Domain Layer (Use Cases) | 4. Presentation (MVVM) | 5. UI Layer (Compose) |
 | :--- | :---: | :---: | :---: | :---: | :---: |
-| **球隊管理 (TeamManage)** | | | | | |
-| 　- 首頁 (Team Main) | ✅ | ✅ | ➖ | ✅ | ✅ |
-| 　- 球員列表 (Team Players) | ✅ | ✅ | ➖ | ✅ | ✅ |
-| 　- 新增球隊/球員 (Create...) | ✅ | ✅ | ➖ | ✅ | ✅ |
-| 　- 外殼 (TeamManageActivity) | ❌ (Java) | ➖ | ➖ | ❌ (MVP) | ⚠️ Fragment + ComposeView |
-| **主選單與認證 (Dashboard)** | ✅ | ⚠️ 續賽仍讀舊 SQLite | ➖ | ✅ | ✅ |
+| **球隊管理 (TeamManage)** | ✅ | ✅ | ➖ | ✅ | ✅ Navigation Compose |
+| **主選單與認證 (Dashboard)** | ✅ | ✅ 續賽讀 Room | ➖ | ✅ | ✅ |
 | **開始比賽 (StartGame)** | ✅ | ✅ | ➖ | ✅ | ✅ |
-| **即時數據 (GameBoxScore)** | ✅ | ⚠️ 僅寫 Room `game_event` | ➖ | ✅ | ✅ |
-| **歷史紀錄 (GameHistory)** | ❌ | ❌ (舊 SQLite) | ❌ | ❌ (MVP) | ❌ (XML) |
-| **設定 (Settings)** | ✅ | ✅ DataStore（刪除資料仍呼叫舊 DbHelper） | ➖ | ✅ | ✅ |
+| **即時數據 (GameBoxScore)** | ✅ | ✅ event log + `GameRepository` | ➖ | ✅ | ✅ |
+| **歷史紀錄 (GameHistory)** | ✅ | ✅ | ➖ | ✅ | ✅ Navigation Compose |
+| **設定 (Settings)** | ✅ | ✅ DataStore | ➖ | ✅ | ✅ |
+| **雲端同步 (Firebase)** | ✅ `sync/FirebaseSync` | ✅ 以 Room 為資料來源 | ➖ | — | — |
 
-**Domain Layer**：目前各模組由 ViewModel 直接呼叫 DAO，未建立 Use Case 層；Hilt 也已略過（改用手動 ViewModel Factory）。如未來需要再補。
+**Domain Layer**：ViewModel 直接使用 DAO / `GameRepository`，未另建 Use Case 層；Hilt 已略過（手動 ViewModel Factory）。
 
-舊實作依「Never delete legacy code」規則保留於 `legacy/` package。
-
----
-
-## Migration Review 修正（`implementation_plan.md`，依 `MigrationReviewReport.html`）
-
-| Section | 狀態 | 重點 |
-| :--- | :---: | :--- |
-| 1. Root / Auth | ⚠️ | 修正編譯錯誤、Loading 遮罩阻擋觸控、亮度 / 系統列。Debounce 僅套用於 Dashboard 與 Login，尚未涵蓋所有互動元件 |
-| 2. GameBoxScore | ✅ | 多指滑動手勢、補登、復原紀錄編輯 / 刪除、換人持久化（`SUBSTITUTION_OUT/IN` 事件）、每節犯規歸零、犯規上限、節數上限、離開 / 結束比賽對話框、設定頁入口、亮度 |
-| 3. Settings | ✅ | （Gemini 完成） |
-| 4. StartGame | ✅ | 返回確認、無合法球隊對話框、可滑動但會彈回第一個未完成頁、數值上下限與 Toast、輸入去除前導空白、Quick game fallback、修正 players collector 洩漏 |
-| 5. TeamManage | ✅ | 展開箭頭旋轉動畫、刪除對話框帶名稱、刪除球隊連同球員、`playersAmount` 同步（含一次性修復）、新增球員即時驗證（背號重複 / 前導 0 / 長度） |
-
-### 與 Review Report 不同、改以 legacy 行為為準的項目
-
-- StartGame 數值上限：報告寫「節數 9、暫停最少 0」，legacy 實際為節數 1–4、暫停 1–9、犯規 1–9、每節 1–40 分鐘。
-- 球員詳細頁導航：legacy `transToPlayerDetail` 為空實作，只保留點擊 hook。
-- 球員列表編輯圖示：legacy ImageView 無 src，保留相同佔位空間。
-- 復原紀錄的「標記」選項：legacy 無作用，未移植。
-- `strings.xml` 的 `max_foul_message` / `min_foul_message` 文字在 legacy 即互換，已修正（legacy 畫面同受影響）。
+舊實作依「Never delete legacy code」規則保留：`legacy/` package、`LegacyGameBoxScoreActivity`、`LegacyTeamManageActivity`（含其 Fragments）、`legacy/gamehistory`。舊的 SQLite helper 只剩登出清除與一次性 `LegacyDataMigrator` 會用到。
 
 ---
 
-## 已知缺口 / 待決策
+## 資料層（Room 為唯一資料來源）
 
-1. **資料孤島**：新 GameBoxScore 只寫 Room `game_event`，未寫 `game_info` / `game_data`。因此：
-   - 結束比賽不會標記比賽結束、不更新球隊歷史場數、不上傳 Firebase（`GameBoxScoreActivity` 內有 TODO）。
-   - Dashboard 續賽仍從舊 SQLite 讀取，傳入的 GameInfo 為空。
-   - GameHistory（仍為舊 SQLite）看不到新比賽。
-2. **Firebase 同步**：新 TeamManage 不再同步球隊 / 球員到 Firebase。
-3. **Room 遷移**：DB version 2 使用 `fallbackToDestructiveMigration`，未來升版會清空資料。
-4. **測試**：目前只有樣板測試（ExampleUnitTest / ExampleInstrumentedTest），上述修正尚未在實機 / 模擬器驗證。
-5. **測試資料**：`MainActivity` 內的 TEMP MOCK DATA SCRIPT 為模擬器測試用，正式發佈前需移除。
+| 資料 | 位置 | 說明 |
+| :--- | :--- | :--- |
+| 比賽進行中的紀錄 | `game_event` | 事件溯源：比分、犯規、節數、上場名單都由事件重算（`GameStateCalculator`） |
+| 比賽設定與結果 | `game_info` | 開賽時寫入，`is_gameover` 標記是否結束 |
+| 球員數據 | `game_data` | 與 legacy 相同：每位球員每節一列；同時是該場名單（先發在前）。存檔／結束時由事件彙總 |
+| 球隊／球員 | `team_info` / `team_player` | `players_amount`、`history_amount` 由 DAO 同步 |
 
-## 建議下一步
+- 比賽生命週期：`GameRepository`（開賽、續賽載入、存檔、結束、放棄、刪除歷史）。
+- Schema 匯出至 `app/schemas`；只有開發版的 v1 允許破壞性遷移，之後任何 schema 變更都必須寫 `Migration`。
+- Firebase：`FirebaseSync`（上傳結束的比賽、刪除、球隊/球員增刪、Excel 上傳、登入後下載），節點格式與 legacy 相同。
 
-1. 決定 GameBoxScore ↔ 舊 DB 的資料層方案（寫回舊表 or 將 GameHistory / Dashboard 續賽改讀 Room）。
-2. 依決策遷移 GameHistory 模組。
-3. TeamManageActivity 外殼轉 Kotlin / Compose Navigation，補回 Firebase 同步。
+---
+
+## 2026-10-04 完成項目
+
+| Step | Commit | 內容 |
+| :--- | :--- | :--- |
+| 0 | `d403a73` `d6c8586` | 單元測試基礎；計分邏輯抽成純函式；進攻犯規不算團犯、PF 先選犯規類型（legacy 行為） |
+| 1 | `020bbcf` | 移除破壞性遷移、匯出 schema；登出同時清 Room；登出後回登入畫面 |
+| 2 | `866bfdf` | `GameRepository`；開賽寫入 Room |
+| 3 | `e0b8325` | 結束比賽結算、返回存檔／放棄；比賽中數據統計表（原本全是 0） |
+| 4 | `61cba53` | Dashboard 續賽改讀 Room，並帶入真正的比賽設定與名單 |
+| 5 | `485017b` | GameHistory 遷移（列表、球隊數據圖表、球員數據篩選、分享 .xls、刪除） |
+| 6 | `9d0ba7f` | Firebase 同步改以 Room 為來源 |
+| 7 | `7ad1df6` | TeamManage 外殼改為 Compose NavHost；防連點補齊並修正競態 |
+
+單元測試：48 個（`./gradlew :app:testDebugUnitTest`），涵蓋計分/換人/犯規、球員數據彙總、`GameRepository`、StartGame 驗證、新增球員輸入規則、歷史統計與分享、Firebase 格式轉換與下載合併。
+
+### 與 legacy 刻意不同之處
+
+- 分享 .xls 存到 app cache，不再需要儲存權限（新版 Android 已無法寫入 legacy 的外部儲存路徑）。
+- 歷史球員數據依背號「數字」排序（legacy 以字串排序，10 會排在 2 前面）。
+- StartGame 數值上限、球員詳細頁、編輯圖示、「標記」選項等依 legacy 實際行為（詳見 `implementation_plan.md` 的處理紀錄）。
+
+---
+
+## 已知限制 / 待確認
+
+1. **未在實機／模擬器驗證**：以上皆通過編譯與單元測試，但 UI、Firebase 讀寫需實際操作確認（見 `docs/Simulator_Test_Checklist.md`）。
+2. **下載同步會移除雲端沒有的已結束比賽**（沿用 legacy 規則）。若某場比賽上傳失敗，下次啟動時本機紀錄會被移除。
+3. **舊版進行中的比賽**：升級前由舊 app 開始、尚未結束的比賽，續賽時比分顯示為 0（舊資料沒有事件紀錄）；但只要不再記錄新事件，結束時會保留原本的球員數據。
+4. **測試資料**：`MainActivity` 的 TEMP MOCK DATA SCRIPT 為模擬器測試用，正式發佈前需移除。
+5. **Domain Layer / Hilt**：未實作，如有需要再補。
