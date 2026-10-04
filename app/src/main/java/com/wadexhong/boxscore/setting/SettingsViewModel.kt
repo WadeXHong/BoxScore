@@ -11,6 +11,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import com.wadexhong.boxscore.database.BoxScoreDatabase
+import com.wadexhong.boxscore.database.DataWriteLock
+import kotlinx.coroutines.sync.withLock
 
 data class SettingsUiState(
     val doubleUp: Int = -1,
@@ -69,16 +71,20 @@ class SettingsViewModel(
         }
     }
     
-    /** Legacy SettingPresenter.signOut: wipe local data, then sign out of Firebase. */
+    /** Legacy SettingPresenter.signOut: sign out of Firebase and wipe local data. */
     fun signOut(onSignOutComplete: () -> Unit) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                com.wadexhong.boxscore.BoxScore.getGameDataDbHelper().deleteAll(null)
-                com.wadexhong.boxscore.BoxScore.getGameInfoDbHelper().deleteAll(null)
-                com.wadexhong.boxscore.BoxScore.getTeamDbHelper().deleteAll()
-                database?.clearAllTables()
+            // Under the write lock, and signed out first, so an in-flight cloud download
+            // cannot write the previous user's data back after the wipe.
+            DataWriteLock.mutex.withLock {
+                com.google.firebase.auth.FirebaseAuth.getInstance().signOut()
+                withContext(Dispatchers.IO) {
+                    com.wadexhong.boxscore.BoxScore.getGameDataDbHelper().deleteAll(null)
+                    com.wadexhong.boxscore.BoxScore.getGameInfoDbHelper().deleteAll(null)
+                    com.wadexhong.boxscore.BoxScore.getTeamDbHelper().deleteAll()
+                    database?.clearAllTables()
+                }
             }
-            com.google.firebase.auth.FirebaseAuth.getInstance().signOut()
             onSignOutComplete()
         }
     }

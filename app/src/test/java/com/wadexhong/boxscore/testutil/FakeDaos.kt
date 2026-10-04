@@ -51,7 +51,8 @@ class FakeTeamStore {
         override fun getAllPlayers(): Flow<List<TeamPlayerEntity>> = players
         override suspend fun getPlayerById(playerId: String) = players.value.find { it.playerId == playerId }
         override suspend fun insertPlayer(player: TeamPlayerEntity): Long {
-            players.update { it + player }
+            // Room REPLACE on the unique player_id index.
+            players.update { list -> list.filterNot { it.playerId == player.playerId } + player }
             return 0
         }
         override suspend fun updatePlayer(player: TeamPlayerEntity) {

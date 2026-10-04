@@ -9,6 +9,9 @@ import com.google.firebase.storage.FirebaseStorage
 import com.wadexhong.boxscore.Constants.FireBaseConstant
 import com.wadexhong.boxscore.Constants.TeamPlayersContract
 import com.wadexhong.boxscore.database.BoxScoreDatabase
+import com.wadexhong.boxscore.database.DataWriteLock
+import androidx.room.withTransaction
+import kotlinx.coroutines.sync.withLock
 import com.wadexhong.boxscore.database.GameRepository
 import com.wadexhong.boxscore.database.entity.TeamInfoEntity
 import com.wadexhong.boxscore.database.entity.TeamPlayerEntity
@@ -91,11 +94,16 @@ object FirebaseSync {
 
     /** Legacy Get.onCreate: pull users/{uid} into Room after login / app start. */
     suspend fun download(db: BoxScoreDatabase) {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
         val ref = userRef() ?: return
         try {
-            val snapshot = ref.get().await()
-            val importer = RemoteDataImporter(db.gameDao(), db.teamDao(), db.playerDao(), GameRepository(db))
-            importer.import(FirebaseMapper.parseUser(snapshot.value))
+            val remote = FirebaseMapper.parseUser(ref.get().await().value)
+            DataWriteLock.mutex.withLock {
+                // Signed out (or switched user) while downloading: never write that data back.
+                if (FirebaseAuth.getInstance().currentUser?.uid != uid) return
+                val importer = RemoteDataImporter(db.gameDao(), db.teamDao(), db.playerDao(), GameRepository(db))
+                db.withTransaction { importer.import(remote) }
+            }
         } catch (e: Exception) {
             Log.w(TAG, "download failed", e)
         }

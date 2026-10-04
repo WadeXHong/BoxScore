@@ -2,10 +2,15 @@ package com.wadexhong.boxscore.database.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.wadexhong.boxscore.Constants.GameInfoDBContract
 
-@Entity(tableName = GameInfoDBContract.TABLE_NAME)
+// Unique business key: imports check-then-insert, and REPLACE must replace rather than duplicate.
+@Entity(
+    tableName = GameInfoDBContract.TABLE_NAME,
+    indices = [Index(value = [GameInfoDBContract.COLUMN_NAME_GAME_ID], unique = true)]
+)
 data class GameInfoEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = GameInfoDBContract._ID)
