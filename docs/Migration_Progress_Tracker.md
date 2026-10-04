@@ -33,7 +33,8 @@
 | 球隊／球員 | `team_info` / `team_player` | `players_amount`、`history_amount` 由 DAO 同步 |
 
 - 比賽生命週期：`GameRepository`（開賽、續賽載入、存檔、結束、放棄、刪除歷史）。
-- Schema 匯出至 `app/schemas`；只有開發版的 v1 允許破壞性遷移，之後任何 schema 變更都必須寫 `Migration`。
+- Schema 匯出至 `app/schemas`（目前 v3）；只有開發版的 v1 允許破壞性遷移，之後任何 schema 變更都必須寫 `Migration`（見 `database/Migrations.kt`，`MigrationsTest` 會比對匯出的 schema）。
+- `game_id`、`team_id`、`player_id` 為 unique；legacy 遷移、雲端下載、登出清除以 `DataWriteLock` 互斥，並各自在 transaction 中執行。
 - Firebase：`FirebaseSync`（上傳結束的比賽、刪除、球隊/球員增刪、Excel 上傳、登入後下載），節點格式與 legacy 相同。
 
 ---
@@ -50,8 +51,9 @@
 | 5 | `485017b` | GameHistory 遷移（列表、球隊數據圖表、球員數據篩選、分享 .xls、刪除） |
 | 6 | `9d0ba7f` | Firebase 同步改以 Room 為來源 |
 | 7 | `7ad1df6` | TeamManage 外殼改為 Compose NavHost；防連點補齊並修正競態 |
+| Review | `f42793c`…`8bc1bc4` | 依獨立審查修正（見 `docs/Review_Feedback_feature-migrate-gameboxscore.md` 第 6 節） |
 
-單元測試：48 個（`./gradlew :app:testDebugUnitTest`），涵蓋計分/換人/犯規、球員數據彙總、`GameRepository`、StartGame 驗證、新增球員輸入規則、歷史統計與分享、Firebase 格式轉換與下載合併。
+單元測試：65 個（`./gradlew :app:testDebugUnitTest`），涵蓋計分/換人/犯規、球員數據彙總、`GameRepository`、StartGame 驗證、新增球員輸入規則、歷史統計與分享、Firebase 格式轉換與下載合併。
 
 ### 與 legacy 刻意不同之處
 
@@ -64,7 +66,8 @@
 ## 已知限制 / 待確認
 
 1. **未在實機／模擬器驗證**：以上皆通過編譯與單元測試，但 UI、Firebase 讀寫需實際操作確認（見 `docs/Simulator_Test_Checklist.md`）。
-2. **下載同步會移除雲端沒有的已結束比賽**（沿用 legacy 規則）。若某場比賽上傳失敗，下次啟動時本機紀錄會被移除。
-3. **舊版進行中的比賽**：升級前由舊 app 開始、尚未結束的比賽，續賽時比分顯示為 0（舊資料沒有事件紀錄）；但只要不再記錄新事件，結束時會保留原本的球員數據。
-4. **測試資料**：`MainActivity` 的 TEMP MOCK DATA SCRIPT 為模擬器測試用，正式發佈前需移除。
+2. **下載同步會移除雲端沒有的已結束比賽**（沿用 legacy 規則；雲端完全沒有比賽時則不刪）。已啟用離線持久化，但若上傳始終沒有成功，該場比賽仍可能在之後的啟動時被移除。
+3. **舊版進行中的比賽**：續賽時由已存的數據重建比分與節數；legacy 無法區分進攻／防守犯規，續賽當節的團隊犯規可能偏高，對方團隊犯規不會還原。
+4. **測試資料**：`MainActivity` 的 TEMP MOCK DATA SCRIPT 為模擬器測試用（只在 debug build、每次啟動時若沒有球隊才建立），正式發佈前需移除。
 5. **Domain Layer / Hilt**：未實作，如有需要再補。
+6. **刪除球隊後**，該隊比賽的上傳／刪除仍會寫入雲端的 `history_amount`，留下殘缺的球隊節點（與 legacy 相同）。
