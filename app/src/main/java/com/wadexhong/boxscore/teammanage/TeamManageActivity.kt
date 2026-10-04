@@ -16,21 +16,17 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.dialog
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
@@ -62,6 +58,7 @@ class TeamManageActivity : ComponentActivity() {
         const val ROUTE_TEAMS = "teams"
         const val ROUTE_PLAYERS = "players/{$ARG_TEAM_ID}"
         const val ROUTE_CREATE_PLAYER = "createPlayer/{$ARG_TEAM_ID}"
+        const val ROUTE_CREATE_TEAM = "createTeam"
     }
 
     override fun onResume() {
@@ -80,10 +77,8 @@ class TeamManageActivity : ComponentActivity() {
             MaterialTheme {
                 val navController = rememberNavController()
                 val backStackEntry by navController.currentBackStackEntryAsState()
-                val route = backStackEntry?.destination?.route ?: ROUTE_TEAMS
-                // Each opening gets a fresh CreateTeamViewModel, so a finished one never lingers.
-                var createTeamSession by rememberSaveable { mutableIntStateOf(0) }
-                var showCreateTeam by rememberSaveable { mutableStateOf(false) }
+                // The create team dialog sits on top of the teams list.
+                val route = backStackEntry?.destination?.route.takeUnless { it == ROUTE_CREATE_TEAM } ?: ROUTE_TEAMS
 
                 Scaffold(
                     modifier = Modifier.systemBarsPadding(),
@@ -130,10 +125,7 @@ class TeamManageActivity : ComponentActivity() {
                                 TeamMainScreen(
                                     uiState = uiState,
                                     onCreateTeamClick = {
-                                        if (BoxScore.isOnClickAllowedAndSetTimer()) {
-                                            createTeamSession++
-                                            showCreateTeam = true
-                                        }
+                                        if (BoxScore.isOnClickAllowedAndSetTimer()) navController.navigate(ROUTE_CREATE_TEAM)
                                     },
                                     onTeamPlayersClick = { teamId ->
                                         if (BoxScore.isOnClickAllowedAndSetTimer()) navController.navigate("players/$teamId")
@@ -152,6 +144,23 @@ class TeamManageActivity : ComponentActivity() {
                                         if (BoxScore.isOnClickAllowedAndSetTimer()) navController.navigate("createPlayer/$teamId")
                                     },
                                     onDeletePlayerClick = vm::deletePlayer
+                                )
+                            }
+                            // A dialog destination: its CreateTeamViewModel is cleared when it closes.
+                            dialog(
+                                ROUTE_CREATE_TEAM,
+                                dialogProperties = DialogProperties(usePlatformDefaultWidth = false)
+                            ) {
+                                val vm: CreateTeamViewModel = viewModel(factory = CreateTeamViewModelFactory(db.teamDao()))
+                                val uiState by vm.uiState.collectAsState()
+                                CreateTeamScreen(
+                                    uiState = uiState,
+                                    onConfirmClick = { name ->
+                                        if (BoxScore.isOnClickAllowedAndSetTimer()) vm.createTeam(name)
+                                    },
+                                    onCancelClick = { navController.popBackStack() },
+                                    onSuccess = { navController.popBackStack() },
+                                    onErrorShown = vm::clearError
                                 )
                             }
                             composable(ROUTE_CREATE_PLAYER, arguments = teamIdArg) { entry ->
@@ -176,27 +185,6 @@ class TeamManageActivity : ComponentActivity() {
                     }
                 }
 
-                if (showCreateTeam) {
-                    Dialog(
-                        onDismissRequest = { showCreateTeam = false },
-                        properties = DialogProperties(usePlatformDefaultWidth = false)
-                    ) {
-                        val vm: CreateTeamViewModel = viewModel(
-                            key = "createTeam-$createTeamSession",
-                            factory = CreateTeamViewModelFactory(db.teamDao())
-                        )
-                        val uiState by vm.uiState.collectAsState()
-                        CreateTeamScreen(
-                            uiState = uiState,
-                            onConfirmClick = { name ->
-                                if (BoxScore.isOnClickAllowedAndSetTimer()) vm.createTeam(name)
-                            },
-                            onCancelClick = { showCreateTeam = false },
-                            onSuccess = { showCreateTeam = false },
-                            onErrorShown = vm::clearError
-                        )
-                    }
-                }
             }
         }
     }

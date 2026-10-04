@@ -61,14 +61,15 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         
         // --- TEMP MOCK DATA SCRIPT ---
-        kotlinx.coroutines.GlobalScope.launch(kotlinx.coroutines.Dispatchers.IO) {
+        // Debug builds only: seeds "Test Team" once per launch when there are no teams.
+        // TODO: remove before release.
+        if ((applicationInfo.flags and android.content.pm.ApplicationInfo.FLAG_DEBUGGABLE) != 0) lifecycleScope.launch(kotlinx.coroutines.Dispatchers.IO) {
             val db = com.wadexhong.boxscore.database.BoxScoreDatabase.getDatabase(this@MainActivity)
-            db.teamDao().getAllTeams().collect { teams ->
-                if (teams.isEmpty()) {
+            if (db.teamDao().getAllTeams().first().isEmpty()) {
                 val teamId = java.util.UUID.randomUUID().toString()
                 db.teamDao().insertTeam(
                     com.wadexhong.boxscore.database.entity.TeamInfoEntity(
-                        teamId = teamId, 
+                        teamId = teamId,
                         teamName = "Test Team",
                         playersAmount = 6,
                         historyAmount = 0
@@ -88,7 +89,6 @@ class MainActivity : ComponentActivity() {
                             pointGuard = 0
                         )
                     )
-                }
                 }
             }
         }
