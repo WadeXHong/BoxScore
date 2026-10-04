@@ -14,6 +14,9 @@ import com.wadexhong.boxscore.objects.GameInfo
 import com.wadexhong.boxscore.setting.SettingActivity
 import com.wadexhong.boxscore.setting.SettingsRepository
 import com.wadexhong.boxscore.setting.dataStore
+import com.wadexhong.boxscore.sync.FirebaseSync
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
 class GameBoxScoreActivity : ComponentActivity() {
 
@@ -50,7 +53,14 @@ class GameBoxScoreActivity : ComponentActivity() {
                     else viewModel.discardGame { finish() }
                 },
                 onEndGame = {
-                    viewModel.finishGame { finish() }
+                    viewModel.finishGame { finished ->
+                        lifecycleScope.launch {
+                            if (finished != null) {
+                                FirebaseSync.uploadFinishedGame(BoxScoreDatabase.getDatabase(applicationContext), gameId)
+                            }
+                            finish()
+                        }
+                    }
                 },
                 onOpenSettings = {
                     if (BoxScore.isOnClickAllowedAndSetTimer()) {

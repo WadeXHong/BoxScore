@@ -69,8 +69,8 @@ object LegacyDataMigrator {
                     playersAmount = playersAmount,
                     historyAmount = historyAmount
                 )
-                // Insert into Room
-                teamDao.insertTeam(newTeam)
+                // Insert into Room unless the cloud download already added it
+                if (teamDao.getTeamById(teamId) == null) teamDao.insertTeam(newTeam)
                 Log.d(TAG, "Migrated Team: $teamName")
             }
             teamCursor.close()
@@ -103,8 +103,8 @@ object LegacyDataMigrator {
                     shootingGuard = sg,
                     pointGuard = pg
                 )
-                // Insert into Room
-                playerDao.insertPlayer(newPlayer)
+                // Insert into Room unless the cloud download already added it
+                if (playerDao.getPlayerById(playerId) == null) playerDao.insertPlayer(newPlayer)
             }
             playerCursor.close()
             
@@ -125,6 +125,9 @@ object LegacyDataMigrator {
         val oldGameDataDb = oldGameDataHelper.readableDatabase
 
         try {
+            // Games already in Room (e.g. from the cloud download) keep their own rows.
+            val existingGameIds = mutableSetOf<String>()
+
             // 1. Migrate GameInfo
             val infoCursor = oldGameInfoDb.query(
                 Constants.GameInfoDBContract.TABLE_NAME, null, null, null, null, null, null
@@ -162,6 +165,10 @@ object LegacyDataMigrator {
                     gameDate = gameDate,
                     isGameover = isGameOver
                 )
+                if (gameDao.getGameInfoById(gameId) != null) {
+                    existingGameIds += gameId
+                    continue
+                }
                 gameDao.insertGameInfo(newGameInfo)
                 Log.d(TAG, "Migrated GameInfo: $gameId")
             }
@@ -214,7 +221,7 @@ object LegacyDataMigrator {
                     pf = pf,
                     tov = tov
                 )
-                gameDao.insertGameData(newGameData)
+                if (gameId !in existingGameIds) gameDao.insertGameData(newGameData)
             }
             dataCursor.close()
             Log.d(TAG, "Migrated GameData successfully.")

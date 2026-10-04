@@ -35,6 +35,7 @@ class FakeGameStore {
         override fun getFinishedGames(): Flow<List<GameInfoEntity>> = infos.map { list ->
             list.filter { it.isGameover == 1 }.sortedWith(compareByDescending<GameInfoEntity> { it.gameDate }.thenByDescending { it.id })
         }
+        override suspend fun getFinishedGameIds() = infos.value.filter { it.isGameover == 1 }.map { it.gameId }
         override suspend fun countFinishedGames(teamId: String) =
             infos.value.count { it.yourTeamId == teamId && it.isGameover == 1 }
 

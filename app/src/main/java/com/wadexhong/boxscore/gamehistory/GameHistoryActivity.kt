@@ -57,7 +57,7 @@ class GameHistoryActivity : ComponentActivity() {
             repository = GameRepository(db),
             exportDirectory = File(cacheDir, "xls"),
             uploader = ExcelUploader { gameId, file -> FirebaseSync.uploadExcel(gameId, file) },
-            onGameDeleted = { _, _, _ -> }
+            onGameDeleted = { teamId, gameId, amount -> FirebaseSync.deleteGame(teamId, gameId, amount) }
         )
 
         setContent {

@@ -9,6 +9,8 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import com.wadexhong.boxscore.sync.TeamSync
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 data class TeamPlayersUiState(
@@ -18,7 +20,8 @@ data class TeamPlayersUiState(
 
 class TeamPlayersViewModel(
     private val teamId: String,
-    private val playerDao: PlayerDao
+    private val playerDao: PlayerDao,
+    private val sync: TeamSync = TeamSync.Firebase
 ) : ViewModel() {
 
     val uiState: StateFlow<TeamPlayersUiState> = playerDao.getPlayersByTeamId(teamId)
@@ -34,6 +37,7 @@ class TeamPlayersViewModel(
     fun deletePlayer(playerId: String) {
         viewModelScope.launch {
             playerDao.deletePlayerAndSyncAmount(teamId, playerId)
+            sync.playerDeleted(teamId, playerId, playerDao.getPlayersByTeamId(teamId).first().size)
         }
     }
 }

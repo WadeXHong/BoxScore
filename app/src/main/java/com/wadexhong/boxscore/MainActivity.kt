@@ -21,7 +21,7 @@ import com.wadexhong.boxscore.database.entity.GameInfoEntity
 import com.wadexhong.boxscore.dashboard.DashboardScreen
 import com.wadexhong.boxscore.gameboxscore.GameBoxScoreActivity
 import com.wadexhong.boxscore.gamehistory.GameHistoryActivity
-import com.wadexhong.boxscore.modelhelper.firebasemodel.Get
+import com.wadexhong.boxscore.sync.FirebaseSync
 import com.wadexhong.boxscore.setting.SettingActivity
 import com.wadexhong.boxscore.startgame.StartGameActivity
 import com.wadexhong.boxscore.teammanage.TeamManageActivity
@@ -96,7 +96,7 @@ class MainActivity : ComponentActivity() {
 
         val currentUser = FirebaseAuth.getInstance().currentUser
         val startDestination = if (currentUser != null) {
-            Get.getInstance().onCreate()
+            syncFromCloud()
             "dashboard"
         } else {
             "login"
@@ -115,7 +115,7 @@ class MainActivity : ComponentActivity() {
                         composable("login") {
                             LoginScreen(
                                 onLoginSuccess = {
-                                    Get.getInstance().onCreate()
+                                    syncFromCloud()
                                     navController.navigate("dashboard") {
                                         popUpTo("login") { inclusive = true }
                                     }
@@ -146,7 +146,13 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private val gameRepository by lazy { GameRepository(BoxScoreDatabase.getDatabase(applicationContext)) }
+    private val database by lazy { BoxScoreDatabase.getDatabase(applicationContext) }
+    private val gameRepository by lazy { GameRepository(database) }
+
+    /** Legacy Get.onCreate: pull the signed-in user's cloud data into Room. */
+    private fun syncFromCloud() {
+        lifecycleScope.launch { FirebaseSync.download(database) }
+    }
 
     /** Legacy BoxScorePresenter.checkUnfinishedGame: offer to resume a game left in progress. */
     private fun handleStartGame() {
@@ -181,7 +187,9 @@ class MainActivity : ComponentActivity() {
             .setNegativeButton(getString(R.string.ask_resume_game_button_save_and_start)) { dialog, _ ->
                 dialog.dismiss()
                 lifecycleScope.launch {
-                    gameRepository.finishGame(game.gameId)
+                    if (gameRepository.finishGame(game.gameId) != null) {
+                        FirebaseSync.uploadFinishedGame(database, game.gameId)
+                    }
                     startNewGame()
                 }
             }

@@ -38,6 +38,9 @@ interface GameDao {
     @Query("SELECT * FROM ${GameInfoDBContract.TABLE_NAME} WHERE ${GameInfoDBContract.COLUMN_NAME_IS_GAMEOVER} = 1 ORDER BY ${GameInfoDBContract.COLUMN_NAME_GAME_DATE} DESC, ${GameInfoDBContract._ID} DESC")
     fun getFinishedGames(): Flow<List<GameInfoEntity>>
 
+    @Query("SELECT ${GameInfoDBContract.COLUMN_NAME_GAME_ID} FROM ${GameInfoDBContract.TABLE_NAME} WHERE ${GameInfoDBContract.COLUMN_NAME_IS_GAMEOVER} = 1")
+    suspend fun getFinishedGameIds(): List<String>
+
     @Query("SELECT COUNT(*) FROM ${GameInfoDBContract.TABLE_NAME} WHERE ${GameInfoDBContract.COLUMN_NAME_YOUR_TEAM_ID} = :teamId AND ${GameInfoDBContract.COLUMN_NAME_IS_GAMEOVER} = 1")
     suspend fun countFinishedGames(teamId: String): Int
 

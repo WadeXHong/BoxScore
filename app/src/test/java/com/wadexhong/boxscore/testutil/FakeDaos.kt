@@ -49,6 +49,7 @@ class FakeTeamStore {
     val playerDao: PlayerDao = object : PlayerDao {
         override fun getPlayersByTeamId(teamId: String) = players.map { list -> list.filter { it.teamId == teamId } }
         override fun getAllPlayers(): Flow<List<TeamPlayerEntity>> = players
+        override suspend fun getPlayerById(playerId: String) = players.value.find { it.playerId == playerId }
         override suspend fun insertPlayer(player: TeamPlayerEntity): Long {
             players.update { it + player }
             return 0

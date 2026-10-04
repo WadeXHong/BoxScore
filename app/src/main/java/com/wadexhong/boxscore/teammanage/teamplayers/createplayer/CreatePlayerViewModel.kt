@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
+import com.wadexhong.boxscore.sync.TeamSync
 import kotlinx.coroutines.launch
 import java.util.UUID
 
@@ -23,7 +24,8 @@ data class CreatePlayerUiState(
 
 class CreatePlayerViewModel(
     private val teamId: String,
-    private val playerDao: PlayerDao
+    private val playerDao: PlayerDao,
+    private val sync: TeamSync = TeamSync.Firebase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(CreatePlayerUiState())
@@ -77,6 +79,7 @@ class CreatePlayerViewModel(
             )
             
             playerDao.insertPlayerAndSyncAmount(playerEntity)
+            sync.playerCreated(playerEntity, existingPlayers.size + 1)
             _uiState.value = CreatePlayerUiState(isSuccess = true)
         }
     }

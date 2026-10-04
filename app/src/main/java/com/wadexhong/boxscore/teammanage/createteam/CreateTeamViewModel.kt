@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
+import com.wadexhong.boxscore.sync.TeamSync
 import kotlinx.coroutines.launch
 import java.util.UUID
 
@@ -19,7 +20,8 @@ data class CreateTeamUiState(
 )
 
 class CreateTeamViewModel(
-    private val teamDao: TeamDao
+    private val teamDao: TeamDao,
+    private val sync: TeamSync = TeamSync.Firebase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(CreateTeamUiState())
@@ -51,6 +53,7 @@ class CreateTeamViewModel(
 
             try {
                 teamDao.insertTeam(teamEntity)
+                sync.teamCreated(teamEntity)
                 _uiState.value = CreateTeamUiState(isSuccess = true)
             } catch (e: Exception) {
                 _uiState.value = CreateTeamUiState(errorMessage = "新增球隊失敗")

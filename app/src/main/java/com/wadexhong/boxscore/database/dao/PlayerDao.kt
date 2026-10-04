@@ -19,6 +19,9 @@ interface PlayerDao {
     @Query("SELECT * FROM ${TeamPlayersContract.TABLE_NAME}")
     fun getAllPlayers(): Flow<List<TeamPlayerEntity>>
 
+    @Query("SELECT * FROM ${TeamPlayersContract.TABLE_NAME} WHERE ${TeamPlayersContract.COLUMN_NAME_PLAYER_ID} = :playerId LIMIT 1")
+    suspend fun getPlayerById(playerId: String): TeamPlayerEntity?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPlayer(player: TeamPlayerEntity): Long
 
