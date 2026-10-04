@@ -66,6 +66,12 @@ android {
     
     composeOptions {
     }
+
+    testOptions {
+        // Legacy Constants builds SparseArrays in its static initializer; let the android.jar
+        // stubs return defaults instead of throwing so JVM tests can load it.
+        unitTests.isReturnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -125,6 +131,7 @@ dependencies {
     
     // Testing libraries migrated to AndroidX
     testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     

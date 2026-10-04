@@ -44,9 +44,9 @@ fun CreatePlayerScreen(
     // colored a field after it was edited).
     var nameEdited by remember { mutableStateOf(false) }
     var numberEdited by remember { mutableStateOf(false) }
-    val isNameLegal = playerName.isNotBlank()
+    val isNameLegal = PlayerInputRules.isNameLegal(playerName)
     val isNumberDuplicate = playerNumber in existingNumbers
-    val isNumberLegal = playerNumber.isNotBlank() && !isNumberDuplicate
+    val isNumberLegal = PlayerInputRules.isNumberLegal(playerNumber, existingNumbers)
 
     LaunchedEffect(playerNumber) {
         if (isNumberDuplicate) Toast.makeText(context, "此背號已被使用", Toast.LENGTH_SHORT).show()
@@ -77,8 +77,7 @@ fun CreatePlayerScreen(
         OutlinedTextField(
             value = playerName,
             onValueChange = {
-                val input = it.trimStart(' ')
-                if (input.length <= 20) playerName = input
+                PlayerInputRules.normalizeName(it)?.let { input -> playerName = input }
                 nameEdited = true
             },
             isError = nameEdited && !isNameLegal,
@@ -98,10 +97,7 @@ fun CreatePlayerScreen(
         OutlinedTextField(
             value = playerNumber,
             onValueChange = {
-                // Legacy drops a leading zero from two-digit numbers: "03" -> "3".
-                var input = it.filter(Char::isDigit)
-                if (input.length == 2 && input[0] == '0') input = input.substring(1)
-                if (input.length <= 2) playerNumber = input
+                PlayerInputRules.normalizeNumber(it)?.let { input -> playerNumber = input }
                 numberEdited = true
             },
             isError = numberEdited && !isNumberLegal,

@@ -3,7 +3,6 @@ package com.wadexhong.boxscore.gameboxscore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.wadexhong.boxscore.Constants
 import com.wadexhong.boxscore.Constants.RecordDataType
 import com.wadexhong.boxscore.database.BoxScoreDatabase
 import com.wadexhong.boxscore.database.entity.GameEventEntity
@@ -91,62 +90,22 @@ class GameBoxScoreViewModel(
     }
 
     private fun recalculateState(events: List<GameEventEntity>, roster: List<TeamPlayerEntity>) {
-        var yScore = 0
-        var yFouls = 0
-        var oScore = 0
-        var oFouls = 0
-        val currQuarter = 1 + events.count { it.actionType == RecordDataType.QUARTER } -
-                events.count { it.actionType == RecordDataType.MINUS_QUARTER }
-
-        val onCourtIds = startingPlayerIds(roster).toMutableList()
-        var pendingOutIndex = -1
-
-        for (event in events) {
-            when (event.actionType) {
-                RecordDataType.TWO_POINT_SHOT_MADE -> yScore += 2
-                RecordDataType.THREE_POINT_SHOT_MADE -> yScore += 3
-                RecordDataType.FREE_THROW_SHOT_MADE -> yScore += 1
-                RecordDataType.OPPONENT_TEAM_TOTAL_SCORE -> oScore += 1
-                RecordDataType.MINUS_OPPONENT_TEAM_TOTAL_SCORE -> oScore -= 1
-                GameEventType.SUBSTITUTION_OUT -> pendingOutIndex = onCourtIds.indexOf(event.playerId)
-                GameEventType.SUBSTITUTION_IN -> {
-                    if (pendingOutIndex >= 0 && event.playerId != null) onCourtIds[pendingOutIndex] = event.playerId
-                    pendingOutIndex = -1
-                }
-            }
-
-            // Team fouls reset every quarter, so only the current quarter counts.
-            if (event.quarter == currQuarter) {
-                when (event.actionType) {
-                    RecordDataType.FOUL, RecordDataType.OFFENSIVE_FOUL, RecordDataType.DEFENSIVE_FOUL,
-                    RecordDataType.YOUR_TEAM_FOUL -> yFouls += 1
-                    RecordDataType.MINUS_FOUL, RecordDataType.MINUS_OFFENSIVE_FOUL, RecordDataType.MINUS_DEFENSIVE_FOUL,
-                    RecordDataType.MINUS_YOUR_TEAM_TEAM_FOUL -> yFouls -= 1
-                    RecordDataType.OPPONENT_TEAM_FOUL -> oFouls += 1
-                    RecordDataType.MINUS_OPPONENT_TEAM_TOTAL_FOUL -> oFouls -= 1
-                }
-            }
-        }
-
+        val snapshot = GameStateCalculator.calculate(events, startingPlayerIds(roster))
         val rosterById = roster.associateBy { it.playerId }
-        val onCourt = onCourtIds.mapNotNull { rosterById[it] }
-        val bench = roster.filter { it.playerId !in onCourtIds }
 
         _uiState.update {
             it.copy(
-                yourScore = yScore,
-                yourFouls = yFouls,
-                opponentScore = oScore,
-                opponentFouls = oFouls,
-                quarter = currQuarter,
-                onCourtPlayers = onCourt,
-                benchPlayers = bench,
-                actionHistory = events.filter { e -> e.playerId != null && isPlayerStat(e.actionType) }
+                yourScore = snapshot.yourScore,
+                yourFouls = snapshot.yourFouls,
+                opponentScore = snapshot.opponentScore,
+                opponentFouls = snapshot.opponentFouls,
+                quarter = snapshot.quarter,
+                onCourtPlayers = snapshot.onCourtIds.mapNotNull { id -> rosterById[id] },
+                benchPlayers = roster.filter { p -> p.playerId !in snapshot.onCourtIds },
+                actionHistory = snapshot.history
             )
         }
     }
-
-    private fun isPlayerStat(type: Int): Boolean = Constants.TITLE_SPARSE_ARRAY.get(type) != null
 
     private val maxFoul: Int get() = gameInfo?.maxFoul?.toIntOrNull() ?: 5
 
