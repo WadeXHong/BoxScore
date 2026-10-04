@@ -23,7 +23,8 @@ import com.wadexhong.boxscore.database.entity.TeamPlayerEntity
         GameEventEntity::class
     ],
     version = 2,
-    exportSchema = false
+    // Schemas are exported to app/schemas so every future version can ship a tested Migration.
+    exportSchema = true
 )
 abstract class BoxScoreDatabase : RoomDatabase() {
 
@@ -43,8 +44,9 @@ abstract class BoxScoreDatabase : RoomDatabase() {
                     BoxScoreDatabase::class.java,
                     "boxscore_database"
                 )
-                // If you want to destructive migrate (wipe data on schema change during development)
-                .fallbackToDestructiveMigration()
+                // Version 1 only existed on development builds. Every later schema change must
+                // add a Migration here (see app/schemas) instead of wiping user data.
+                .fallbackToDestructiveMigrationFrom(1)
                 .build()
                 INSTANCE = instance
                 instance

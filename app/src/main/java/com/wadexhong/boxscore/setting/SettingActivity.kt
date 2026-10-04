@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.wadexhong.boxscore.BoxScore
 import com.wadexhong.boxscore.Constants
+import com.wadexhong.boxscore.database.BoxScoreDatabase
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -23,7 +24,7 @@ class SettingActivity : ComponentActivity() {
         val repository = SettingsRepository(dataStore)
         viewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return SettingsViewModel(repository) as T
+                return SettingsViewModel(repository, BoxScoreDatabase.getDatabase(applicationContext)) as T
             }
         })[SettingsViewModel::class.java]
         

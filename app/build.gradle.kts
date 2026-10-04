@@ -67,11 +67,20 @@ android {
     composeOptions {
     }
 
+    sourceSets {
+        // Lets instrumented tests load exported schemas with MigrationTestHelper.
+        getByName("androidTest").assets.srcDir("$projectDir/schemas")
+    }
+
     testOptions {
         // Legacy Constants builds SparseArrays in its static initializer; let the android.jar
         // stubs return defaults instead of throwing so JVM tests can load it.
         unitTests.isReturnDefaultValues = true
     }
+}
+
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
 }
 
 dependencies {

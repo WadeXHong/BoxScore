@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -34,6 +35,21 @@ import kotlinx.coroutines.flow.first
 import androidx.core.view.WindowCompat
 
 class MainActivity : ComponentActivity() {
+
+    private var navController: NavHostController? = null
+
+    /** Legacy BoxScoreActivity.onStart: show the login screen again after logging out in Settings. */
+    override fun onStart() {
+        super.onStart()
+        val controller = navController ?: return
+        if (FirebaseAuth.getInstance().currentUser == null &&
+            controller.currentDestination?.route != "login"
+        ) {
+            controller.navigate("login") {
+                popUpTo(controller.graph.id) { inclusive = true }
+            }
+        }
+    }
 
     override fun onResume() {
         super.onResume()
@@ -95,6 +111,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     val navController = rememberNavController()
+                    this@MainActivity.navController = navController
 
                     NavHost(navController = navController, startDestination = startDestination) {
                         composable("login") {

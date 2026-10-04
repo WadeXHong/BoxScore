@@ -8,6 +8,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import com.wadexhong.boxscore.database.BoxScoreDatabase
 
 data class SettingsUiState(
     val doubleUp: Int = -1,
@@ -21,7 +24,10 @@ data class SettingsUiState(
     val brightness: Float = -1f
 )
 
-class SettingsViewModel(private val repository: SettingsRepository) : ViewModel() {
+class SettingsViewModel(
+    private val repository: SettingsRepository,
+    private val database: BoxScoreDatabase? = null
+) : ViewModel() {
 
     val uiState: StateFlow<SettingsUiState> = combine(
         repository.doubleUpFlow,
@@ -63,11 +69,17 @@ class SettingsViewModel(private val repository: SettingsRepository) : ViewModel(
         }
     }
     
+    /** Legacy SettingPresenter.signOut: wipe local data, then sign out of Firebase. */
     fun signOut(onSignOutComplete: () -> Unit) {
-        com.wadexhong.boxscore.BoxScore.getGameDataDbHelper().deleteAll(null)
-        com.wadexhong.boxscore.BoxScore.getGameInfoDbHelper().deleteAll(null)
-        com.wadexhong.boxscore.BoxScore.getTeamDbHelper().deleteAll()
-        com.google.firebase.auth.FirebaseAuth.getInstance().signOut()
-        onSignOutComplete()
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                com.wadexhong.boxscore.BoxScore.getGameDataDbHelper().deleteAll(null)
+                com.wadexhong.boxscore.BoxScore.getGameInfoDbHelper().deleteAll(null)
+                com.wadexhong.boxscore.BoxScore.getTeamDbHelper().deleteAll()
+                database?.clearAllTables()
+            }
+            com.google.firebase.auth.FirebaseAuth.getInstance().signOut()
+            onSignOutComplete()
+        }
     }
 }
