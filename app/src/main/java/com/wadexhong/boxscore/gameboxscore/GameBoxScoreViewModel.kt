@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.wadexhong.boxscore.Constants.RecordDataType
 import com.wadexhong.boxscore.database.BoxScoreDatabase
 import com.wadexhong.boxscore.database.GameRepository
+import com.wadexhong.boxscore.database.dao.GameEventDao
+import com.wadexhong.boxscore.database.dao.PlayerDao
 import com.wadexhong.boxscore.database.entity.GameDataEntity
 import com.wadexhong.boxscore.database.entity.GameEventEntity
 import com.wadexhong.boxscore.database.entity.GameInfoEntity
@@ -45,14 +47,14 @@ object GameEventType {
 data class SwipeGesture(val fingerCount: Int, val direction: SwipeDirection)
 
 class GameBoxScoreViewModel(
-    private val database: BoxScoreDatabase,
+    private val eventDao: GameEventDao,
+    private val playerDao: PlayerDao,
+    private val repository: GameRepository,
     private val gameId: String,
     private val teamId: String,
     private val gameInfo: GameInfo? = null,
     settingsRepository: SettingsRepository? = null
 ) : ViewModel() {
-
-    private val repository = GameRepository(database)
 
     private val _uiState = MutableStateFlow(GameUiState(gameId = gameId))
     val uiState: StateFlow<GameUiState> = _uiState.asStateFlow()
@@ -75,7 +77,7 @@ class GameBoxScoreViewModel(
         // A new game is written to game_info/game_data on first launch; a resumed one already exists.
         gameInfo?.let { info -> viewModelScope.launch { repository.startGameIfNew(info) } }
         viewModelScope.launch {
-            combine(database.gameEventDao().getEventsByGameId(gameId), rosterFlow()) { events, roster ->
+            combine(eventDao.getEventsByGameId(gameId), rosterFlow()) { events, roster ->
                 events to roster
             }.collect { (events, roster) -> recalculateState(events, roster) }
         }
@@ -84,7 +86,7 @@ class GameBoxScoreViewModel(
     /** Players from the Start Game wizard when available, otherwise the team roster in Room. */
     private fun rosterFlow(): Flow<List<TeamPlayerEntity>> {
         val starting = gameInfo?.startingPlayerList
-        if (starting.isNullOrEmpty()) return database.playerDao().getPlayersByTeamId(teamId)
+        if (starting.isNullOrEmpty()) return playerDao.getPlayersByTeamId(teamId)
         val substitutes = gameInfo?.substitutePlayerList ?: emptyList()
         return flowOf((starting + substitutes).map { it.toEntity() })
     }
@@ -162,7 +164,7 @@ class GameBoxScoreViewModel(
 
     private fun insert(actionType: Int, playerId: String?, quarter: Int) {
         viewModelScope.launch {
-            database.gameEventDao().insertEvent(
+            eventDao.insertEvent(
                 GameEventEntity(gameId = gameId, actionType = actionType, playerId = playerId, quarter = quarter)
             )
         }
@@ -177,7 +179,7 @@ class GameBoxScoreViewModel(
         if (state.benchPlayers.none { it.playerId == benchPlayerId }) return
 
         viewModelScope.launch {
-            database.gameEventDao().insertEvents(
+            eventDao.insertEvents(
                 listOf(
                     GameEventEntity(gameId = gameId, actionType = GameEventType.SUBSTITUTION_OUT, playerId = courtPlayerId, quarter = state.quarter),
                     GameEventEntity(gameId = gameId, actionType = GameEventType.SUBSTITUTION_IN, playerId = benchPlayerId, quarter = state.quarter)
@@ -189,7 +191,7 @@ class GameBoxScoreViewModel(
     /** Changes the player and/or stat type of a recorded event, keeping its quarter and position. */
     fun onEditEvent(event: GameEventEntity, playerId: String, actionType: Int) {
         viewModelScope.launch {
-            database.gameEventDao().updateEvent(event.copy(playerId = playerId, actionType = actionType))
+            eventDao.updateEvent(event.copy(playerId = playerId, actionType = actionType))
         }
     }
 
@@ -218,7 +220,7 @@ class GameBoxScoreViewModel(
 
     fun onUndoAction(eventId: Long) {
         viewModelScope.launch {
-            database.gameEventDao().deleteEventById(eventId)
+            eventDao.deleteEventById(eventId)
         }
     }
 }
@@ -233,7 +235,10 @@ class GameBoxScoreViewModelFactory(
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(GameBoxScoreViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return GameBoxScoreViewModel(database, gameId, teamId, gameInfo, settingsRepository) as T
+            return GameBoxScoreViewModel(
+                database.gameEventDao(), database.playerDao(), GameRepository(database),
+                gameId, teamId, gameInfo, settingsRepository
+            ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
