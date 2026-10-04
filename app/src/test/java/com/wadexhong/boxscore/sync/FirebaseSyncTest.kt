@@ -129,4 +129,19 @@ class FirebaseSyncTest {
         importer.import(RemoteData(games = listOf(RemoteGame(info("g1"), listOf(row("g1", "p1", 1, pts = 2))))))
         assertEquals(1, games.gameDao.getGameDataList("g1").size)
     }
+
+    @Test
+    fun importer_keepsLocalHistoryWhenRemoteHasNoGames() = runTest {
+        val games = FakeGameStore()
+        val teams = FakeTeamStore()
+        val importer = RemoteDataImporter(
+            games.gameDao, teams.teamDao, teams.playerDao,
+            GameRepository(games.gameDao, games.eventDao, teams.teamDao)
+        )
+        games.gameDao.insertGameInfo(info("local"))
+
+        importer.import(RemoteData(teams = listOf(team("t1"))))
+
+        assertTrue(games.gameDao.getGameInfoById("local") != null)
+    }
 }

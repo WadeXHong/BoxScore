@@ -33,6 +33,9 @@ public class BoxScore extends Application {
         super.onCreate();
         mContext = this;
         mGameDataDbHelper = null;
+        // Keep queued Realtime Database writes (e.g. a game finished offline) across restarts.
+        // Must run before any other FirebaseDatabase use.
+        com.google.firebase.database.FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         SharedPreferenceHelper.init(this);
         // Settings now stores brightness in DataStore (which took over the legacy prefs).
         sBrightness = com.wadexhong.boxscore.setting.BrightnessStore.load(this);

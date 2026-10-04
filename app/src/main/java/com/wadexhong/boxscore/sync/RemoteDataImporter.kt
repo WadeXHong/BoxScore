@@ -7,8 +7,9 @@ import com.wadexhong.boxscore.database.dao.TeamDao
 
 /**
  * Applies the user's Firebase data to Room after login (legacy OnCreateDataBaseTask):
- * finished games missing remotely are removed, and teams, players and games that only
- * exist remotely are added. Local rows are never overwritten.
+ * finished games missing remotely are removed (unless the remote has no games at all), and
+ * teams, players and games that only exist remotely are added. Local rows are never
+ * overwritten.
  */
 class RemoteDataImporter(
     private val gameDao: GameDao,
@@ -18,9 +19,13 @@ class RemoteDataImporter(
 ) {
     suspend fun import(remote: RemoteData) {
         val remoteGameIds = remote.games.map { it.info.gameId }.toSet()
-        gameDao.getFinishedGameIds()
-            .filterNot { it in remoteGameIds }
-            .forEach { repository.discardGame(it) }
+        // No games at all remotely is more likely a missing/failed upload than a deliberate
+        // wipe; never delete the whole local history because of it.
+        if (remoteGameIds.isNotEmpty()) {
+            gameDao.getFinishedGameIds()
+                .filterNot { it in remoteGameIds }
+                .forEach { repository.discardGame(it) }
+        }
 
         remote.games.forEach { game ->
             if (gameDao.getGameInfoById(game.info.gameId) == null) {
