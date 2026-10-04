@@ -105,6 +105,31 @@ fun MakeUpDialog(
     )
 }
 
+/** Legacy `popFoulTypeDialog`: a foul is always recorded as offensive or defensive. */
+@Composable
+fun FoulTypeDialog(
+    onDismiss: () -> Unit,
+    onSelected: (type: Int) -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(R.string.foul_type_title)) },
+        text = {
+            Column {
+                TextButton(
+                    onClick = { onSelected(Constants.RecordDataType.OFFENSIVE_FOUL) },
+                    modifier = Modifier.fillMaxWidth()
+                ) { Text(stringResource(R.string.offensive_foul)) }
+                TextButton(
+                    onClick = { onSelected(Constants.RecordDataType.DEFENSIVE_FOUL) },
+                    modifier = Modifier.fillMaxWidth()
+                ) { Text(stringResource(R.string.defensive_foul)) }
+            }
+        },
+        confirmButton = {}
+    )
+}
+
 /** Legacy undo-history item menu: 編輯 / 刪除 (the legacy "標記" entry did nothing). */
 @Composable
 fun UndoActionMenuDialog(

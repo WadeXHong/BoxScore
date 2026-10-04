@@ -46,6 +46,16 @@ fun GameBoxScoreScreen(
     var showExitDialog by remember { mutableStateOf(false) }
     var showEndGameDialog by remember { mutableStateOf(false) }
     var showMakeUpDialog by remember { mutableStateOf(false) }
+    var showFoulTypeDialog by remember { mutableStateOf(false) }
+
+    // A plain foul first asks offensive or defensive, as in legacy DataRecordPresenter.
+    fun selectStat(type: Int) {
+        when (type) {
+            -1 -> Unit
+            Constants.RecordDataType.FOUL -> showFoulTypeDialog = true
+            else -> selectedStatType = type
+        }
+    }
 
     val pagerState = rememberPagerState(pageCount = { 3 })
     val coroutineScope = rememberCoroutineScope()
@@ -62,8 +72,7 @@ fun GameBoxScoreScreen(
             .fillMaxSize()
             .multiFingerSwipe { fingerCount, direction ->
                 BoxScore.vibrate()
-                val type = viewModel.actionForGesture(SwipeGesture(fingerCount, direction))
-                if (type != -1) selectedStatType = type
+                selectStat(viewModel.actionForGesture(SwipeGesture(fingerCount, direction)))
             }
     ) {
         ScoreboardSection(
@@ -107,10 +116,7 @@ fun GameBoxScoreScreen(
         ) { page ->
             when (page) {
                 0 -> DataRecordTab(
-                    onStatClicked = { stat ->
-                        val type = mapStatToInt(stat)
-                        if (type != -1) selectedStatType = type
-                    }
+                    onStatClicked = { stat -> selectStat(mapStatToInt(stat)) }
                 )
                 1 -> ChangePlayerTab(
                     onCourtPlayers = state.onCourtPlayers,
@@ -134,6 +140,16 @@ fun GameBoxScoreScreen(
             onPlayerSelected = { player ->
                 viewModel.onStatRecorded(type, player.playerId)
                 selectedStatType = null
+            }
+        )
+    }
+
+    if (showFoulTypeDialog) {
+        FoulTypeDialog(
+            onDismiss = { showFoulTypeDialog = false },
+            onSelected = { type ->
+                showFoulTypeDialog = false
+                selectedStatType = type
             }
         )
     }
