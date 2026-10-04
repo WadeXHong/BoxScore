@@ -1,7 +1,7 @@
 package com.wadexhong.boxscore.gameboxscore.datastatistic;
 
 import android.database.Cursor;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;

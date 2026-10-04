@@ -1,17 +1,13 @@
 package com.wadexhong.boxscore.teammanage;
 
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.wadexhong.boxscore.R;
-import com.wadexhong.boxscore.teammanage.teamplayers.createplayer.CreatePlayerFragment;
-import com.wadexhong.boxscore.teammanage.teamplayers.createplayer.CreatePlayerPresenter;
 import com.wadexhong.boxscore.teammanage.createteam.CreateTeamDialogFragment;
-import com.wadexhong.boxscore.teammanage.createteam.CreateTeamPresenter;
 import com.wadexhong.boxscore.teammanage.teammain.TeamMainFragment;
-import com.wadexhong.boxscore.teammanage.teammain.TeamMainPresenter;
 import com.wadexhong.boxscore.teammanage.teamplayers.TeamPlayersFragment;
-import com.wadexhong.boxscore.teammanage.teamplayers.TeamPlayersPresenter;
+import com.wadexhong.boxscore.teammanage.teamplayers.createplayer.CreatePlayerFragment;
 
 /**
  * Created by wade8 on 2018/5/18.
@@ -30,13 +26,9 @@ public class TeamManagePresenter implements TeamManageContract.Presenter {
 
     private FragmentManager mFragmentManager;
     private TeamMainFragment mTeamMainFragment;
-    private TeamMainPresenter mTeamMainPresenter;
     private TeamPlayersFragment mTeamPlayersFragment;
-    private TeamPlayersPresenter mTeamPlayersPresenter;
     private CreateTeamDialogFragment mCreateTeamDialogFragment;
-    private CreateTeamPresenter mCreateTeamPresenter;
     private CreatePlayerFragment mCreatePlayerFragment;
-    private CreatePlayerPresenter mCreatePlayerPresenter;
 
     public TeamManagePresenter(TeamManageContract.View teamManageView, FragmentManager supportFragmentManager) {
         mTeamManageView = teamManageView;
@@ -53,7 +45,6 @@ public class TeamManagePresenter implements TeamManageContract.Presenter {
     @Override
     public void transToCreateTeam() {
         if (mCreateTeamDialogFragment == null) mCreateTeamDialogFragment = CreateTeamDialogFragment.newInstance();
-        if (mCreateTeamPresenter == null) mCreateTeamPresenter = new CreateTeamPresenter(mCreateTeamDialogFragment, this);
         mCreateTeamDialogFragment.show(mFragmentManager,CREATE_TEAM);
     }
 
@@ -79,8 +70,6 @@ public class TeamManagePresenter implements TeamManageContract.Presenter {
 
         transaction.commit();
 
-        if (mTeamPlayersPresenter == null) mTeamPlayersPresenter = new TeamPlayersPresenter(mTeamPlayersFragment, this);
-
         setTeamPlayersToolbar();
     }
 
@@ -96,10 +85,6 @@ public class TeamManagePresenter implements TeamManageContract.Presenter {
             transaction.show(mTeamMainFragment);
         }
         transaction.commit();
-
-        if (mTeamMainPresenter == null){
-            mTeamMainPresenter = new TeamMainPresenter(mTeamMainFragment, this);
-        }
 
         setTeamMainToolbar();
     }
@@ -125,10 +110,6 @@ public class TeamManagePresenter implements TeamManageContract.Presenter {
         }
         transaction.commit();
 
-        if (mCreatePlayerPresenter == null){
-            mCreatePlayerPresenter = new CreatePlayerPresenter(mCreatePlayerFragment, this);
-        }
-
         setCreatePlayerToolbar();
     }
 
@@ -139,11 +120,12 @@ public class TeamManagePresenter implements TeamManageContract.Presenter {
 
     @Override
     public void refreshMainUi() {
-        mTeamMainPresenter.refreshUi();
+        // UI now auto-updates via Room Flow and Jetpack Compose State
     }
 
 
-    private void setCreatePlayerToolbar() {
+    @Override
+    public void setCreatePlayerToolbar() {
         mTeamManageView.setCreatePlayerToolbar();
     }
 

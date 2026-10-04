@@ -5,9 +5,9 @@ import android.content.Context;
 import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.support.annotation.ColorRes;
-import android.support.annotation.DimenRes;
-import android.support.annotation.StringRes;
+import androidx.annotation.ColorRes;
+import androidx.annotation.DimenRes;
+import androidx.annotation.StringRes;
 
 import com.wadexhong.boxscore.modelhelper.GameDataDbHelper;
 import com.wadexhong.boxscore.modelhelper.GameInfoDbHelper;
@@ -26,16 +26,23 @@ public class BoxScore extends Application {
     private static TeamDbHelper mTeamDbHelper;
     private static Vibrator mVibrator;
     public static float sBrightness;
-    public static boolean sIsOnClickAllowed = true;
+    public static volatile boolean sIsOnClickAllowed = true;
 
     @Override
     public void onCreate() {
         super.onCreate();
         mContext = this;
         mGameDataDbHelper = null;
+        // Keep queued Realtime Database writes (e.g. a game finished offline) across restarts.
+        // Must run before any other FirebaseDatabase use.
+        com.google.firebase.database.FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         SharedPreferenceHelper.init(this);
-        sBrightness = SharedPreferenceHelper.read(SharedPreferenceHelper.BRIGHTNESS, -1f);
+        // Settings now stores brightness in DataStore (which took over the legacy prefs).
+        sBrightness = com.wadexhong.boxscore.setting.BrightnessStore.load(this);
         mVibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        
+        // Trigger migration of old SQLite data into Room
+        com.wadexhong.boxscore.database.LegacyDataMigrator.INSTANCE.migrateIfNeeded(this);
     }
 
     public static Context getAppContext() {
@@ -83,6 +90,8 @@ public class BoxScore extends Application {
 
     public static boolean isOnClickAllowedAndSetTimer(){
         if (sIsOnClickAllowed) {
+            // Block synchronously: setting it inside the timer thread let a second fast tap through.
+            sIsOnClickAllowed = false;
             onClickProcessingTimer(500);
             return true;
         }

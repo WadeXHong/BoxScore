@@ -87,7 +87,7 @@
     <string name="pointGuard">控球後衛</string>
     <string name="yourTeamName">%s隊</string>
     <string name="opponentTeamName">%s隊</string>
-    <string name="finalScore">%d：%d</string>
+    <string name="finalScore">%1$d：%2$d</string>
     <string name="dateExample">2018年3月25日</string>
     <string name="gametitleDefault">友誼賽</string>
     <string name="teamBoxScore">球隊數據</string>
@@ -128,8 +128,8 @@
     <string name="quick_game_team_id">quick_game</string>
     <string name="starting_players_count">　需求: 5人；目前: %d人</string>
     <string name="substitute_players_count">　最少: 1人；目前: %d人</string>
-    <string name="max_foul_message">犯規次數最小為%d</string>
-    <string name="min_foul_message">犯規次數最大為%d</string>
+    <string name="max_foul_message">犯規次數最大為%d</string>
+    <string name="min_foul_message">犯規次數最小為%d</string>
     <string name="max_quarter_length_message">單節時間最大值為%d分鐘</string>
     <string name="min_quarter_length_message">單節時間最小值為%d分鐘</string>
     <string name="max_total_quarter_message">總節數最大為%d節</string>

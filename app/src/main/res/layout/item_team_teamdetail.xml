@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/item_team_teamdetail_players_layout"
         android:layout_width="match_parent"
         android:layout_height="55dp"
@@ -57,9 +57,9 @@
             android:textColor="@color/colorButtonInMain"
             android:textSize="18sp"
             android:includeFontPadding="false" />
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/item_team_teamdetail_history_layout"
         android:layout_width="match_parent"
         android:layout_height="55dp"
@@ -109,7 +109,7 @@
             android:textColor="@color/colorButtonInMain"
             android:textSize="18sp"
             android:includeFontPadding="false" />
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </LinearLayout>

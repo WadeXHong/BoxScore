@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context="com.wadexhong.boxscore.teammanage.teamplayers.TeamPlayersFragment">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/fragment_teamplayer_createplayer_layout"
         android:layout_width="match_parent"
         android:layout_height="55dp"
@@ -43,14 +43,14 @@
             app:layout_constraintStart_toEndOf="@+id/fragment_teamplayer_createplayer_icon"
             app:layout_constraintTop_toTopOf="parent" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fragment_teamplayer_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
+    </androidx.recyclerview.widget.RecyclerView>
 
 
 </LinearLayout>

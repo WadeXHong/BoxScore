@@ -1,16 +1,16 @@
 package com.wadexhong.boxscore.adapter;
 
 import android.database.Cursor;
-import android.support.annotation.NonNull;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.wadexhong.boxscore.Constants;
-import com.wadexhong.boxscore.gamehistory.historydetail.historyteamdata.HistoryTeamDataContract;
+import com.wadexhong.boxscore.legacy.gamehistory.historydetail.historyteamdata.HistoryTeamDataContract;
 import com.wadexhong.boxscore.objects.PercentFormatter;
 import com.wadexhong.boxscore.R;
 import com.github.mikephil.charting.animation.Easing;

@@ -36,5 +36,7 @@ public interface TeamManageContract {
         void transToCreatePlayer(String teamId);
 
         void onBackPressed();
+        
+        void setCreatePlayerToolbar();
     }
 }

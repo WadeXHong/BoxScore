@@ -7,7 +7,7 @@
     android:background="@color/colorDarkBackground"
     tools:context="com.example.wade8.boxscore.com.wadexhong.wade8.boxscore.createplayer.CreatePlayerFragment">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
@@ -175,7 +175,7 @@
             app:layout_constraintTop_toBottomOf="@+id/fragment_createplayer_position_pg" />
 
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </ScrollView>
