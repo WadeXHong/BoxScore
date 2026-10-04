@@ -177,4 +177,21 @@ class GameStateCalculatorTest {
         assertTrue(rows.filterNot { it.playerId == "p1" && it.quarter == 3 }.all { it.stl == 0 })
         assertTrue(rows.all { it.gameId == "g" })
     }
+
+    @Test
+    fun totals_sumQuartersPerPlayerInOrder() {
+        val roster = listOf(player("p2", "2"), player("p1", "1"))
+        val events = listOf(
+            event(RecordDataType.TWO_POINT_SHOT_MADE, "p1", quarter = 1),
+            event(RecordDataType.THREE_POINT_SHOT_MADE, "p1", quarter = 4),
+            event(RecordDataType.ASSIST, "p2", quarter = 2)
+        )
+        val totals = GameStateCalculator.totals(GameStateCalculator.playerStats("g", events, roster))
+
+        assertEquals(listOf("p2", "p1"), totals.map { it.playerId })
+        assertEquals(5, totals[1].pts)
+        assertEquals(2, totals[1].fgm)
+        assertEquals(1, totals[0].ast)
+        assertTrue(totals.all { it.quarter == 0 })
+    }
 }

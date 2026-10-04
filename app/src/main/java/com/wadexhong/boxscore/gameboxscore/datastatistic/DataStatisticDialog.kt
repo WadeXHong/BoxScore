@@ -18,11 +18,12 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.wadexhong.boxscore.R
-import com.wadexhong.boxscore.database.entity.TeamPlayerEntity
+import com.wadexhong.boxscore.database.entity.GameDataEntity
 
 @Composable
 fun DataStatisticDialog(
-    players: List<TeamPlayerEntity>,
+    /** Whole-game totals per player. */
+    rows: List<GameDataEntity>,
     onDismiss: () -> Unit
 ) {
     Dialog(
@@ -79,7 +80,7 @@ fun DataStatisticDialog(
                     
                     // Data Rows
                     LazyColumn(modifier = Modifier.fillMaxSize()) {
-                        items(players) { player ->
+                        items(rows) { player ->
                             Row(modifier = Modifier.fillMaxWidth()) {
                                 // Horizontally Sticky
                                 Row {
@@ -88,8 +89,8 @@ fun DataStatisticDialog(
                                 }
                                 // Scrollable
                                 Row(modifier = Modifier.horizontalScroll(scrollState)) {
-                                    repeat(scrollableHeaders.size) {
-                                        TableCell(text = "0", width = 80.dp)
+                                    player.statValues().forEach { value ->
+                                        TableCell(text = value.toString(), width = 80.dp)
                                     }
                                 }
                             }
@@ -118,3 +119,7 @@ fun TableCell(text: String, width: androidx.compose.ui.unit.Dp) {
         )
     }
 }
+
+/** Values in the order of the scrollable headers. */
+fun GameDataEntity.statValues(): List<Int> =
+    listOf(pts, fgm, fga, tpm, tpa, ftm, fta, oreb, dreb, ast, stl, blk, tov, pf)

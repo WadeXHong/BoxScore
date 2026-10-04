@@ -168,7 +168,7 @@ fun GameBoxScoreScreen(
 
     if (showDataStatisticDialog) {
         DataStatisticDialog(
-            players = allPlayers,
+            rows = state.playerTotals,
             onDismiss = { showDataStatisticDialog = false }
         )
     }

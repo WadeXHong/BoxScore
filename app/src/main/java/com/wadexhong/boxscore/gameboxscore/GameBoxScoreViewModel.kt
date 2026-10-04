@@ -6,7 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.wadexhong.boxscore.Constants.RecordDataType
 import com.wadexhong.boxscore.database.BoxScoreDatabase
 import com.wadexhong.boxscore.database.GameRepository
+import com.wadexhong.boxscore.database.entity.GameDataEntity
 import com.wadexhong.boxscore.database.entity.GameEventEntity
+import com.wadexhong.boxscore.database.entity.GameInfoEntity
 import com.wadexhong.boxscore.database.entity.TeamPlayerEntity
 import com.wadexhong.boxscore.objects.GameInfo
 import com.wadexhong.boxscore.objects.Player
@@ -24,7 +26,9 @@ data class GameUiState(
     val onCourtPlayers: List<TeamPlayerEntity> = emptyList(),
     val benchPlayers: List<TeamPlayerEntity> = emptyList(),
     /** Player stat events only (what the legacy undo list held), in chronological order. */
-    val actionHistory: List<GameEventEntity> = emptyList()
+    val actionHistory: List<GameEventEntity> = emptyList(),
+    /** Whole-game totals per player for the statistics table, roster order. */
+    val playerTotals: List<GameDataEntity> = emptyList()
 )
 
 /**
@@ -107,7 +111,8 @@ class GameBoxScoreViewModel(
                 quarter = snapshot.quarter,
                 onCourtPlayers = snapshot.onCourtIds.mapNotNull { id -> rosterById[id] },
                 benchPlayers = roster.filter { p -> p.playerId !in snapshot.onCourtIds },
-                actionHistory = snapshot.history
+                actionHistory = snapshot.history,
+                playerTotals = GameStateCalculator.totals(GameStateCalculator.playerStats(gameId, events, roster))
             )
         }
     }
@@ -183,6 +188,29 @@ class GameBoxScoreViewModel(
     fun onEditEvent(event: GameEventEntity, playerId: String, actionType: Int) {
         viewModelScope.launch {
             database.gameEventDao().updateEvent(event.copy(playerId = playerId, actionType = actionType))
+        }
+    }
+
+    /** Back -> save: keep the game resumable with up-to-date stats. */
+    fun saveProgress(onDone: () -> Unit) {
+        viewModelScope.launch {
+            repository.saveProgress(gameId)
+            onDone()
+        }
+    }
+
+    /** Back -> discard (legacy removeGameDataInDataBase). */
+    fun discardGame(onDone: () -> Unit) {
+        viewModelScope.launch {
+            repository.discardGame(gameId)
+            onDone()
+        }
+    }
+
+    /** Save icon -> end the game (legacy saveAndEndCurrentGame). */
+    fun finishGame(onDone: (GameInfoEntity?) -> Unit) {
+        viewModelScope.launch {
+            onDone(repository.finishGame(gameId))
         }
     }
 

@@ -121,6 +121,19 @@ object GameStateCalculator {
         }
     }
 
+    /** Whole-game totals per player (quarter 0), keeping the order of [rows]. */
+    fun totals(rows: List<GameDataEntity>): List<GameDataEntity> =
+        rows.groupBy { it.playerId }.values.map { playerRows ->
+            playerRows.reduce { acc, r ->
+                acc.copy(
+                    pts = acc.pts + r.pts, fgm = acc.fgm + r.fgm, fga = acc.fga + r.fga,
+                    tpm = acc.tpm + r.tpm, tpa = acc.tpa + r.tpa, ftm = acc.ftm + r.ftm, fta = acc.fta + r.fta,
+                    oreb = acc.oreb + r.oreb, dreb = acc.dreb + r.dreb, ast = acc.ast + r.ast,
+                    stl = acc.stl + r.stl, blk = acc.blk + r.blk, pf = acc.pf + r.pf, tov = acc.tov + r.tov
+                )
+            }.copy(id = 0, quarter = 0)
+        }
+
     private class StatLine {
         var pts = 0; var fgm = 0; var fga = 0; var tpm = 0; var tpa = 0; var ftm = 0; var fta = 0
         var oreb = 0; var dreb = 0; var ast = 0; var stl = 0; var blk = 0; var pf = 0; var tov = 0

@@ -6,7 +6,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.wadexhong.boxscore.BoxScore
 import com.wadexhong.boxscore.Constants
@@ -15,7 +14,6 @@ import com.wadexhong.boxscore.objects.GameInfo
 import com.wadexhong.boxscore.setting.SettingActivity
 import com.wadexhong.boxscore.setting.SettingsRepository
 import com.wadexhong.boxscore.setting.dataStore
-import kotlinx.coroutines.launch
 
 class GameBoxScoreActivity : ComponentActivity() {
 
@@ -48,22 +46,11 @@ class GameBoxScoreActivity : ComponentActivity() {
             GameBoxScoreScreen(
                 viewModel = viewModel,
                 onExit = { save ->
-                    if (save) {
-                        finish()
-                    } else {
-                        lifecycleScope.launch {
-                            val db = BoxScoreDatabase.getDatabase(applicationContext)
-                            db.gameEventDao().deleteEventsByGameId(gameId)
-                            db.gameDao().deleteGameCompletely(gameId)
-                            finish()
-                        }
-                    }
+                    if (save) viewModel.saveProgress { finish() }
+                    else viewModel.discardGame { finish() }
                 },
                 onEndGame = {
-                    // TODO: legacy also marks the game over, bumps the team's history count and
-                    //  uploads to Firebase. That needs game_info/game_data to be written, which is
-                    //  pending the GameBoxScore <-> legacy DB data-layer decision.
-                    finish()
+                    viewModel.finishGame { finish() }
                 },
                 onOpenSettings = {
                     if (BoxScore.isOnClickAllowedAndSetTimer()) {
