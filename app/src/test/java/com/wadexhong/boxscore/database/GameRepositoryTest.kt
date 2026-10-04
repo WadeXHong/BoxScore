@@ -3,6 +3,9 @@ package com.wadexhong.boxscore.database
 import com.wadexhong.boxscore.Constants.RecordDataType
 import com.wadexhong.boxscore.database.entity.GameDataEntity
 import com.wadexhong.boxscore.database.entity.GameEventEntity
+import com.wadexhong.boxscore.database.entity.TeamPlayerEntity
+import com.wadexhong.boxscore.gameboxscore.GameEventType
+import com.wadexhong.boxscore.gameboxscore.GameStateCalculator
 import com.wadexhong.boxscore.objects.GameInfo
 import com.wadexhong.boxscore.objects.Player
 import com.wadexhong.boxscore.testutil.FakeGameStore
@@ -51,6 +54,7 @@ class GameRepositoryTest {
         assertEquals(5, info.maxFoul)
         assertEquals("Bulls", info.opponentName)
 
+        assertEquals(listOf(GameEventType.GAME_START), games.eventDao.getEventsList("g1").map { it.actionType })
         val rows = games.gameDao.getGameDataList("g1")
         assertEquals(6 * 4, rows.size)
         assertEquals((1..6).map { "p$it" }, rows.map { it.playerId }.distinct())
@@ -110,14 +114,61 @@ class GameRepositoryTest {
         assertEquals((1..6).map { "p$it" }, rows.map { it.playerId }.distinct())
     }
 
-    @Test
-    fun saveProgress_keepsLegacyRowsWhenThereAreNoEvents() = runTest {
-        repo.startGameIfNew(gameInfo())
-        val legacyRow = games.gameDao.getGameDataList("g1").first()
-        games.gameDao.updateGameData(legacyRow.copy(pts = 12))
+    /** A game written by the legacy app: settings and per-quarter stats, but no event log. */
+    private suspend fun seedLegacyGame(): GameDataEntity {
+        games.gameDao.insertGameInfo(gameInfo().toEntity().copy(opponentScore = 9, yourScore = 12))
+        val rows = GameStateCalculator.playerStats("g1", emptyList(), (1..6).map {
+            TeamPlayerEntity(teamId = "t1", playerId = "p$it", playerName = "P$it", playerNumber = "$it",
+                center = 0, powerForward = 0, smallForward = 0, shootingGuard = 0, pointGuard = 0)
+        })
+        games.gameDao.insertAllGameData(rows)
+        // p1 scored 12 in quarter 3: two 3PM, two 2PM and two FTM, plus a foul and a turnover.
+        val legacy = games.gameDao.getGameDataList("g1").single { it.playerId == "p1" && it.quarter == 3 }
+            .copy(pts = 12, fgm = 4, fga = 7, tpm = 2, tpa = 3, ftm = 2, fta = 3, pf = 1, tov = 1)
+        games.gameDao.updateGameData(legacy)
+        return legacy
+    }
 
+    @Test
+    fun resumingLegacyGame_keepsItsStatsWhenNewEventsAreRecorded() = runTest {
+        val legacy = seedLegacyGame()
+
+        val resumed = repo.loadGameInfo("g1")!!
+        assertEquals((1..5).map { "p$it" }, resumed.startingPlayerList.map { it.playerId })
+        val baseline = GameStateCalculator.calculate(games.eventDao.getEventsList("g1"), emptyList())
+        assertEquals(12, baseline.yourScore)
+        assertEquals(9, baseline.opponentScore)
+        assertEquals(3, baseline.quarter)
+
+        record(RecordDataType.TWO_POINT_SHOT_MADE, "p1", quarter = 3)
+        val info = repo.saveProgress("g1")!!
+
+        assertEquals(14, info.yourScore)
+        assertEquals(9, info.opponentScore)
+        val row = games.gameDao.getGameDataList("g1").row("p1", 3)
+        assertEquals(legacy.copy(id = row.id, pts = 14, fgm = 5, fga = 8), row)
+    }
+
+    @Test
+    fun finishingLegacyGameWithoutResuming_keepsItsStats() = runTest {
+        val legacy = seedLegacyGame()
+        val finished = repo.finishGame("g1")!!
+        assertEquals(12, finished.yourScore)
+        val row = games.gameDao.getGameDataList("g1").row("p1", 3)
+        assertEquals(legacy.copy(id = row.id), row)
+    }
+
+    @Test
+    fun undoingEverything_finishesWithZeroNotStaleStats() = runTest {
+        repo.startGameIfNew(gameInfo())
+        record(RecordDataType.TWO_POINT_SHOT_MADE, "p1")
         repo.saveProgress("g1")
-        assertEquals(12, games.gameDao.getGameDataList("g1").first().pts)
+        val stat = games.eventDao.getEventsList("g1").single { it.actionType == RecordDataType.TWO_POINT_SHOT_MADE }
+        games.eventDao.deleteEventById(stat.id)
+
+        val finished = repo.finishGame("g1")!!
+        assertEquals(0, finished.yourScore)
+        assertTrue(games.gameDao.getGameDataList("g1").all { it.pts == 0 })
     }
 
     @Test

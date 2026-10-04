@@ -36,6 +36,8 @@ data class GameUiState(
  * so the lineup can be rebuilt after process death without a schema change.
  */
 object GameEventType {
+    /** Written when a game starts, so an empty event log always means a legacy game. */
+    const val GAME_START = 0x2000
     const val SUBSTITUTION_OUT = 0x2001
     const val SUBSTITUTION_IN = 0x2002
 }

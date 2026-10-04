@@ -121,6 +121,43 @@ object GameStateCalculator {
         }
     }
 
+    /**
+     * Events that reproduce the stats of a game started by the legacy app, which only stored
+     * per-quarter totals (game_data) and the opponent score. Replaying them gives back the
+     * same game_data, so new events can be recorded on top. Fouls become defensive fouls and
+     * turnovers plain turnovers: legacy totals cannot tell offensive fouls apart, but the
+     * pf/tov columns come out the same.
+     */
+    fun legacyBaselineEvents(gameId: String, rows: List<GameDataEntity>, opponentScore: Int): List<GameEventEntity> {
+        val quarter = rows.filter { it.hasStats() }.maxOfOrNull { it.quarter }?.coerceAtLeast(1) ?: 1
+        val events = mutableListOf<GameEventEntity>()
+        fun add(type: Int, count: Int, playerId: String?, q: Int) =
+            repeat(count.coerceAtLeast(0)) { events += GameEventEntity(gameId = gameId, actionType = type, playerId = playerId, quarter = q) }
+
+        (1 until quarter).forEach { add(RecordDataType.QUARTER, 1, null, it) }
+        add(RecordDataType.OPPONENT_TEAM_TOTAL_SCORE, opponentScore, null, quarter)
+        rows.forEach { r ->
+            val twoMade = r.fgm - r.tpm
+            add(RecordDataType.TWO_POINT_SHOT_MADE, twoMade, r.playerId, r.quarter)
+            add(RecordDataType.TWO_POINT_SHOT_MISSED, (r.fga - r.tpa) - twoMade, r.playerId, r.quarter)
+            add(RecordDataType.THREE_POINT_SHOT_MADE, r.tpm, r.playerId, r.quarter)
+            add(RecordDataType.THREE_POINT_SHOT_MISSED, r.tpa - r.tpm, r.playerId, r.quarter)
+            add(RecordDataType.FREE_THROW_SHOT_MADE, r.ftm, r.playerId, r.quarter)
+            add(RecordDataType.FREE_THROW_SHOT_MISSED, r.fta - r.ftm, r.playerId, r.quarter)
+            add(RecordDataType.OFFENSIVE_REBOUND, r.oreb, r.playerId, r.quarter)
+            add(RecordDataType.DEFENSIVE_REBOUND, r.dreb, r.playerId, r.quarter)
+            add(RecordDataType.ASSIST, r.ast, r.playerId, r.quarter)
+            add(RecordDataType.STEAL, r.stl, r.playerId, r.quarter)
+            add(RecordDataType.BLOCK, r.blk, r.playerId, r.quarter)
+            add(RecordDataType.DEFENSIVE_FOUL, r.pf, r.playerId, r.quarter)
+            add(RecordDataType.TURNOVER, r.tov, r.playerId, r.quarter)
+        }
+        return events
+    }
+
+    private fun GameDataEntity.hasStats() =
+        listOf(pts, fgm, fga, tpm, tpa, ftm, fta, oreb, dreb, ast, stl, blk, pf, tov).any { it != 0 }
+
     /** Whole-game totals per player (quarter 0), keeping the order of [rows]. */
     fun totals(rows: List<GameDataEntity>): List<GameDataEntity> =
         rows.groupBy { it.playerId }.values.map { playerRows ->

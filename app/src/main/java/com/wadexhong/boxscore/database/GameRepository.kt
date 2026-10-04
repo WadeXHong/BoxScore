@@ -4,8 +4,10 @@ import com.wadexhong.boxscore.database.dao.GameDao
 import com.wadexhong.boxscore.database.dao.GameEventDao
 import com.wadexhong.boxscore.database.dao.TeamDao
 import com.wadexhong.boxscore.database.entity.GameDataEntity
+import com.wadexhong.boxscore.database.entity.GameEventEntity
 import com.wadexhong.boxscore.database.entity.GameInfoEntity
 import com.wadexhong.boxscore.database.entity.TeamPlayerEntity
+import com.wadexhong.boxscore.gameboxscore.GameEventType
 import com.wadexhong.boxscore.gameboxscore.GameStateCalculator
 import com.wadexhong.boxscore.objects.GameInfo
 import com.wadexhong.boxscore.objects.Player
@@ -20,17 +22,21 @@ import com.wadexhong.boxscore.objects.Player
 class GameRepository(
     private val gameDao: GameDao,
     private val eventDao: GameEventDao,
-    private val teamDao: TeamDao
+    private val teamDao: TeamDao,
+    private val transaction: TransactionRunner = TransactionRunner.None
 ) {
-    constructor(db: BoxScoreDatabase) : this(db.gameDao(), db.gameEventDao(), db.teamDao())
+    constructor(db: BoxScoreDatabase) : this(db.gameDao(), db.gameEventDao(), db.teamDao(), TransactionRunner.of(db))
 
     /** Legacy writeInitDataIntoModel. Does nothing for a game that already exists. */
-    suspend fun startGameIfNew(info: GameInfo) {
-        if (info.gameId.isNullOrEmpty() || gameDao.getGameInfoById(info.gameId) != null) return
+    suspend fun startGameIfNew(info: GameInfo): Unit = transaction.run {
+        val gameId = info.gameId
+        if (gameId.isNullOrEmpty() || gameDao.getGameInfoById(gameId) != null) return@run
         gameDao.insertGameInfo(info.toEntity())
         val roster = (info.startingPlayerList.orEmpty() + info.substitutePlayerList.orEmpty())
             .map { it.toRosterEntity(info.yourTeamId) }
-        gameDao.insertAllGameData(GameStateCalculator.playerStats(info.gameId, emptyList(), roster))
+        gameDao.insertAllGameData(GameStateCalculator.playerStats(gameId, emptyList(), roster))
+        eventDao.insertEvent(startMarker(gameId))
+        Unit
     }
 
     suspend fun getUnfinishedGame(): GameInfoEntity? = gameDao.getUnfinishedGame()
@@ -38,15 +44,15 @@ class GameRepository(
     /** Rebuilds the GameInfo a resumed GameBoxScore needs (legacy initGameInfoFromDatabase). */
     suspend fun loadGameInfo(gameId: String): GameInfo? {
         val entity = gameDao.getGameInfoById(gameId) ?: return null
+        transaction.run { adoptLegacyStats(entity) }
         return entity.toGameInfo(roster(gameId).map { Player(it.playerNumber, it.playerName, it.playerId) })
     }
 
     /** Writes the score and per-quarter player stats derived from the event log. */
-    suspend fun saveProgress(gameId: String): GameInfoEntity? {
-        val info = gameDao.getGameInfoById(gameId) ?: return null
+    suspend fun saveProgress(gameId: String): GameInfoEntity? = transaction.run {
+        val info = gameDao.getGameInfoById(gameId) ?: return@run null
+        adoptLegacyStats(info)
         val events = eventDao.getEventsList(gameId)
-        // A game started by the legacy app has its stats in game_data but no events: keep them.
-        if (events.isEmpty()) return info
 
         val roster = roster(gameId).map {
             TeamPlayerEntity(
@@ -60,31 +66,48 @@ class GameRepository(
         val snapshot = GameStateCalculator.calculate(events, emptyList())
         val updated = info.copy(yourScore = snapshot.yourScore, opponentScore = snapshot.opponentScore)
         gameDao.updateGameInfo(updated)
-        return updated
+        updated
     }
+
+    /**
+     * A game started by the legacy app has stats in game_data but no event log (new games
+     * always have the start marker). Turn those stats into baseline events once, so new
+     * events add to them instead of replacing them.
+     */
+    private suspend fun adoptLegacyStats(info: GameInfoEntity) {
+        if (eventDao.getEventsList(info.gameId).isNotEmpty()) return
+        val rows = gameDao.getGameDataList(info.gameId)
+        eventDao.insertEvents(
+            listOf(startMarker(info.gameId)) +
+                GameStateCalculator.legacyBaselineEvents(info.gameId, rows, info.opponentScore)
+        )
+    }
+
+    private fun startMarker(gameId: String) =
+        GameEventEntity(gameId = gameId, actionType = GameEventType.GAME_START, quarter = 1)
 
     /**
      * Legacy saveAndEndCurrentGame: stores the result, marks the game over and refreshes the
      * team's history count. Returns the finished game, or null if it does not exist.
      */
-    suspend fun finishGame(gameId: String): GameInfoEntity? {
-        val info = saveProgress(gameId) ?: return null
+    suspend fun finishGame(gameId: String): GameInfoEntity? = transaction.run {
+        val info = saveProgress(gameId) ?: return@run null
         val finished = info.copy(isGameover = 1)
         gameDao.updateGameInfo(finished)
         refreshHistoryAmount(info.yourTeamId)
-        return finished
+        finished
     }
 
     /** Removes every trace of a game (legacy removeGameDataInDataBase). */
-    suspend fun discardGame(gameId: String) {
+    suspend fun discardGame(gameId: String): Unit = transaction.run {
         eventDao.deleteEventsByGameId(gameId)
         gameDao.deleteGameCompletely(gameId)
     }
 
     /** Legacy HistoryMainPresenter delete: removes the game and returns the team's new count. */
-    suspend fun deleteFinishedGame(gameId: String, teamId: String): Int {
+    suspend fun deleteFinishedGame(gameId: String, teamId: String): Int = transaction.run {
         discardGame(gameId)
-        return refreshHistoryAmount(teamId)
+        refreshHistoryAmount(teamId)
     }
 
     suspend fun refreshHistoryAmount(teamId: String): Int {

@@ -194,4 +194,31 @@ class GameStateCalculatorTest {
         assertEquals(1, totals[0].ast)
         assertTrue(totals.all { it.quarter == 0 })
     }
+
+    @Test
+    fun legacyBaseline_replaysToTheSameRows() {
+        val roster = listOf(player("p1", "1"), player("p2", "2"))
+        val stored = GameStateCalculator.playerStats("g", emptyList(), roster).map {
+            when {
+                it.playerId == "p1" && it.quarter == 1 -> it.copy(pts = 9, fgm = 3, fga = 6, tpm = 1, tpa = 2, ftm = 2, fta = 4, oreb = 1, pf = 2, tov = 1)
+                it.playerId == "p2" && it.quarter == 2 -> it.copy(dreb = 3, ast = 2, stl = 1, blk = 1)
+                else -> it
+            }
+        }
+        val baseline = GameStateCalculator.legacyBaselineEvents("g", stored, opponentScore = 5)
+
+        assertEquals(stored, GameStateCalculator.playerStats("g", baseline, roster))
+        val snapshot = GameStateCalculator.calculate(baseline, emptyList())
+        assertEquals(9, snapshot.yourScore)
+        assertEquals(5, snapshot.opponentScore)
+        assertEquals(2, snapshot.quarter)
+    }
+
+    @Test
+    fun legacyBaseline_emptyGameStaysInFirstQuarter() {
+        val rows = GameStateCalculator.playerStats("g", emptyList(), listOf(player("p1", "1")))
+        val baseline = GameStateCalculator.legacyBaselineEvents("g", rows, opponentScore = 0)
+        assertTrue(baseline.isEmpty())
+        assertEquals(1, GameStateCalculator.calculate(baseline, emptyList()).quarter)
+    }
 }
