@@ -23,6 +23,7 @@ import com.wadexhong.boxscore.R
 @Composable
 fun CreatePlayerScreen(
     uiState: CreatePlayerUiState,
+    existingNumbers: Set<String> = emptySet(),
     onConfirmClick: (name: String, number: String, isC: Boolean, isPF: Boolean, isSF: Boolean, isSG: Boolean, isPG: Boolean) -> Unit,
     onSuccess: () -> Unit,
     onErrorShown: () -> Unit
@@ -38,6 +39,18 @@ fun CreatePlayerScreen(
     var isSF by remember { mutableStateOf(false) }
     var isSG by remember { mutableStateOf(false) }
     var isPG by remember { mutableStateOf(false) }
+
+    // Real-time validation, as in legacy CreatePlayerFragment's TextWatchers (which only
+    // colored a field after it was edited).
+    var nameEdited by remember { mutableStateOf(false) }
+    var numberEdited by remember { mutableStateOf(false) }
+    val isNameLegal = playerName.isNotBlank()
+    val isNumberDuplicate = playerNumber in existingNumbers
+    val isNumberLegal = playerNumber.isNotBlank() && !isNumberDuplicate
+
+    LaunchedEffect(playerNumber) {
+        if (isNumberDuplicate) Toast.makeText(context, "此背號已被使用", Toast.LENGTH_SHORT).show()
+    }
 
     // Handle side effects
     LaunchedEffect(uiState.isSuccess) {
@@ -63,7 +76,12 @@ fun CreatePlayerScreen(
     ) {
         OutlinedTextField(
             value = playerName,
-            onValueChange = { if (it.length <= 20) playerName = it },
+            onValueChange = {
+                val input = it.trimStart(' ')
+                if (input.length <= 20) playerName = input
+                nameEdited = true
+            },
+            isError = nameEdited && !isNameLegal,
             label = { Text(stringResource(id = R.string.playerName), color = Color.Gray) },
             placeholder = { Text(stringResource(id = R.string.playerNameHint), color = Color.DarkGray) },
             singleLine = true,
@@ -79,7 +97,14 @@ fun CreatePlayerScreen(
 
         OutlinedTextField(
             value = playerNumber,
-            onValueChange = { if (it.length <= 2) playerNumber = it },
+            onValueChange = {
+                // Legacy drops a leading zero from two-digit numbers: "03" -> "3".
+                var input = it.filter(Char::isDigit)
+                if (input.length == 2 && input[0] == '0') input = input.substring(1)
+                if (input.length <= 2) playerNumber = input
+                numberEdited = true
+            },
+            isError = numberEdited && !isNumberLegal,
             label = { Text(stringResource(id = R.string.playerNumber), color = Color.Gray) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             singleLine = true,
@@ -113,7 +138,7 @@ fun CreatePlayerScreen(
             onClick = {
                 onConfirmClick(playerName, playerNumber, isC, isPF, isSF, isSG, isPG)
             },
-            enabled = !uiState.isLoading,
+            enabled = !uiState.isLoading && isNameLegal && isNumberLegal,
             shape = RoundedCornerShape(20.dp),
             colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.colorButtonInMain)),
             modifier = Modifier

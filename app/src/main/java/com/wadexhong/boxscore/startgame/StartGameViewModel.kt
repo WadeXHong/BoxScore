@@ -3,19 +3,28 @@ package com.wadexhong.boxscore.startgame
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.wadexhong.boxscore.R
 import com.wadexhong.boxscore.database.dao.PlayerDao
 import com.wadexhong.boxscore.database.dao.TeamDao
 import com.wadexhong.boxscore.database.entity.TeamInfoEntity
 import com.wadexhong.boxscore.database.entity.TeamPlayerEntity
 import com.wadexhong.boxscore.objects.GameInfo
 import com.wadexhong.boxscore.objects.Player
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.UUID
+
+/** A toast for a stepper that hit its bound: string resource with one %d argument. */
+data class LimitMessage(val messageRes: Int, val limit: Int)
 
 data class GameInfoBuilder(
     val isLoading: Boolean = true,
@@ -46,18 +55,47 @@ class StartGameViewModel(
     private val playerDao: PlayerDao
 ) : ViewModel() {
 
+    companion object {
+        // Bounds from legacy DetailSettingPresenter.
+        const val MIN_QUARTER_LENGTH = 1
+        const val MAX_QUARTER_LENGTH = 40
+        const val MIN_TOTAL_QUARTER = 1
+        const val MAX_TOTAL_QUARTER = 4
+        const val MIN_FOUL = 1
+        const val MAX_FOUL = 9
+        const val MIN_TIMEOUT = 1
+        const val MAX_TIMEOUT = 9
+
+        /** Legacy only offers teams that can field 5 starters plus at least 1 substitute. */
+        const val MIN_TEAM_PLAYERS = 6
+    }
+
     private val _uiState = MutableStateFlow(GameInfoBuilder())
     val uiState: StateFlow<GameInfoBuilder> = _uiState.asStateFlow()
 
+    private val _limitMessages = MutableSharedFlow<LimitMessage>(extraBufferCapacity = 1)
+    val limitMessages: SharedFlow<LimitMessage> = _limitMessages.asSharedFlow()
+
+    private var playersJob: Job? = null
+
     init {
         viewModelScope.launch {
-            teamDao.getAllTeams().collectLatest { teamList ->
+            // Count real roster rows: the stored playersAmount is not kept in sync by TeamManage.
+            combine(teamDao.getAllTeams(), playerDao.getAllPlayers()) { allTeams, allPlayers ->
+                val counts = allPlayers.groupingBy { it.teamId }.eachCount()
+                allTeams.filter { (counts[it.teamId] ?: 0) >= MIN_TEAM_PLAYERS }
+            }.collectLatest { teamList ->
+                val previousTeamId = _uiState.value.selectedTeam?.teamId
                 _uiState.update { it.copy(
                     teams = teamList, 
-                    selectedTeam = it.selectedTeam ?: teamList.firstOrNull(),
+                    selectedTeam = it.selectedTeam?.takeIf { selected -> teamList.any { t -> t.teamId == selected.teamId } }
+                        ?: teamList.firstOrNull(),
                     isLoading = false
                 ) }
-                teamList.firstOrNull()?.let { fetchPlayers(it.teamId) }
+                val selectedTeamId = _uiState.value.selectedTeam?.teamId
+                if (selectedTeamId != null && (selectedTeamId != previousTeamId || playersJob == null)) {
+                    fetchPlayers(selectedTeamId)
+                }
             }
         }
     }
@@ -68,7 +106,8 @@ class StartGameViewModel(
     }
 
     private fun fetchPlayers(teamId: String) {
-        viewModelScope.launch {
+        playersJob?.cancel()
+        playersJob = viewModelScope.launch {
             playerDao.getPlayersByTeamId(teamId).collectLatest { playerList ->
                 _uiState.update { it.copy(players = playerList) }
             }
@@ -76,14 +115,16 @@ class StartGameViewModel(
     }
 
     fun onGameTitleChanged(title: String) {
-        if (title.length <= 20) {
-            _uiState.update { it.copy(gameTitle = title) }
+        val input = title.trimStart(' ')
+        if (input.length <= 20) {
+            _uiState.update { it.copy(gameTitle = input) }
         }
     }
 
     fun onOpponentNameChanged(name: String) {
-        if (name.length <= 20) {
-            _uiState.update { it.copy(opponentName = name, isStep1Error = false) }
+        val input = name.trimStart(' ')
+        if (input.length <= 20) {
+            _uiState.update { it.copy(opponentName = input, isStep1Error = false) }
         }
     }
 
@@ -119,28 +160,56 @@ class StartGameViewModel(
         }
     }
 
-    fun onQuarterLengthChanged(length: Int) {
-        if (length in 1..99) _uiState.update { it.copy(quarterLength = length) }
+    /**
+     * Applies [value] when it is within [min]..[max]; otherwise emits the legacy toast for the
+     * bound that was hit and keeps the current value.
+     */
+    private fun stepTo(value: Int, min: Int, max: Int, minRes: Int, maxRes: Int, apply: (Int) -> Unit) {
+        when {
+            value > max -> _limitMessages.tryEmit(LimitMessage(maxRes, max))
+            value < min -> _limitMessages.tryEmit(LimitMessage(minRes, min))
+            else -> apply(value)
+        }
     }
 
-    fun onTotalQuartersChanged(quarters: Int) {
-        if (quarters in 1..9) _uiState.update { it.copy(totalQuarters = quarters) }
+    fun onQuarterLengthChanged(length: Int) = stepTo(
+        length, MIN_QUARTER_LENGTH, MAX_QUARTER_LENGTH,
+        R.string.min_quarter_length_message, R.string.max_quarter_length_message
+    ) { v -> _uiState.update { it.copy(quarterLength = v) } }
+
+    fun onTotalQuartersChanged(quarters: Int) = stepTo(
+        quarters, MIN_TOTAL_QUARTER, MAX_TOTAL_QUARTER,
+        R.string.min_total_quarter_message, R.string.max_total_quarter_message
+    ) { v -> _uiState.update { it.copy(totalQuarters = v) } }
+
+    fun onMaxFoulsChanged(fouls: Int) = stepTo(
+        fouls, MIN_FOUL, MAX_FOUL,
+        R.string.min_foul_message, R.string.max_foul_message
+    ) { v -> _uiState.update { it.copy(maxFouls = v) } }
+
+    fun onTimeoutsFirstHalfChanged(timeouts: Int) = stepTo(
+        timeouts, MIN_TIMEOUT, MAX_TIMEOUT,
+        R.string.min_timeout_first_half, R.string.max_timeout_first_half
+    ) { v -> _uiState.update { it.copy(timeoutsFirstHalf = v) } }
+
+    fun onTimeoutsSecondHalfChanged(timeouts: Int) = stepTo(
+        timeouts, MIN_TIMEOUT, MAX_TIMEOUT,
+        R.string.min_timeout_second_half, R.string.max_timeout_second_half
+    ) { v -> _uiState.update { it.copy(timeoutsSecondHalf = v) } }
+
+    /** Validates one wizard page; pages after the player list have nothing to check. */
+    fun validatePage(page: Int): Boolean = when (page) {
+        0 -> validateStep1()
+        1 -> validateStep2()
+        else -> true
     }
 
-    fun onMaxFoulsChanged(fouls: Int) {
-        if (fouls in 1..9) _uiState.update { it.copy(maxFouls = fouls) }
-    }
-
-    fun onTimeoutsFirstHalfChanged(timeouts: Int) {
-        if (timeouts in 0..9) _uiState.update { it.copy(timeoutsFirstHalf = timeouts) }
-    }
-
-    fun onTimeoutsSecondHalfChanged(timeouts: Int) {
-        if (timeouts in 0..9) _uiState.update { it.copy(timeoutsSecondHalf = timeouts) }
-    }
+    /** Index of the first page before [targetPage] whose input is invalid, or -1 if all pass. */
+    fun firstInvalidPageBefore(targetPage: Int): Int =
+        (0 until targetPage).firstOrNull { !validatePage(it) } ?: -1
 
     fun validateStep1(): Boolean {
-        val isValid = _uiState.value.opponentName.isNotBlank() && _uiState.value.selectedTeam != null
+        val isValid = _uiState.value.opponentName.isNotBlank()
         _uiState.update { it.copy(isStep1Valid = isValid, isStep1Error = !isValid) }
         return isValid
     }
@@ -158,8 +227,10 @@ class StartGameViewModel(
         gameInfo.gameName = state.gameTitle
         gameInfo.opponentName = state.opponentName
         gameInfo.gameDate = state.gameDate
-        gameInfo.yourTeam = state.selectedTeam?.teamName ?: ""
-        gameInfo.yourTeamId = state.selectedTeam?.teamId ?: ""
+        // Legacy falls back to the "quick game" team when no team is selected.
+        val context = com.wadexhong.boxscore.BoxScore.getAppContext()
+        gameInfo.yourTeam = state.selectedTeam?.teamName ?: context.getString(R.string.quick_game_team_name)
+        gameInfo.yourTeamId = state.selectedTeam?.teamId ?: context.getString(R.string.quick_game_team_id)
         
         gameInfo.quarterLength = state.quarterLength.toString()
         gameInfo.totalQuarter = state.totalQuarters.toString()

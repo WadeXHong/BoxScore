@@ -6,6 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.wadexhong.boxscore.database.dao.PlayerDao
 import com.wadexhong.boxscore.database.entity.TeamPlayerEntity
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
@@ -25,6 +28,11 @@ class CreatePlayerViewModel(
 
     private val _uiState = MutableStateFlow(CreatePlayerUiState())
     val uiState: StateFlow<CreatePlayerUiState> = _uiState.asStateFlow()
+
+    /** Jersey numbers already used in this team, for real-time duplicate checking. */
+    val existingNumbers: StateFlow<Set<String>> = playerDao.getPlayersByTeamId(teamId)
+        .map { players -> players.map { it.playerNumber }.toSet() }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, emptySet())
 
     fun createPlayer(
         name: String,
@@ -68,7 +76,7 @@ class CreatePlayerViewModel(
                 pointGuard = if (isPG) 1 else 0
             )
             
-            playerDao.insertPlayer(playerEntity)
+            playerDao.insertPlayerAndSyncAmount(playerEntity)
             _uiState.value = CreatePlayerUiState(isSuccess = true)
         }
     }

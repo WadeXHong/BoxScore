@@ -33,11 +33,9 @@ class SettingActivity : ComponentActivity() {
             viewModel.uiState.collectLatest { state ->
                 val brightness = state.brightness
                 BoxScore.sBrightness = brightness
-                if (brightness >= 0f) {
-                    val layoutParams = window.attributes
-                    layoutParams.screenBrightness = brightness
-                    window.attributes = layoutParams
-                }
+                val layoutParams = window.attributes
+                layoutParams.screenBrightness = brightness
+                window.attributes = layoutParams
             }
         }
         

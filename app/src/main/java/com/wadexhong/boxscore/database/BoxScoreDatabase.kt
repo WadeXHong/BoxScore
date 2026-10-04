@@ -22,7 +22,7 @@ import com.wadexhong.boxscore.database.entity.TeamPlayerEntity
         TeamPlayerEntity::class,
         GameEventEntity::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class BoxScoreDatabase : RoomDatabase() {

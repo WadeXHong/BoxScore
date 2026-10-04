@@ -27,10 +27,58 @@ import com.wadexhong.boxscore.setting.SettingActivity
 import com.wadexhong.boxscore.startgame.StartGameActivity
 import com.wadexhong.boxscore.teammanage.TeamManageActivity
 
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import androidx.core.view.WindowCompat
+
 class MainActivity : ComponentActivity() {
+
+    override fun onResume() {
+        super.onResume()
+        val layoutParams = window.attributes
+        layoutParams.screenBrightness = BoxScore.sBrightness
+        window.attributes = layoutParams
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        
+        // --- TEMP MOCK DATA SCRIPT ---
+        kotlinx.coroutines.GlobalScope.launch(kotlinx.coroutines.Dispatchers.IO) {
+            val db = com.wadexhong.boxscore.database.BoxScoreDatabase.getDatabase(this@MainActivity)
+            db.teamDao().getAllTeams().collect { teams ->
+                if (teams.isEmpty()) {
+                val teamId = java.util.UUID.randomUUID().toString()
+                db.teamDao().insertTeam(
+                    com.wadexhong.boxscore.database.entity.TeamInfoEntity(
+                        teamId = teamId, 
+                        teamName = "Test Team",
+                        playersAmount = 6,
+                        historyAmount = 0
+                    )
+                )
+                for (i in 1..6) {
+                    db.playerDao().insertPlayer(
+                        com.wadexhong.boxscore.database.entity.TeamPlayerEntity(
+                            playerId = java.util.UUID.randomUUID().toString(),
+                            teamId = teamId,
+                            playerName = "Player $i",
+                            playerNumber = i.toString(),
+                            center = 0,
+                            powerForward = 0,
+                            smallForward = 0,
+                            shootingGuard = 0,
+                            pointGuard = 0
+                        )
+                    )
+                }
+                }
+            }
+        }
+        // -----------------------------
 
         val currentUser = FirebaseAuth.getInstance().currentUser
         val startDestination = if (currentUser != null) {

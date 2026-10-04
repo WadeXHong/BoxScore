@@ -29,9 +29,11 @@ import androidx.compose.ui.tooling.preview.Preview
 fun TeamPlayersScreen(
     uiState: TeamPlayersUiState,
     onCreatePlayerClick: () -> Unit,
-    onDeletePlayerClick: (String) -> Unit
+    onDeletePlayerClick: (String) -> Unit,
+    // Legacy rows called an empty transToPlayerDetail(); there is no player detail page yet.
+    onPlayerClick: (String) -> Unit = {}
 ) {
-    var playerToDelete by remember { mutableStateOf<String?>(null) }
+    var playerToDelete by remember { mutableStateOf<TeamPlayerEntity?>(null) }
 
     Column(
         modifier = Modifier
@@ -68,29 +70,30 @@ fun TeamPlayersScreen(
             items(uiState.players) { player ->
                 TeamPlayerListItem(
                     player = player,
-                    onDeleteClick = { playerToDelete = player.playerId }
+                    onClick = { onPlayerClick(player.playerId) },
+                    onDeleteClick = { playerToDelete = player }
                 )
             }
         }
     }
 
     // Delete Confirmation Dialog
-    if (playerToDelete != null) {
+    playerToDelete?.let { player ->
         AlertDialog(
             onDismissRequest = { playerToDelete = null },
             title = { Text(stringResource(id = R.string.dialog_delete_player_title)) },
-            text = { Text(stringResource(id = R.string.dialog_delete_player_message)) },
+            text = { Text(stringResource(id = R.string.dialog_delete_player_message, player.playerName)) },
             confirmButton = {
                 TextButton(onClick = {
-                    onDeletePlayerClick(playerToDelete!!)
+                    onDeletePlayerClick(player.playerId)
                     playerToDelete = null
                 }) {
-                    Text(stringResource(id = R.string.confirm))
+                    Text(stringResource(id = R.string.yes))
                 }
             },
             dismissButton = {
                 TextButton(onClick = { playerToDelete = null }) {
-                    Text(stringResource(id = R.string.cancel))
+                    Text(stringResource(id = R.string.no))
                 }
             }
         )
@@ -100,12 +103,14 @@ fun TeamPlayersScreen(
 @Composable
 fun TeamPlayerListItem(
     player: TeamPlayerEntity,
-    onDeleteClick: () -> Unit
+    onDeleteClick: () -> Unit,
+    onClick: () -> Unit = {}
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(55.dp),
+            .height(55.dp)
+            .clickable { onClick() },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
@@ -121,6 +126,9 @@ fun TeamPlayerListItem(
             color = colorResource(id = R.color.colorButtonInMain),
             fontSize = 20.sp
         )
+        // Legacy item_teamplayers_edit: a 35dp ImageView with no image (placeholder for a future edit action).
+        Spacer(modifier = Modifier.size(35.dp))
+        Spacer(modifier = Modifier.width(8.dp))
         Icon(
             painter = painterResource(id = R.drawable.ic_delete_forever_white_24dp),
             contentDescription = "Delete",

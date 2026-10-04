@@ -2,6 +2,7 @@ package com.wadexhong.boxscore.teammanage.createteam
 
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -9,6 +10,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -55,7 +57,8 @@ fun CreateTeamScreen(
                 .padding(horizontal = 50.dp)
                 .fillMaxWidth()
                 .background(Color.White, shape = RoundedCornerShape(8.dp))
-                .clickable(enabled = false) {} // Prevent clicks from dismissing dialog
+                // Consume taps so they don't reach the dismiss-on-tap background behind the card.
+                .pointerInput(Unit) { detectTapGestures { } }
         ) {
             Text(
                 text = stringResource(id = R.string.pleaseInputTeamName),
@@ -72,7 +75,10 @@ fun CreateTeamScreen(
 
             OutlinedTextField(
                 value = teamName,
-                onValueChange = { if (it.length <= 20) teamName = it },
+                onValueChange = {
+                    val input = it.trimStart(' ')
+                    if (input.length <= 20) teamName = input
+                },
                 placeholder = { Text(stringResource(id = R.string.opponentNameHint)) },
                 singleLine = true,
                 modifier = Modifier
@@ -102,7 +108,7 @@ fun CreateTeamScreen(
 
                 TextButton(
                     onClick = { onConfirmClick(teamName) },
-                    enabled = !uiState.isLoading,
+                    enabled = !uiState.isLoading && teamName.isNotBlank(),
                     modifier = Modifier.weight(1f).height(50.dp)
                 ) {
                     Text(

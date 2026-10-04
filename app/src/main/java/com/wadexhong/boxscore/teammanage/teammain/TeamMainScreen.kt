@@ -1,6 +1,8 @@
 package com.wadexhong.boxscore.teammanage.teammain
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -16,6 +18,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -34,7 +37,7 @@ fun TeamMainScreen(
     onTeamPlayersClick: (String) -> Unit,
     onDeleteTeamClick: (String) -> Unit
 ) {
-    var teamToDelete by remember { mutableStateOf<String?>(null) }
+    var teamToDelete by remember { mutableStateOf<TeamInfo?>(null) }
     var expandedTeamId by remember { mutableStateOf<String?>(null) }
 
     Column(
@@ -77,7 +80,7 @@ fun TeamMainScreen(
                     onToggleExpand = {
                         expandedTeamId = if (isExpanded) null else team.teamId
                     },
-                    onDeleteClick = { teamToDelete = team.teamId }
+                    onDeleteClick = { teamToDelete = team }
                 )
                 
                 // Expandable Detail
@@ -94,14 +97,14 @@ fun TeamMainScreen(
     }
 
     // Delete Confirmation Dialog
-    if (teamToDelete != null) {
+    teamToDelete?.let { team ->
         AlertDialog(
             onDismissRequest = { teamToDelete = null },
             title = { Text(stringResource(id = R.string.dialog_delete_team_title)) },
-            text = { Text(stringResource(id = R.string.dialog_delete_team_message)) }, // We might need string formatting here, but simplify for now
+            text = { Text(stringResource(id = R.string.dialog_delete_team_message, team.teamName ?: "")) },
             confirmButton = {
                 TextButton(onClick = {
-                    onDeleteTeamClick(teamToDelete!!)
+                    team.teamId?.let(onDeleteTeamClick)
                     teamToDelete = null
                 }) {
                     Text(stringResource(id = R.string.confirm))
@@ -123,6 +126,12 @@ fun TeamListItem(
     onToggleExpand: () -> Unit,
     onDeleteClick: () -> Unit
 ) {
+    // Legacy rotated the arrow 0 -> 90 degrees over 150ms on expand, and back on collapse.
+    val arrowRotation by animateFloatAsState(
+        targetValue = if (isExpanded) 90f else 0f,
+        animationSpec = tween(durationMillis = 150),
+        label = "arrowRotation"
+    )
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -134,7 +143,9 @@ fun TeamListItem(
         Image(
             painter = painterResource(id = R.drawable.ic_keyboard_arrow_right_notsowhite_30dp),
             contentDescription = null,
-            modifier = Modifier.size(35.dp)
+            modifier = Modifier
+                .size(35.dp)
+                .rotate(arrowRotation)
         )
         Spacer(modifier = Modifier.width(8.dp))
         Text(

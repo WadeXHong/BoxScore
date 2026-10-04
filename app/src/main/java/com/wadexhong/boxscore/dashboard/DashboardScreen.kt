@@ -12,6 +12,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.wadexhong.boxscore.R
+import com.wadexhong.boxscore.utils.debounced
 
 @Composable
 fun DashboardScreen(
@@ -69,7 +70,7 @@ fun DashboardButton(
     onClick: () -> Unit
 ) {
     Button(
-        onClick = onClick,
+        onClick = debounced(onClick = onClick),
         shape = shape,
         colors = ButtonDefaults.buttonColors(backgroundColor = btnColor),
         modifier = Modifier

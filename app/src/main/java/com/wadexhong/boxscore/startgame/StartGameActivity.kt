@@ -34,7 +34,7 @@ class StartGameActivity : ComponentActivity() {
         setContent {
             StartGameScreen(
                 viewModel = viewModel,
-                onBack = { onBackPressedDispatcher.onBackPressed() },
+                onBack = { finish() },
                 onStartGame = { gameInfo ->
                     if (BoxScore.isOnClickAllowedAndSetTimer()) {
                         val intent = Intent(this, GameBoxScoreActivity::class.java)

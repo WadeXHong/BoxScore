@@ -37,9 +37,11 @@ class CreatePlayerFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 val uiState by viewModel.uiState.collectAsState()
+                val existingNumbers by viewModel.existingNumbers.collectAsState()
 
                 CreatePlayerScreen(
                     uiState = uiState,
+                    existingNumbers = existingNumbers,
                     onConfirmClick = { name, number, isC, isPF, isSF, isSG, isPG ->
                         viewModel.createPlayer(name, number, isC, isPF, isSF, isSG, isPG)
                     },

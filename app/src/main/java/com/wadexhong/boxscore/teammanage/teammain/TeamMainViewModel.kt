@@ -44,9 +44,14 @@ class TeamMainViewModel(
             initialValue = TeamMainUiState(isLoading = true)
         )
 
+    init {
+        // Earlier builds never updated players_amount when players were added or removed.
+        viewModelScope.launch { teamDao.syncAllTeamPlayersAmounts() }
+    }
+
     fun deleteTeam(teamId: String) {
         viewModelScope.launch {
-            teamDao.deleteTeamById(teamId)
+            teamDao.deleteTeamWithPlayers(teamId)
         }
     }
 }

@@ -38,9 +38,9 @@ import com.wadexhong.boxscore.adapter.ViewPagerFragmentAdapter;
 import com.wadexhong.boxscore.customlayout.BSViewPager;
 import com.wadexhong.boxscore.gameboxscore.datastatistic.DataStatisticDialog;
 
-public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxScoreContract.View {
+public class LegacyGameBoxScoreActivity extends AppCompatActivity implements GameBoxScoreContract.View {
 
-    private final String TAG = GameBoxScoreActivity.class.getSimpleName();
+    private final String TAG = LegacyGameBoxScoreActivity.class.getSimpleName();
 
     private GameBoxScoreContract.Presenter mPresenter;
     private final int PAGE_DATARECORD = 0;
@@ -164,7 +164,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
                 Log.d(TAG, "mQuarterTextView onClick");
                 BoxScore.vibrate();
 
-                new AlertDialog.Builder(GameBoxScoreActivity.this, R.style.OrangeDialog).setTitle(R.string.ask_next_quarter_title)
+                new AlertDialog.Builder(LegacyGameBoxScoreActivity.this, R.style.OrangeDialog).setTitle(R.string.ask_next_quarter_title)
                           .setMessage(R.string.ask_next_quarter_message)
                           .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                               @Override
@@ -187,7 +187,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
                 Log.d(TAG, "mMakeUpTextView onClick");
                 BoxScore.vibrate();
                 if (mGameInfo.getTeamData().get(Constants.RecordDataType.QUARTER) != 1) {
-                    new MakeUpDialog(GameBoxScoreActivity.this, R.style.OrangeDialog).show();
+                    new MakeUpDialog(LegacyGameBoxScoreActivity.this, R.style.OrangeDialog).show();
                 } else {
                     showToast("第一節不須補登");
                 }
@@ -207,7 +207,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
             public void onClick(View v) {
                 BoxScore.vibrate();
                 Log.d(TAG, "mSaveImageView onClick");
-                new AlertDialog.Builder(GameBoxScoreActivity.this, R.style.OrangeDialog).setTitle(R.string.ask_save_title)
+                new AlertDialog.Builder(LegacyGameBoxScoreActivity.this, R.style.OrangeDialog).setTitle(R.string.ask_save_title)
                           .setMessage(R.string.ask_save_message)
                           .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                               @Override
@@ -230,7 +230,7 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
             public void onClick(View v) {
                 BoxScore.vibrate();
                 Log.d(TAG, "mSettingImageView onClick");
-                startActivity(new Intent(GameBoxScoreActivity.this, SettingActivity.class)
+                startActivity(new Intent(LegacyGameBoxScoreActivity.this, SettingActivity.class)
                           .putExtra(Constants.ExtraNames.SETTING_BOOLEAN_IS_SHOW_LOGOUT, false));
             }
         });
@@ -411,14 +411,14 @@ public class GameBoxScoreActivity extends AppCompatActivity implements GameBoxSc
                           mPresenter.removeGameDataSharedPreferences();
 
                           dialog.dismiss(); //TODO 清除DataBase
-                          GameBoxScoreActivity.super.onBackPressed();
+                          LegacyGameBoxScoreActivity.super.onBackPressed();
                       }
                   })
                   .setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
                       @Override
                       public void onClick(DialogInterface dialog, int which) {
                           dialog.dismiss();
-                          GameBoxScoreActivity.super.onBackPressed();
+                          LegacyGameBoxScoreActivity.super.onBackPressed();
                       }
                   }).show();
     }

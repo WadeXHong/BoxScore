@@ -33,7 +33,7 @@ class TeamPlayersViewModel(
 
     fun deletePlayer(playerId: String) {
         viewModelScope.launch {
-            playerDao.deletePlayerById(playerId)
+            playerDao.deletePlayerAndSyncAmount(teamId, playerId)
         }
     }
 }
