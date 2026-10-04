@@ -9,8 +9,9 @@ import android.view.WindowManager;
 import com.wadexhong.boxscore.BoxScore;
 import com.wadexhong.boxscore.R;
 
-public class TeamManageActivity extends AppCompatActivity implements TeamManageContract.View{
-    private static final String TAG = TeamManageActivity.class.getSimpleName();
+/** Legacy fragment host, replaced by the Compose TeamManageActivity. */
+public class LegacyTeamManageActivity extends AppCompatActivity implements TeamManageContract.View{
+    private static final String TAG = LegacyTeamManageActivity.class.getSimpleName();
 
     public TeamManageContract.Presenter mPresenter;
 

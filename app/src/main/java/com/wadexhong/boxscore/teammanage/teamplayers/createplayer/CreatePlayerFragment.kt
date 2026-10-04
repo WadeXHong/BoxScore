@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.wadexhong.boxscore.BoxScore
 import com.wadexhong.boxscore.database.BoxScoreDatabase
-import com.wadexhong.boxscore.teammanage.TeamManageActivity
+import com.wadexhong.boxscore.teammanage.LegacyTeamManageActivity
 
 class CreatePlayerFragment : Fragment() {
 
@@ -47,7 +47,7 @@ class CreatePlayerFragment : Fragment() {
                     },
                     onSuccess = {
                         // Pop backstack to return to TeamPlayersFragment
-                        (activity as? TeamManageActivity)?.onBackPressed()
+                        (activity as? LegacyTeamManageActivity)?.onBackPressed()
                     },
                     onErrorShown = {
                         viewModel.clearError()
@@ -60,7 +60,7 @@ class CreatePlayerFragment : Fragment() {
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         if (!hidden) {
-            (activity as? TeamManageActivity)?.mPresenter?.setCreatePlayerToolbar()
+            (activity as? LegacyTeamManageActivity)?.mPresenter?.setCreatePlayerToolbar()
         }
     }
 

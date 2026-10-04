@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.wadexhong.boxscore.BoxScore
 import com.wadexhong.boxscore.database.BoxScoreDatabase
-import com.wadexhong.boxscore.teammanage.TeamManageActivity
+import com.wadexhong.boxscore.teammanage.LegacyTeamManageActivity
 
 class TeamPlayersFragment : Fragment() {
 
@@ -41,7 +41,7 @@ class TeamPlayersFragment : Fragment() {
                 TeamPlayersScreen(
                     uiState = uiState,
                     onCreatePlayerClick = {
-                        (activity as? TeamManageActivity)?.mPresenter?.transToCreatePlayer(mTeamId)
+                        (activity as? LegacyTeamManageActivity)?.mPresenter?.transToCreatePlayer(mTeamId)
                     },
                     onDeletePlayerClick = { playerId ->
                         viewModel.deletePlayer(playerId)
@@ -54,7 +54,7 @@ class TeamPlayersFragment : Fragment() {
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         if (!hidden) {
-            (activity as? TeamManageActivity)?.mPresenter?.setTeamPlayersToolbar()
+            (activity as? LegacyTeamManageActivity)?.mPresenter?.setTeamPlayersToolbar()
         }
     }
 

@@ -26,7 +26,7 @@ public class BoxScore extends Application {
     private static TeamDbHelper mTeamDbHelper;
     private static Vibrator mVibrator;
     public static float sBrightness;
-    public static boolean sIsOnClickAllowed = true;
+    public static volatile boolean sIsOnClickAllowed = true;
 
     @Override
     public void onCreate() {
@@ -86,6 +86,8 @@ public class BoxScore extends Application {
 
     public static boolean isOnClickAllowedAndSetTimer(){
         if (sIsOnClickAllowed) {
+            // Block synchronously: setting it inside the timer thread let a second fast tap through.
+            sIsOnClickAllowed = false;
             onClickProcessingTimer(500);
             return true;
         }
