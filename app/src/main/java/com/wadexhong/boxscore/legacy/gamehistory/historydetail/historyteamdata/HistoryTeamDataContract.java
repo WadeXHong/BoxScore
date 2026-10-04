@@ -1,4 +1,4 @@
-package com.wadexhong.boxscore.gamehistory.historydetail.historyteamdata;
+package com.wadexhong.boxscore.legacy.gamehistory.historydetail.historyteamdata;
 
 import android.database.Cursor;
 

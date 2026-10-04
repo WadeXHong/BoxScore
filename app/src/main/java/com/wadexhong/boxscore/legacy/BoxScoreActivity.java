@@ -37,7 +37,7 @@ import com.wadexhong.boxscore.Constants;
 import com.wadexhong.boxscore.R;
 import com.wadexhong.boxscore.dialog.ProgressBarDialog;
 import com.wadexhong.boxscore.gameboxscore.GameBoxScoreActivity;
-import com.wadexhong.boxscore.gamehistory.GameHistoryActivity;
+import com.wadexhong.boxscore.legacy.gamehistory.GameHistoryActivity;
 import com.wadexhong.boxscore.objects.GameInfo;
 import com.wadexhong.boxscore.setting.SettingActivity;
 import com.wadexhong.boxscore.startgame.StartGameActivity;

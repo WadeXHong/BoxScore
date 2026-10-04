@@ -1,13 +1,13 @@
-package com.wadexhong.boxscore.gamehistory.historydetail;
+package com.wadexhong.boxscore.legacy.gamehistory.historydetail;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.wadexhong.boxscore.adapter.ViewPagerFragmentAdapter;
-import com.wadexhong.boxscore.gamehistory.historydetail.historyplayersdata.HistoryPlayersDataFragment;
-import com.wadexhong.boxscore.gamehistory.historydetail.historyplayersdata.HistoryPlayersDataPresenter;
-import com.wadexhong.boxscore.gamehistory.historydetail.historyteamdata.HistoryTeamDataFragment;
-import com.wadexhong.boxscore.gamehistory.historydetail.historyteamdata.HistoryTeamDataPresenter;
+import com.wadexhong.boxscore.legacy.gamehistory.historydetail.historyplayersdata.HistoryPlayersDataFragment;
+import com.wadexhong.boxscore.legacy.gamehistory.historydetail.historyplayersdata.HistoryPlayersDataPresenter;
+import com.wadexhong.boxscore.legacy.gamehistory.historydetail.historyteamdata.HistoryTeamDataFragment;
+import com.wadexhong.boxscore.legacy.gamehistory.historydetail.historyteamdata.HistoryTeamDataPresenter;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.wadexhong.boxscore.gamehistory.historydetail.historyplayersdata;
+package com.wadexhong.boxscore.legacy.gamehistory.historydetail.historyplayersdata;
 
 /**
  * Created by wade8 on 2018/5/22.

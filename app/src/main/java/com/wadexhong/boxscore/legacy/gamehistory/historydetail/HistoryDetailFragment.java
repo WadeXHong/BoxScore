@@ -1,4 +1,4 @@
-package com.wadexhong.boxscore.gamehistory.historydetail;
+package com.wadexhong.boxscore.legacy.gamehistory.historydetail;
 
 
 import android.os.Bundle;

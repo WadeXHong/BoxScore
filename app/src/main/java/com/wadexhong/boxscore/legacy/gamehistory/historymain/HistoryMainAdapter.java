@@ -1,4 +1,4 @@
-package com.wadexhong.boxscore.gamehistory.historymain;
+package com.wadexhong.boxscore.legacy.gamehistory.historymain;
 
 import android.content.DialogInterface;
 import android.database.Cursor;
