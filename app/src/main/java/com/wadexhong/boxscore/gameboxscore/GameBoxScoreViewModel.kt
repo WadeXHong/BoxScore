@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.wadexhong.boxscore.Constants.RecordDataType
 import com.wadexhong.boxscore.database.BoxScoreDatabase
+import com.wadexhong.boxscore.database.GameRepository
 import com.wadexhong.boxscore.database.entity.GameEventEntity
 import com.wadexhong.boxscore.database.entity.TeamPlayerEntity
 import com.wadexhong.boxscore.objects.GameInfo
@@ -45,6 +46,8 @@ class GameBoxScoreViewModel(
     settingsRepository: SettingsRepository? = null
 ) : ViewModel() {
 
+    private val repository = GameRepository(database)
+
     private val _uiState = MutableStateFlow(GameUiState(gameId = gameId))
     val uiState: StateFlow<GameUiState> = _uiState.asStateFlow()
 
@@ -63,6 +66,8 @@ class GameBoxScoreViewModel(
         } ?: MutableStateFlow(emptyMap())
 
     init {
+        // A new game is written to game_info/game_data on first launch; a resumed one already exists.
+        gameInfo?.let { info -> viewModelScope.launch { repository.startGameIfNew(info) } }
         viewModelScope.launch {
             combine(database.gameEventDao().getEventsByGameId(gameId), rosterFlow()) { events, roster ->
                 events to roster

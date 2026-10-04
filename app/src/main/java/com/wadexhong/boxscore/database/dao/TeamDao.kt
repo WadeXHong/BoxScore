@@ -31,6 +31,9 @@ interface TeamDao {
     @Query("DELETE FROM ${TeamPlayersContract.TABLE_NAME} WHERE ${TeamPlayersContract.COLUMN_NAME_TEAM_ID} = :teamId")
     suspend fun deletePlayersOfTeam(teamId: String)
 
+    @Query("UPDATE ${TeamInfoDBContract.TABLE_NAME} SET ${TeamInfoDBContract.COLUMN_NAME_TEAM_HISTORY_AMOUNT} = :amount WHERE ${TeamInfoDBContract.COLUMN_NAME_TEAM_ID} = :teamId")
+    suspend fun updateHistoryAmount(teamId: String, amount: Int)
+
     /** Legacy deleteTeamInDb removed the team together with its roster. */
     @Transaction
     suspend fun deleteTeamWithPlayers(teamId: String) {

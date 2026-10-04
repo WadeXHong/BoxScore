@@ -30,9 +30,24 @@ interface GameDao {
     @Query("DELETE FROM ${GameInfoDBContract.TABLE_NAME} WHERE ${GameInfoDBContract.COLUMN_NAME_GAME_ID} = :gameId")
     suspend fun deleteGameInfoById(gameId: String)
 
+    /** The game still being played, if any (legacy kept its id in SharedPreferences PLAYING_GAME). */
+    @Query("SELECT * FROM ${GameInfoDBContract.TABLE_NAME} WHERE ${GameInfoDBContract.COLUMN_NAME_IS_GAMEOVER} = 0 ORDER BY ${GameInfoDBContract._ID} DESC LIMIT 1")
+    suspend fun getUnfinishedGame(): GameInfoEntity?
+
+    /** Legacy GameInfoDbHelper.getGameHistory: finished games, newest date first. */
+    @Query("SELECT * FROM ${GameInfoDBContract.TABLE_NAME} WHERE ${GameInfoDBContract.COLUMN_NAME_IS_GAMEOVER} = 1 ORDER BY ${GameInfoDBContract.COLUMN_NAME_GAME_DATE} DESC, ${GameInfoDBContract._ID} DESC")
+    fun getFinishedGames(): Flow<List<GameInfoEntity>>
+
+    @Query("SELECT COUNT(*) FROM ${GameInfoDBContract.TABLE_NAME} WHERE ${GameInfoDBContract.COLUMN_NAME_YOUR_TEAM_ID} = :teamId AND ${GameInfoDBContract.COLUMN_NAME_IS_GAMEOVER} = 1")
+    suspend fun countFinishedGames(teamId: String): Int
+
     // --- Game Data ---
-    @Query("SELECT * FROM ${GameDataDBContract.TABLE_NAME} WHERE ${GameDataDBContract.COLUMN_NAME_GAME_ID} = :gameId")
+    @Query("SELECT * FROM ${GameDataDBContract.TABLE_NAME} WHERE ${GameDataDBContract.COLUMN_NAME_GAME_ID} = :gameId ORDER BY ${GameDataDBContract._ID}")
     fun getGameDataByGameId(gameId: String): Flow<List<GameDataEntity>>
+
+    /** Rows in insertion order: a game's roster starts with its five starters. */
+    @Query("SELECT * FROM ${GameDataDBContract.TABLE_NAME} WHERE ${GameDataDBContract.COLUMN_NAME_GAME_ID} = :gameId ORDER BY ${GameDataDBContract._ID}")
+    suspend fun getGameDataList(gameId: String): List<GameDataEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertGameData(gameData: GameDataEntity): Long
@@ -51,5 +66,12 @@ interface GameDao {
     suspend fun deleteGameCompletely(gameId: String) {
         deleteGameInfoById(gameId)
         deleteGameDataByGameId(gameId)
+    }
+
+    /** Replaces a game's player stat rows with freshly aggregated ones. */
+    @Transaction
+    suspend fun replaceGameData(gameId: String, rows: List<GameDataEntity>) {
+        deleteGameDataByGameId(gameId)
+        insertAllGameData(rows)
     }
 }

@@ -10,8 +10,12 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface GameEventDao {
-    @Query("SELECT * FROM game_event WHERE game_id = :gameId ORDER BY timestamp ASC")
+    // _id breaks ties: a substitution pair is inserted within the same millisecond.
+    @Query("SELECT * FROM game_event WHERE game_id = :gameId ORDER BY timestamp ASC, _id ASC")
     fun getEventsByGameId(gameId: String): Flow<List<GameEventEntity>>
+
+    @Query("SELECT * FROM game_event WHERE game_id = :gameId ORDER BY timestamp ASC, _id ASC")
+    suspend fun getEventsList(gameId: String): List<GameEventEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertEvent(event: GameEventEntity): Long

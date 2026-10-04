@@ -41,6 +41,9 @@ class FakeTeamStore {
         override suspend fun syncAllTeamPlayersAmounts() {
             teams.update { list -> list.map { t -> t.copy(playersAmount = players.value.count { it.teamId == t.teamId }) } }
         }
+        override suspend fun updateHistoryAmount(teamId: String, amount: Int) {
+            teams.update { list -> list.map { if (it.teamId == teamId) it.copy(historyAmount = amount) else it } }
+        }
     }
 
     val playerDao: PlayerDao = object : PlayerDao {
