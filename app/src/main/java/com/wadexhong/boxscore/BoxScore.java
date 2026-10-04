@@ -34,7 +34,8 @@ public class BoxScore extends Application {
         mContext = this;
         mGameDataDbHelper = null;
         SharedPreferenceHelper.init(this);
-        sBrightness = SharedPreferenceHelper.read(SharedPreferenceHelper.BRIGHTNESS, -1f);
+        // Settings now stores brightness in DataStore (which took over the legacy prefs).
+        sBrightness = com.wadexhong.boxscore.setting.BrightnessStore.load(this);
         mVibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         
         // Trigger migration of old SQLite data into Room
